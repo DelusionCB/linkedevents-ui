@@ -121,10 +121,12 @@ legend {
         text-transform: capitalize;
     }
     .custom-control {
-        label {
-            font-size: 1.25rem;
-            padding-top: 0.2rem;
+        padding-left: 0px;
+        display: inline;
+        .badge {
+            padding: 7px;
         }
+
     }
 }
 
@@ -147,4 +149,7 @@ legend {
             margin-top: 3rem;
         }
     }
+}
+.subGrid {
+display: grid;
 }
