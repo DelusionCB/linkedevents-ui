@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import React, {useRef, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {setData as setDataAction} from '../../actions/editor'
-import ValidationPopover from '../ValidationPopover'
+import ValidationNotification from '../ValidationNotification'
+import classNames from 'classnames';
 
 const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState, setData}) => {
     const checkedOptions = options
@@ -44,12 +45,15 @@ const HelLabeledCheckboxGroup = (props) => {
                         {groupLabel}
                     </legend>
                 </h3>
-                <div className='row'>
+                <div className={classNames(('row'), {'validation': validationErrors})}>
                     {options.map((item, index) => {
                         const checked = checkedOptions.includes(item.value)
 
                         return (
                             <div key={`hel-checkbox-${index}`} className={(itemClassName) + (' custom-control custom-checkbox')} >
+                                {validationErrors &&
+                                <div className='validation-notification' />
+                                }
                                 <input
                                     aria-label={item.label}
                                     className='custom-control-input checkboxes'
@@ -66,12 +70,11 @@ const HelLabeledCheckboxGroup = (props) => {
                         )
                     })}
                 </div>
-                <div className='main-category-popover'>
-                    <ValidationPopover
-                        anchor={labelRef.current}
-                        validationErrors={validationErrors}
-                    />
-                </div>
+                <ValidationNotification
+                    className='validation-checkboxes' 
+                    anchor={labelRef.current}
+                    validationErrors={validationErrors}
+                />
             </fieldset>
         </Fragment>
     )

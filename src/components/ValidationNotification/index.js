@@ -1,17 +1,14 @@
 import './index.scss';
 import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
-import Popover from 'react-bootstrap/Popover'
 import {FormattedMessage} from 'react-intl'
 import {getCharacterLimitByRule} from '../../utils/helpers'
 
-// Removed Material-Ui Popper since it's not very customizable through CSS.
-
-const ValidationPopover =  ({
+const ValidationNotification =  ({
     validationErrors,
     anchor,
     index,
-    inModal = false,
+    className,
 }) => {
     let errorMsg = null
 
@@ -48,27 +45,25 @@ const ValidationPopover =  ({
     return (
         <Fragment>
             {anchor
-                ? <Popover
-                    open
-                    className={`validation-popper ${inModal ? 'modal-popper' : ''}`}
+                ? <p
+                    className={className}
                     anchor={anchor}>
                     { errorMsg }
-                </Popover>
+                </p>
                 : <React.Fragment />
             }
         </Fragment>
     )
 }
 
-ValidationPopover.propTypes = {
+ValidationNotification.propTypes = {
     validationErrors: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
     ]),
     anchor: PropTypes.object,
     index: PropTypes.string,
-    placement: PropTypes.string,
-    inModal: PropTypes.bool,
+    className: PropTypes.string,
 }
 
-export default ValidationPopover
+export default ValidationNotification

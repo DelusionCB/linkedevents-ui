@@ -3,11 +3,8 @@ import './MultiLanguageField.scss'
 import PropTypes from 'prop-types';
 
 import React from 'react'
-import {FormattedMessage, injectIntl} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import HelTextField from './HelTextField'
-
-import ValidationPopover from '../ValidationPopover'
-
 import {setData} from 'src/actions/editor'
 
 class MultiLanguageField extends React.Component {
@@ -63,9 +60,8 @@ class MultiLanguageField extends React.Component {
         }
     }
 
-    onBlur(e,value) {
+    onBlur(e, value) {
         this.setState({value: this.getValue()})
-
         if(this.props.name) {
             let obj = {}
             obj[this.props.name] = this.getValue()
@@ -86,9 +82,7 @@ class MultiLanguageField extends React.Component {
     getValue() {
         let langs = _.map(this.refs, (ref, key) => key)
         let values = _.map(this.refs, ref => ref.getValue())
-
         let valueObj = _.zipObject(langs, values);
-
         return valueObj
     }
 
@@ -120,7 +114,6 @@ class MultiLanguageField extends React.Component {
         let props = this.props
         // Set default language to fi if no languages are selected
         let langs = props.languages
-
         if(langs.length === 0) {
             langs = ['fi']
         }
@@ -167,6 +160,7 @@ class MultiLanguageField extends React.Component {
                             onBlur={(e,v) => this.onBlur(e,v)}
                             disabled={this.props.disabled}
                             validations={this.props.validations}
+                            validationErrors={this.props.validationErrors}
                             type={this.props.type}
                             setInitialFocus={this.props.setInitialFocus && (index === 0)}
                             placeholder={this.props.placeholder}
@@ -183,11 +177,6 @@ class MultiLanguageField extends React.Component {
                 <div className="indented">
                     <label ref={this.setLabelRef}>
                         <FormattedMessage id={`${props.label}`} />
-                        <ValidationPopover
-                            index={this.props.index}
-                            anchor={this.state.labelRef}
-                            validationErrors={this.props.validationErrors}
-                        />
                     </label>
                     {textInputs}
                 </div>
