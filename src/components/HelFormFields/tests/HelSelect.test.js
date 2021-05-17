@@ -41,7 +41,7 @@ describe('HelSelect', () => {
                     expect(notification).toHaveLength(1)
                 })
             })
-            describe('AsynchSelect input', () => {
+            describe('AsyncSelect input', () => {
                 const wrapper = getWrapper()
                 const selectInput = wrapper.find('input')
                 test('find input inside HelSelects AsyncSelect', () => {
