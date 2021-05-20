@@ -89,7 +89,7 @@
 
     "no-value": "-kenttää ei ole täytetty.",
 
-    "event-picture-header": "Määritä kuva",
+    "event-picture-header": "Määritä kuva*",
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-description-form-header": "Syötä kuvaukset",
     "event-category-header": "Tapahtuman luokittelu ja kohderyhmät",
@@ -267,6 +267,7 @@
     "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
     "validation-hasPrice": "Hintatietoja puuttuu",
     "validation-requiredVideoField": "Tämä kenttä vaaditaan",
+    "validation-requiredImage": "Kuva vaaditaan sisällön julkaisuun",
 
     "server-error": "Virhe palvelimella.",
     "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
