@@ -63,6 +63,13 @@ describe('Homepage', () => {
                     wrapper.setProps(locale)
                     expect(fetchDataSpy).toHaveBeenCalledTimes(0)
                 })
+                test('getIDref returns correct string', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance()
+                    const button = wrapper.find(Button).at(1)
+                    const expectedHref =  instance.getIDref(defaultProps.locale)
+                    expect(expectedHref).toEqual(button.prop('href'))
+                })
             })
         })
 
