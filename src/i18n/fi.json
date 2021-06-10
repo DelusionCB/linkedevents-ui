@@ -221,10 +221,9 @@
     "event-keywords-delete": "Poista asiasana",
 
     "event-umbrella": "Kattotapahtumat",
-    "event-is-umbrella": "Kattotapahtuma.",
-    "event-has-umbrella": "Liittyy kattotapahtumaan.",
-    "event-is-umbrella-tooltip": "Alatapahtuma ei voi olla kattotapahtuma.",
-    "event-has-umbrella-tooltip": "Kattotapahtumalla ei voi olla kattotapahtumaa.",
+    "event-is-umbrella": "Kattotapahtuma",
+    "event-has-umbrella": "Liittyy kattotapahtumaan",
+    "event-is-independent": "Itsenäinen tapahtuma",
     "event-has-umbrella-select-tip": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
 
     "hel-event-languages": "Käytetyt kielet",
