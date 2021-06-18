@@ -4,8 +4,8 @@ import {setData} from 'src/actions/editor.js'
 import validationRules from 'src/validation/validationRules';
 import ValidationNotification from 'src/components/ValidationNotification'
 import constants from '../../constants'
-import {Input, FormText} from 'reactstrap';
-// Removed material-ui/core since it's no longer in use
+import {Input, FormText, InputGroup, InputGroupAddon} from 'reactstrap';
+import classNames from 'classnames';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
 
@@ -178,6 +178,37 @@ class HelTextField extends Component {
         return (errors.length === 0)
     }
 
+    /**
+     * Push glyphicons into array based on name & type
+     * @param {string} name
+     * @param {string} type
+     * @returns {JSX.Element[]} returns array of elements
+     */
+    getCorrectIcons(name, type) {
+        const extlinks = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram'];
+        const icons = ['facebookIcon', 'twitterIcon', 'instaIcon'];
+        const types = ['text', 'textarea', 'url', 'number'];
+        const typeIcons = ['pencil', 'pencil', 'link', 'euro'];
+
+        let content = extlinks.reduce((acc, curr, index) => {
+            if (name === curr) {
+                acc.push(<span aria-hidden key={Math.random()} className={icons[index]} />);
+            }
+            return acc;
+        }, []);
+
+        if (content.length === 0) {
+            content = types.reduce((acc, curr, index) => {
+                if (type === curr) {
+                    acc.push(<span aria-hidden key={Math.random()} className={`glyphicon glyphicon-${typeIcons[index]}`} />);
+                }
+                return acc;
+            }, []);
+        }
+
+        return [...content]
+    }
+
     render () {
         const {value} = this.state
         // Removed multiLine since it was no longer used
@@ -194,32 +225,40 @@ class HelTextField extends Component {
         } = this.props
         const type = this.props.type;
         const alert = this.state.error ? {role: 'alert', className: 'red-alert'} : '';
-        // Replaced TextField component with Form/FormGroup + Input, to make inputs actually accessible and customizable.
+
         return (
             <Fragment>
                 <div className='event-input'>
                     <label htmlFor={label + this.props.id}>{label}{required ? '*' : ''}</label>
-                    <Input
-                        aria-label={label}
-                        id={label + this.props.id}
-                        placeholder={placeholder}
-                        type={type}
-                        name={name}
-                        value={value}
-                        aria-required={required}
-                        onChange={this.handleChange}
-                        onBlur={this.handleBlur}
-                        innerRef={ref => this.inputRef = ref}
-                        disabled={disabled}
-                        min={min}
-                        max={max}
-                        invalid={Array.isArray(validationErrors)}
-                    />
+                    <InputGroup>
+                        <InputGroupAddon className={classNames('inputIcons', {'error': validationErrors})} addonType="prepend">
+                            {this.getCorrectIcons(name, type)}
+                        </InputGroupAddon>
+                        <Input
+                            aria-label={label}
+                            id={label + this.props.id}
+                            placeholder={placeholder}
+                            type={type}
+                            name={name}
+                            value={value}
+                            aria-required={required}
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur}
+                            innerRef={ref => this.inputRef = ref}
+                            disabled={disabled}
+                            min={min}
+                            max={max}
+                            invalid={Array.isArray(validationErrors)}
+                        />
+                        {validationErrors &&
+                        <div className='validation-notification' />
+                        }
+                    </InputGroup>
                     <FormText {...alert}>
                         {this.helpText()}
                     </FormText>
                     <ValidationNotification
-                        className='validation-notification' 
+                        className='validation-fields'
                         index={index}
                         anchor={this.inputRef}
                         validationErrors={validationErrors}

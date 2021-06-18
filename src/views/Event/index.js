@@ -164,7 +164,6 @@ class EventPage extends React.Component {
     getEventActions = () => {
         const {user} = this.props
         const {event, loading} = this.state
-
         const userType = get(user, 'userType')
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isAdmin = userType === USER_TYPE.ADMIN
@@ -188,10 +187,13 @@ class EventPage extends React.Component {
                 {isRecurring && addRecurringButton}
                 <Button
                     variant="contained"
-                    disabled={loading}
+                    disabled={loading || !user}
                     onClick={() => this.openEventInEditor('copy')}
                 >
-                    <FormattedMessage id="copy-event-to-draft">{txt =>txt}</FormattedMessage>
+                    {user
+                        ? <FormattedMessage id="copy-event-to-draft">{txt =>txt}</FormattedMessage>
+                        : <FormattedMessage id='user-no-rights-copy'>{txt => txt}</FormattedMessage>
+                    }
                 </Button>
             </div>
         </div>
