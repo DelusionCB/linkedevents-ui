@@ -10,7 +10,6 @@ import ImagePickerForm from '../ImagePicker';
 import ValidationNotification from 'src/components/ValidationNotification'
 import constants from '../../constants'
 const {VALIDATION_RULES} = constants
-import {mockImages} from '__mocks__/mockData';
 
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
@@ -18,9 +17,7 @@ const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {}
 const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
-    openEditModal: false,
-    openOrgModal: false,
-    fetchDefaults: true,
+    defaultModal: false,
     validationErrors: undefined,
     editor: {
         values: {
@@ -32,7 +29,6 @@ const defaultProps = {
     images: {
         defaultImages: null,
     },
-    fetchUserImages: jest.fn(),
 }
 
 
@@ -46,9 +42,10 @@ describe('ImageGallery', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
                 const element = wrapper.find(Button)
-                expect(element).toHaveLength(2);
+                expect(element).toHaveLength(3);
                 expect(element.at(0).prop('onClick')).toBe(instance.toggleEditModal);
-                expect(element.at(1).prop('onClick')).toBe(instance.toggleOrgModal);
+                expect(element.at(1).prop('onClick')).toBeDefined();
+                expect(element.at(2).prop('onClick')).toBeDefined();
             });
         })
         describe('formattedMessages', () => {
@@ -77,13 +74,12 @@ describe('ImageGallery', () => {
                 expect(imagePicker.prop('name')).toBe('image')
                 expect(imagePicker.prop('loading')).toBe(false)
                 expect(imagePicker.prop('isOpen')).toBe(instance.state.openOrgModal)
-                expect(imagePicker.prop('close')).toBe(instance.toggleOrgModal)
+                expect(imagePicker.prop('close')).toBeDefined();
             })
         })
         describe('validationNotification', () => {
             test('contains correct props', () => {
                 const wrapper = getWrapper()
-                const instance = wrapper.instance();
                 const notification = wrapper.find(ValidationNotification)
                 expect(notification).toHaveLength(1)
                 expect(notification.prop('anchor')).toBe(null)
@@ -110,31 +106,8 @@ describe('ImageGallery', () => {
                 element.simulate('click')
                 expect(wrapper.state('openOrgModal')).toBe(true);
             });
-            test('componentDidUpdate changes fetchDefaults', () => {
-                const wrapper = getWrapper()
-                wrapper.setState({fetchDefaults: true});
-                const instance = wrapper.instance();
-                instance.componentDidMount();
-                expect(wrapper.state('fetchDefaults')).toBe(false)
-            })
         })
         describe('functions', () => {
-            describe('fetchUserImages', () => {
-                test('is called', () => {
-                    const wrapper = getWrapper()
-                    const instance = wrapper.instance();
-                    instance.componentDidMount()
-                    expect(defaultProps.fetchUserImages).toHaveBeenCalled()
-                })
-                test('is not called while fetchDefaults is false', () => {
-                    const wrapper = getWrapper()
-                    wrapper.setState({fetchDefaults: false});
-                    const instance = wrapper.instance();
-                    defaultProps.fetchUserImages.mockClear()
-                    instance.componentDidMount()
-                    expect(defaultProps.fetchUserImages).not.toHaveBeenCalled()
-                })
-            })
             describe('toggleEditModal', () => {
                 test('openEditModal-state changes', () => {
                     const wrapper = getWrapper()

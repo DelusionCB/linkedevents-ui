@@ -403,15 +403,19 @@ class ImageEdit extends React.Component {
     getNotReadyToSubmit() {
         const {altTextMinLength, altTextMaxLength, nameMaxLength, photographerMaxLength} = this.state.validation;
         const {name, altText, photographerName} = this.state.image;
-        const {imagePermission} = this.state;
+        const {imagePermission, hideAltText} = this.state;
 
         const altTextTooShort = Object.values(altText).some(value => value.length < altTextMinLength);
         const altTextTooLong = Object.values(altText).some(value => value.length > altTextMaxLength);
         const nameTooShort = Object.values(name).some(value => value.length === 0);
         const nameTooLong = Object.values(name).some(value => value.length > nameMaxLength);
         const photographerNameNotValid = photographerName.length === 0 || photographerName.length > photographerMaxLength;
-
-        return (altTextTooShort || altTextTooLong) || nameTooShort || nameTooLong || photographerNameNotValid || !imagePermission;
+        if (hideAltText) {
+            return nameTooShort || nameTooLong || photographerNameNotValid || !imagePermission;
+        }
+        else {
+            return (altTextTooShort || altTextTooLong) || nameTooShort || nameTooLong || photographerNameNotValid || !imagePermission;
+        }
     }
 
 

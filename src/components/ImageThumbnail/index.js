@@ -3,7 +3,7 @@ import './index.scss'
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {FormattedMessage, injectIntl} from 'react-intl'
+import {FormattedMessage} from 'react-intl'
 import {connect} from 'react-redux'
 import {deleteImage, selectImage as selectImageAction} from 'src/actions/userImages'
 import ImageEdit from '../ImageEdit'
@@ -11,8 +11,6 @@ import {getStringWithLocale} from 'src/utils/locale';
 import {Button} from 'reactstrap'
 import {isEmpty} from 'lodash';
 import {confirmAction} from '../../actions/app';
-import classNames from 'classnames';
-
 
 class ImageThumbnail extends React.PureComponent {
 
@@ -40,7 +38,6 @@ class ImageThumbnail extends React.PureComponent {
     }
 
     handleDelete(event) {
-
         let selectedImage = this.props.data
         const currentLanguage = this.props.locale;
         if (!isEmpty(selectedImage)) {
@@ -56,24 +53,7 @@ class ImageThumbnail extends React.PureComponent {
     render() {
         let locale = this.props.locale;
         let classname = this.props.selected ? 'image-thumb selected' : 'image-thumb'
-        let mainPreview = !this.props.modal;
-        let prev = mainPreview ? {height: '114px'} : {};
-        if(this.props.empty) {
-            classname += ' no-image'
-            return (
-                <div className={
-                    classNames({'col-md-3': this.props.modal},{'col-md-6': !this.props.modal},' col-xs-12')} onClick={this.selectThis} id={this.props.data.id} style={{display: 'none'}}>
-                    <div className={classname}>
-                        <div className="thumbnail" style={{backgroundColor: 'lightgray'}} />
-                        <div className="no-image-text"><FormattedMessage id="no-image" /></div>
-                    </div>
-                </div>
-            )
-        }
-
-
         const bgStyle = {backgroundImage: 'url(' + this.props.url + ')'};
-
         let editModal = null;
 
         if (this.state.edit) {
@@ -92,11 +72,10 @@ class ImageThumbnail extends React.PureComponent {
 
         return (
             <div
-                className={
-                    classNames({'col-md-3': this.props.modal},{'col-md-6': !this.props.modal},' col-xs-12')}
+                className='col-md-3 col-xs-12'
                 id={this.props.data.id}
             >
-                <div className={classname} style={prev}>
+                <div className={classname}>
                     <Button
                         aria-label={this.context.intl.formatMessage({id: `thumbnail-picture-select`}) + '' + getStringWithLocale(this.props.data, 'name', locale)}
                         className="thumbnail"
@@ -104,11 +83,11 @@ class ImageThumbnail extends React.PureComponent {
                         onClick={this.selectThis}
                     />
 
-                    {this.props.modal && (
-                        <div className='name' >
-                            <span className={'image-title'}>
-                                {getStringWithLocale(this.props.data, 'name', locale) || <FormattedMessage id="edit-image"/>}
-                            </span>
+                    <div className='name' >
+                        <span className={'image-title'}>
+                            {getStringWithLocale(this.props.data, 'name', locale) || <FormattedMessage id="edit-image"/>}
+                        </span>
+                        {!this.props.defaultModal &&
                             <div className='name-buttons'>
                                 <button
                                     className={'btn'}
@@ -125,8 +104,8 @@ class ImageThumbnail extends React.PureComponent {
                                     <span className='glyphicon glyphicon-trash' aria-hidden style={{color: 'white', marginRight: '0'}}/>
                                 </button>
                             </div>
-                        </div>
-                    )}
+                        }
+                    </div>
                 </div>
                 { editModal }
             </div>
@@ -142,7 +121,7 @@ ImageThumbnail.propTypes = {
     confirmAction: PropTypes.func,
     deleteImage: PropTypes.func,
     locale: PropTypes.string,
-    modal: PropTypes.bool,
+    defaultModal: PropTypes.bool,
     action: PropTypes.func,
     user: PropTypes.object,
     close: PropTypes.func,
@@ -160,4 +139,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = () => ({})
 // TODO: if leave null, react-intl not refresh. Replace this with better React context
+export {ImageThumbnail as UnconnectedImageThumbnail}
 export default connect(mapStateToProps, mapDispatchToProps)(ImageThumbnail)
