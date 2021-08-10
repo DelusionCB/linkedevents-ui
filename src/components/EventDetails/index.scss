@@ -1,6 +1,7 @@
-$en-color: #009246; // tram
+@use "src/assets/mixin" as m;
+$en-color: #008540; // tram
 $fi-color: #0000bf; // bus
-$sv-color: #ffc61e; // summer
+$sv-color: #947100; // summer
 $ru-color: #9fc9eb; // fog
 $zh-color: #bd2719; // brick
 $ar-color: #00d7a7; // copper
@@ -8,6 +9,11 @@ $ar-color: #00d7a7; // copper
 
 $default-margin-top: 1.5rem;
 
+.event-details {
+    a {
+        @include m.add-outline();
+    }
+}
 .multi-value-field {
     margin-top: $default-margin-top;
 

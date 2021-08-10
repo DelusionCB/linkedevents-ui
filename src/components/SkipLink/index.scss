@@ -1,10 +1,10 @@
+@use "src/assets/mixin" as m;
 .skiplink-shortcut {
     text-align: center;
     background-color: white;
     .visually-hidden {
         &.skip-link {
-            &:focus,
-            &:active {
+            @include m.add-outline("&:focus,&:active") {
                 position: relative;
                 left: 0;
                 color: blue;

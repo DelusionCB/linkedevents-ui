@@ -1,5 +1,9 @@
+@use "src/assets/mixin" as m;
 .help-page {
     #long {
         margin-bottom: 8rem;
+    }
+    a {
+        @include m.add-outline();
     }
 }

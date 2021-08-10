@@ -1,3 +1,4 @@
+@use "src/assets/mixin" as m;
 .main-footer {
     background-color: #0072c6;
     color: #ffffff;
@@ -9,6 +10,8 @@
         font-weight: bold;
         color: #ffffff;
         padding: 1vh;
+        @include m.add-outline($width: 2px, $color: white);
+
     }
     .footer-list {
         margin: auto;
@@ -28,11 +31,10 @@
         border: 0px;
         font-weight: bold;
         padding: 1vh;
-        &:active, &:hover, &:visited, &:focus {
+
+        @include m.add-outline($width: 2px, $color: white);
+        &:focus,&:hover, &:active, &:visited {
             text-decoration: underline;
-        }
-        &:focus {
-            outline: none;
         }
     }
 }

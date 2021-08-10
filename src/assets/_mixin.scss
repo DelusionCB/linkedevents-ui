@@ -1,0 +1,7 @@
+@mixin add-outline($selectors:"&:focus" , $width: 2px, $color: black) {
+    #{$selectors} {
+        outline: solid $width $color !important;
+        outline-color: -webkit-focus-ring-color;
+        @content;
+    }
+}

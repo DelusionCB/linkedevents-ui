@@ -1,3 +1,4 @@
+@use "src/assets/mixin" as m;
 .accessibility-page {
     .accessibility-container {
         margin: auto;
@@ -5,5 +6,8 @@
     }
     .h2 {
         font-weight: bold;
+    }
+    a {
+        @include m.add-outline();
     }
 }

@@ -1,12 +1,11 @@
 //@import "fonts";  Commented out since we don't use these fonts and therefore don't need them.
-
+@use "mixin";
 // Box shadow shim for bootstrap
 @mixin box-shadow($left:0, $top:2px, $blur:2px, $color:#000, $inset:"") {
       -webkit-box-shadow:$left $top $blur $color #{$inset};
       -moz-box-shadow:$left $top $blur $color #{$inset};
       box-shadow:$left $top $blur $color #{$inset};
 }
-
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 
 // @import "node_modules/bootstrap/scss/mixins/_label.scss";
@@ -112,6 +111,7 @@ h1 {
     &::before, &::after {
         width: 1.25rem;
         height: 1.25rem;
+        border-color: black;
     }
 }
 .custom-control-input:checked ~ .custom-control-label::before {
@@ -120,6 +120,8 @@ h1 {
 }
 .custom-control-input:focus ~ .custom-control-label::before {
     box-shadow: 0 0 0 0.15rem rgba(0, 98, 174, 0.25);
+    outline: 2px solid black;
+    outline-offset: 2px;
 }
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
     background-color: rgba(0, 98, 174, 0.6);
@@ -130,7 +132,7 @@ h1 {
 .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::after {
     cursor: not-allowed;
 }
-    
+
 //All text-inputs globally used in project
 input, .custom-date-time-input > input, .event-input > input textarea, .form-control {
     border-color: var(--black-color);

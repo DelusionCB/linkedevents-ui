@@ -1,3 +1,9 @@
+@use "src/assets/mixin" as m;
+.event-item-link {
+    @include m.add-outline($width: 4px){
+        outline-offset: 2px;
+    };
+}
 .event-item {
     position: relative;
 
@@ -41,7 +47,7 @@
 
         padding-left: 22px;
 
-        background: rgba(0,0,0,0.5);
+        background: rgba(0,0,0,0.75);
     }
 
     .converted-day {
@@ -115,6 +121,14 @@
 				margin-bottom: 5px;
 				color: var(--black-color);
 			}
+            a {
+                @include m.add-outline() {
+                    text-decoration: none;
+                    h3 {
+                        outline: 2px solid black;
+                    }
+                };
+            }
 		}
 	}
 }
@@ -141,13 +155,8 @@
 		}
 	}
 .event-item-link {
-    &:active, &:focus {
-        .event-item {
-            outline-width: 4px;
-            outline-style: solid;
-            outline-color: black;
-            outline-offset: 2px;
-        }
-    }
+    @include m.add-outline($width: 4px) {
+        outline-offset: 2px;
+    };
 }
 }
