@@ -347,6 +347,10 @@ class ImageEdit extends React.Component {
         return (
             <div className='image-license-container'>
                 <div className='license-choices'>
+                    <div className='license-help-text tip' aria-label={this.context.intl.formatMessage({id: 'license-help-text'})}>
+                        <FormattedMessage id={'image-modal-image-license-explanation-event-only'}/>
+                        <FormattedHTMLMessage id={'image-modal-image-license-explanation-cc-by'} />
+                    </div>
                     <div className='custom-control custom-checkbox'>
                         <input
                             className='custom-control-input'
@@ -387,11 +391,6 @@ class ImageEdit extends React.Component {
                         </label>
                     </div>
                 </div>
-                <div className='license-help-text tip' aria-label={this.context.intl.formatMessage({id: 'license-help-text'})}>
-                    <FormattedMessage id={'image-modal-image-license-explanation-event-only'}/>
-                    <FormattedHTMLMessage id={'image-modal-image-license-explanation-cc-by'} />
-                </div>
-
             </div>
         )
     }
