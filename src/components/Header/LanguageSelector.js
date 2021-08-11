@@ -30,7 +30,7 @@ class LanguageSelector extends React.Component {
             this.setState({isOpen: false});
         }
     }
-    
+
     toggle(e) {
         e.preventDefault();
         this.setState({isOpen: !this.state.isOpen});
@@ -43,7 +43,7 @@ class LanguageSelector extends React.Component {
 
     }
 
-    
+
 
     /**
      * Returns true if language is same as current locale
@@ -63,13 +63,24 @@ class LanguageSelector extends React.Component {
                 <div onClick={this.toggle} ref={node => this.node = node} className='LanguageMain'>
                     <span className="glyphicon glyphicon-globe" />
                     <div className="currentLanguage">
-                        <a aria-haspopup="true" aria-label={this.context.intl.formatMessage({id: `navbar.active`})} href="#">{activeLocale}
-                            <span className="caret"></span>
+                        <a
+                            aria-expanded={this.state.isOpen}
+                            aria-label={this.context.intl.formatMessage({id: `navbar.active`})}
+                            aria-owns="language-list"
+                            href="#"
+                        >
+                            {activeLocale}
+                            <span className="caret"/>
                         </a>
                     </div>
                 </div>
-                <ul role="menu" className={classNames('language', {open: this.state.isOpen})}>
+                <ul
+                    id="language-list"
+                    role="menu"
+                    className={classNames('language', {open: this.state.isOpen})}
+                >
                     {this.props.languages.map((language, index) => {
+                        const additionalParams = this.isActiveLanguage(language) ? {'aria-current': true} : {};
                         return (
                             <li
                                 role="presentation"
@@ -77,7 +88,14 @@ class LanguageSelector extends React.Component {
                                 className={classNames('language-item',{active: this.isActiveLanguage(language)})}
                                 onClick={this.handleLanguageChange.bind(this, language)}
                             >
-                                <a role="menuitem" aria-label={this.context.intl.formatMessage({id: `navbar.${language.value}`})} href="#">{language.label}</a>
+                                <a
+                                    role="menuitem"
+                                    aria-label={this.context.intl.formatMessage({id: `navbar.${language.value}`})}
+                                    href="#"
+                                    {...additionalParams}
+                                >
+                                    {language.label}
+                                </a>
                             </li>
                         )
                     })}

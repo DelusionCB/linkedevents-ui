@@ -450,11 +450,11 @@
     "terms-heading": "Terms of Service",
 
     "user-events-toggle": "Only display events created by me",
-
+    "navbar.brand": "Linked Events logo, link to front page",
     "navbar.fi": "Finnish",
     "navbar.en": "English",
     "navbar.sv": "Swedish",
-    "navbar.active": "Current language is English",
+    "navbar.active": "Change language, Vaihda kieli, Ändra språk",
     "navigation-toggle": "Navigation toggle",
 
     "skiplink-shortcut": "Move to content",
@@ -484,12 +484,12 @@
     "reportmodal-debugbutton": "Feedback",
 
     "eventable-expand": "Expand event",
-	
+
 	"table-pagination-results": "Events between {from} and {to} / {count}",
 	"table-pagination-shortcut-link": "Back to top of the table",
 	"table-pagination-next-page": "Next page",
     "table-pagination-previous-page": "Previous page",
-    
+
     "close-report-modal": "Close the reporting dialog",
     "close-recurring-modal": "Close the recurring event dialog",
     "close-preview-modal": "Close the preview dialog",

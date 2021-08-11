@@ -466,12 +466,13 @@
     "terms-heading": "Användarvillkoren för Linked Events",
 
     "user-events-toggle": "Visa bara evenemang som skapats själv",
-    
+
     "navbar.brand": "Linked Events logo, länk till första sidan",
     "navbar.fi": "Finska",
     "navbar.en": "Engelska",
     "navbar.sv": "Svenska",
-    "navbar.active": "Språket i bruk är Svenska",
+    "navbar.active": "Ändra språk, Vaihda kieli, Change language",
+
     "navigation-toggle": "Navigering",
 
     "skiplink-shortcut": "Gå till innehållet",
