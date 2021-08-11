@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip} from 'reactstrap';
+import {Tooltip, Button} from 'reactstrap';
 import {injectIntl} from 'react-intl';
 import {doValidations} from 'src/validation/validator';
 import getContentLanguages from 'src/utils/language';
@@ -60,12 +60,19 @@ class ValidationCell extends React.Component {
         return (
             <td className={classNames('validation-cell',{'error': this.state.hasErrors})}>
                 {this.state.hasErrors &&
-                <span id='validationAlert' className='glyphicon glyphicon-alert' onClick={this.moveToEdit}/>
-                }
-                {this.state.hasErrors &&
-                <Tooltip isOpen={this.state.tooltipOpen} target='validationAlert' toggle={this.toggleTooltip} onClick={this.moveToEdit}>
-                    {intl.formatMessage({id: 'event-validation-errors'})}
-                </Tooltip>
+                    <React.Fragment>
+                        <Button
+                            aria-label={intl.formatMessage({id: 'event-validation-errors'})}
+                            id='validationAlert'
+                            onClick={this.moveToEdit}
+                        >
+                            <span aria-hidden className='glyphicon glyphicon-alert'/>
+                        </Button>
+                    
+                        <Tooltip isOpen={this.state.tooltipOpen} target='validationAlert' toggle={this.toggleTooltip}>
+                            {intl.formatMessage({id: 'event-validation-errors'})}
+                        </Tooltip>
+                    </React.Fragment>
                 }
             </td>
         );
@@ -87,5 +94,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     routerPush: (url) => dispatch(push(url)),
 });
-
+export {ValidationCell as UnconnectedValidationCell}
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ValidationCell))

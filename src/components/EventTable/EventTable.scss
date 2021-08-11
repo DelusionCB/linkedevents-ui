@@ -137,17 +137,22 @@ $checkbox-column-width: 50px;
         text-align: center;
         width: $checkbox-column-width;
 
-
+    button {
+        background-color: transparent;
+        border: none;
+        &:hover, &:focus,  {
+            border: 1px solid var(--main-color);
+            span {
+                color: var(--main-color);
+            }
+        }
         span {
-            cursor: pointer;
             display: inline-block;
             height: 24px;
             width: 24px;
-
-            &:hover {
-                color: $hel-coat
-            }
+            color: black;
         }
+    }
     }
 
     td, th {
