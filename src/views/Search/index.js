@@ -38,7 +38,7 @@ class SearchPage extends React.Component {
 
     getResults = () => {
         const {searchExecuted, events} = this.state
-        
+
         return searchExecuted && !events.length > 0
             ? <div className="search-no-results"><FormattedMessage id="search-no-results"/></div>
             : <EventGrid events={events} />
@@ -61,7 +61,7 @@ class SearchPage extends React.Component {
                 <section className="container-fluid">
                     {loading
                         ? <div className="search-loading-spinner"><Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
+                            <FormattedMessage id="loading">{txt => <span className="sr-only">{txt}</span>}</FormattedMessage>
                         </Spinner> </div>
                         : this.getResults()
                     }

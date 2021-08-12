@@ -53,22 +53,22 @@ const MultiLanguageValue = (props) => {
 
     // Use a separate array to ensure correct field order
     let langOptions = ['fi', 'sv', 'en', 'ru', 'zh_hans', 'ar']
-    let elements = []
-
-    _.each(langOptions, (key) => {
-        let val = value[key]
-        const createHTML = () => ({__html: val})
-
+    let elements = langOptions.reduce((acc, curr) => {
+        let val = value[curr];
+        const createHTML = () => ({__html: val});
         if (val) {
-            elements.push(<div className={colClass} key={key}>
-                <div className={`in-${key} indented`}>
-                    <label  htmlFor= 'language' className="language"><FormattedMessage id={`in-${key}`}/></label>
-                    <input type="hidden" id="language" name="language" />
-                    <div dangerouslySetInnerHTML={createHTML()}/>
+            acc.push(
+                <div className={colClass} key={curr}>
+                    <div className={`in-${curr} indented`}>
+                        <label htmlFor="language" className="language"><FormattedMessage id={`in-${curr}`}/></label>
+                        <input type="hidden" id="language" name="language" />
+                        <div lang={curr} dangerouslySetInnerHTML={createHTML()}/>
+                    </div>
                 </div>
-            </div>)
+            );
         }
-    })
+        return acc;
+    }, []);
 
     if (elements.length > 0) {
         return (
@@ -315,7 +315,7 @@ VirtualInfo.propTypes = {
 
 const SubEventListing = (props) => {
     const subEventsExists = typeof props.value === 'object' && Object.keys(props.value).length > 0
-    
+
     if (subEventsExists) {
         const subEvents = Object.values(props.value).sort();
         const mappedSubs = subEvents.map((values, index) => {
