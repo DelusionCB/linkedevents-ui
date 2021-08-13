@@ -40,10 +40,8 @@ const HelLabeledCheckboxGroup = (props) => {
     return (
         <Fragment>
             <fieldset className="col-sm-6 checkbox-group">
-                <h3>
-                    <legend ref={labelRef}>
-                        {groupLabel}
-                    </legend>
+                <h3 ref={labelRef}>
+                    {groupLabel}
                 </h3>
                 <div className={classNames(('row'), {'validation': validationErrors})}>
                     {options.map((item, index) => {
@@ -71,7 +69,7 @@ const HelLabeledCheckboxGroup = (props) => {
                     })}
                 </div>
                 <ValidationNotification
-                    className='validation-checkboxes' 
+                    className='validation-checkboxes'
                     anchor={labelRef.current}
                     validationErrors={validationErrors}
                 />

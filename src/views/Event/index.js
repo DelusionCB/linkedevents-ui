@@ -109,16 +109,16 @@ class EventPage extends React.Component {
         let route;
         if (mode === 'addRecurring') {
             route = `${event.id}/recurring/add/`
-            
+
         } else if (mode === 'copy') {
             route =  'create/new'
         } else {
-            route = `update/${event.id}` 
+            route = `update/${event.id}`
         }
         if (mode === 'addRecurring') {
             replaceData(event, true)
         } else {
-            replaceData(event)  
+            replaceData(event)
         }
         routerPush(`/event/${route}`)
         scrollToTop()
@@ -253,6 +253,7 @@ class EventPage extends React.Component {
         const publishedText = this.getPublishedText();
         // Defined React Helmet title with event name
         const pageTitle = `Linkedevents - ${getStringWithLocale(event, 'name')}`
+        const displayBadge = isPostponed || isCancelled || isDraft || isUmbrellaEvent || isRecurringEvent;
 
         return (
             <Fragment>
@@ -267,7 +268,7 @@ class EventPage extends React.Component {
                                 : getStringWithLocale(event, 'name')
                             }
                         </h1>
-                        {!loading &&
+                        {!loading && displayBadge &&
                         <h2>
                             {isPostponed && getBadge('postponed', 'medium')}
                             {isCancelled && getBadge('cancelled', 'medium')}
