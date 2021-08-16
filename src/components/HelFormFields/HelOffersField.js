@@ -61,10 +61,10 @@ class HelOffersField extends React.Component {
     generateOffers(offers) {
         const newOffers = [];
         let keys;
-        let lastKey;
+        let firstKey;
         if (offers) {
             keys = Object.keys(offers);
-            lastKey = keys[keys.length - 1];
+            firstKey = keys.length > 1 ? keys[keys.length - 1] : keys[0];
         }
 
         for (const key in offers) {
@@ -78,7 +78,7 @@ class HelOffersField extends React.Component {
                         validationErrors={this.props.validationErrors}
                         languages={this.props.languages}
                         isFree={this.state.isFree}
-                        setInitialFocus={key === lastKey ? true : false}
+                        setInitialFocus={key === firstKey}
                     />
                 );
             }
@@ -89,7 +89,7 @@ class HelOffersField extends React.Component {
     render() {
         const {values} = this.state;
         const offerDetails = this.generateOffers(this.props.defaultValue);
-        //Change OFFER_LENGTH in constants to change maxium length of prices users can add, currently limited to 20
+        //Change OFFER_LENGTH in constants to change maximum length of prices users can add, currently limited to 20
         const isOverLimit = values && values.length >= GENERATE_LIMIT.OFFER_LENGTH;
         const disabled = isOverLimit || this.state.isFree;
 
@@ -115,7 +115,7 @@ class HelOffersField extends React.Component {
                         <FormattedMessage id="event-add-price" />
                     </Button>
                 }
-                {isOverLimit && 
+                {isOverLimit &&
                     <p className='offersLimit' role='alert'>
                         <FormattedMessage id='event-add-price-limit' values={{count: GENERATE_LIMIT.OFFER_LENGTH}} />
                     </p>
@@ -131,4 +131,4 @@ HelOffersField.propTypes = {
     languages: PropTypes.array,
 };
 
-export default HelOffersField;  
+export default HelOffersField;

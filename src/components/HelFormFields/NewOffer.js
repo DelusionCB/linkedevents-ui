@@ -79,7 +79,7 @@ class NewOffer extends React.Component {
     render() {
         const {offerKey, defaultValue, isFree, languages, intl, length} = this.props
         const {VALIDATION_RULES} = CONSTANTS
-      
+
         return (
             <div key={offerKey} className="new-offer row">
                 <div className="col-auto">
@@ -90,40 +90,40 @@ class NewOffer extends React.Component {
                         id={'event-price' + this.props.offerKey}
                         type='number'
                         min={0}
-                        defaultValue={defaultValue.price} 
-                        disabled={isFree} 
-                        ref="price" 
+                        defaultValue={defaultValue.price}
+                        disabled={isFree}
+                        ref="price"
                         label="event-price"
-                        languages={languages} 
-                        onBlur={e => this.onBlur(e)} 
-                        validationErrors={this.props.validationErrors['price']} 
-                        index={this.props.offerKey} 
-                        required={true} 
+                        languages={languages}
+                        onBlur={e => this.onBlur(e)}
+                        validationErrors={this.props.validationErrors['price']}
+                        index={this.props.offerKey}
+                        setInitialFocus={this.props.setInitialFocus}
+                        required={true}
                         placeholder={intl.formatMessage({id: 'price-placeholder'})}
                     />
 
-                    <MultiLanguageField 
+                    <MultiLanguageField
                         id={'event-price-info' + this.props.offerKey}
-                        defaultValue={defaultValue.description} 
-                        disabled={isFree} 
-                        ref="description" 
-                        label="event-price-info" 
-                        languages={languages} 
-                        multiLine={true} 
-                        onBlur={e => this.onBlur(e)} 
-                        validationErrors={this.props.validationErrors['offer_description']} 
+                        defaultValue={defaultValue.description}
+                        disabled={isFree}
+                        ref="description"
+                        label="event-price-info"
+                        languages={languages}
+                        multiLine={true}
+                        onBlur={e => this.onBlur(e)}
+                        validationErrors={this.props.validationErrors['offer_description']}
                         index={this.props.offerKey}
-                        setInitialFocus={this.props.setInitialFocus}
                         placeholder={intl.formatMessage({id: 'price-info-placeholder'})}
                         type='text'
                     />
 
-                    <MultiLanguageField 
+                    <MultiLanguageField
                         id={'event-purchase-link' + this.props.offerKey}
-                        defaultValue={defaultValue.info_url} 
-                        ref="info_url" 
-                        label="event-purchase-link" 
-                        languages={languages} 
+                        defaultValue={defaultValue.info_url}
+                        ref="info_url"
+                        label="event-purchase-link"
+                        languages={languages}
                         onBlur={e => this.onBlur(e)}
                         validations={[VALIDATION_RULES.IS_URL]}
                         validationErrors={this.props.validationErrors['offer_info_url']}

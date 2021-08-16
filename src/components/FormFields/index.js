@@ -183,7 +183,8 @@ class FormFields extends React.Component {
 
         let newEvents = []
         const keys = Object.keys(events)
-        const lastKey = keys[keys.length - 1]
+        // if more than 2 events -> focus last otherwise focus first
+        const focusEvent = keys.length > 2 ? keys[keys.length - 1] : keys[0];
 
         for (const key in events) {
             if (events.hasOwnProperty(key)) {
@@ -194,7 +195,7 @@ class FormFields extends React.Component {
                         eventKey={key}
                         event={events[key]}
                         errors={subEventErrors[key] || {}}
-                        setInitialFocus={key === lastKey ? true : false}
+                        setInitialFocus={key === focusEvent}
                         subErrors={this.props.editor.validationErrors}
                     />
                 )
@@ -658,7 +659,7 @@ class FormFields extends React.Component {
                             </div>
                         </div>
                     </Collapse>
-            
+
                 </div>
                 <div>
                     <h2>
