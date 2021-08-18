@@ -6,7 +6,7 @@ import EventDetails from '../EventDetails';
 import {injectIntl, intlShape, FormattedMessage} from 'react-intl';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import {mapAPIDataToUIFormat, mapUIDataToAPIFormat} from 'src/utils/formDataMapping.js';
-
+import classNames from 'classnames'
 class PreviewModal extends React.Component {
 
     getFormattedLanguages(editor) {
@@ -35,13 +35,13 @@ class PreviewModal extends React.Component {
 
     render() {
         const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close-preview-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
-        const {event,superEvent = null, publisher, editor, values} = this.props;
+        const {event,superEvent = null, publisher, editor, values, uiMode} = this.props;
         const formattedEvent = mapAPIDataToUIFormat(mapUIDataToAPIFormat(values));
         formattedEvent.in_language = this.getFormattedLanguages(editor);
         formattedEvent.audience = this.getFormattedAudience(editor);
         return (
             <Modal
-                className='previewModal'
+                className={classNames('previewModal', uiMode)}
                 size='xl'
                 isOpen={this.props.isOpen}
                 toggle={this.props.toggle}
@@ -84,6 +84,7 @@ PreviewModal.propTypes = {
     intl: intlShape,
     toggle: PropTypes.func,
     isOpen: PropTypes.bool,
+    uiMode: PropTypes.string,
 }
 PreviewModal.contextTypes = {
     intl: PropTypes.object,

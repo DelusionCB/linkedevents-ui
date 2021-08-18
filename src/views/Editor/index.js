@@ -6,7 +6,6 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {get, isNull} from 'lodash'
 import PropTypes from 'prop-types'
 import {Button} from 'reactstrap';
-//Replaced Material-ui Spinner for a Bootstrap implementation. - Turku
 import Spinner from 'react-bootstrap/Spinner'
 import {Helmet} from 'react-helmet';
 
@@ -36,7 +35,7 @@ import {mapAPIDataToUIFormat} from '../../utils/formDataMapping'
 import getContentLanguages from '../../utils/language'
 import Notifications from '../Notification'
 import PreviewModal from '../../components/PreviewModal/PreviewModal'
-
+import classNames from 'classnames';
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
 
 // sentinel for authentication alert
@@ -278,6 +277,23 @@ export class EditorPage extends React.Component {
             : setFlashMsg('no-validation-errors', 'success')
     }
 
+    getTypeTheme() {
+        const {editor: {values: {type_id}}} = this.props;
+        switch (type_id) {
+            /*
+            case 2: {
+                return 'coursesUI'
+            }
+             */
+            case 4: {
+                return 'hobbyUI'
+            }
+            default: {
+                return ''
+            }
+        }
+    }
+
     render() {
         const {editor, user, match, intl} = this.props
         const {event, subEvents, superEvent, loading} = this.state
@@ -332,10 +348,11 @@ export class EditorPage extends React.Component {
                             event={event}
                             superEvent={superEvent}
                             values={editor.values}
+                            uiMode={this.getTypeTheme()}
                         />
                     </div>
 
-                    <div className="container mt-5 pt-3">
+                    <div className={classNames('container mt-5 pt-3', this.getTypeTheme())}>
                         <FormFields
                             action={editMode}
                             editor={editor}
@@ -344,6 +361,7 @@ export class EditorPage extends React.Component {
                             user={user}
                             setDirtyState={this.setDirtyState}
                             loading={loading}
+                            uiMode={this.getTypeTheme()}
                         />
                     </div>
 
@@ -352,7 +370,7 @@ export class EditorPage extends React.Component {
                             ? <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
-                            : <div className='buttons-group container'>
+                            : <div className={classNames('buttons-group container', this.getTypeTheme())}>
                                 {editMode === 'update' && this.getActionButton('postpone')}
                                 {editMode === 'update' && this.getActionButton('cancel')}
                                 {editMode === 'update' && this.getActionButton('delete')}

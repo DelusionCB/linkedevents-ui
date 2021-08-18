@@ -405,7 +405,8 @@ describe('HelTextField', () => {
                     const result = wrapper.instance().getCorrectIcons('placeholder',type);
                     expect(result).toHaveLength(1);
                     const element = shallow(result[0]);
-                    expect(element.prop('className')).toEqual(`glyphicon glyphicon-${typeIcons[index]}`);
+                    const classNames = type === 'number' && type !== 'price' ? 'numberIcon' : `glyphicon glyphicon-${typeIcons[index]}`
+                    expect(element.prop('className')).toEqual(classNames)
                 });
             });
             test('returns correct icon for social media names', () => {

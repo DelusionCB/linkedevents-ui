@@ -1,24 +1,29 @@
-.series{
-    font-size: 12px;
+.series {
+    margin-left: 5px;
     background-color:#008540;
     color:#ffff;
 }
+.event, .courses, .hobby {
+    background-color:#008540;
+    color:#ffff;
+    margin-left: 5px;
+}
 .umbrella{
-    font-size: 12px;
+    margin-left: 5px;
     background-color: #0072c6;
     color:#ffff;
 }
 .draft{
-    font-size: 12px;
+    margin-left: 5px;
     background-color: #ffc107;
     color:#000000;
 }
 .cancelled{
-    font-size: 12px;
+    margin-left: 5px;
     background-color: #DF3603;
     color:#ffff;
 }
 .postponed{
-    font-size: 12px;
+    margin-left: 5px;
     background-color: #9fc9eb;
 }

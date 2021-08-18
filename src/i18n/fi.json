@@ -10,6 +10,7 @@
     "pick-time-range": "Etsi vain ajalta",
     "event-search": "Hae",
     "event-name-or-place": "Tapahtuman nimi tai paikka",
+    "event-type-select": "Valitse tapahtuman tyyppi",
     "search-event-button": "Hae tapahtumia",
     "lang-fi": "Suomi",
     "lang-en": "Englanti",
@@ -224,6 +225,8 @@
     "event-keywords-search": "Aloita kirjoittamaan asiasanaa",
     "event-keywords-delete": "Poista asiasana",
 
+    "event-hobby-form-header": "Harrastuksen tiedot*",
+
     "event-umbrella-header": "Liittyykö tapahtumasi muihin tapahtumiin?",
     "event-umbrella": "Kattotapahtumat",
     "event-is-umbrella": "Kattotapahtuma",
@@ -379,6 +382,9 @@
     "add-more": "Lisää ajankohdat",
     "play-date-label": "Toistopäivät",
     "linked-courses": "Linked Courses",
+    "courses": "Kurssi",
+    "hobby": "Harrastus",
+    "event": "Tapahtuma",
     "create-courses": "Lisää uusi kurssi",
     "edit-courses": "Muokkaa kurssia",
     "search-courses": "Etsi kursseja",

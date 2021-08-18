@@ -437,7 +437,7 @@ const EventDetails = (props) => {
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups" locale={intl.locale}/>
             <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages" locale={intl.locale}/>
 
-            {appSettings.ui_mode === 'courses' &&
+            {values['type_id'] !== 1 &&
                 <React.Fragment>
                     <FormHeader>
                         {intl.formatMessage({id: 'audience-age-restrictions'})}
@@ -448,8 +448,8 @@ const EventDetails = (props) => {
                     <FormHeader>
                         {intl.formatMessage({id: 'enrolment-time'})}
                     </FormHeader>
-                    <DateTime labelKey="enrolment-start-time" value={values['enrolment_start_time']}/>
-                    <DateTime labelKey="enrolment-end-time" value={values['enrolment_end_time']}/>
+                    <DateTime locale={intl.locale} value={values['enrolment_start_time']} labelKey="enrolment-start-time"/>
+                    <DateTime locale={intl.locale} value={values['enrolment_end_time']} labelKey="enrolment-end-time"/>
 
                     <FormHeader>
                         {intl.formatMessage({id: 'attendee-capacity'})}

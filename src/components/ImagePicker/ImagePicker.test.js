@@ -23,6 +23,7 @@ const defaultProps = {
         },
         validationErrors: {},
     },
+    uiMode: '',
     user: mockUser,
     dispatch: jest.fn(),
     action: () => {},

@@ -4,13 +4,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {FormattedMessage, injectIntl} from 'react-intl';
-import {Button, Modal, ModalHeader, ModalBody, Label, Input} from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
 import {deleteImage} from 'src/actions/userImages.js';
 import {connect} from 'react-redux';
 import {isEmpty} from 'lodash';
 import ImageGalleryGrid from '../ImageGalleryGrid';
 import {confirmAction} from 'src/actions/app.js';
 import {getStringWithLocale} from 'src/utils/locale';
+import classNames from 'classnames'
 
 export class ImagePicker extends Component {
     constructor(props) {
@@ -47,12 +48,12 @@ export class ImagePicker extends Component {
     render() {
         const closebtn = this.getModalCloseButton();
         const defaultImages = {items: this.props.images.defaultImages};
-        const {defaultModal, editor, user, intl, images, close} = this.props;
+        const {defaultModal, editor, user, intl, images, close, uiMode} = this.props;
         const formattedHeader = !defaultModal ? 'event-image-title' : 'default-modal-images'
         return (
             <div className='image-pickers'>
                 <Modal
-                    className='image-picker--dialog'
+                    className={classNames('image-picker--dialog', uiMode)}
                     isOpen={this.props.isOpen}
                     toggle={this.props.close}
                     size='xl'
@@ -91,6 +92,7 @@ ImagePicker.propTypes = {
     isOpen: PropTypes.bool,
     close: PropTypes.func,
     defaultModal: PropTypes.bool,
+    uiMode: PropTypes.string,
 };
 
 ImagePicker.contextTypes = {

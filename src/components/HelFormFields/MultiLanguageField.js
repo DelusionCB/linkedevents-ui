@@ -127,6 +127,7 @@ class MultiLanguageField extends React.Component {
                     <HelTextField required={this.props.required}
                         id={this.props.id}
                         defaultValue={this.state.value[langs[0]]}
+                        name={this.props.name}
                         label={label}
                         ref={langs[0]}
                         onChange={(e,v) => this.onChange(e,v,langs[0])}
@@ -151,6 +152,7 @@ class MultiLanguageField extends React.Component {
                 return (
                     <div key={`${props.name}_${lang}`}>
                         <HelTextField
+                            name={this.props.name}
                             id={this.props.id + index}
                             multiLine={this.props.multiLine}
                             required={this.props.required}

@@ -909,6 +909,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
         isOpen={false}
         superEvent={Object {}}
         toggle={[Function]}
+        uiMode=""
         values={
           Object {
             "audience": Array [
@@ -1967,6 +1968,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
         loading={false}
         setDirtyState={[Function]}
         superEvent={Object {}}
+        uiMode=""
         user={
           Object {
             "_json": Object {
@@ -2971,6 +2973,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
         isOpen={false}
         superEvent={Object {}}
         toggle={[Function]}
+        uiMode=""
         values={
           Object {
             "audience": Array [
@@ -4029,6 +4032,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
         loading={true}
         setDirtyState={[Function]}
         superEvent={Object {}}
+        uiMode=""
         user={
           Object {
             "_json": Object {
@@ -4742,6 +4746,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
         isOpen={false}
         superEvent={Object {}}
         toggle={[Function]}
+        uiMode=""
         values={
           Object {
             "sub_events": Object {},
@@ -5400,6 +5405,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
         loading={false}
         setDirtyState={[Function]}
         superEvent={Object {}}
+        uiMode=""
         user={
           Object {
             "_json": Object {

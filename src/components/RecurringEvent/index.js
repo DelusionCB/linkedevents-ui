@@ -17,10 +17,6 @@ import {
 } from 'react-intl'
 import classNames from 'classnames';
 
-//Changed Material UI Dialog & Button to Reactstrap Modal & Button
-//Added isOpen prop for Modal & const closebtn for ModalHeaders close-attribute
-//Added row-color className to {days} row for city_theme
-
 const {VALIDATION_RULES, GENERATE_LIMIT} = constants
 
 class RecurringEvent extends React.Component {
@@ -40,6 +36,7 @@ class RecurringEvent extends React.Component {
         formType: PropTypes.string,
         isOpen: PropTypes.bool,
         intl: intlShape,
+        uiMode: PropTypes.string,
     }
 
     constructor (props) {
@@ -343,13 +340,13 @@ class RecurringEvent extends React.Component {
 
     render() {
         const {recurringStartDate, recurringEndDate, errors, subEvents} = this.state
-        const {intl} = this.props
+        const {intl, uiMode} = this.props
         const SubEventsLeft = GENERATE_LIMIT.EVENT_LENGTH - subEvents.existingSubCount
         const days = this.generateCheckboxes(this.state.daysSelected)
         const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close-recurring-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
         return (
             <Modal
-                className='recurringEvent'
+                className={classNames('recurringEvent', uiMode)}
                 size='xl'
                 isOpen={this.props.isOpen}
                 toggle={this.props.toggle}

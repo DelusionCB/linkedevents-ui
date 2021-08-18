@@ -58,7 +58,7 @@ class ImageGallery extends React.Component {
 
 
     render() {
-        const {validationErrors, user} = this.props;
+        const {validationErrors, user, uiMode} = this.props;
         const {openDefault, openOrgModal} = this.state;
         const backgroundImage = getIfExists(this.props.editor.values,'image.url', '');
         const pickerProps = {
@@ -102,8 +102,8 @@ class ImageGallery extends React.Component {
                         <span aria-hidden className="glyphicon glyphicon-plus"/>
                         <FormattedMessage id='select-from-default'/>
                     </Button>
-                    <ImageEdit open={this.state.openEditModal} close={this.toggleEditModal}/>
-                    <ImagePickerForm label="image-preview" name="image" loading={false} close={() => this.toggleOrgModal(openDefault)} {...pickerProps}/>
+                    <ImageEdit uiMode={uiMode} open={this.state.openEditModal} close={this.toggleEditModal}/>
+                    <ImagePickerForm uiMode={uiMode} label="image-preview" name="image" loading={false} close={() => this.toggleOrgModal(openDefault)} {...pickerProps}/>
                 </div>
                 <div className='col-sm-5 side-field'>
                     <div className={classNames('image-picker', {'background': backgroundImage})}>
@@ -128,6 +128,7 @@ ImageGallery.propTypes = {
         PropTypes.object,
     ]),
     defaultModal: PropTypes.bool,
+    uiMode: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

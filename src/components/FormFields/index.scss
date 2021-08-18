@@ -44,6 +44,11 @@ textarea {
     padding-left: 15px;
     padding-right: 15px;
 }
+.courses-row {
+    .custom-date-time-input {
+        justify-content: flex-start;
+    }
+}
 .keyword-row {
     position: relative;
     padding-left: 15px;
@@ -137,6 +142,7 @@ textarea {
         padding-top: 0px;
     }
 }
+
 .imagePicker-heading {
     font-size: 1.25rem;
 }
@@ -207,6 +213,20 @@ h4 {
             margin: 0px !important;
             color: white;
             padding: 8px 8px 8px 8px !important;
+        }
+        .numberIcon {
+            top: 0px;
+            height: 38px;
+            width: 38px;
+            background-color: var(--main-color);
+            background-repeat: round;
+            margin: 0px !important;
+            color: white;
+            padding: 9px 5px 5px 5px !important;
+            font-weight: bold;
+            &::before {
+                content: "123";
+            }
         }
         .facebookIcon {
             background-image: url(src/assets/images/facebook.svg);

@@ -250,10 +250,11 @@ class EventPage extends React.Component {
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isCancelled = event.event_status === EVENT_STATUS.CANCELLED
         const isPostponed = event.event_status === EVENT_STATUS.POSTPONED
+        const isEvent = event.type_id === 1
+        const isCourses = event.type_id === 2
+        const isHobby = event.type_id === 4
         const publishedText = this.getPublishedText();
-        // Defined React Helmet title with event name
         const pageTitle = `Linkedevents - ${getStringWithLocale(event, 'name')}`
-        const displayBadge = isPostponed || isCancelled || isDraft || isUmbrellaEvent || isRecurringEvent;
 
         return (
             <Fragment>
@@ -268,13 +269,17 @@ class EventPage extends React.Component {
                                 : getStringWithLocale(event, 'name')
                             }
                         </h1>
-                        {!loading && displayBadge &&
-                        <h2>
+                        {!loading &&
+                        <h2 className='event-info'>
                             {isPostponed && getBadge('postponed', 'medium')}
                             {isCancelled && getBadge('cancelled', 'medium')}
                             {isDraft && getBadge('draft', 'medium')}
                             {isUmbrellaEvent && getBadge('umbrella', 'medium')}
                             {isRecurringEvent && getBadge('series', 'medium')}
+                            {isEvent && getBadge('event', 'medium')}
+                            {isCourses && getBadge('courses', 'medium')}
+                            {isHobby && getBadge('hobby', 'medium')}
+                            <hr aria-hidden />
                         </h2>
                         }
                     </header>

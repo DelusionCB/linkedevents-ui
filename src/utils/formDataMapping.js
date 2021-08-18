@@ -37,6 +37,7 @@ function mapUIDataToAPIFormat(values) {
 
     // General data
     obj.name = _nullifyEmptyStrings(values.name)
+    obj.type_id = values.type_id
     obj.short_description = _nullifyEmptyStrings(values.short_description)
     obj.description = _nullifyEmptyStrings(values.description)
     obj.info_url = _nullifyEmptyStrings(values.info_url)
@@ -130,25 +131,22 @@ function mapUIDataToAPIFormat(values) {
         obj.audience_max_age = parseInt(values.audience_max_age, 10)
     }
 
-    // course extension fields
-    const courseFields = {}
     if (values.enrolment_start_time) {
-        courseFields.enrolment_start_time = values.enrolment_start_time
+        obj.enrolment_start_time = values.enrolment_start_time
     }
     if (values.enrolment_end_time) {
-        courseFields.enrolment_end_time = values.enrolment_end_time
+        obj.enrolment_end_time = values.enrolment_end_time
     }
     if (values.minimum_attendee_capacity) {
-        courseFields.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
+        obj.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
     }
     if (values.maximum_attendee_capacity) {
-        courseFields.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
+        obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
     }
     // date published
     if (!values.publication_status) {
         obj.date_published = moment().utc().format()
     }
-    obj.extension_course = courseFields
 
     return obj
 }
@@ -162,6 +160,7 @@ function mapAPIDataToUIFormat(values) {
 
     // General data
     obj.id = values.id
+    obj.type_id = values.type_id
     obj.name = values.name
     obj.short_description = values.short_description
     obj.description = values.description
@@ -231,18 +230,17 @@ function mapAPIDataToUIFormat(values) {
     if (values.audience_max_age) {
         obj.audience_max_age = values.audience_max_age
     }
-
-    // course extension fields
-    if (appSettings.ui_mode === 'courses' && values.hasOwnProperty('extension_course')) {
-        const courseFields = [
-            'enrolment_start_time', 'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity',
-        ];
-        courseFields.forEach(field => {
-            const value = values['extension_course'][field]
-            if (value) {
-                obj[field] = value
-            }
-        })
+    if (values.enrolment_start_time) {
+        obj.enrolment_start_time = values.enrolment_start_time
+    }
+    if (values.enrolment_end_time) {
+        obj.enrolment_end_time = values.enrolment_end_time
+    }
+    if (values.minimum_attendee_capacity) {
+        obj.minimum_attendee_capacity = parseInt(values.minimum_attendee_capacity, 10)
+    }
+    if (values.maximum_attendee_capacity) {
+        obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
     }
 
     return obj
@@ -320,7 +318,7 @@ export const createSubEventsFromFormValues = (formValues, updateExisting, superE
  * @return {Object[]}
  */
 export const updateSubEventsFromFormValues = (formValues, subEventsToUpdate) => {
-    const keysToExclude = ['start_time', 'end_time', 'id', 'super_event', 'super_event_type', 'sub_event_type']
+    const keysToExclude = ['start_time', 'end_time', 'id', 'super_event', 'super_event_type', 'sub_event_type', 'type_id']
     // update form data with sub event data where applicable
     return subEventsToUpdate
         // don't update canceled, deleted or past subevents (when editing an ongoing series =)

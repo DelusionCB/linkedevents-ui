@@ -10,6 +10,7 @@ import {Button, Modal, ModalHeader, ModalBody, Input, InputGroupAddon, InputGrou
 import update from 'immutability-helper';
 import {getStringWithLocale} from 'src/utils/locale';
 import validationFn from 'src/validation/validationRules'
+import classNames from 'classnames'
 
 const {CHARACTER_LIMIT, VALIDATION_RULES} = constants;
 
@@ -420,14 +421,14 @@ class ImageEdit extends React.Component {
 
 
     render() {
-        const {open, close} = this.props;
+        const {open, close, uiMode} = this.props;
         const {thumbnailUrl} = this.state;
         const thumb = this.state.thumbnailUrl || this.props.thumbnailUrl;
         const errorMessage = this.state.urlError ? 'validation-isUrl' : 'uploaded-image-size-error';
         return (
             <React.Fragment>
                 <Modal
-                    className='image-edit-dialog'
+                    className={classNames('image-edit-dialog', uiMode)}
                     role='dialog'
                     size='xl'
                     isOpen={open}
@@ -574,6 +575,7 @@ ImageEdit.propTypes = {
     defaultPhotographerName: PropTypes.string,
     license: PropTypes.string,
     open: PropTypes.bool,
+    uiMode: PropTypes.string,
 };
 ImageEdit.contextTypes = {
     intl: PropTypes.object,

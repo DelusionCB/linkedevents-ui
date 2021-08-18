@@ -200,7 +200,8 @@ class HelTextField extends Component {
         if (content.length === 0) {
             content = types.reduce((acc, curr, index) => {
                 if (type === curr) {
-                    acc.push(<span aria-hidden key={Math.random()} className={`glyphicon glyphicon-${typeIcons[index]}`} />);
+                    const classNames = type === 'number' && name !== 'price' ? 'numberIcon' : `glyphicon glyphicon-${typeIcons[index]}`;
+                    acc.push(<span aria-hidden key={Math.random()} className={classNames} />);
                 }
                 return acc;
             }, []);
@@ -211,7 +212,6 @@ class HelTextField extends Component {
 
     render () {
         const {value} = this.state
-        // Removed multiLine since it was no longer used
         const {
             required,
             disabled,

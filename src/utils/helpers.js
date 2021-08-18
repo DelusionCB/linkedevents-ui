@@ -136,6 +136,9 @@ export const getBadge = (type, size = 'small') => {
             badgeType = 'success'
             break
         case 'umbrella':
+        case 'event':
+        case 'courses':
+        case 'hobby':
             badgeType = 'info'
             break
         case 'draft':
