@@ -51,14 +51,13 @@ FormHeader.propTypes = {
 
 export const SideField = (props) => (
     <div className='side-field col-sm-5'>
-        <div className='tip' aria-label={props.label}>
+        <div className='tip'>
             {props.children}
         </div>
     </div>
 )
 
 SideField.propTypes = {
-    label: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
         PropTypes.array,
@@ -303,7 +302,7 @@ class FormFields extends React.Component {
                 </div>
                 <div className="row row-header">
                     <FormattedMessage id='event-add-newInfo'>{txt => <h2>{txt}</h2>}</FormattedMessage>
-                    <SideField label={this.context.intl.formatMessage({id: 'event-required-help'})}>
+                    <SideField>
                         <FormattedMessage id='editor-tip-required'/>
                     </SideField>
                 </div>
@@ -402,7 +401,7 @@ class FormFields extends React.Component {
                     <Collapse isOpen={this.state.headerLocationDate}>
                         <FormHeader messageID='event-location-form-header'/>
                         <div className="row location-row">
-                            <SideField label={this.context.intl.formatMessage({id: 'event-location-fields-header-help'})}>
+                            <SideField>
                                 <p><FormattedMessage id="editor-tip-location"/></p>
                                 <p><strong><FormattedMessage id="editor-tip-location-internet"/></strong></p>
                                 <p><FormattedMessage id="editor-tip-location-not-found"/></p>
@@ -504,7 +503,7 @@ class FormFields extends React.Component {
                         <React.Fragment>
                             <FormHeader messageID='event-umbrella-header'/>
                             <div className="row umbrella-row">
-                                <SideField label={this.context.intl.formatMessage({id: 'event-umbrella-help'})}>
+                                <SideField>
                                     <p><FormattedMessage id="editor-tip-umbrella-selection"/></p>
                                     <p><FormattedMessage id="editor-tip-umbrella-selection1"/></p>
                                 </SideField>
@@ -516,7 +515,7 @@ class FormFields extends React.Component {
                         }
                         <FormHeader messageID='event-datetime-form-header'/>
                         <div className='row date-row'>
-                            <SideField label={this.context.intl.formatMessage({id: 'event-datetime-fields-header-help'})}>
+                            <SideField>
                                 <p><FormattedMessage id="editor-tip-time-start"/></p>
                                 <p><FormattedMessage id="editor-tip-time-start-end"/></p>
                                 <p><FormattedMessage id="editor-tip-time-type"/></p>

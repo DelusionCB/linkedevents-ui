@@ -347,7 +347,7 @@ class ImageEdit extends React.Component {
         return (
             <div className='image-license-container'>
                 <div className='license-choices'>
-                    <div className='license-help-text tip' aria-label={this.context.intl.formatMessage({id: 'license-help-text'})}>
+                    <div className='license-help-text tip'>
                         <FormattedMessage id={'image-modal-image-license-explanation-event-only'}/>
                         <FormattedHTMLMessage id={'image-modal-image-license-explanation-cc-by'} />
                     </div>
@@ -441,7 +441,7 @@ class ImageEdit extends React.Component {
                             <div className='col-sm-12  image-edit-dialog--form'>
                                 {!this.props.updateExisting &&
                                 <div className='file-upload'>
-                                    <div className='tip' aria-label={this.context.intl.formatMessage({id: 'image-upload-help'})}>
+                                    <div className='tip'>
                                         <p>
                                             <FormattedMessage id='uploaded-image-size-tip'>{txt => txt}</FormattedMessage>
                                             <br/>

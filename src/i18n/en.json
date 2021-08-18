@@ -507,12 +507,6 @@
     "event-name-descriptions": "Write a clear title and clear descriptions.",
     "event-name-descriptions-tip": "Avoid abbreviations and SHOUTING.",
 
-    "event-required-help": "Required fields instructions",
-    "event-location-fields-header-help": "Instructions for location field",
-    "event-datetime-fields-header-help": "Instructions for date and time fields",
-    "event-umbrella-help": "Instructions for umbrella event selection",
-    "image-upload-help": "Instructions for adding an image",
-    "license-help-text": "Licence information",
     "profile-menu": " Profile menu",
 
     "login-warning": "Warning! You must",

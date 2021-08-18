@@ -181,9 +181,7 @@ describe('FormField', () => {
                     })
                 })
                 test('first sidefield with correct props', () => {
-                    expect(Sidefields.at(0).prop('label')).toBe('Pakollisten kenttien ohje')
                     expect(Sidefields.at(0).prop('children')).toEqual(<FormattedMessage id="editor-tip-required"/>)
-                    
                 })
             })
             describe('MultiLanguageField', () => {

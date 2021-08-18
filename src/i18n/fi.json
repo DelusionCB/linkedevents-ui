@@ -520,13 +520,6 @@
     "filter-event-sv-mobile": "SV",
     "filter-event-en-mobile": "EN",
 
-    "event-required-help": "Pakollisten kenttien ohje",
-    "event-location-fields-header-help": "Paikkatieto ohje",
-    "event-datetime-fields-header-help": "Ajankohta ohje",
-    "event-umbrella-help": "Kattotapahtuma ohje",
-    "image-upload-help": "Kuvan lisäämisen ohje",
-    "license-help-text": "Lisenssi ohje",
-
     "profile-menu": " Käyttäjävalikko",
 
     "login-warning": "Huom! Sinun täytyy",

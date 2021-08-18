@@ -125,13 +125,6 @@
     "filter-event-sv-mobile": "SV",
     "filter-event-en-mobile": "EN",
 
-    "event-required-help": "Instruktioner för obligatoriska fält",
-    "event-location-fields-header-help": "Instruktioner för plats",
-    "event-datetime-fields-header-help": "Instruktioner för tider",
-    "event-umbrella-help": "Instruktioner för paraplyevenemang",
-    "image-upload-help": "Instruktioner för tilläg av bild",
-    "license-help-text": "Instruktioner för license",
-
     "event-picture-header": "Definiera bild*",
     "event-image": "Evenemangets bild (klicka för att byta)",
     "event-image-title": "Evenemangets bild*",
