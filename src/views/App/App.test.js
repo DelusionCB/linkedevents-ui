@@ -4,6 +4,7 @@ import {checkCookieConsent} from '../../utils/cookieUtils';
 jest.mock('../../utils/cookieUtils');
 import {UnconnectedApp} from './';
 import {mockUser} from '__mocks__/mockData';
+import NavStartingPoint from '../../components/NavStartingPoint';
 
 jest.mock('@city-images/favicon.ico', () => ({
     eventsFavicon: 'favicon for the site',
@@ -25,6 +26,15 @@ describe('views/App/index', () => {
         }
         return shallow(<UnconnectedApp {...defaultProps} {...props}/>)
     }
+
+    describe('renders', () => {
+        test('NavStartingPoint', () => {
+            const location = {pathname: '/test'}
+            const navPoint = getWrapper({location}).find(NavStartingPoint)
+            expect(navPoint).toHaveLength(1)
+            expect(navPoint.prop('location')).toBe(location)
+        })
+    })
 
     describe('componentWillMount', () => {
         const fetchLanguagesMock = jest.fn();

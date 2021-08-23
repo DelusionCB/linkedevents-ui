@@ -26,6 +26,7 @@ import moment from 'moment'
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import CookieBar from '../../components/CookieBar/CookieBar';
 import {checkCookieConsent} from '../../utils/cookieUtils';
+import NavStartingPoint from '../../components/NavStartingPoint';
 
 // localized moment utils
 class LocalizedUtils extends MomentUtils {
@@ -111,6 +112,7 @@ class App extends React.Component {
                 <Helmet>
                     <html lang={this.props.intl.locale} />
                 </Helmet>
+                <NavStartingPoint location={this.props.location}/>
                 <SkipLink />
                 <Favicon />
                 <Headerbar />
