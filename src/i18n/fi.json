@@ -334,7 +334,7 @@
     "target-groups-header": "Tee valinta, jos tapahtuma on suunnattu erityisesti tietylle kohderyhmälle",
     "additional-keywords": "Muut avainsanat",
     "main-categories": "Luokittelu",
-    "main-categories-header": "Valitse vähintään yksi luokka",
+    "main-categories-header": "Valitse vähintään yksi luokka*",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",
