@@ -29,7 +29,7 @@ describe('CheckBoxCell', () => {
         expect(inputElement).toHaveLength(1);
         expect(inputElement.prop('checked')).toEqual(defaultProps.checked);
         expect(inputElement.prop('type')).toBe('checkbox');
-        expect(inputElement.prop('invalid')).toEqual(defaultProps.disabled);
+        expect(inputElement.prop('disabled')).toEqual(defaultProps.disabled);
         expect(inputElement.prop('onChange')).toBeDefined();
     })
 })

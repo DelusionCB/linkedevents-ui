@@ -53,7 +53,7 @@ class PublisherCell extends React.Component {
                     {publisher}
                     {event.creator && event.email &&
                     <React.Fragment>
-                        <br />
+                        <br aria-hidden />
                         <small>
                             {event.creator}
                             {this.getEmail(event.email, eventName)}

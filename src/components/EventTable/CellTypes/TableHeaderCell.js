@@ -39,10 +39,21 @@ const TableHeaderCell = ({
                 {children}
             </HeaderCell>
             }
-            {name === 'validation' &&
-                <td className="validation-cell" />
+            {(name === 'validation' || name === 'context') &&
+            <HeaderCell
+                isActive={isActive}
+                name={name}
+                events={events}
+                tableName={tableName}
+                invalidRows={invalidRows}
+                selectedRows={selectedRows}
+                handleRowSelect={handleRowSelect}
+                fetchComplete={fetchComplete}
+            >
+                {children}
+            </HeaderCell>
             }
-            {name !== 'checkbox' && name !== 'validation' &&
+            {name !== 'checkbox' && name !== 'validation' && name !== 'context' &&
             <HeaderCell
                 isActive={isActive}
                 sortDirection={sortDirection}

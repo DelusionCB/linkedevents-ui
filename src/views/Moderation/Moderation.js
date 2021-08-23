@@ -1,7 +1,8 @@
+
 require('./moderation.scss')
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Button} from 'reactstrap';
+import {Button, Collapse} from 'reactstrap';
 import {Helmet} from 'react-helmet';
 
 import {FormattedMessage, injectIntl} from 'react-intl'
@@ -22,12 +23,14 @@ import showConfirmationModal from '../../utils/confirm'
 import {confirmAction, setFlashMsg as setFlashMsgAction} from '../../actions/app'
 import {hasOrganizationWithRegularUsers} from '../../utils/user'
 import {push} from 'connected-react-router'
+import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
 
 const {TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
 
 export class Moderation extends React.Component {
 
     state = {
+        moderationTips: false,
         draftData: {
             events: [],
             count: null,
@@ -36,7 +39,7 @@ export class Moderation extends React.Component {
             fetchComplete: true,
             sortBy: 'last_modified_time',
             sortDirection: 'desc',
-            tableColumns: ['checkbox', 'name', 'publisher', 'event_time', 'last_modified_time', 'validation'],
+            tableColumns: ['checkbox', 'name', 'context', 'publisher', 'event_time', 'last_modified_time', 'validation'],
             selectedRows: [],
             invalidRows: [],
         },
@@ -48,7 +51,7 @@ export class Moderation extends React.Component {
             fetchComplete: true,
             sortBy: 'date_published',
             sortDirection: 'desc',
-            tableColumns: ['name', 'publisher', 'event_time', 'date_published'],
+            tableColumns: ['name', 'context', 'publisher', 'event_time', 'date_published'],
         },
     }
 
@@ -353,6 +356,18 @@ export class Moderation extends React.Component {
     }
 
     /**
+     * setState e.target.id to toggle Collapse
+     * @param e
+     */
+    /*
+    toggleTip(e) {
+        if (e.target.id) {
+            this.setState({[e.target.id]: !this.state[e.target.id]})
+        }
+    }
+    */
+
+    /**
      * Opens a confirmation modal and runs the given action
      * @param table     The table to run the action for
      * @param action    Action to run
@@ -412,6 +427,25 @@ export class Moderation extends React.Component {
                 {!user &&
                     <p><FormattedMessage id="login" /> <FormattedMessage id="events-management-prompt" /></p>
                 }
+                {/*
+                {user &&
+                <div className='moderation-tips'>
+                    <h2>
+                        <CollapseButton
+                            id='moderationTips'
+                            isOpen={this.state.moderationTips}
+                            targetCollapseNameId='moderation-page-tip'
+                            toggleHeader={(e) => this.toggleTip(e)}
+                            disabled={true}
+                        />
+                    </h2>
+                    <Collapse isOpen={this.state.moderationTips}>
+                        <div className='tip'>
+                        </div>
+                    </Collapse>
+                </div>
+                }
+                */}
                 {user && moderationTables.map(table => (
                     <React.Fragment key={`${table.name}-table-fragment`}>
                         <h2><FormattedMessage id={`moderation-page-${table.name}-heading`} /></h2>
@@ -419,6 +453,7 @@ export class Moderation extends React.Component {
                             <p><FormattedMessage id="moderation-page-published-description" /></p>
                         }
                         <EventTable
+                            tableCaption={table.name === 'draft' ? 'table-event-moderation' : 'table-event-published'}
                             tableName={table.name}
                             tableColumns={table.data.tableColumns}
                             events={table.data.events}

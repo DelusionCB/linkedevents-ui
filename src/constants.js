@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 const TABLE_COLUMNS = [
     'checkbox',
     'name',
+    'context',
     'publisher',
     'start_time',
     'end_time',

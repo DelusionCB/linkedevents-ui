@@ -64,12 +64,13 @@
 
     "event-sort-name": "Rubrik",
     "event-sort-start_time": "Evenemanget börjar",
+    "event-sort-context": "Innehåll",
     "event-sort-end_time": "Evenemanget slutar",
     "event-sort-last_modified_time": "Redigerad senast",
     "event-sort-publisher": "Utgivare",
     "event-sort-event_time": "Tidpunkt för evenemanget",
     "event-sort-date_published": "Godkänd",
-    "event-sort-validation": " ",
+    "event-sort-validation": "Obs.",
 
     "event-page-error": "Evenemanget hittades inte eller du har inte rättigheter att se det.",
     "event-page-loading": "Evenemanget laddas...",
@@ -114,6 +115,10 @@
     "events-management-description-regular-user": "Bläddra i och redigera dina utkast och bläddra i dina publicerade evenemang. Publicerade evenemang kan inte redigeras.",
     "events-management-description-public-user": "Blädra och redigera dina publicerade evenemang.",
     "events-management-no-results": "Ingen redigerbar evenemang hittades.",
+
+    "language-label.fi": "Innehåll finns på finska",
+    "language-label.sv": "Innehåll finns på svenska",
+    "language-label.en": "Innehåll finns på engelska",
 
     "filter-event-languages": "Blädra evenemang med innehål på språk:",
     "filter-event-all": "Alla språk",
@@ -317,8 +322,10 @@
     "event-creation-cancel-success": "Evenemanget inställdes!",
     "event-creation-publish-success": "Evenemanget publicerades framgångsrikt!",
 
-    "table-events-checkbox": "Välja {name}",
-    "table-events-checkbox-all": "Välj alla händelser",
+    "table-events-checkbox": "Välj {name} för att publicera eller radera",
+    "table-events-checkbox-invalid": "Korrigera validationsfelen av innehållet {name} innan du kan välja",
+    "table-events-checkbox-error": " Korrigera validationsfelen av innehållet {name} innan du kan välja",
+    "table-events-checkbox-all": "Välj alla innehåll, som inte har validationsfel, för att radera eller publicera",
 
     "image-creation-success":  "Bilden skapades framgångsrikt!",
     "image-creation-error": "Fel när bilden skapades.",
@@ -412,6 +419,7 @@
     "attach-image-to-event": "Lägg till en bild i evenemanget",
 
     "moderation-page": "Moderera evenemang",
+    "moderation-page-tip": "Moderations instruktioner",
     "moderation-page-draft-heading": "Väntar på godkännande",
     "moderation-page-published-heading": "Publicerade evenemang",
     "moderation-page-published-description": "Om du publicerade ett evenemangförslag under ett färdigt paraplyevenemang, visas det inte i denna vy.",
@@ -498,9 +506,10 @@
     "preview-event": "Evenemangets uppgifter",
     "preview-event-button": "Förhandsvisa händelseinformation",
 
-    "eventable-expand": "Utöka händelsen",
+    "eventtable-expand": "Visa underinnehållet",
+    "eventtable-close": "Dölj underinnehållet",
 
-	"table-pagination-results": "Händelserna mellan {from} och {to} / {count}",
+    "table-pagination-results": "Händelserna mellan {from} och {to} / {count}",
 	"table-pagination-shortcut-link": "Gå till början av tabellen",
 	"table-pagination-next-page": "Nästa sida",
     "table-pagination-previous-page": "Föregående sida",

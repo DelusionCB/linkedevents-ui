@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import constants from 'src/constants';
-
+import classNames from 'classnames';
 const {TABLE_COLUMNS} = constants;
 
 class HeaderCell extends React.Component {
@@ -27,6 +27,11 @@ class HeaderCell extends React.Component {
     }
     render() {
         const {name, sortDirection, active, children} = this.props;
+        const cellClassNames = classNames(
+            'table-header', {
+                'validation-header': name === 'validation',
+                'context-header': name === 'context',
+            });
 
         return(
             <React.Fragment>
@@ -37,19 +42,24 @@ class HeaderCell extends React.Component {
                             checked={this.state.isChecked} 
                             type='checkbox' 
                             id='allchecked' 
-                            onChange={this.handleRow} 
+                            onChange={this.handleRow}
                         />
                         <label className='custom-control-label' htmlFor='allchecked'>
-                            <span className='hidden'>
+                            <span className='visually-hidden'>
                                 {this.context.intl.formatMessage({id: 'table-events-checkbox-all'})}
                             </span>
                         </label>
                     </div>
                 </th>
                 }
-                {name !== 'checkbox' && name !== 'validation' &&
-                <th className='table-header'>
-                    <div onClick={this.handleSort}>
+                {(name === 'context' || name === 'validation') &&
+                <th className={cellClassNames}>
+                    {children}
+                </th>
+                }
+                {name !== 'checkbox' && name !== 'validation' && name !== 'context' &&
+                <th className={cellClassNames}>
+                    <div aria-sort={sortDirection} onClick={this.handleSort}>
                         {children}
                         {active && sortDirection === 'asc' &&
                             <span className='glyphicon glyphicon-arrow-up' />
@@ -64,6 +74,7 @@ class HeaderCell extends React.Component {
         )
     }
 }
+
 HeaderCell.contextTypes = {
     intl: PropTypes.object,
 };

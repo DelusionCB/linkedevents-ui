@@ -3,7 +3,7 @@ import NameCell from '../NameCell';
 import {mockUserEvents} from '__mocks__/mockData';
 import {shallow} from 'enzyme';
 import {Link} from 'react-router-dom';
-import {FormattedMessage, IntlProvider} from 'react-intl';
+import {IntlProvider} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 
@@ -29,24 +29,6 @@ describe('NameCell', () => {
         return shallow(<NameCell {...defaultProps} {...props} />, {context: {intl}})
     }
 
-    describe('methods', () => {
-        const mockDraft = {
-            publication_status: 'draft',
-            event_status: 'EventPostponed',
-        };
-
-        test('getEventStatus return obj based on event status', () => {
-            const element = getWrapper({event:mockDraft, isSuperEvent: true, superEventType: 'umbrella'});
-            const instance = element.instance();
-            const returnResult = instance.getEventStatus();
-            expect(returnResult.draft).toBe(true);
-            expect(returnResult.cancelled).toBe(false);
-            expect(returnResult.postponed).toBe(true);
-            expect(returnResult.umbrella).toBe(true);
-            expect(returnResult.series).toBe(false);
-
-        })
-    })
 
     test('renders cell with no additional event.status', () => {
         const element = getWrapper();

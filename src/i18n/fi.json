@@ -63,14 +63,19 @@
     "sub-events-for-series": "Sarjan alatapahtumat:",
     "sub-events-for-umbrella": "Kattotapahtuman alatapahtumat:",
 
+    "table-event-management": "Sisällön hallintataulukko",
+    "table-event-moderation": "Moderoinnin taulukko sisällön julkaisuun ja poistoon",
+    "table-event-published": "Julkaistun sisällön moderointitaulukko",
+
     "event-sort-name": "Otsikko",
     "event-sort-start_time": "Tapahtuma alkaa",
+    "event-sort-context": "Sisältö",
     "event-sort-end_time": "Tapahtuma päättyy",
     "event-sort-last_modified_time": "Muokattu viimeksi",
     "event-sort-publisher": "Julkaisija",
     "event-sort-event_time": "Tapahtuma-aika",
     "event-sort-date_published": "Hyväksytty",
-    "event-sort-validation": " ",
+    "event-sort-validation": "Huom.",
 
     "event-page-error": "Tapahtumaa ei löytynyt tai sinulla ei ole oikeuksia katsella sitä.",
     "event-page-loading": "Ladataan tapahtumaa...",
@@ -398,14 +403,17 @@
     "attach-image-to-event": "Lisää kuva tapahtumaan",
 
     "moderation-page": "Moderoi tapahtumia",
+    "moderation-page-tip": "Moderoinnin ohjeet",
     "moderation-page-draft-heading": "Odottaa hyväksyntää",
     "moderation-page-published-heading": "Julkaistut tapahtumat",
     "moderation-page-published-description": "Jos julkaisit tapahtumaehdotuksen valmiin kattotapahtuman alle, sitä ei näytetä tässä näkymässä.",
 
     "table-events-per-page": "Tapahtumia per sivu",
     "table-events-page-number": "Taulukon sivunumero",
-    "table-events-checkbox": "Valitse {name}",
-    "table-events-checkbox-all": "Valitse kaikki tapahtumat",
+    "table-events-checkbox": "Valitse {name} julkaistavaksi tai poistettavaksi",
+    "table-events-checkbox-invalid": "Korjaa sisällön {name} validaatiovirheet ennen kuin voit valita",
+    "table-events-checkbox-error": "Korjaa sisällön {name} validaatiovirheet ennen kuin voit valita",
+    "table-events-checkbox-all": "Valitse kaikki sisältö joilla ei ole validaatiovirheitä poistaaksesi tai julkaistaksesi",
 
     "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
     "draft-publish-subevent": "Sarjan alatapahtumia ei voi julkaista.",
@@ -496,7 +504,8 @@
     "reportmodal-sent": "Raportti lähetetty, kiitoksia",
     "reportmodal-debugbutton": "Palaute",
 
-    "eventable-expand": "Laajenna tapahtuma",
+    "eventtable-expand": "Näytä alisisältö",
+    "eventtable-close": "Piilota alisisältö",
 
 	"table-pagination-results": "Tapahtumat välillä {from} ja {to} / {count}",
 	"table-pagination-shortcut-link": "Siirry taulukon alkuun",
@@ -512,9 +521,9 @@
     "close-image-gallery-modal": "Sulje kuvagallerian dialogi",
     "close-image-edit-modal": "Sulje kuvan lisäämisen / muokkaamisen dialogi",
 
-    "language-label.fi": "Tapahtuman syöttökieli on suomi",
-    "language-label.sv": "Tapahtuman syöttökieli on ruotsi",
-    "language-label.en": "Tapahtuman syöttökieli on englanti",
+    "language-label.fi": "Sisältö on suomeksi",
+    "language-label.sv": "Sisältö on ruotsiksi",
+    "language-label.en": "Sisältö on englanniksi",
 
     "filter-event-languages": "Selaa tapahtumia joilla on sisältöä kielellä:",
     "filter-event-all": "Kaikki kielet",

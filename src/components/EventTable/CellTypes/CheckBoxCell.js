@@ -19,26 +19,30 @@ class CheckBoxCell extends React.Component {
     }
 
     render() {
-        const {checked, disabled, event} = this.props;
+        const {checked, disabled, event, isInvalid, subNumber} = this.props;
         const locale = this.context.intl.locale;
+        const invalidEvent = isInvalid ? 'table-events-checkbox-invalid' : 'table-events-checkbox'
+        const superStyling = event.super_event ? {'display':'none'} : {};
         return (
             <td className='checkbox'>
-                <div className='custom-control custom-checkbox'>
+                <div className='custom-control custom-checkbox' style={superStyling}>
                     <input
                         className='custom-control-input'
-                        aria-label={this.context.intl.formatMessage({id: 'table-events-checkbox'}, {name: getEventName(event, locale)})}
                         id={event.id}
                         checked={checked}
                         type='checkbox'
-                        invalid={disabled}
+                        disabled={disabled}
                         onChange={this.handleRowSelection}
                     />
                     <label className='custom-control-label' htmlFor={event.id}>
-                        <span className='hidden'>
-                            {this.context.intl.formatMessage({id: 'table-events-checkbox'}, {name: getEventName(event, locale)})}
+                        <span className='visually-hidden'>
+                            {this.context.intl.formatMessage({id: invalidEvent}, {name: getEventName(event, locale)})}
                         </span>
                     </label>
                 </div>
+                {event.super_event &&
+                <div style={{textAlign: 'center'}}>{`${subNumber + 1 }`}</div>
+                }
             </td>
         );
     }
@@ -53,6 +57,8 @@ CheckBoxCell.propTypes = {
     onChange: PropTypes.func,
     event: PropTypes.object,
     tableName: PropTypes.string,
+    isInvalid: PropTypes.bool,
+    subNumber: PropTypes.number,
 };
 
 export default CheckBoxCell

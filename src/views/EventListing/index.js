@@ -399,6 +399,7 @@ export class EventListing extends React.Component {
                 </div>
                 }
                 <EventTable
+                    tableCaption='table-event-management'
                     events={events}
                     user={user}
                     fetchComplete={fetchComplete}

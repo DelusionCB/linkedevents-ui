@@ -33,6 +33,9 @@ $checkbox-column-width: 50px;
 
 .event-table {
     font-size: 1em ;
+    .validation-header {
+        width: 5%;
+    }
 }
 
 .tag-space {
@@ -79,6 +82,7 @@ $checkbox-column-width: 50px;
         tr {
             td {
                 .nameCell {
+                    display: flex;
                     .draft-icon {
                         display: inline-flex;
                     }

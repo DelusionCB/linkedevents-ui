@@ -8,6 +8,7 @@ import DateTimeCell from './CellTypes/DateTimeCell';
 import PublisherCell from './CellTypes/PublisherCell';
 import ValidationCell from './CellTypes/ValidationCell';
 import CheckBoxCell from './CellTypes/CheckBoxCell';
+import ContextCell from './CellTypes/ContextCell';
 import {getFirstMultiLanguageFieldValue} from 'src/utils/helpers';
 import {EventQueryParams, fetchEvents} from 'src/utils/events';
 import classNames from 'classnames';
@@ -139,8 +140,9 @@ class EventRow extends React.Component {
                                 tableName={tableName}
                                 event={event}
                                 onChange={handleRowSelect}
+                                isInvalid={this.state.rowInvalid}
+                                subNumber={this.props.subNumber}
                             />
-
                         }
                         if (type === 'name') {
                             return <NameCell
@@ -152,6 +154,14 @@ class EventRow extends React.Component {
                                 hasSubEvents={hasSubEvents}
                                 showSubEvents={showSubEvents}
                                 toggleSubEvent={this.toggleSubEvent}
+                            />
+                        }
+                        if (type === 'context') {
+                            return  <ContextCell
+                                key={`${event.id}-cell-${index}`}
+                                event={event}
+                                isSuperEvent={isSuperEvent}
+                                superEventType={superEventType}
                             />
                         }
                         if (type === 'publisher') {
@@ -253,11 +263,12 @@ const SubEventsTable = props => {
 
     return (
         <React.Fragment>
-            {subEvents.map(event => (
+            {subEvents.map((event, index) => (
                 <EventRow
                     {...props}
                     event={event}
                     key={event.id}
+                    subNumber={index}
                 />
             ))}
         </React.Fragment>
@@ -298,6 +309,7 @@ EventRow.propTypes = {
     handleInvalidRows: PropTypes.func,
     user: PropTypes.object,
     superEventIsChecked: PropTypes.bool,
+    subNumber: PropTypes.number,
 }
 
 const mapStateToProps = (state) => ({

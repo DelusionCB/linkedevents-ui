@@ -62,14 +62,19 @@
     "sub-events-for-series": "Subevents of the series:",
     "sub-events-for-umbrella": "Subevents of the umbrella event:",
 
+    "table-event-management": "Managing table of contents",
+    "table-event-moderation": "Moderation table for publishing and deleting contents",
+    "table-event-published": "Moderation table of published contents",
+
     "event-sort-name": "Title",
     "event-sort-start_time": "Event starts",
     "event-sort-end_time": "Event ends",
+    "event-sort-context": "Content",
     "event-sort-last_modified_time": "Last modified",
     "event-sort-publisher": "Publisher",
     "event-sort-event_time": "Event time",
     "event-sort-date_published": "Published",
-    "event-sort-validation": " ",
+    "event-sort-validation": "Notice",
 
     "event-page-error": "Event not found or you don't have the permission to view it.",
     "event-page-loading": "Loading event...",
@@ -111,6 +116,10 @@
     "events-management-description-regular-user": "Browse and edit your drafts and browse your published events. Published events can't be edited.",
     "events-management-description-public-user": "Browse and edit events published by you.",
     "events-management-no-results": "No editable events found.",
+
+    "language-label.fi": "Content is in Finnish",
+    "language-label.sv": "Content is in Swedish",
+    "language-label.en": "Content is in English",
 
     "filter-event-languages": "Browse event with content in language:",
     "filter-event-all": "All languages",
@@ -395,14 +404,17 @@
     "attach-image-to-event": "Attach image to event",
 
     "moderation-page": "Moderate events",
+    "moderation-page-tip": "Instructions for moderation",
     "moderation-page-draft-heading": "Waiting approval",
     "moderation-page-published-heading": "Published events",
     "moderation-page-published-description": "Drafts published under an existing umbrella event will not be shown here.",
 
     "table-events-per-page": "Events per page",
     "table-events-page-number": "Table page number",
-    "table-events-checkbox": "Select {name}",
-    "table-events-checkbox-all": "Select all events",
+    "table-events-checkbox": "Choose {name} for publication or deletion",
+    "table-events-checkbox-invalid": "Correct the validation errors of the content {name} before you can choose",
+    "table-events-checkbox-error": " Correct the validation errors of the content {name} before you can choose",
+    "table-events-checkbox-all": "Choose all the contents with no validation errors for deletion or publication",
 
     "draft-cancel": "Event drafts can't be cancelled.",
     "draft-publish-subevent": "A subevent of a series cannot be published.",
@@ -486,9 +498,10 @@
     "reportmodal-sent": "Thank you, report sent",
     "reportmodal-debugbutton": "Feedback",
 
-    "eventable-expand": "Expand event",
+    "eventtable-expand": "Show sub-contents",
+    "eventtable-close": "Hide sub-contents",
 
-	"table-pagination-results": "Events between {from} and {to} / {count}",
+    "table-pagination-results": "Events between {from} and {to} / {count}",
 	"table-pagination-shortcut-link": "Back to top of the table",
 	"table-pagination-next-page": "Next page",
     "table-pagination-previous-page": "Previous page",

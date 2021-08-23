@@ -31,6 +31,7 @@ const EventTable = ({
     pageSize,
     pageSizeOptions,
     fetchComplete,
+    tableCaption,
 }) => {
     const hasResults = events.length > 0 || fetchComplete === false
 
@@ -57,6 +58,7 @@ const EventTable = ({
     const tableId = tableName ? tableName + '-id' : 'events-table-id'
     return (
         <Table className="event-table" responsive='md' id={tableId}>
+            <FormattedMessage id={tableCaption}>{txt => <caption className='visually-hidden'>{txt}</caption>}</FormattedMessage>
             <thead>
                 <tr>
                     {tableColumns.map(item => (
@@ -74,7 +76,7 @@ const EventTable = ({
                             fetchComplete={fetchComplete}
                             sortBy={sortBy}
                         >
-                            {item !== 'checkbox' || item !== 'validation'
+                            {item !== 'checkbox' || item !== 'validation' || item !== 'context'
                                 ? <FormattedMessage id={`event-sort-${item}`}/>
                                 : <React.Fragment />
                             }
@@ -128,7 +130,7 @@ const EventTable = ({
 EventTable.defaultProps = {
     events: [],
     tableName: '',
-    tableColumns: ['name', 'start_time', 'end_time', 'last_modified_time'],
+    tableColumns: ['name', 'context', 'start_time', 'end_time', 'last_modified_time'],
     selectedRows: [],
     invalidRows: [],
     paginationPage: 0,
@@ -158,6 +160,7 @@ EventTable.propTypes = {
     pageSize: PropTypes.number,
     pageSizeOptions: PropTypes.array,
     fetchComplete: PropTypes.bool,
+    tableCaption: PropTypes.string,
 }
 
 export default injectIntl(EventTable)

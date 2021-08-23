@@ -36,10 +36,12 @@ exports[`Moderation Snapshot should render view by default 1`] = `
     selectedRows={Array []}
     sortBy="last_modified_time"
     sortDirection="desc"
+    tableCaption="table-event-moderation"
     tableColumns={
       Array [
         "checkbox",
         "name",
+        "context",
         "publisher",
         "event_time",
         "last_modified_time",
@@ -74,9 +76,11 @@ exports[`Moderation Snapshot should render view by default 1`] = `
     paginationPage={0}
     sortBy="date_published"
     sortDirection="desc"
+    tableCaption="table-event-published"
     tableColumns={
       Array [
         "name",
+        "context",
         "publisher",
         "event_time",
         "date_published",

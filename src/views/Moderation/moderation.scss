@@ -5,4 +5,21 @@
         transition: opacity 150ms ease-in-out;
     }
 }
+.moderation-tips {
+    .headerbutton {
+        width: 100%;
+        background-color: var(--main-color) !important;
+        color: var(--light-color) !important;
+        border-color: var(--darkgray-color) !important;
+        font-weight: bold;
+    }
+
+    .tip {
+        border: 2px solid var(--main-color) !important;
+        color: var(--dark-color) !important;
+        margin-top: 0px;
+        background-color: var(--tip-color);
+        padding: 10px;
+    }
+}
 
