@@ -36,14 +36,14 @@ const {intl} = intlProvider.getChildContext();
 const mockStore = configureStore([thunk]);
 const initialStore = {
     user: mockUser,
-    events: {
+    events: [{
         apiErrorMsg: null,
         isFetching: false,
         fetchComplete: false,
         items: [],
         eventError: null,
         eventsError: null,
-    },
+    }],
 };
 
 // mock moment to render search dates as expected
@@ -85,6 +85,37 @@ describe('Search', () => {
             expect(element.props('onFormSubmit')).toBeDefined();
         });
 
+        test('search results status div', () => {
+            const div = getWrapper().find('#search-page-results-count-status')
+            expect(div).toHaveLength(1)
+            expect(div.prop('role')).toBe('status')
+            expect(div.prop('aria-live')).toBe('polite')
+            expect(div.prop('aria-atomic')).toBe('true')
+        })
+
+        describe('search results status count text', () => {
+            test('when search has not been executed', () => {
+                const wrapper = getWrapper()
+                wrapper.setState({searchExecuted: false})
+                const resultsText = wrapper.find('#search-results-count')
+                expect(resultsText).toHaveLength(0)
+            })
+            test('when search has been executed', () => {
+                const wrapper = getWrapper()
+                const instance = wrapper.instance()
+                wrapper.setState({searchExecuted: true})
+                const resultsText = wrapper.find('#search-results-count')
+                expect(resultsText).toHaveLength(1)
+                expect(resultsText.prop('values')).toStrictEqual({count: instance.state.events.length})
+                expect(resultsText.prop('children')).toBeDefined()
+            })
+        })
+
+        test('results section', () => {
+            const section = getWrapper().find('section.container-fluid')
+            expect(section).toHaveLength(1)
+        })
+
         test('Spinner element when loading', () => {
             const element = getWrapper();
             element.setState({loading: true});
@@ -102,13 +133,13 @@ describe('Search', () => {
         describe('FormattedMessages', () => {
             test('default amount', () => {
                 const element = getWrapper().find(FormattedMessage);
-                expect(element).toHaveLength(4);
+                expect(element).toHaveLength(3);
             });
             test('correct amount when !events & searchExecuted', () => {
                 const element = getWrapper();
                 element.setState({searchExecuted: true});
                 const formattedMessages = element.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(5);
+                expect(formattedMessages).toHaveLength(4);
             });
             test('correct amount when events & searchExecuted', () => {
                 const element = getWrapper()
@@ -121,7 +152,7 @@ describe('Search', () => {
                 const element = getWrapper();
                 element.setState({loading: true});
                 const formattedMessages = element.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(5);
+                expect(formattedMessages).toHaveLength(4);
             });
         });
 
@@ -134,11 +165,12 @@ describe('Search', () => {
             });
         });
 
-        describe('correct count to search results FormattedMessage', () => {
+        describe('correct count to search results FormattedMessage when search has been executed', () => {
             let element;
 
             beforeEach(() => {
                 element = getWrapper();
+                element.setState({searchExecuted: true});
             });
             test('when no results', () => {
                 const resultCount = element.find(FormattedMessage).at(3);
@@ -187,25 +219,14 @@ describe('Search', () => {
             })
         });
         describe('getResults', () => {
-            test('returns div when searchExecuted && !events.length > 0', () => {
+            test('returns null when searchExecuted && !events.length > 0', () => {
                 const wrapper = getWrapper();
                 wrapper.setState({searchExecuted: true, events:[]});
                 const instance = wrapper.instance();
                 const values = instance.getResults();
-                const results = shallow(values);
-                expect(results.find('div')).toHaveLength(1);
-                expect(results.find('div').prop('className')).toBe('search-no-results');
+                expect(values).toBe(null)
             });
-            test('returns FormattedMessage when searchExecuted && !events.length > 0', () => {
-                const wrapper = getWrapper();
-                wrapper.setState({searchExecuted: true, events:[]});
-                const instance = wrapper.instance();
-                const values = instance.getResults();
-                const results = shallow(values);
-                const expectedElement = results.find(FormattedMessage);
-                expect(expectedElement).toHaveLength(1);
-                expect(expectedElement.prop('id')).toBe('search-no-results');
-            });
+
             test('returns EventGrid when searchExecuted is true and events length is > 0', () => {
                 const wrapper = getWrapper();
                 const initEvents = ['first','second'];

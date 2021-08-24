@@ -40,14 +40,13 @@ class SearchPage extends React.Component {
         const {searchExecuted, events} = this.state
 
         return searchExecuted && !events.length > 0
-            ? <div className="search-no-results"><FormattedMessage id="search-no-results"/></div>
+            ? null
             : <EventGrid events={events} />
     }
 
     render() {
-        const {loading} = this.state
+        const {loading, searchExecuted} = this.state
         const {intl} = this.context
-        // Defined React Helmet title with intl
         const pageTitle = `Linkedevents - ${intl.formatMessage({id: `search-events`})}`
 
         return (
@@ -57,7 +56,16 @@ class SearchPage extends React.Component {
                 <p><FormattedMessage id="search-events-description"/></p>
                 <p><FormattedMessage id='pick-time-range' /></p>
                 <SearchBar onFormSubmit={(query, start, end) => this.searchEvents(query, start, end)}/>
-                <FormattedMessage id="search-results-count" values={{count: this.state.events.length}}>{txt => <p role="status">{txt}</p>}</FormattedMessage>
+                <div id="search-page-results-count-status" role="status" aria-live="polite" aria-atomic="true">
+                    {searchExecuted &&
+                        <FormattedMessage
+                            id="search-results-count"
+                            values={{count: this.state.events.length}}
+                        >
+                            {txt => <p>{txt}</p>}
+                        </FormattedMessage>
+                    }
+                </div>
                 <section className="container-fluid">
                     {loading
                         ? <div className="search-loading-spinner"><Spinner animation="border" role="status">
