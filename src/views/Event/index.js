@@ -242,7 +242,7 @@ class EventPage extends React.Component {
 
     render() {
         const {event, superEvent, loading, publisher} = this.state
-        const {editor} = this.props
+        const {editor, intl, userLocale} = this.props
 
         const formattedEvent = mapAPIDataToUIFormat(this.state.event)
         const isUmbrellaEvent = event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
@@ -254,7 +254,9 @@ class EventPage extends React.Component {
         const isCourses = event.type_id === 2
         const isHobby = event.type_id === 4
         const publishedText = this.getPublishedText();
-        const pageTitle = `Linkedevents - ${getStringWithLocale(event, 'name')}`
+        const eventName = getStringWithLocale(event, 'name', userLocale.locale)
+        const title = eventName ? eventName : intl.formatMessage({id: 'event-page-default-title'})
+        const pageTitle = `Linkedevents - ${title}`
 
         return (
             <Fragment>
@@ -315,11 +317,13 @@ EventPage.propTypes = {
     replaceData: PropTypes.func,
     routerPush: PropTypes.func,
     confirm: PropTypes.func,
+    userLocale: PropTypes.object,
 }
 
 const mapStateToProps = (state) => ({
     user: state.user,
     editor: state.editor,
+    userLocale: state.userLocale,
 })
 
 const mapDispatchToProps = (dispatch) => ({

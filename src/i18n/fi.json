@@ -96,6 +96,7 @@
 
     "no-value": "-kenttää ei ole täytetty.",
 
+    "event-page-default-title": "Tapahtumasivu",
     "event-picture-header": "Määritä kuva*",
     "event-description-fields-header": "Tapahtuman kuvaus",
     "event-locationDate-form-header": "Syötä paikka ja aika*",

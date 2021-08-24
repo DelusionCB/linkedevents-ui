@@ -95,6 +95,7 @@
 
     "no-value": "field is empty.",
 
+    "event-page-default-title": "Event page",
     "event-picture-header": "Set image*",
     "event-locationDate-form-header": "Write place and time*",
     "event-description-fields-header": "Event description",

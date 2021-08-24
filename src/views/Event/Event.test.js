@@ -7,6 +7,7 @@ import Badge from 'react-bootstrap/Badge';
 import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
 import constants from 'src/constants'
+import {getStringWithLocale} from '../../utils/locale.js';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -14,6 +15,9 @@ const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
     intl,
+    userLocale: {
+        locale: 'fi',
+    },
 };
 
 const {
@@ -27,11 +31,6 @@ describe('EventPage', () => {
     function getWrapper(props) {
         return shallow(<UnconnectedEventPage {...defaultProps} {...props} />, {context: {intl}});
     }
-    test('Check react-helmet title prop', () => {
-        const wrapper = getWrapper().find(Helmet);
-        const pageTitle = wrapper.prop('title');
-        expect(pageTitle).toBe('Linkedevents - ');
-    });
 
     describe('functions', () => {
         describe('componentDidUpdate', () => {
@@ -60,6 +59,25 @@ describe('EventPage', () => {
         });
     });
     describe('render', () => {
+        describe('Helmet', () => {
+            test('with correct props when state.event is not empty', () => {
+                const event = {id: 'test-id', name: {en: 'test name'}}
+                const wrapper = getWrapper()
+                const instance = wrapper.instance()
+                instance.setState({event})
+                const helmet = wrapper.find(Helmet)
+                expect(helmet).toHaveLength(1)
+                expect(helmet.prop('title')).toBe(
+                    'Linkedevents - ' + getStringWithLocale(event, 'name', defaultProps.userLocale.locale)
+                )
+            })
+
+            test('with correct props when state.event is empty', () => {
+                const helmet = getWrapper().find(Helmet);
+                expect(helmet).toHaveLength(1)
+                expect(helmet.prop('title')).toBe('Linkedevents - ' + intl.formatMessage({id: 'event-page-default-title'}))
+            })
+        })
         describe('event badges', () => {
             test('based on event_status', () => {
                 const wrapper = getWrapper();
