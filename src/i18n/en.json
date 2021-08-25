@@ -366,8 +366,8 @@
 
     "editor-tip-time-start": "Choose if your event is a single event or a serial event.",
     "editor-tip-time-start-end": "A serial event consists of multiple sub-events, a serial event must contain at least 2 and up to 65 sub-events.",
-    "editor-tip-time-type": "Add new occasion = Add sub-events to a serial event.",
-    "editor-tip-time-end": "Regularly recurring event = add regularly recurring events, for example a weekly performance on the same day.",
+    "editor-tip-time-type": "Add new occasion: add sub-events to a serial event.",
+    "editor-tip-time-end": "Regularly recurring event: add regularly recurring events, for example a weekly performance on the same day.",
 
     "editor-tip-location": "The event can be virtual, physical or both.",
     "editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instruction to find an entrance.",
@@ -377,8 +377,8 @@
     "editor-tip-umbrella-sub-event": "If you wish to add this event under an umbrella event, you may do so from the associated ",
     "editor-tip-umbrella-sub-event-link": "top level event",
 
-    "editor-tip-umbrella-selection": "Umbrella event = The event brings together several other events. For example, Arts Night or Movie Day.",
-    "editor-tip-umbrella-selection1": "Part of a umbrella event = The event is part of a larger event. For example, a writers' meeting on Arts Night.",
+    "editor-tip-umbrella-selection": "Umbrella event: the event brings together several other events. For example, Arts Night or Movie Day.",
+    "editor-tip-umbrella-selection1": "Part of a umbrella event: the event is part of a larger event. For example, a writers' meeting on Arts Night.",
     "editor-tip-eventtype-disable": "Delete the added times, if you would like to change the event recurrence.",
     "editor-tip-required": "Fields marked with an asterisk (*) are mandatory.",
 
@@ -451,8 +451,8 @@
     "image-page": "Page {n}",
     "image-pagination": "Paging of the images",
     "image-modal-image-license-permission": "I have permission to use this image.",
-    "image-modal-image-license-explanation-event-only": "Image may be used only for this event = Image use is limited to this event",
-    "image-modal-image-license-explanation-cc-by": "CC BY 4.0 = Image is free to share and use, as long as a link to license is provided (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>additional information about CC BY 4.0. Opens in a new browser tab</a>).",
+    "image-modal-image-license-explanation-event-only": "Image may be used only for this event: image use is limited to this event",
+    "image-modal-image-license-explanation-cc-by": "CC BY 4.0: image is free to share and use, as long as a link to license is provided (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>additional information about CC BY 4.0. Opens in a new browser tab</a>).",
     "image-modal-view-terms-paragraph-text": "Prior to uploading a new image, get to know the <a href='/help#images' target='_blank' rel='noopener noreferrer'>image terms and recommendations (opens in a new browser tab).</a>",
     "image-modal-view-terms-link-text": "image terms and recommendations.",
     "image-modal-save-button-text": "Save image",

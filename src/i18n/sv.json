@@ -380,8 +380,8 @@
 
     "editor-tip-time-start": "Välj mellan enskilt eller återkommande evenemang.",
     "editor-tip-time-start-end": "Ett återkommande evenemang består av flera evenemang, det måste innehålla åtminstone 2 ända upp till 65 evenemang.",
-    "editor-tip-time-type": "Lägg till en ny tidpunkt = lägg till återkommande evenemang till en serie",
-    "editor-tip-time-end": "Ett regelbundet återkommande evenemang = lägg till regelbundet återkommande tider som upprepas varje vecka. (t.ex en teaterföreställning som upprepas varje dag)",
+    "editor-tip-time-type": "Lägg till en ny tidpunkt: lägg till återkommande evenemang till en serie.",
+    "editor-tip-time-end": "Ett regelbundet återkommande evenemang: lägg till regelbundet återkommande tider som upprepas varje vecka. (t.ex en teaterföreställning som upprepas varje dag)",
 
     "editor-tip-location": "Evenemanget kan vara virtuellt, fysiskt eller båda.",
     "editor-tip-location-internet": "Om evenemanget ordnas på distans över internet, välj då Virtuellt evenemang som evenemangsplats, samt mata in en URL. Du kan ange ytterligare information för att hitta evenemangsplatsen, till exempel konferensrummets namn eller instruktioner för att hitta ingången.",
@@ -391,8 +391,8 @@
     "editor-tip-umbrella-sub-event": "Om du vill tillägga detta evenemang som en del av ett paraplyevenemang, gör det",
     "editor-tip-umbrella-sub-event-link": "seriens samlande evenemang",
 
-    "editor-tip-umbrella-selection": "Paraplyevenemang = Evenemanget är en samling andra evenemang. T.ex Konstens natt.",
-    "editor-tip-umbrella-selection1": "Del av ett paraplyevenemang = Evenemanget är en del av ett störe evenemang. T.ex Författarträff under Konstens natt.",
+    "editor-tip-umbrella-selection": "Paraplyevenemang: evenemanget är en samling andra evenemang. T.ex Konstens natt.",
+    "editor-tip-umbrella-selection1": "Del av ett paraplyevenemang: evenemanget är en del av ett störe evenemang. T.ex Författarträff under Konstens natt.",
     "editor-tip-required": "Obligatoriska fält är utmärkta med en asterisk (*).",
     "editor-tip-eventtype-disable": "Radera tiderna om du vill byta evenemangets repetition.",
 
@@ -456,8 +456,8 @@
     "image-page": "Sidan {n}",
     "image-pagination": "Bildernas sidväxling",
     "image-modal-image-license-permission": "Jag har tillstånd att använda bilden.",
-    "image-modal-image-license-explanation-event-only": "Användningen begränsad till anknytning med evenemanget = Bildens användning är begränsat till detta evenemang.",
-    "image-modal-image-license-explanation-cc-by": "CC BY 4.0 = Bilden får delas och bearbetas fritt så länge som upphovspersonen anges. Välj alltid om bilden har denna licens. (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>mer information om CC BY 4.0. Öppnas i en ny flik</a>).",
+    "image-modal-image-license-explanation-event-only": "Användningen begränsad till anknytning med evenemanget: bildens användning är begränsat till detta evenemang.",
+    "image-modal-image-license-explanation-cc-by": "CC BY 4.0: bilden får delas och bearbetas fritt så länge som upphovspersonen anges. Välj alltid om bilden har denna licens. (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>mer information om CC BY 4.0. Öppnas i en ny flik</a>).",
     "image-modal-view-terms-paragraph-text": "Innan du tillägger en ny bild, bekanta dig med <a href='/help#images' target='_blank' rel='noopener noreferrer'>villkoren och rekommendationer för tilläggandet av bilder (öppnas i en ny flik).</a>",
     "image-modal-view-terms-link-text": "villkoren och rekommendationer för tilläggandet av bilder.",
     "image-modal-save-button-text": "Spara uppgifterna",
