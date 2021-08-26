@@ -75,12 +75,12 @@ const EventItem = (props) => {
     let convertedStartingTime = ''
     if (getStartingDay) {
         const time = getStartingDay.split('T')
-        convertedStartingTime = time[1].split('', 5)
+        convertedStartingTime = time[1] ? time[1].split('', 5) : ''
     }
     let convertedEndingTime = ''
     if (getEndingDay) {
         const time = getEndingDay.split('T')
-        convertedEndingTime = time[1].split('', 5)
+        convertedEndingTime = time[1] ? time[1].split('', 5) : ''
     }
 
     let shortDescription = getStringWithLocale(props.event, 'short_description', props.locale)
