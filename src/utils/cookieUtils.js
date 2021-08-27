@@ -1,38 +1,4 @@
-/**
- * Checks if cookie with the name 'CookieConsent' exists.
- * If it exists and its value is 'true' -> addCookieScript() is called.
- * @example
- * const consentValue = document.cookie.split('; ')
- * .find(row => row.startsWith('CookieConsent')).split('=')[1];
- * if (consentValue === 'true') { addCookieScript(); }
- */
-function checkCookieConsent() {
-    if (document.cookie.split('; ').find(row => row.startsWith('CookieConsent'))) {
-        const consentValue = document.cookie.split('; ').find(row => row.startsWith('CookieConsent')).split('=')[1];
-        if (consentValue === 'true') {
-            addCookieScript();
-        }
-    }
-}
-
-/**
- * Creates new script element with src from urls.analytics.
- *
- * Checks if a script element with that src already exists, if not then the element is appended to <head> .
- */
-function addCookieScript() {
-    const scriptElements = Object.values(document.getElementsByTagName('head')[0].getElementsByTagName('script'));
-    if (!scriptElements.find(element => element.src.includes('https://testivaraamo.turku.fi:8003/'))) {
-        const cookieScript = document.createElement('script');
-        cookieScript.type = 'text/javascript';
-        const content = document.createTextNode(
-            renderAnalyticsCode()
-        );
-        cookieScript.append(content);
-        document.getElementsByTagName('head')[0].appendChild(cookieScript);
-    }
-}
-
+import React from 'react';
 /**
  * Returns script string with siteId according to param
  * @param piwikSiteId
@@ -58,4 +24,31 @@ function renderAnalyticsCode(piwikSiteId = 5) {
       })();
     `;
 }
-export {checkCookieConsent, addCookieScript};
+/**
+ * Returns the Cookiebot <script> element
+ * @returns {JSX.Element}
+ */
+function getConsentScripts() {
+    return (
+        <script
+            id="Cookiebot"
+            src="https://consent.cookiebot.com/uc.js"
+            data-cbid="d539e734-20ad-43d1-a211-72007f8ec1f4"
+            data-blockingmode="auto"
+            type="text/javascript"
+        >
+        </script>
+    );
+}
+/**
+ * Returns a <script> element with src urls.analytics
+ * @returns {JSX.Element}
+ */
+function getCookieScripts() {
+    return (
+        <script type="text/javascript">{renderAnalyticsCode()}</script>
+    );
+}
+
+
+export default {getCookieScripts, getConsentScripts, renderAnalyticsCode};

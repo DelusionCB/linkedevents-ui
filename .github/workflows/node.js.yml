@@ -46,7 +46,7 @@ jobs:
         nocache: ${{ secrets.NOCACHE }}
         raven_id: ${{ secrets.RAVEN_ID }}
         city_theme: ${{ secrets.CITY_THEME }}
-        show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
+        enable_cookies: ${{ secrets.ENABLE_COOKIES }}
 
     - name: Running Codecov
       uses: codecov/codecov-action@v1

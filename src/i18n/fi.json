@@ -479,13 +479,6 @@
 
     "skiplink-shortcut": "Siirry sisältöön",
 
-	"cookieBar.accept": "Hyväksy kaikki evästeet",
-	"cookieBar.decline.text": "Hyväksy vain välttämättömät evästeet",
-	"cookieBar.decline.url": "https://www.google.fi/",
-	"cookieBar.description": "Käytämme evästeitä parantaaksemme käyttökokemustasi. Voit hyväksyä toiminnan kannalta välttämättömät evästeet tai kaikki evästeet, esim. käyttäjäanalytiikan.",
-	"cookieBar.link.text": "Linkki evästekäytäntöön",
-    "cookieBar.link.url": "https://testilinkedevents.turku.fi/cookie-policy/info-fi.html",
-
     "footer-accessibility": "Saavutettavuusseloste",
     "footer-city": "© Helsingin kaupunki",
     "footer-city1": "PL 1  (Pohjoisesplanadi 11-13) 00099 ",

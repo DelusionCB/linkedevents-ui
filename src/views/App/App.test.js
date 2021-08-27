@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import {checkCookieConsent} from '../../utils/cookieUtils';
-jest.mock('../../utils/cookieUtils');
+import cookieUtil from '../../utils/cookieUtils';
+jest.mock('../../utils/cookieUtils')
 import {UnconnectedApp} from './';
 import {mockUser} from '__mocks__/mockData';
 import NavStartingPoint from '../../components/NavStartingPoint';
@@ -33,7 +33,39 @@ describe('views/App/index', () => {
             const navPoint = getWrapper({location}).find(NavStartingPoint)
             expect(navPoint).toHaveLength(1)
             expect(navPoint.prop('location')).toBe(location)
+        });
+        describe('and ', () => {
+            afterEach(() => {
+                jest.clearAllMocks();
+                delete appSettings.enable_cookies;
+            })
+            test('calls getConsentScripts if appSettings.enable_cookies is true', () => {
+                appSettings.enable_cookies = true;
+                const wrapper = getWrapper();
+                expect(wrapper).toHaveLength(1);
+                expect(cookieUtil.getConsentScripts).toHaveBeenCalled();
+            });
+            test('does not call getConsentScripts if appSettings.enable_cookies is false', () => {
+                appSettings.enable_cookies = false;
+                const wrapper = getWrapper();
+                expect(wrapper).toHaveLength(1);
+                expect(cookieUtil.getConsentScripts).not.toHaveBeenCalled();
+            });
+            test('calls getCookieScripts if appSettings.enable_cookies is true', () => {
+                appSettings.enable_cookies = true;
+                const wrapper = getWrapper();
+                expect(wrapper).toHaveLength(1);
+                expect(cookieUtil.getCookieScripts).toHaveBeenCalled();
+            });
+            test('does not call getCookieScripts if appSettings.enable_cookies is false', () => {
+                appSettings.enable_cookies = false;
+                const wrapper = getWrapper();
+                expect(wrapper).toHaveLength(1);
+                expect(cookieUtil.getCookieScripts).not.toHaveBeenCalled();
+            });
         })
+
+
     })
 
     describe('componentWillMount', () => {
@@ -47,10 +79,6 @@ describe('views/App/index', () => {
 
             const wrapper = getWrapper({fetchKeywordSets: fetchKeywordSetsMock});
             expect(fetchKeywordSetsMock).toHaveBeenCalled();
-        });
-        test('checkCookieConsent is called', () => {
-            const wrapper = getWrapper();
-            expect(checkCookieConsent).toHaveBeenCalled();
         });
     });
 

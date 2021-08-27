@@ -10,5 +10,5 @@
     "openid_audience": "OPENID_AUDIENCE",
     "openid_authority": "OPENID_AUTHORITY",
     "city_theme": false,
-    "show_cookie_bar": false
+    "enable_cookies": false
 }

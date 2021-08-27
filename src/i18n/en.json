@@ -475,13 +475,6 @@
 
     "skiplink-shortcut": "Move to content",
 
-    "cookieBar.accept": "Accept all cookies",
-    "cookieBar.decline.text": "Accept only functional cookies",
-	"cookieBar.decline.url": "https://www.google.com/",
-    "cookieBar.description": "We use cookies to improve your browsing experience. You can choose to only accept necessary functional cookies or all cookies, e.g. user analytics.",
-	"cookieBar.link.text": "Link to cookie policy",
-    "cookieBar.link.url": "https://testilinkedevents.turku.fi/cookie-policy/info-en.html",
-
 
     "preview-event": "Event information",
     "preview-event-button": "Preview event information",

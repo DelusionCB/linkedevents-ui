@@ -24,8 +24,7 @@ import Favicon from '../../assets/images/favicon'
 import MomentUtils from '@date-io/moment';
 import moment from 'moment'
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-import CookieBar from '../../components/CookieBar/CookieBar';
-import {checkCookieConsent} from '../../utils/cookieUtils';
+import cookieUtil from '../../utils/cookieUtils';
 import NavStartingPoint from '../../components/NavStartingPoint';
 
 // localized moment utils
@@ -66,8 +65,6 @@ class App extends React.Component {
         // Prefetch editor related hel.fi categories
         this.props.fetchKeywordSets()
 
-        // Check if CookieConsent is given
-        checkCookieConsent()
     }
 
     componentDidUpdate(prevProps) {
@@ -111,6 +108,8 @@ class App extends React.Component {
             <div className='main-wrapper'>
                 <Helmet>
                     <html lang={this.props.intl.locale} />
+                    {appSettings.enable_cookies && cookieUtil.getConsentScripts()}
+                    {appSettings.enable_cookies && cookieUtil.getCookieScripts()}
                 </Helmet>
                 <NavStartingPoint location={this.props.location}/>
                 <SkipLink />
@@ -149,7 +148,6 @@ class App extends React.Component {
                         </Button>
                     </ModalFooter>
                 </Modal>
-                {appSettings.show_cookie_bar && <CookieBar />}
                 <Footer />
             </div>
         )

@@ -482,12 +482,6 @@
 
     "skiplink-shortcut": "Gå till innehållet",
 
-	"cookieBar.accept": "Acceptera alla cookies",
-	"cookieBar.decline.text": "Acceptera endast funktionella cookies",
-	"cookieBar.decline.url": "https://www.google.se/",
-	"cookieBar.description": "Vi använder cookies för att förbättra din användarupplevelse. Du kan acceptera funktionella (nödvändiga) cookies eller alla cookies, t.ex. besökarstatistik.",
-	"cookieBar.link.text": "Länk till Cookie Policy",
-    "cookieBar.link.url": "https://testilinkedevents.turku.fi/cookie-policy/info-sv.html",
 
     "footer-accessibility": "Tillgänglighetsutlåtande",
     "footer-city": "© Helsingfors stad",
