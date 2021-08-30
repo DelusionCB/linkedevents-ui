@@ -94,6 +94,12 @@ const MultiLanguageValue = (props) => {
     }
 }
 
+MultiLanguageValue.propTypes = {
+    hidden: PropTypes.bool,
+    value: PropTypes.object,
+    labelKey: PropTypes.string.isRequired,
+}
+
 const TextValue = (props) => {
     if (_.isInteger(props.value) || (props.value && props.value.length !== undefined && props.value.length > 0)) {
         return (
@@ -116,6 +122,14 @@ const TextValue = (props) => {
             </div>
         )
     }
+}
+
+TextValue.propTypes = {
+    value: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
+    labelKey: PropTypes.string.isRequired,
 }
 
 const ImageValue = (props) => {
@@ -191,6 +205,12 @@ const DateTime = (props) => {
             </div>
         )
     }
+}
+
+DateTime.propTypes = {
+    value: PropTypes.string,
+    locale: PropTypes.string,
+    labelKey: PropTypes.string.isRequired,
 }
 
 const FormHeader = props => <h2>{props.children}</h2>
@@ -310,6 +330,7 @@ VirtualInfo.propTypes = {
     labelvirtual: PropTypes.string,
     labelvirtualURL: PropTypes.string,
     labelvirtualphysical: PropTypes.string,
+    location: PropTypes.object,
 }
 
 
@@ -356,6 +377,7 @@ SubEventListing.propTypes = {
     subLabel: PropTypes.string,
     noSubTimes: PropTypes.string,
     label: PropTypes.string,
+    locale: PropTypes.string,
 }
 
 const EventDetails = (props) => {

@@ -156,6 +156,8 @@ EventItem.defaultProps = {
 };
 EventItem.propTypes = {
     event: PropTypes.object,
+    locale: PropTypes.string,
+    homePage: PropTypes.bool,
 }
 
 EventGrid.propTypes = {
