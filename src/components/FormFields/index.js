@@ -85,8 +85,10 @@ class FormFields extends React.Component {
             headerLocationDate: false,
             headerImage: false,
             displayEvents: true,
+            createdRecurringEvents: false,
         }
 
+        this.closeRecurringEventModal = this.closeRecurringEventModal.bind(this)
         this.handleOrganizationChange = this.handleOrganizationChange.bind(this)
         this.toggleHeader = this.toggleHeader.bind(this)
     }
@@ -117,6 +119,11 @@ class FormFields extends React.Component {
         if (prevState.selectEventType === 'recurring' && Object.keys(this.props.editor.values.sub_events).length === 0) {
             this.toggleEventType({target: {value: 'single'}})
         }
+        
+        // if recurring was previously false and is true now -> reset back to false
+        if(!prevState.createdRecurringEvents && this.state.createdRecurringEvents){
+            this.setState({createdRecurringEvents: false})
+        }
 
     }
 
@@ -134,6 +141,17 @@ class FormFields extends React.Component {
 
     showRecurringEventDialog() {
         this.setState({showRecurringEvent: !this.state.showRecurringEvent})
+    }
+
+    /**
+     * Closes recurring event modal
+     * @param {bool} createdRecurringEvents were new events created before closing.
+     */
+    closeRecurringEventModal(createdRecurringEvents = false) {
+        this.setState({
+            showRecurringEvent: false,
+            createdRecurringEvents,
+        })
     }
 
     // Replace with more proper functionality - preferably something that will hide the button if event length == 0.
@@ -179,6 +197,7 @@ class FormFields extends React.Component {
 
     generateNewEventFields(events) {
         const {validationErrors} = this.props.editor;
+        const {createdRecurringEvents} = this.state
         const subEventErrors = {...validationErrors.sub_events} || {}
 
         let newEvents = []
@@ -195,7 +214,7 @@ class FormFields extends React.Component {
                         eventKey={key}
                         event={events[key]}
                         errors={subEventErrors[key] || {}}
-                        setInitialFocus={key === focusEvent}
+                        setInitialFocus={createdRecurringEvents ? false : key === focusEvent}
                         subErrors={this.props.editor.validationErrors}
                     />
                 )
@@ -729,6 +748,7 @@ class FormFields extends React.Component {
                                         </Button>
                                         {this.state.showRecurringEvent &&
                                                 <RecurringEvent
+                                                    closeModal={this.closeRecurringEventModal}
                                                     toggle={() => this.showRecurringEventDialog()}
                                                     isOpen={this.state.showRecurringEvent}
                                                     validationErrors={validationErrors}

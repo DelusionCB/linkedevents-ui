@@ -29,6 +29,7 @@ import EventMap from '../Map/EventMap';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import {mockKeywordSets, mockLanguages, mockUser, mockUserEvents} from '__mocks__/mockData';
 import CollapseButton from './CollapseButton/CollapseButton';
+import {NewEvent} from '../HelFormFields';
 
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
@@ -155,6 +156,82 @@ describe('FormField', () => {
                 instance.addNewEventDialog(true)
                 expect(setEventData).toHaveBeenCalledTimes(2)
                 expect(setEventData).toHaveBeenCalledWith(newEventObject, key)
+            })
+        })
+
+        describe('componentDidUpdate', () => {
+            test('calls setState with correct params when createdRecurringEvents was previously false and is true now', () => {
+                const instance = getWrapper().instance()
+                const spy = jest.spyOn(instance, 'setState')
+                instance.state.createdRecurringEvents = true
+                const prevProps = {...instance.props}
+                const prevState = {...instance.state, createdRecurringEvents: false}
+                instance.componentDidUpdate(prevProps, prevState)
+                expect(spy).toHaveBeenCalledWith({createdRecurringEvents: false})
+            })
+        })
+
+        describe('closeRecurringEventModal', () => {
+            test('calls setState with correct params when given createdRecurringEvents is false',  () => {
+                const instance = getWrapper().instance()
+                const spy = jest.spyOn(instance, 'setState')
+                instance.closeRecurringEventModal(false)
+                expect(spy).toHaveBeenCalledWith({
+                    showRecurringEvent: false,
+                    createdRecurringEvents: false,
+                })
+            })
+
+            test('calls setState with correct params when given createdRecurringEvents is true',  () => {
+                const instance = getWrapper().instance()
+                const spy = jest.spyOn(instance, 'setState')
+                instance.closeRecurringEventModal(true)
+                expect(spy).toHaveBeenCalledWith({
+                    showRecurringEvent: false,
+                    createdRecurringEvents: true,
+                })
+            })
+        })
+
+        describe('generateNewEventFields', () => {
+            const instance = getWrapper().instance()
+            const events = {0: {start_time: undefined}, 1: {start_time: undefined}}
+            const eventOne = <NewEvent
+                length={1}
+                key={0}
+                eventKey="0"
+                event={events[0]}
+                errors={{}}
+                setInitialFocus={true}
+                subErrors={instance.props.editor.validationErrors}
+            />
+            const eventTwo = <NewEvent
+                length={2}
+                key={1}
+                eventKey="1"
+                event={events[1]}
+                errors={{}}
+                setInitialFocus={false}
+                subErrors={instance.props.editor.validationErrors}
+            />
+            test('returns correct array of NewEvent components', () => {
+                const fields = instance.generateNewEventFields(events)
+                expect(fields).toStrictEqual([eventOne, eventTwo])
+            })
+
+            test('returns correct array of NewEvent components when createdRecurringEvents is true', () => {
+                instance.state.createdRecurringEvents = true
+                const fields = instance.generateNewEventFields(events)
+                const eventOneNoFocus = <NewEvent
+                    length={1}
+                    key={0}
+                    eventKey="0"
+                    event={events[0]}
+                    errors={{}}
+                    setInitialFocus={false}
+                    subErrors={instance.props.editor.validationErrors}
+                />
+                expect(fields).toStrictEqual([eventOneNoFocus, eventTwo])
             })
         })
     })
@@ -409,6 +486,7 @@ describe('FormField', () => {
                 const instance = wrapper.instance();
                 const recurring = wrapper.find(RecurringEvent)
                 test('correct props for RecurringEvent', () => {
+                    expect(recurring.prop('closeModal')).toBe(instance.closeRecurringEventModal)
                     expect(recurring.prop('toggle')).toBeDefined()
                     expect(recurring.prop('isOpen')).toBe(instance.state.showRecurringEvent)
                     expect(recurring.prop('validationErrors')).toBe(defaultProps.editor.validationErrors)

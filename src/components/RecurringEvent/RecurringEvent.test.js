@@ -14,6 +14,7 @@ const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {}
 const {intl} = intlProvider.getChildContext();
 const dispatch = jest.fn()
 const defaultProps = {
+    closeModal: () => null,
     values: {
         sub_events: {},
     },
@@ -247,6 +248,66 @@ describe('RecurringEvent', () => {
 
                 expect(wrapper.state('subEvents')['overMaxAmount']).toBe(false)
                 expect(wrapper.state('subEvents')['newSubCount']).toBe(31)
+            })
+
+            describe('props.closeModal', () => {
+                const closeModal = jest.fn()
+                afterEach(() => {
+                    closeModal.mockClear()
+                })
+
+                const daysSelected = {
+                    monday: false,
+                    tuesday: false,
+                    wednesday: false,
+                    thursday: false,
+                    friday: false,
+                    saturday: true,
+                    sunday: false,
+                }
+
+                test('is called when counter is false, there are no errors and subevents isnt over max', () => {
+                    const instance = getWrapper({closeModal}).instance()
+                    const recurringStartDate = moment('2021-08-07 00:00:00')
+                    const recurringEndDate = moment('2021-08-14 00:00:00')
+                    instance.setState({daysSelected, recurringStartDate, recurringEndDate})
+                    const counter = false
+                    instance.generateEvents(counter)
+                    expect(closeModal).toHaveBeenCalledTimes(1)
+                    expect(closeModal).toHaveBeenCalledWith(true)
+                })
+
+                describe('is not called', () => {
+                    test('when counter is true', () => {
+                        const instance = getWrapper({closeModal}).instance()
+                        const recurringStartDate = moment('2021-08-07 00:00:00')
+                        const recurringEndDate = moment('2021-08-14 00:00:00')
+                        instance.setState({daysSelected, recurringStartDate, recurringEndDate})
+                        const counter = true
+                        instance.generateEvents(counter)
+                        expect(closeModal).toHaveBeenCalledTimes(0)
+                    })
+
+                    test('when there are errors', () => {
+                        const instance = getWrapper({closeModal}).instance()
+                        const recurringStartDate = moment('2021-08-50 00:00:00')
+                        const recurringEndDate = moment('2021-08-14 00:00:00')
+                        instance.setState({daysSelected, recurringStartDate, recurringEndDate})
+                        const counter = false
+                        instance.generateEvents(counter)
+                        expect(closeModal).toHaveBeenCalledTimes(0)
+                    })
+    
+                    test('when subevents is over max', () => {
+                        const instance = getWrapper({closeModal}).instance()
+                        const recurringStartDate = moment('2021-08-07 00:00:00')
+                        const recurringEndDate = moment('2023-01-01 00:00:00')
+                        instance.setState({daysSelected, recurringStartDate, recurringEndDate})
+                        const counter = false
+                        instance.generateEvents(counter)
+                        expect(closeModal).toHaveBeenCalledTimes(0)
+                    })
+                })                
             })
         })
     });

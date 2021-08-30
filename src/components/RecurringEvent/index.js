@@ -27,6 +27,7 @@ class RecurringEvent extends React.Component {
     }
 
     static propTypes = {
+        closeModal: PropTypes.func.isRequired,
         values: PropTypes.object,
         toggle: PropTypes.func,
         validationErrors: PropTypes.oneOfType([
@@ -229,7 +230,8 @@ class RecurringEvent extends React.Component {
                     for (const event of newSubEvents) {
                         this.context.dispatch(setEventData(event[0],event[1]));
                     }
-                    this.props.toggle()
+                    // close modal and let the form know new recurring events were created
+                    this.props.closeModal(true)
                     this.context.dispatch(sortSubEvents())
                 }
             }
