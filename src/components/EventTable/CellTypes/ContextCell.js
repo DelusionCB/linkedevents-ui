@@ -33,9 +33,9 @@ class ContextCell extends React.Component {
     getEventType() {
         const {event} = this.props;
         return {
-            isEvent: event.type_id === 1,
-            isCourse: event.type_id === 2,
-            isHobby: event.type_id === 4,
+            isEvent: event.type_id === constants.EVENT_TYPE.GENERAL,
+            isCourse: event.type_id === constants.EVENT_TYPE.COURSE,
+            isHobby: event.type_id === constants.EVENT_TYPE.HOBBIES,
         }}
 
     render() {

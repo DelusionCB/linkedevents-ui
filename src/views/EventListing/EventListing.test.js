@@ -58,7 +58,7 @@ import React from 'react';
 import thunk from 'redux-thunk';
 import {shallow} from 'enzyme';
 import {IntlProvider, FormattedMessage} from 'react-intl';
-import {Input} from 'reactstrap';
+import {Collapse} from 'reactstrap';
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper';
 import ConnectedEventListing, {EventListing} from './index';
 import {mockCurrentTime, resetMockDate} from '../../../__mocks__/testMocks';
@@ -66,6 +66,9 @@ import {mockUserEvents, mockUser} from '../../../__mocks__/mockData';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 import {Helmet} from 'react-helmet'
+import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
+import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
+import {HelCheckbox} from '../../components/HelFormFields';
 
 const mockStore = configureStore([thunk]);
 const initialStore = {
@@ -139,11 +142,13 @@ describe('EventListing', () => {
 
     describe('render when not logged in', () => {
         const wrapper = getWrapper({user: null});
-        const inputElements = wrapper.find(Input);
+        const radioElements = wrapper.find(SelectorRadio);
+        const boxElements = wrapper.find(HelCheckbox)
         const formattedMessages = wrapper.find(FormattedMessage);
 
         test('no radio-inputs without user permissions', () => {
-            expect(inputElements).toHaveLength(0);
+            expect(radioElements).toHaveLength(0);
+            expect(boxElements).toHaveLength(0);
         });
 
         test('correct amount of FormattedMessages without user permissions', () => {
@@ -151,44 +156,91 @@ describe('EventListing', () => {
         });
     });
 
-    describe('render when logged in', () => {
-        const wrapper = getWrapper();
-        const formattedMessages = wrapper.find(FormattedMessage);
-        const instance = wrapper.instance();
+    describe('components', () => {
 
-        test('contains radio-inputs with correct props', () => {
-            const inputElements = wrapper.find('.col-sm-12').find('input');
-            const eventLanguages = ['all', 'fi', 'sv', 'en'];
-            expect(inputElements).toHaveLength(4);
-            inputElements.forEach((element, index) => {
-                expect(element.prop('value')).toBe(eventLanguages[index]);
-                expect(element.prop('type')).toBe('radio');
-                expect(element.prop('onChange')).toBe(instance.toggleEventLanguages);
+        describe('react-helmet', () => {
+            const wrapper = getWrapper().find(Helmet);
+            const pageTitle = wrapper.prop('title');
+            test('react-helmet is defined and gets title prop', () => {
+                expect(wrapper).toBeDefined();
+                expect(pageTitle).toBe('Linkedevents - Tapahtumien hallinta');
             });
         });
+        describe('helCheckBoxes', () => {
+            test('correct props', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const checkBox = wrapper.find('.row').at(2).find(HelCheckbox)
+                const intlIDs = ['event', 'hobby']
+                const elementIds = ['eventgeneral', 'eventhobbies']
 
-        test('contains user-input with correct props', () => {
-            const userInputElement = wrapper.find('.user-events-toggle').find('input');
-            expect(userInputElement).toHaveLength(1);
+                expect(checkBox).toHaveLength(2)
+                checkBox.forEach((box, index) => {
+                    expect(box.prop('label')).toEqual(<FormattedMessage id={intlIDs[index]} />)
+                    expect(box.prop('fieldID')).toBe(elementIds[index]);
+                    expect(box.prop('defaultChecked')).toBe(instance.checkEventTypes(elementIds[index]))
+                    expect(box.prop('onChange')).toBe(instance.toggleEventTypes)
+                    expect(box.prop('disabled')).toBe(instance.disableEventTypes(elementIds[index]))
+                })
+            })
+            test('user-toggle checkbox', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const userBoxElement = wrapper.find(HelCheckbox).at(0)
+                expect(userBoxElement.prop('label')).toEqual(<FormattedMessage id={'user-events-toggle'} />)
+                expect(userBoxElement.prop('fieldID')).toBe('user-events-toggle');
+                expect(userBoxElement.prop('defaultChecked')).toBe(wrapper.state('showCreatedByUser'))
+                expect(userBoxElement.prop('onChange')).toBe(instance.toggleUserEvents)
+            })
+        })
 
-            expect(userInputElement.prop('type')).toBe('checkbox');
-            expect(userInputElement.prop('onChange')).toBe(instance.toggleUserEvents);
-        });
+        describe('formattedMessages', () => {
+            test('correct amount', () => {
+                const wrapper = getWrapper();
+                const formattedMessages = wrapper.find(FormattedMessage);
+                expect(formattedMessages).toHaveLength(4);
+            })
+        })
+        describe('selectorRadios', () => {
+            test('correct props & amount', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const inputElements = wrapper.find(SelectorRadio);
+                const eventLanguages = ['all', 'fi', 'sv', 'en'];
+                const eventLanguagesMobile = ['all', 'fi-mobile', 'sv-mobile', 'en-mobile']
+                const eventChecks = [true, false, false, false]
+                expect(inputElements).toHaveLength(4);
+                inputElements.forEach((element, index) => {
+                    expect(element.prop('ariaLabel')).toBe(intl.formatMessage({id: `filter-event-${eventLanguages[index]}`}));
+                    expect(element.prop('value')).toBe(eventLanguages[index]);
+                    expect(element.prop('checked')).toBe(eventChecks[index]);
+                    expect(element.prop('handleCheck')).toBe(instance.toggleEventLanguages);
+                    expect(element.prop('messageID')).toBe(`filter-event-${eventLanguagesMobile[index]}`);
+                    expect(element.prop('name')).toBe('radiogroup');
+                });
+            })
+        })
+        describe('collapse', () => {
+            test('correct amount & props', () => {
+                const wrapper = getWrapper();
+                const collapseElement = wrapper.find(Collapse)
+                expect(collapseElement).toHaveLength(1)
+                expect(collapseElement.prop('isOpen')).toBe(wrapper.state('showListingTips'))
 
-        test('correct amount of FormattedMessages', () => {
-            expect(formattedMessages).toHaveLength(11);
-        });
-    });
-
-    describe('react-helmet', () => {
-        const wrapper = getWrapper().find(Helmet);
-        const pageTitle = wrapper.prop('title');
-        test('react-helmet is defined and gets title prop', () => {
-            expect(wrapper).toBeDefined();
-            expect(pageTitle).toBe('Linkedevents - Tapahtumien hallinta');
-        });
-    });
-
+            })
+        })
+        describe('collapseButton', () => {
+            test('correct amount & props', () => {
+                const wrapper = getWrapper();
+                const collapseButton = wrapper.find(CollapseButton);
+                expect(collapseButton).toHaveLength(1)
+                expect(collapseButton.prop('id')).toBe('listingTips')
+                expect(collapseButton.prop('isOpen')).toBe(wrapper.state('showListingTips'))
+                expect(collapseButton.prop('targetCollapseNameId')).toBe('events-management-tip')
+                expect(collapseButton.prop('toggleHeader')).toBeDefined()
+            })
+        })
+    })
     describe('methods', () => {
         describe('toggleUserEvents', () => {
             test('sets state for showCreatedByUser according to event.target.checked', () => {
@@ -295,5 +347,43 @@ describe('EventListing', () => {
                 expect(wrapper.state('tableData').pageSize).toBe(50);
             });
         });
+        describe('checkEventTypes', () => {
+            const event = (id) => ({target: {id: id}});
+            test('is called', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const checkTypes = jest.spyOn(instance, 'checkEventTypes')
+                instance.toggleEventTypes(event('eventgeneral'))
+                expect(checkTypes).toHaveBeenCalled()
+            })
+        })
+        describe('disableEventTypes', () => {
+            const event = (id) => ({target: {id: id}});
+            test('is called', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const disableTypes = jest.spyOn(instance, 'disableEventTypes')
+                instance.toggleEventTypes(event('eventgeneral'))
+                expect(disableTypes).toHaveBeenCalled()
+            })
+        })
+        describe('toggleEventTypes', () => {
+            const event = (id) => ({target: {id: id}});
+            test('remove eventgeneral from state', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(wrapper.state('showEventType')).toEqual(['eventgeneral', 'eventhobbies'])
+                instance.toggleEventTypes(event('eventgeneral'))
+                expect(wrapper.state('showEventType')).toEqual(['eventhobbies'])
+            })
+            test('add eventgeneral to state', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                wrapper.setState({showEventType: ['eventhobbies']})
+                expect(wrapper.state('showEventType')).toEqual(['eventhobbies'])
+                instance.toggleEventTypes(event('eventgeneral'))
+                expect(wrapper.state('showEventType')).toEqual(['eventhobbies', 'eventgeneral'])
+            })
+        })
     });
 });

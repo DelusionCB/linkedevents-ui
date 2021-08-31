@@ -12,6 +12,9 @@ import {getStringWithLocale} from '../../utils/locale'
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {Badge} from 'reactstrap';
+import constants from '../../constants';
+
+const {EVENT_TYPE} = constants
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span ><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null
@@ -459,7 +462,7 @@ const EventDetails = (props) => {
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups" locale={intl.locale}/>
             <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages" locale={intl.locale}/>
 
-            {values['type_id'] !== 1 &&
+            {values['type_id'] !== EVENT_TYPE.GENERAL &&
                 <React.Fragment>
                     <FormHeader>
                         {intl.formatMessage({id: 'audience-age-restrictions'})}

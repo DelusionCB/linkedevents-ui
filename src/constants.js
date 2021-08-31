@@ -169,6 +169,12 @@ const constants = {
         PUBLIC: 'public',
     },
 
+    EVENT_TYPE: {
+        GENERAL: 'General',
+        COURSE: 'Course',
+        HOBBIES: 'Hobbies',
+    },
+
     TABLE_COLUMNS: TABLE_COLUMNS,
 
     TABLE_DATA_SHAPE: PropTypes.shape({

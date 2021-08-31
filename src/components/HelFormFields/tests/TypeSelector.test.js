@@ -6,6 +6,7 @@ import mapValues from 'lodash/mapValues';
 import {UnconnectedTypeSelector} from '../Selectors/TypeSelector';
 import SelectorRadio from '../Selectors/SelectorRadio';
 import {setData} from '../../../actions/editor'
+import constants from '../../../constants';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 
@@ -29,7 +30,7 @@ const defaultProps = {
     event: {},
     editor: {
         values: {
-            type_id: 1,
+            type_id: constants.EVENT_TYPE.GENERAL,
             sub_events: {},
             super_event: '',
             super_event_type: '',
@@ -52,14 +53,14 @@ describe('UmbrellaSelector', () => {
                     const radioElements = wrapper.find(SelectorRadio)
                     const elementIds = ['event', 'hobby']
                     const elementValues = ['event', 'hobby']
-                    const {type, isCreateView} = instance.state;
+                    const {type} = instance.state;
                     const elementStates = [type === 'event', type === 'hobby']
                     expect(radioElements).toHaveLength(2)
                     radioElements.forEach((radio, index) => {
                         expect(radio.prop('handleCheck')).toBe(instance.handleCheck);
                         expect(radio.prop('messageID')).toBe(elementIds[index]);
                         expect(radio.prop('value')).toBe(elementValues[index]);
-                        expect(radio.prop('aria-label')).toBe(intl.formatMessage({id: elementIds[index]}))
+                        expect(radio.prop('ariaLabel')).toBe(intl.formatMessage({id: elementIds[index]}))
                         expect(radio.prop('disabled')).toBe(!instance.state.isCreateView)
                         expect(radio.prop('checked')).toBe(elementStates[index])
                     })
@@ -78,7 +79,7 @@ describe('UmbrellaSelector', () => {
 
             const event = (string) => ({target: {value: string}});
             test('hobby', () => {
-                const expectedData = {type_id: 4}
+                const expectedData = {type_id: constants.EVENT_TYPE.HOBBIES}
                 expect(wrapper.state('type')).toBe('event');
                 wrapper.instance().handleCheck(event('hobby'));
                 expect(wrapper.state('type')).toBe('hobby');
@@ -87,7 +88,7 @@ describe('UmbrellaSelector', () => {
             })
 
             test('event', () => {
-                const expectedData = {type_id: 1}
+                const expectedData = {type_id: constants.EVENT_TYPE.GENERAL}
                 wrapper.instance().setState({type: 'hobby'})
                 expect(wrapper.state('type')).toBe('hobby');
                 wrapper.instance().handleCheck(event('event'));

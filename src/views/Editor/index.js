@@ -281,14 +281,14 @@ export class EditorPage extends React.Component {
         const {editor: {values: {type_id}}} = this.props;
         switch (type_id) {
             /*
-            case 2: {
+            case constants.EVENT_TYPE.COURSE: {
                 return 'coursesUI'
             }
              */
-            case 4: {
+            case constants.EVENT_TYPE.HOBBIES: {
                 return 'hobbyUI'
             }
-            default: {
+            case constants.EVENT_TYPE.GENERAL: {
                 return ''
             }
         }

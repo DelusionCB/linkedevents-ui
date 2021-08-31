@@ -8,6 +8,7 @@ import {Button, Form, FormGroup} from 'reactstrap';
 import fiMessages from 'src/i18n/fi.json';
 import {SearchBarWithoutIntl} from '../index'
 import CustomDatePicker from '../../CustomFormFields/Dateinputs/CustomDatePicker'
+import {HelCheckbox} from '../../HelFormFields';
 
 describe('SearchBar', () => {
     const testMessages = mapValues(fiMessages, (value, key) => value);
@@ -24,7 +25,7 @@ describe('SearchBar', () => {
     }
 
 
-    describe('renders', () => {
+    describe('components', () => {
         test('div search-bar', () => {
             const div = getWrapper().find('div.search-bar')
             expect(div).toHaveLength(1)
@@ -101,12 +102,47 @@ describe('SearchBar', () => {
             expect(msg).toHaveLength(1)
             expect(msg.prop('id')).toBe('search-event-button')
         })
-    })
+        describe('HelCheckBoxes', () => {
+            test('correct props', () => {
+                const wrapper = getWrapper();
+                const checkBox = wrapper.find(HelCheckbox)
+                const intlIDs = ['event', 'hobby']
+                const elementIds = ['eventgeneral', 'eventhobbies']
 
-    test('Button onClick calls onFormSubmit', () => {
-        const onFormSubmit = jest.fn()
-        const button = getWrapper({onFormSubmit}).find(Button)
-        button.simulate('click')
-        expect(onFormSubmit).toBeCalledTimes(1)
+                //contextType is state that contains values under as default
+                //States cannot be tested in functional components with Jest, that's why predefined array
+                const contextType = ['eventgeneral', 'eventhobbies'];
+
+                expect(checkBox).toHaveLength(2)
+                checkBox.forEach((box, index) => {
+                    expect(box.prop('label')).toEqual(<FormattedMessage id={intlIDs[index]} />)
+                    expect(box.prop('fieldID')).toBe(elementIds[index]);
+                    expect(box.prop('defaultChecked')).toBe(contextType.includes(elementIds[index]))
+                    expect(box.prop('onChange')).toBeDefined()
+                    expect(box.prop('disabled')).toBeDefined()
+                })
+            })
+        })
+    })
+    describe('methods', () => {
+        describe('onFormSubmit', () => {
+            test('Button onClick calls onFormSubmit', () => {
+                const onFormSubmit = jest.fn()
+                const button = getWrapper({onFormSubmit}).find(Button)
+                button.simulate('click')
+                expect(onFormSubmit).toBeCalledTimes(1)
+            })
+        })
+        describe('checkboxes', () => {
+            test('checked changes booleans', () => {
+                const wrapper = getWrapper();
+                const checkBox = wrapper.find(HelCheckbox)
+                checkBox.at(0).simulate('change', {target: {id: 'eventgeneral'}});
+                expect(wrapper.find(HelCheckbox).at(0).prop('disabled')).toBe(false)
+                expect(wrapper.find(HelCheckbox).at(0).prop('defaultChecked')).toBe(false)
+                expect(wrapper.find(HelCheckbox).at(1).prop('disabled')).toBe(true)
+                expect(wrapper.find(HelCheckbox).at(1).prop('defaultChecked')).toBe(true)
+            })
+        })
     })
 })

@@ -29,6 +29,7 @@ const {
     EVENT_STATUS,
     SUPER_EVENT_TYPE_UMBRELLA,
     SUPER_EVENT_TYPE_RECURRING,
+    EVENT_TYPE,
 } = constants
 
 class EventPage extends React.Component {
@@ -250,9 +251,9 @@ class EventPage extends React.Component {
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isCancelled = event.event_status === EVENT_STATUS.CANCELLED
         const isPostponed = event.event_status === EVENT_STATUS.POSTPONED
-        const isEvent = event.type_id === 1
-        const isCourses = event.type_id === 2
-        const isHobby = event.type_id === 4
+        const isEvent = event.type_id === EVENT_TYPE.GENERAL
+        const isCourses = event.type_id === EVENT_TYPE.COURSE
+        const isHobby = event.type_id === EVENT_TYPE.HOBBIES
         const publishedText = this.getPublishedText();
         const eventName = getStringWithLocale(event, 'name', userLocale.locale)
         const title = eventName ? eventName : intl.formatMessage({id: 'event-page-default-title'})

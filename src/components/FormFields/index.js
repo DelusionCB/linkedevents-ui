@@ -27,7 +27,6 @@ import TypeSelector from '../HelFormFields/Selectors/TypeSelector'
 import moment from 'moment'
 import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
 import CustomDateTime from '../CustomFormFields/Dateinputs/CustomDateTime'
-import CustomDateTimeField from '../CustomFormFields/Dateinputs/CustomDateTimeField'
 import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -408,7 +407,7 @@ class FormFields extends React.Component {
                         />
                     </div>
                 </div>
-                {values['type_id'] !== 1 &&
+                {values['type_id'] !== CONSTANTS.EVENT_TYPE.GENERAL &&
                 <div>
                     <h2>
                         <CollapseButton

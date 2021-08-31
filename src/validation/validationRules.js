@@ -185,7 +185,7 @@ var validations = {
         return true
     },
     requiredForCourses: function requiredForCourses(values, value){
-        if (values['type_id'] === 1) {
+        if (values['type_id'] === CONSTANT.EVENT_TYPE.GENERAL) {
             return true;
         }
         return this.required(values, value);
@@ -197,7 +197,7 @@ var validations = {
         return false
     },
     requiredStringForCourses: function requiredStringForCourses(values, value){
-        if (values['type_id'] === 1) {
+        if (values['type_id'] === CONSTANT.EVENT_TYPE.GENERAL) {
             return true;
         }
         return this.requiredString(values, value);

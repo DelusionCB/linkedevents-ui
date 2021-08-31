@@ -111,6 +111,7 @@
 
     "events-management": "Hantering av evenemang",
     "events-management-prompt": "för att redigera evenemangen.",
+    "events-management-tip": "Filtreringsinställningar",
     "events-management-description": "Bläddra i och redigera publicerade evenemang från din organisation.",
     "events-management-description-regular-user": "Bläddra i och redigera dina utkast och bläddra i dina publicerade evenemang. Publicerade evenemang kan inte redigeras.",
     "events-management-description-public-user": "Blädra och redigera dina publicerade evenemang.",
@@ -120,7 +121,8 @@
     "language-label.sv": "Innehåll finns på svenska",
     "language-label.en": "Innehåll finns på engelska",
 
-    "filter-event-languages": "Blädra evenemang med innehål på språk:",
+    "filter-event-languages": "Bläddra i innehållet, vars språk är:",
+    "filter-event-type": "Bläddra i innehållet, vars typ är:",
     "filter-event-all": "Alla språk",
     "filter-event-fi": "Finska",
     "filter-event-sv": "Svenska",

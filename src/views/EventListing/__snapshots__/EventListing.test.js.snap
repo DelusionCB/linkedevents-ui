@@ -22,174 +22,155 @@ exports[`EventListing Snapshot should render view by default 1`] = `
     />
   </p>
   <div
-    className="row event-settings"
+    className="event-settings"
   >
-    <div
-      className="col-sm-6"
+    <h2>
+      <InjectIntl(CollapseButton)
+        id="listingTips"
+        isOpen={false}
+        targetCollapseNameId="events-management-tip"
+        toggleHeader={[Function]}
+      />
+    </h2>
+    <Collapse
+      appear={false}
+      enter={true}
+      exit={true}
+      in={false}
+      isOpen={false}
+      mountOnEnter={false}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      tag="div"
+      timeout={350}
+      unmountOnExit={false}
     >
+      <hr
+        style={
+          Object {
+            "borderTop": "2px solid black",
+          }
+        }
+      />
       <div
-        className="custom-control custom-checkbox user-events-toggle"
-      >
-        <input
-          checked={false}
-          className="custom-control-input"
-          color="primary"
-          id="user-events-toggle"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <label
-          className="custom-control-label"
-          htmlFor="user-events-toggle"
-        >
-          <FormattedMessage
-            id="user-events-toggle"
-            values={Object {}}
-          />
-        </label>
-      </div>
-    </div>
-    <div
-      className="col-sm-6 radios"
-    >
-      <div
-        className="row"
-      >
-        <FormattedMessage
-          id="filter-event-languages"
-          values={Object {}}
-        />
-      </div>
-      <div
-        className="row"
+        className="col-sm-6 radios"
       >
         <div
-          className="col-sm-12"
+          className="row"
         >
           <div
-            className="custom-control custom-radio"
+            className="col-sm-12"
           >
-            <input
-              className="custom-control-input"
-              defaultChecked={true}
-              id="all"
-              name="radiogroup"
+            <HelCheckbox
+              defaultChecked={false}
+              fieldID="user-events-toggle"
+              label={
+                <FormattedMessage
+                  id="user-events-toggle"
+                  values={Object {}}
+                />
+              }
               onChange={[Function]}
-              type="radio"
+            />
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <FormattedMessage
+            id="filter-event-type"
+            values={Object {}}
+          />
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="col-sm-12"
+          >
+            <HelCheckbox
+              defaultChecked={true}
+              disabled={false}
+              fieldID="eventgeneral"
+              label={
+                <FormattedMessage
+                  id="event"
+                  values={Object {}}
+                />
+              }
+              onChange={[Function]}
+            />
+            <HelCheckbox
+              defaultChecked={true}
+              disabled={false}
+              fieldID="eventhobbies"
+              label={
+                <FormattedMessage
+                  id="hobby"
+                  values={Object {}}
+                />
+              }
+              onChange={[Function]}
+            />
+          </div>
+          <div
+            className="row"
+          >
+            <FormattedMessage
+              id="filter-event-languages"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="col-sm-12"
+          >
+            <SelectorRadio
+              ariaLabel="Kaikki kielet"
+              checked={true}
+              handleCheck={[Function]}
+              messageID="filter-event-all"
+              name="radiogroup"
               value="all"
             />
-            <label
-              className="custom-control-label"
-              htmlFor="all"
-            >
-              <FormattedMessage
-                id="filter-event-all"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="custom-control custom-radio"
-          >
-            <input
-              className="custom-control-input"
-              id="fi"
+            <SelectorRadio
+              ariaLabel="Suomeksi"
+              checked={false}
+              handleCheck={[Function]}
+              messageID="filter-event-fi-mobile"
               name="radiogroup"
-              onChange={[Function]}
-              type="radio"
               value="fi"
             />
-            <label
-              className="custom-control-label"
-              htmlFor="fi"
-            >
-              <div
-                className="filter-desktop"
-              >
-                <FormattedMessage
-                  id="filter-event-fi"
-                  values={Object {}}
-                />
-              </div>
-              <div
-                className="filter-mobile"
-              >
-                <FormattedMessage
-                  id="filter-event-fi-mobile"
-                  values={Object {}}
-                />
-              </div>
-            </label>
-          </div>
-          <div
-            className="custom-control custom-radio"
-          >
-            <input
-              className="custom-control-input"
-              id="sv"
+            <SelectorRadio
+              ariaLabel="Ruotsiksi"
+              checked={false}
+              handleCheck={[Function]}
+              messageID="filter-event-sv-mobile"
               name="radiogroup"
-              onChange={[Function]}
-              type="radio"
               value="sv"
             />
-            <label
-              className="custom-control-label"
-              htmlFor="sv"
-            >
-              <div
-                className="filter-desktop"
-              >
-                <FormattedMessage
-                  id="filter-event-sv"
-                  values={Object {}}
-                />
-              </div>
-              <div
-                className="filter-mobile"
-              >
-                <FormattedMessage
-                  id="filter-event-sv-mobile"
-                  values={Object {}}
-                />
-              </div>
-            </label>
-          </div>
-          <div
-            className="custom-control custom-radio"
-          >
-            <input
-              className="custom-control-input"
-              id="en"
+            <SelectorRadio
+              ariaLabel="Englanniksi"
+              checked={false}
+              handleCheck={[Function]}
+              messageID="filter-event-en-mobile"
               name="radiogroup"
-              onChange={[Function]}
-              type="radio"
               value="en"
             />
-            <label
-              className="custom-control-label"
-              htmlFor="en"
-            >
-              <div
-                className="filter-desktop"
-              >
-                <FormattedMessage
-                  id="filter-event-en"
-                  values={Object {}}
-                />
-              </div>
-              <div
-                className="filter-mobile"
-              >
-                <FormattedMessage
-                  id="filter-event-en-mobile"
-                  values={Object {}}
-                />
-              </div>
-            </label>
           </div>
         </div>
       </div>
-    </div>
+      <hr
+        style={
+          Object {
+            "borderTop": "2px solid black",
+          }
+        }
+      />
+    </Collapse>
   </div>
   <InjectIntl(EventTable)
     count={null}
@@ -448,6 +429,7 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "events-management-description-regular-user": "Selaa ja muokkaa omia luonnoksiasi ja selaa julkaistuja tapahtumiasi. Julkaistuja tapahtumia ei voi muokata.",
       "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
       "events-management-prompt": "muokataksesi tapahtumia.",
+      "events-management-tip": "Suodatuksen asetukset",
       "eventtable-close": "Piilota alisisältö",
       "eventtable-expand": "Näytä alisisältö",
       "external-url-here": "Kuvan URL",
@@ -457,9 +439,10 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "filter-event-en-mobile": "EN",
       "filter-event-fi": "Suomeksi",
       "filter-event-fi-mobile": "FI",
-      "filter-event-languages": "Selaa tapahtumia joilla on sisältöä kielellä:",
+      "filter-event-languages": "Selaa sisältöä joilla on tietoja kielellä:",
       "filter-event-sv": "Ruotsiksi",
       "filter-event-sv-mobile": "SV",
+      "filter-event-type": "Selaa sisältöä joiden tyyppi on:",
       "footer-accessibility": "Saavutettavuusseloste",
       "footer-city": "© Helsingin kaupunki",
       "footer-city1": "PL 1  (Pohjoisesplanadi 11-13) 00099 ",

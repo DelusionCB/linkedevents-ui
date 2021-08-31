@@ -17,7 +17,7 @@ class SearchPage extends React.Component {
         searchExecuted: false,
     }
 
-    searchEvents = async (searchQuery, startDate, endDate) => {
+    searchEvents = async (searchQuery, context, startDate, endDate) => {
         this.setState({loading: true})
 
         const queryParams = new EventQueryParams()
@@ -25,6 +25,7 @@ class SearchPage extends React.Component {
         queryParams.sort = 'start_time'
         queryParams.nocache = Date.now()
         queryParams.text = searchQuery
+        queryParams.type_id = context.join();
         if (startDate) queryParams.start = startDate.format('YYYY-MM-DD')
         if (endDate) queryParams.end = endDate.format('YYYY-MM-DD')
 
@@ -44,6 +45,7 @@ class SearchPage extends React.Component {
             : <EventGrid events={events} />
     }
 
+
     render() {
         const {loading, searchExecuted} = this.state
         const {intl} = this.context
@@ -55,7 +57,7 @@ class SearchPage extends React.Component {
                 <h1><FormattedMessage id={`search-events`}/></h1>
                 <p><FormattedMessage id="search-events-description"/></p>
                 <p><FormattedMessage id='pick-time-range' /></p>
-                <SearchBar onFormSubmit={(query, start, end) => this.searchEvents(query, start, end)}/>
+                <SearchBar onFormSubmit={(query, context, start, end) => this.searchEvents(query, context, start, end)}/>
                 <div id="search-page-results-count-status" role="status" aria-live="polite" aria-atomic="true">
                     {searchExecuted &&
                         <FormattedMessage

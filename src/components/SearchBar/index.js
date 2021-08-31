@@ -1,11 +1,12 @@
 import './index.scss';
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import CustomDatePicker from '../CustomFormFields/Dateinputs/CustomDatePicker'
 import {Button, Form, FormGroup} from 'reactstrap';
+import HelCheckbox from '../HelFormFields/HelCheckbox';
 
 const handleKeyPress = (event, startDate, endDate, onFormSubmit, setSearchQuery) => {
     if (event.key === 'Enter') {
@@ -17,10 +18,32 @@ const handleKeyPress = (event, startDate, endDate, onFormSubmit, setSearchQuery)
     }
 };
 
+
 const SearchBar = ({intl, onFormSubmit}) => {
     const [startDate, setStartDate] = useState(moment().startOf('day'));
     const [endDate, setEndDate] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [contextType, setContextType] = useState(['eventgeneral', 'eventhobbies'])
+
+    const disableEventTypes = (type) => {
+        return contextType.includes(type) && contextType.length === 1;
+    }
+
+    const checkEventTypes = (type) => {
+        return contextType.includes(type);
+    }
+
+    const toggleEventTypes = (e) => {
+        const typeID = e.target.id;
+        if (contextType.length === 1 && contextType.includes(typeID)) {
+            return null;
+        }
+        if (contextType.includes(typeID)) {
+            setContextType([...contextType.filter(string => string !== typeID)])
+        } else {
+            setContextType([...contextType, typeID])
+        }
+    };
 
     return (
         <div className='search-bar'>
@@ -44,6 +67,29 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     type="date"
                 />
             </div>
+            <div className='col-sm-12'>
+                <HelCheckbox
+                    label={<FormattedMessage id='event'/>}
+                    fieldID='eventgeneral'
+                    defaultChecked={checkEventTypes('eventgeneral')}
+                    onChange={(e) => toggleEventTypes(e)}
+                    disabled={disableEventTypes('eventgeneral')}
+                />
+                <HelCheckbox
+                    label={<FormattedMessage id='hobby'/>}
+                    fieldID='eventhobbies'
+                    defaultChecked={checkEventTypes('eventhobbies')}
+                    onChange={(e) => toggleEventTypes(e)}
+                    disabled={disableEventTypes('eventhobbies')}
+                />
+                {/*
+                                <HelCheckbox
+                                    label={<FormattedMessage id='course'/>}
+                                    fieldID='course'
+                                    //checked={showEventType.includes('eventcourse')}
+                                    onChange={(e, v) => this.toggleEventTypes(e, 'eventcourse')}
+                                /> */}
+            </div>
             <div className='search-bar--input event-input'>
                 <Form>                   
                     <FormGroup>
@@ -63,7 +109,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                 <Button
                     variant='contained'
                     color='primary'
-                    onClick={() => onFormSubmit(searchQuery, startDate, endDate)}>
+                    onClick={() => onFormSubmit(searchQuery, contextType, startDate, endDate)}>
                     <FormattedMessage id='search-event-button' />
                 </Button>
             </div>

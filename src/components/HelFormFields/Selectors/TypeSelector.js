@@ -4,7 +4,11 @@ import {setData} from '../../../actions/editor'
 import {injectIntl} from 'react-intl'
 import {get} from 'lodash'
 import SelectorRadio from './SelectorRadio';
+import constants from '../../../constants'
 
+const {
+    EVENT_TYPE,
+} = constants
 
 class TypeSelector extends React.Component {
 
@@ -24,9 +28,9 @@ class TypeSelector extends React.Component {
 
     handleMount = () => {
         const {event:{type_id}} = this.props
-        const editedEventTypeIsEvent = type_id === 1
-        //const editedEventTypeIsCourse = type_id === 2
-        const editedEventTypeIsHobby = type_id === 4
+        const editedEventTypeIsEvent = type_id === EVENT_TYPE.GENERAL
+        //const editedEventTypeIsCourse = type_id === 'Course'
+        const editedEventTypeIsHobby = type_id === EVENT_TYPE.HOBBIES
         let type = ''
         if (editedEventTypeIsEvent) {
             type = 'event'
@@ -57,9 +61,9 @@ class TypeSelector extends React.Component {
         // whether we are creating a new event. used to help determine the radio disabled state
         const updatedIsCreateView = get(router, ['location' ,'pathname'], '').includes('/event/create/new')
         const superEventIsNotNull = get(event, 'super_event_type') !== null
-        const editedEventTypeIsEvent = get(event, 'type_id') === 1
-        //const editedEventTypeIsCourse = get(event, 'type_id') === 2
-        const editedEventTypeIsHobby = get(event, 'type_id') === 4
+        const editedEventTypeIsEvent = get(event, 'type_id') === EVENT_TYPE.GENERAL
+        //const editedEventTypeIsCourse = get(event, 'type_id') === EVENT_TYPE.COURSE
+        const editedEventTypeIsHobby = get(event, 'type_id') === EVENT_TYPE.HOBBIES
 
         // update the isCreateView according to whether we're creating a new event or updating an existing one
         if (updatedIsCreateView !== isCreateView) {
@@ -67,11 +71,11 @@ class TypeSelector extends React.Component {
         }
         if(updatedIsCreateView && superEventIsNotNull && !values.type_id && type === '') {
             stateToSet.type = 'event'
-            this.context.dispatch(setData({type_id: 1}))
+            this.context.dispatch(setData({type_id: EVENT_TYPE.GENERAL}))
         }
 
         if ((!updatedIsCreateView
-            && editedEventTypeIsEvent) || (updatedIsCreateView && values.type_id === 1)
+            && editedEventTypeIsEvent) || (updatedIsCreateView && values.type_id === EVENT_TYPE.GENERAL)
         ) {
             stateToSet.type = 'event'
         }
@@ -83,7 +87,7 @@ class TypeSelector extends React.Component {
         }
          */
         if ((!updatedIsCreateView
-            && editedEventTypeIsHobby) || (updatedIsCreateView && values.type_id === 4)
+            && editedEventTypeIsHobby) || (updatedIsCreateView && values.type_id === EVENT_TYPE.HOBBIES)
         ) {
             stateToSet.type = 'hobby'
         }
@@ -116,18 +120,18 @@ class TypeSelector extends React.Component {
         const typeId = {}
         if (value === 'event') {
             states = {type: 'event'};
-            typeId.type_id = 1
+            typeId.type_id = EVENT_TYPE.GENERAL
         }
         /*
         This section should be enabled when there is support for courses
         else if (value === 'courses') {
             states = {type: 'courses'};
-            typeId.type_id = 2
+            typeId.type_id = EVENT_TYPE.COURSE
         }
          */
         else if (value === 'hobby') {
             states = {type: 'hobby'};
-            typeId.type_id = 4
+            typeId.type_id = EVENT_TYPE.HOBBIES
         }
         this.context.dispatch(setData(typeId))
         this.setState(states);
@@ -142,7 +146,7 @@ class TypeSelector extends React.Component {
                 <div className="col-sm-6">
                     <div className='custom-control-radio'>
                         <SelectorRadio
-                            aria-label={this.context.intl.formatMessage({id: `event`})}
+                            ariaLabel={this.context.intl.formatMessage({id: `event`})}
                             value='event'
                             checked={type === 'event'}
                             handleCheck={this.handleCheck}
@@ -155,7 +159,7 @@ class TypeSelector extends React.Component {
                         {/*
                         This section should be enabled when there is support for courses
                         <SelectorRadio
-                            aria-label={this.context.intl.formatMessage({id: `courses`})}
+                            ariaLabel={this.context.intl.formatMessage({id: `courses`})}
                             value='courses'
                             checked={type === 'courses'}
                             disabled={!isCreateView}
@@ -166,7 +170,7 @@ class TypeSelector extends React.Component {
                         </SelectorRadio>
                         */}
                         <SelectorRadio
-                            aria-label={this.context.intl.formatMessage({id: `hobby`})}
+                            ariaLabel={this.context.intl.formatMessage({id: `hobby`})}
                             value='hobby'
                             checked={type === 'hobby'}
                             disabled={!isCreateView}

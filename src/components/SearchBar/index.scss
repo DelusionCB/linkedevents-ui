@@ -37,6 +37,13 @@
             }
         }
     }
+    .col-sm-12 {
+        display: flex;
+        padding-left: 0;
+        .custom-control {
+            margin-right: 10px;
+        }
+    }
 }
 
 .search-bar--input {

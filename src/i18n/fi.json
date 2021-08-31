@@ -122,6 +122,7 @@
     "events-management": "Tapahtumien hallinta",
     "events-homepage": "Etusivu",
     "events-management-prompt": "muokataksesi tapahtumia.",
+    "events-management-tip": "Suodatuksen asetukset",
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkaistuja tapahtumia.",
     "events-management-description-regular-user": "Selaa ja muokkaa omia luonnoksiasi ja selaa julkaistuja tapahtumiasi. Julkaistuja tapahtumia ei voi muokata.",
     "events-management-description-public-user": "Selaa ja muokkaa julkaisemiasi tapahtumia.",
@@ -519,7 +520,8 @@
     "language-label.sv": "Sisältö on ruotsiksi",
     "language-label.en": "Sisältö on englanniksi",
 
-    "filter-event-languages": "Selaa tapahtumia joilla on sisältöä kielellä:",
+    "filter-event-languages": "Selaa sisältöä joilla on tietoja kielellä:",
+    "filter-event-type": "Selaa sisältöä joiden tyyppi on:",
     "filter-event-all": "Kaikki kielet",
     "filter-event-fi": "Suomeksi",
     "filter-event-sv": "Ruotsiksi",

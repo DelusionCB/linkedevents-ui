@@ -191,6 +191,7 @@ describe('Search', () => {
             const searchQuery = 'testing'
             const startDate = undefined
             const endDate = undefined
+            const context = ['eventgeneral']
 
             test('calls fetchEvents with correct parameters', () => {
                 const date = new Date(`2021`)
@@ -201,7 +202,8 @@ describe('Search', () => {
                 queryParams.sort = 'start_time'
                 queryParams.nocache = date
                 queryParams.text = searchQuery
-                instance.searchEvents(searchQuery, startDate, endDate)
+                queryParams.type_id = context.join()
+                instance.searchEvents(searchQuery, context, startDate, endDate)
                 expect(fetchEvents).toHaveBeenCalledTimes(1)
                 expect(fetchEvents).toHaveBeenCalledWith(queryParams);
             })
@@ -212,7 +214,7 @@ describe('Search', () => {
                 expect(instance.state.events).toStrictEqual(initialState.events)
                 expect(instance.state.searchExecuted).toBe(initialState.loading)
                 expect(instance.state.loading).toBe(initialState.searchExecuted)
-                await instance.searchEvents(searchQuery, startDate, endDate)
+                await instance.searchEvents(searchQuery, context, startDate, endDate)
                 expect(instance.state.events).toBe(mockUserEvents)
                 expect(instance.state.searchExecuted).toBe(true)
                 expect(instance.state.loading).toBe(false)

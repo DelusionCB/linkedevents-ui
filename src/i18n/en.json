@@ -113,6 +113,7 @@
     "events-management": "Manage events",
     "events-homepage": "Homepage",
     "events-management-prompt": "to manage events.",
+    "events-management-tip": "Filter settings",
     "events-management-description": "Browse and edit events published by your organization.",
     "events-management-description-regular-user": "Browse and edit your drafts and browse your published events. Published events can't be edited.",
     "events-management-description-public-user": "Browse and edit events published by you.",
@@ -122,7 +123,8 @@
     "language-label.sv": "Content is in Swedish",
     "language-label.en": "Content is in English",
 
-    "filter-event-languages": "Browse event with content in language:",
+    "filter-event-languages": "Browse contents, of which the language is:",
+    "filter-event-type": "Browse contents, of which the type is:",
     "filter-event-all": "All languages",
     "filter-event-fi": "Finnish",
     "filter-event-sv": "Swedish",

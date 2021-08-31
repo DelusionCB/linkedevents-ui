@@ -11,25 +11,32 @@ import EventTable from '../../components/EventTable/EventTable'
 import {getOrganizationMembershipIds} from '../../utils/user'
 import userManager from '../../utils/userManager';
 import {Helmet} from 'react-helmet';
-import {Label, Input} from 'reactstrap';
+import {Collapse} from 'reactstrap';
+import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
+import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
+import HelCheckbox from '../../components/HelFormFields/HelCheckbox';
 
 const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
 
 
 export class EventListing extends React.Component {
-
-    state = {
-        showCreatedByUser: false,
-        showContentLanguage: '',
-        tableData: {
-            events: [],
-            count: null,
-            paginationPage: 0,
-            pageSize: 25,
-            fetchComplete: true,
-            sortBy: 'last_modified_time',
-            sortDirection: 'desc',
-        },
+    constructor(props) {
+        super(props);
+        this.state = {
+            showCreatedByUser: false,
+            showContentLanguage: '',
+            showEventType: ['eventgeneral', 'eventhobbies'],
+            showListingTips: false,
+            tableData: {
+                events: [],
+                count: null,
+                paginationPage: 0,
+                pageSize: 25,
+                fetchComplete: true,
+                sortBy: 'last_modified_time',
+                sortDirection: 'desc',
+            },
+        };
     }
 
     componentDidMount() {
@@ -48,7 +55,7 @@ export class EventListing extends React.Component {
         if (isNull(oldUser) && user && !isNull(getOrganizationMembershipIds(user))) {
             this.fetchTableData()
         }
-        if (prevState.showContentLanguage !== this.state.showContentLanguage) {
+        if (prevState.showContentLanguage !== this.state.showContentLanguage || prevState.showEventType !== this.state.showEventType) {
             this.fetchTableData()
         }
     }
@@ -176,7 +183,57 @@ export class EventListing extends React.Component {
             }}),
         this.fetchTableData
         )};
-        
+
+
+    /**
+     * setState e.target.id to toggle Collapse
+     * @param e
+     */
+    toggleTip = (e) => {
+        this.setState({showListingTips: !this.state.showListingTips})
+    }
+
+    /**
+     * Sets checkbox checked if type is in state
+     * @param type
+     * @returns {boolean}
+     */
+    checkEventTypes = (type) => {
+        const {showEventType} = this.state;
+        return showEventType.includes(type);
+    }
+
+    /**
+     * Disables checkbox if length is 1 & state includes @param type
+     * @param type
+     * @returns {boolean}
+     */
+    disableEventTypes = (type) => {
+        const {showEventType} = this.state;
+        return showEventType.includes(type) && showEventType.length === 1;
+    }
+
+    /**
+     * Removes & adds typeId to state
+     * @param event
+     * @returns {null} if user is trying to click checked box when only one is checked
+     */
+    toggleEventTypes = (event) => {
+        const {showEventType} = this.state;
+        const typeID = event.target.id;
+        let newTypes = [...showEventType];
+        if (showEventType.length === 1 && showEventType.includes(typeID)) {
+            return null;
+        }
+        if (newTypes.includes(typeID)) {
+            newTypes = newTypes.filter(string => string !== typeID);
+        } else {
+            newTypes.push(typeID);
+        }
+        this.setState({
+            showEventType: newTypes,
+        });
+    };
 
 
     /**
@@ -227,13 +284,12 @@ export class EventListing extends React.Component {
      */
     getDefaultEventQueryParams = () => {
         const {user} = this.props
-        const {showCreatedByUser, tableData: {sortBy, sortDirection, pageSize}} = this.state
+        const {showCreatedByUser, showEventType, tableData: {sortBy, sortDirection, pageSize}} = this.state
         const userType = get(user, 'userType')
         const publisher = userType === USER_TYPE.ADMIN && !showCreatedByUser
             ? getOrganizationMembershipIds(user)
             : null
         const useCreatedBy = userType === USER_TYPE.REGULAR && USER_TYPE.PUBLIC || showCreatedByUser
-
         const queryParams = new EventQueryParams()
         queryParams.super_event = 'none'
         queryParams.publication_status = this.getPublicationStatus()
@@ -243,6 +299,7 @@ export class EventListing extends React.Component {
         queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
         queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
         queryParams.created_by = useCreatedBy ? 'me' : null
+        queryParams.type_id = showEventType.join();
         if (user.userType === 'public') {
             queryParams.created_by = 'me'
         } else {
@@ -267,6 +324,7 @@ export class EventListing extends React.Component {
         const {intl} = this.context;
         const {
             showCreatedByUser,
+            showContentLanguage,
             tableData: {
                 events,
                 fetchComplete,
@@ -313,89 +371,103 @@ export class EventListing extends React.Component {
                     </p>
                 }
                 {!isRegularUser &&
-                <div className='row event-settings'>
-                    {!isPublicUser &&
-                    <div className='col-sm-6'>
-                        <div className='custom-control custom-checkbox user-events-toggle'>
-                            <input
-                                className='custom-control-input'
-                                id='user-events-toggle'
-                                type='checkbox'
-                                color="primary"
-                                onChange={this.toggleUserEvents}
-                                checked={showCreatedByUser}
-                            />
-                            <label className='custom-control-label' htmlFor='user-events-toggle'>
-                                {<FormattedMessage id={'user-events-toggle'} />}
-                            </label>
-                        </div>
-                    </div>
-                    }
-                    <div className='col-sm-6 radios'>
-                        <div className='row'>
-                            <FormattedMessage id='filter-event-languages'/>
-                        </div>
-                        <div className='row'>
-                            <div className='col-sm-12'>
-                                <div className='custom-control custom-radio'>
-                                    <input
-                                        className='custom-control-input'
-                                        id='all'
-                                        name='radiogroup'
-                                        type='radio'
+                <div className='event-settings'>
+                    <h2>
+                        <CollapseButton
+                            id='listingTips'
+                            isOpen={this.state.showListingTips}
+                            targetCollapseNameId='events-management-tip'
+                            toggleHeader={this.toggleTip}
+                        />
+                    </h2>
+                    <Collapse isOpen={this.state.showListingTips}>
+                        <hr style={{borderTop: '2px solid black'}}/>
+                        <div className='col-sm-6 radios'>
+                            {!isPublicUser &&
+                                <div className='row'>
+                                    <div className='col-sm-12'>
+                                        <HelCheckbox
+                                            label={<FormattedMessage id='user-events-toggle'/>}
+                                            fieldID='user-events-toggle'
+                                            defaultChecked={showCreatedByUser}
+                                            onChange={this.toggleUserEvents}
+                                        />
+                                    </div>
+                                </div>
+                            }
+                            <div className='row'>
+                                <FormattedMessage id='filter-event-type'/>
+                            </div>
+                            <div className='row'>
+                                <div className='col-sm-12'>
+                                    <HelCheckbox
+                                        label={<FormattedMessage id='event'/>}
+                                        fieldID='eventgeneral'
+                                        defaultChecked={this.checkEventTypes('eventgeneral')}
+                                        onChange={this.toggleEventTypes}
+                                        disabled={this.disableEventTypes('eventgeneral')}
+                                    />
+                                    <HelCheckbox
+                                        label={<FormattedMessage id='hobby'/>}
+                                        fieldID='eventhobbies'
+                                        defaultChecked={this.checkEventTypes('eventhobbies')}
+                                        onChange={this.toggleEventTypes}
+                                        disabled={this.disableEventTypes('eventhobbies')}
+                                    />
+                                    {/*
+                                <HelCheckbox
+                                    label={<FormattedMessage id='course'/>}
+                                    fieldID='course'
+                                    //checked={showEventType.includes('eventcourse')}
+                                    onChange={(e, v) => this.toggleEventTypes(e, 'eventcourse')}
+                                /> */}
+                                </div>
+                                <div className='row'>
+                                    <FormattedMessage id='filter-event-languages'/>
+                                </div>
+                                <div className='col-sm-12'>
+                                    <SelectorRadio
+                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-all`})}
                                         value='all'
-                                        onChange={this.toggleEventLanguages}
-                                        defaultChecked
-                                    />
-                                    <label className='custom-control-label' htmlFor='all'>
-                                        <FormattedMessage id='filter-event-all'/>
-                                    </label>
-                                </div>
-                                <div className='custom-control custom-radio'>
-                                    <input
-                                        className='custom-control-input'
-                                        id='fi'
+                                        checked={showContentLanguage === ''}
+                                        handleCheck={this.toggleEventLanguages}
+                                        messageID='filter-event-all'
                                         name='radiogroup'
-                                        type='radio'
+                                    >
+                                    </SelectorRadio>
+                                    <SelectorRadio
+                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-fi`})}
                                         value='fi'
-                                        onChange={this.toggleEventLanguages}
-                                    />
-                                    <label className='custom-control-label' htmlFor='fi'>
-                                        <div className='filter-desktop'><FormattedMessage id='filter-event-fi'/></div>
-                                        <div className='filter-mobile'><FormattedMessage id='filter-event-fi-mobile'/></div>
-                                    </label>
-                                </div>
-                                <div className='custom-control custom-radio'>
-                                    <input
-                                        className='custom-control-input'
-                                        id='sv'
+                                        checked={showContentLanguage === 'fi'}
+                                        handleCheck={this.toggleEventLanguages}
+                                        messageID='filter-event-fi-mobile'
                                         name='radiogroup'
-                                        type='radio'
+                                    >
+                                    </SelectorRadio>
+
+                                    <SelectorRadio
+                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-sv`})}
                                         value='sv'
-                                        onChange={this.toggleEventLanguages}
-                                    />
-                                    <label className='custom-control-label' htmlFor='sv'>
-                                        <div className='filter-desktop'><FormattedMessage id='filter-event-sv'/></div>
-                                        <div className='filter-mobile'><FormattedMessage id='filter-event-sv-mobile'/></div>
-                                    </label>
-                                </div>
-                                <div className='custom-control custom-radio'>
-                                    <input
-                                        className='custom-control-input'
-                                        id='en'
+                                        checked={showContentLanguage === 'sv'}
+                                        handleCheck={this.toggleEventLanguages}
+                                        messageID='filter-event-sv-mobile'
                                         name='radiogroup'
-                                        type='radio'
+                                    >
+                                    </SelectorRadio>
+                                    <SelectorRadio
+                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-en`})}
                                         value='en'
-                                        onChange={this.toggleEventLanguages}
-                                    />
-                                    <label className='custom-control-label' htmlFor='en'>
-                                        <div className='filter-desktop'><FormattedMessage id='filter-event-en'/></div>
-                                        <div className='filter-mobile'><FormattedMessage id='filter-event-en-mobile'/></div>
-                                    </label>
+                                        checked={showContentLanguage === 'en'}
+                                        handleCheck={this.toggleEventLanguages}
+                                        messageID='filter-event-en-mobile'
+                                        name='radiogroup'
+                                    >
+                                    </SelectorRadio>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <hr style={{borderTop: '2px solid black'}}/>
+                    </Collapse>
                 </div>
                 }
                 <EventTable

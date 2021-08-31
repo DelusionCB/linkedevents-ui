@@ -5,12 +5,13 @@ import {FormattedMessage} from 'react-intl';
 
 
 const SelectorRadio = props => {
-    const {checked, disabled, handleCheck, value, messageID, name} = props
+    const {checked, disabled, handleCheck, value, messageID, name, ariaLabel} = props
 
     return (
         <Fragment>
             <div className='custom-control custom-radio'>
                 <input
+                    aria-label={ariaLabel}
                     id={`${value}_label`}
                     className='custom-control-input'
                     type='radio'
@@ -36,6 +37,7 @@ SelectorRadio.propTypes = {
     value: PropTypes.string,
     messageID: PropTypes.string,
     name: PropTypes.string,
+    ariaLabel: PropTypes.string,
 }
 
 export default SelectorRadio

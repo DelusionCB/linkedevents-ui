@@ -24,6 +24,7 @@ export class EventQueryParams {
     super_event = null
     text = null
     language = null
+    type_id = null
 
     setPublisher (publisher) {
         this.publisher = publisher && publisher.join()
@@ -51,7 +52,6 @@ export const fetchEvent = async (eventId, queryParams, fetchSuper = false) => {
         const event = eventResponse.data
         const subEvents = event.sub_events
         const superEventId = getSuperEventId(event)
-
         if (!fetchSuper) {
             return [event, subEvents]
         } else if (fetchSuper && superEventId) {

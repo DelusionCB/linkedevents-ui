@@ -2,6 +2,7 @@ import './HelCheckbox.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {setData} from '../../actions/editor';
+import classNames from 'classnames';
 
 class HelCheckbox extends React.Component {
     constructor(props) {
@@ -37,7 +38,7 @@ class HelCheckbox extends React.Component {
     }
 
     render() {
-        let {required, label, name, defaultChecked} = this.props;
+        let {required, label, name, defaultChecked, disabled} = this.props;
 
         if (required) {
             if (typeof label === 'string') {
@@ -59,8 +60,11 @@ class HelCheckbox extends React.Component {
                     onChange={this.handleCheck}
                     checked={defaultChecked}
                     id={fieldID}
+                    aria-checked={defaultChecked}
+                    aria-disabled={disabled}
                 />
-                <label className='custom-control-label' htmlFor={fieldID}>{label}
+                <label className={classNames('custom-control-label', {disabled: disabled})}  htmlFor={fieldID}>
+                    {label}
                 </label>
             </div>
         );
@@ -80,6 +84,7 @@ HelCheckbox.propTypes = {
     defaultChecked: PropTypes.bool,
     id: PropTypes.string,
     fieldID: PropTypes.string,
+    disabled: PropTypes.bool,
 };
 
 export default HelCheckbox;

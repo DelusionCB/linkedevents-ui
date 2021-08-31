@@ -31,7 +31,6 @@ import {mockKeywordSets, mockLanguages, mockUser, mockUserEvents} from '__mocks_
 import CollapseButton from './CollapseButton/CollapseButton';
 import {NewEvent} from '../HelFormFields';
 
-
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
@@ -73,7 +72,7 @@ describe('FormField', () => {
                 start_time: '',
                 end_time: '',
                 super_event_type: [SUPER_EVENT_TYPE_RECURRING, SUPER_EVENT_TYPE_UMBRELLA],
-                type_id: 1,
+                type_id: CONSTANTS.EVENT_TYPE.GENERAL,
             },
             validationErrors: {
                 sub_events: {},
