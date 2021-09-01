@@ -432,8 +432,8 @@
     "format-select-count": " ({count} tapahtumaa)",
 
     "upload-image-from-url": "Tai syötä ulkoisen kuvan osoite (URL)",
-    "uploaded-image-size-error": "Kuva on liian suuri. Kuvan koon on oltava alle 2 Mt.",
-    "uploaded-image-size-tip": "Sallitut tiedostotyypit: jpeg, gif ja png. Kuvan sallittu koko: 2 Mt.",
+    "uploaded-image-size-error": "Kuva on liian suuri. Kuvan koon on oltava alle 4 Mt.",
+    "uploaded-image-size-tip": "Sallitut tiedostotyypit: jpeg, gif ja png. Kuvan sallittu koko: 4 Mt.",
     "uploaded-image-size-tip2": "Suosittelemme kuvasuhdetta: 1920x1080px.",
     "uploaded-image-event-tip": "Tapahtumalle lisäämäsi kuva lisätään myös kuvapankkiisi.",
 

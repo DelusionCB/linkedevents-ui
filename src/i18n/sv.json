@@ -443,8 +443,8 @@
 
     "format-select-count": " ({count} evenemang)",
     "upload-image-from-url": "Eller mata in adressen (URL) av en extern bild",
-    "uploaded-image-size-error": "Bilden är för stor. Bildens storlek måste vara under 2 Mt.",
-    "uploaded-image-size-tip": "Tillåtna filformaten är jpeg, gif och png. Bildens maximalt tillåtna storlek är 2 Mt.",
+    "uploaded-image-size-error": "Bilden är för stor. Bildens storlek måste vara under 4 Mt.",
+    "uploaded-image-size-tip": "Tillåtna filformaten är jpeg, gif och png. Bildens maximalt tillåtna storlek är 4 Mt.",
     "uploaded-image-size-tip2": "Vi rekommenderar förhållandet: 1920x1080px.",
     "uploaded-image-event-tip": "Den uppladdaded bilden läggs till i din bildbank.",
 

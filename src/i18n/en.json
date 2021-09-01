@@ -433,7 +433,7 @@
 
     "format-select-count": " ({count} events)",
     "upload-image-from-url": "Upload image from URL",
-    "uploaded-image-size-error": "The image exceeds the allowed maximum size of 2 megabytes (MB).",
+    "uploaded-image-size-error": "The image exceeds the allowed maximum size of 4 megabytes (MB).",
     "image-modal-image-info": "Image information",
     "upload-image-from-url-button": "Upload from URL",
     "upload-image-select-bank": "Select from the image bank",
@@ -482,7 +482,7 @@
     "preview-event": "Event information",
     "preview-event-button": "Preview event information",
 
-    "uploaded-image-size-tip": "Accepted file formats include jpeg, gif and png. Maximum image size is 2 MB.",
+    "uploaded-image-size-tip": "Accepted file formats include jpeg, gif and png. Maximum image size is 4 MB.",
     "uploaded-image-size-tip2": "We recommend the aspect ratio 1920x1080px.",
     "uploaded-image-event-tip": "The uploaded image will be added to your image bank.",
 

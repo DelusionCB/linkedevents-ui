@@ -84,12 +84,9 @@ class ImageEdit extends React.Component {
     }
 
     validateFileSizes = (file) => {
-        const maxSizeInMB = 2;
-
-        const binaryFactor = 1024 * 1024;
+        const maxSizeInMB = 4;
         const decimalFactor = 1000 * 1000;
-
-        const fileSizeInMB = parseInt(file.size) / decimalFactor;
+        const fileSizeInMB = file.size / decimalFactor;
 
         if (fileSizeInMB > maxSizeInMB) {
             this.setState({

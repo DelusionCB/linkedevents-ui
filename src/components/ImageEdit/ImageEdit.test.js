@@ -3,13 +3,13 @@ import {shallow, mount} from 'enzyme';
 
 
 import {UnconnectedImageEdit} from './index';
-import {IntlProvider, FormattedMessage} from 'react-intl';
+import {IntlProvider} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 import {HelTextField, MultiLanguageField} from '../HelFormFields';
 import {Input, Button} from 'reactstrap';
 import constants from 'src/constants';
-import {mockImages, mockUser, mockEditorNewEvent} from '__mocks__/mockData';
+import {mockEditorNewEvent} from '__mocks__/mockData';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 
@@ -288,7 +288,7 @@ describe('ImageEdit', () => {
             test('fileSize is less than max size and fileSizeError is true', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
-                let returnValue = instance.validateFileSizes({size: 1999 * 1999});
+                let returnValue = instance.validateFileSizes({size: 2999 * 2999});
                 expect(wrapper.state('fileSizeError')).toBe(true);
                 expect(returnValue).toBe(false);
                 returnValue = instance.validateFileSizes({size: 999 * 999});
