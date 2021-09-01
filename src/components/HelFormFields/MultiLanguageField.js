@@ -50,6 +50,7 @@ class MultiLanguageField extends React.Component {
         placeholder: PropTypes.string,
         min: PropTypes.number,
         max: PropTypes.number,
+        className: PropTypes.string,
     }
 
     onChange(e,value,lang) {
@@ -142,6 +143,7 @@ class MultiLanguageField extends React.Component {
                         placeholder={this.props.placeholder}
                         min={this.props.min}
                         max={this.props.max}
+                        className={this.props.className}
                     />
 
                 </div>
@@ -168,6 +170,7 @@ class MultiLanguageField extends React.Component {
                             placeholder={this.props.placeholder}
                             min={this.props.min}
                             max={this.props.max}
+                            className={this.props.className}
                         />
                     </div>
                 )

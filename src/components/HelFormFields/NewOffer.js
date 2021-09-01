@@ -102,6 +102,7 @@ class NewOffer extends React.Component {
                         setInitialFocus={this.props.setInitialFocus}
                         required={true}
                         placeholder={intl.formatMessage({id: 'price-placeholder'})}
+                        className='price-field'
                     />
 
                     <MultiLanguageField

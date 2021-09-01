@@ -222,13 +222,14 @@ class HelTextField extends Component {
             name,
             min,
             max,
+            className,
         } = this.props
         const type = this.props.type;
         const alert = this.state.error ? {role: 'alert', className: 'red-alert'} : '';
 
         return (
             <Fragment>
-                <div className='event-input'>
+                <div className={classNames(`event-input`, className)}>
                     <label htmlFor={label + this.props.id}>{label}{required ? '*' : ''}</label>
                     <InputGroup>
                         <InputGroupAddon className={classNames('inputIcons', {'error': validationErrors})} addonType="prepend">
@@ -283,6 +284,7 @@ HelTextField.propTypes = {
     onBlur: PropTypes.func,
     multiLine: PropTypes.bool,
     required: PropTypes.bool,
+    className: PropTypes.string,
     label: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.object,
@@ -306,6 +308,7 @@ HelTextField.propTypes = {
 
 HelTextField.defaultProps = {
     type: 'text',
+    className: undefined,
 };
 
 
