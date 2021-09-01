@@ -20,6 +20,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "cancel-events": "Peruuta tapahtuma",
       "cancelled": "Peruutettu",
       "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
+      "chosen-event-image": "Tapahtumalle on valittu kuva: {name}",
       "clear": "Tyhjennä",
       "clear-form": "Tyhjennä kentät",
       "close": "Sulje",

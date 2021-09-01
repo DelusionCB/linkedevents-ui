@@ -158,6 +158,7 @@
     "organization-missing-message-contact2": "för att få behörigheter att redigera händelser i din enhet. ",
 
     "use-existing-image": "Bildbanken är tom. Ladda up en bild eller välj från standardbilderna",
+    "chosen-event-image": "Bild vald för evenemanget: {name}",
     "no-image": "Evenemanget har ingen bild",
     "search-images": "Sök efter bildnamn, ALT-text eller fotografens namn",
     "search-images-text": "Sök",

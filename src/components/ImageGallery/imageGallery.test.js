@@ -9,6 +9,7 @@ import ImageEdit from '../ImageEdit';
 import ImagePickerForm from '../ImagePicker';
 import ValidationNotification from 'src/components/ValidationNotification'
 import constants from '../../constants'
+import ImagePreview from './ImagePreview';
 const {VALIDATION_RULES} = constants
 
 
@@ -51,7 +52,7 @@ describe('ImageGallery', () => {
         describe('formattedMessages', () => {
             test('correct amount', () => {
                 const element = getWrapper().find(FormattedMessage);
-                expect(element).toHaveLength(4);
+                expect(element).toHaveLength(3);
             })
         })
         describe('imageEdit', () => {
@@ -86,6 +87,15 @@ describe('ImageGallery', () => {
                 expect(notification.prop('validationErrors')).toBe(undefined)
                 expect(notification.prop('className')).toBe('validation-notification')
             })
+        })
+
+        test('ImagePreview is rendered with correct props', () => {
+            const preview = getWrapper().find(ImagePreview)
+            expect(preview).toHaveLength(1)
+            expect(preview.prop('image')).toBe(defaultProps.editor.values.image)
+            expect(preview.prop('locale')).toBe(defaultProps.locale)
+            expect(preview.prop('validationErrors')).toBe(defaultProps.validationErrors)
+
         })
     })
     describe('methods', () => {
@@ -124,31 +134,6 @@ describe('ImageGallery', () => {
                     expect(wrapper.state('openOrgModal')).toBe(false)
                     instance.toggleOrgModal()
                     expect(wrapper.state('openOrgModal')).toBe(true)
-                })
-            })
-            describe('getPreview', () => {
-                test('default return', () => {
-                    const wrapper = getWrapper()
-                    const instance = wrapper.instance();
-                    instance.getPreview({backgroundImage: ''})
-                    const previewDiv = wrapper.find('div.image-picker--preview')
-                    expect(previewDiv).toHaveLength(1)
-                })
-                test('return with validationError', () => {
-                    const wrapper = getWrapper()
-                    const instance = wrapper.instance();
-                    instance.getPreview({backgroundImage: ''})
-                    wrapper.setProps({validationErrors: [VALIDATION_RULES.REQUIRED_IMAGE]})
-                    const previewDiv = wrapper.find('div.image-picker--preview.validationError')
-                    expect(previewDiv).toHaveLength(1)
-                })
-                test('return with image', () => {
-                    const wrapper = getWrapper()
-                    const instance = wrapper.instance();
-                    const testImage = wrapper.setProps(defaultProps.editor.values.image.url = 'https://test.fi')
-                    instance.getPreview({backgroundImage: testImage})
-                    const previewDiv = wrapper.find('div.image-picker.background')
-                    expect(previewDiv).toHaveLength(1)
                 })
             })
         })

@@ -9,6 +9,7 @@ import ImagePickerForm from '../ImagePicker';
 import {get as getIfExists} from 'lodash';
 import ValidationNotification from 'src/components/ValidationNotification'
 import classNames from 'classnames';
+import ImagePreview from './ImagePreview';
 
 class ImageGallery extends React.Component {
     constructor(props) {
@@ -36,26 +37,6 @@ class ImageGallery extends React.Component {
             this.setState({openOrgModal: !this.state.openOrgModal})
         }
     }
-
-    getPreview(props) {
-        const backgroundImage = props.backgroundImage ? props.backgroundImage : null;
-        const backgroundStyle = {backgroundImage: 'url(' + backgroundImage + ')'};
-        const {validationErrors} = this.props
-
-        const stylingProps = {
-            className: classNames('image-picker--preview', {'validationError': validationErrors && !backgroundImage}),
-            style: backgroundImage ? backgroundStyle : undefined,
-        };
-        const formatted = !backgroundImage && <FormattedMessage id='no-image' />
-        return (
-            <React.Fragment>
-                <div {...stylingProps}>
-                    {formatted}
-                </div>
-            </React.Fragment>
-        )
-    }
-
 
     render() {
         const {validationErrors, user, uiMode} = this.props;
@@ -107,15 +88,18 @@ class ImageGallery extends React.Component {
                 </div>
                 <div className='col-sm-5 side-field'>
                     <div className={classNames('image-picker', {'background': backgroundImage})}>
-                        {this.getPreview({backgroundImage: backgroundImage})}
+                        <ImagePreview 
+                            image={this.props.editor.values.image}
+                            locale={this.props.locale}
+                            validationErrors={validationErrors}
+                        />
+                        
                     </div>
                 </div>
             </React.Fragment>
         )
     }
 }
-
-
 
 ImageGallery.propTypes = {
     user: PropTypes.object,

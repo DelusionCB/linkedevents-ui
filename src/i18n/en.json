@@ -150,6 +150,7 @@
     "organization-missing-message-contact1": "Paavo Jantunen ",
     "organization-missing-message-contact2": "to gain permissions to edit events in your unit. ",
     "use-existing-image": "Image bank is empty. Upload an image or choose a standard image.",
+    "chosen-event-image": "Image chosen for the event: {name}",
     "no-image": "NO IMAGE",
     "search-images": "Search by image name, alt-text or photographer's name",
     "search-images-text": "Search",
