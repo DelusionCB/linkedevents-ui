@@ -470,9 +470,6 @@
 
     "user-events-toggle": "Only display events created by me",
     "navbar.brand": "Linked Events logo, link to front page",
-    "navbar.fi": "Finnish",
-    "navbar.en": "English",
-    "navbar.sv": "Swedish",
     "navbar.active": "Change language, Vaihda kieli, Ändra språk",
     "navigation-toggle": "Navigation toggle",
 

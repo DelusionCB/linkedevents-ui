@@ -43,7 +43,18 @@ class LanguageSelector extends React.Component {
 
     }
 
-
+    getButtonAriaText(language){
+        switch (language) {
+            case 'fi':
+                return 'Valitse kieleksi Suomi'
+            case 'en':
+                return 'Set language to English'
+            case 'sv':
+                return 'Byt språk till Svenska'
+            default:
+                return 'Valitse kieleksi Suomi'
+        }
+    }
 
     /**
      * Returns true if language is same as current locale
@@ -90,7 +101,8 @@ class LanguageSelector extends React.Component {
                             >
                                 <a
                                     role="menuitem"
-                                    aria-label={this.context.intl.formatMessage({id: `navbar.${language.value}`})}
+                                    lang={language.value}
+                                    aria-label={this.getButtonAriaText(language.value)}
                                     href="#"
                                     {...additionalParams}
                                 >

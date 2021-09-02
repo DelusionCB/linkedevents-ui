@@ -57,6 +57,28 @@ describe('languageSelector', () => {
             expect(element.text()).toBe('SV');
         });
     });
+
+    test('language change links are rendered with correct props', () => {
+        const wrapper = getWrapper()
+        const instance = wrapper.instance()
+        const links = wrapper.find('#language-list').find('a')
+        expect(links).toHaveLength(3)
+        links.forEach((link, index) => {
+            const language = defaultProps.languages[index].value
+            expect(link.prop('role')).toBe('menuitem')
+            expect(link.prop('lang')).toBe(language)
+            expect(link.prop('aria-label')).toBe(instance.getButtonAriaText(language))
+            expect(link.prop('href')).toBe('#')
+            expect(link.prop('children')).toBe(defaultProps.languages[index].label)
+            if(instance.isActiveLanguage(defaultProps.languages[index])) {
+                expect(link.prop('aria-current')).toBe('true')
+            }
+            else {
+                expect(link.prop('aria-current')).toBe(undefined)
+            }
+        });
+    })
+
     describe('Function tests', () => {
         test('isOpen default state', () => {
             const element = getWrapper();
@@ -78,5 +100,24 @@ describe('languageSelector', () => {
             liElement.simulate('click', {preventDefault: () => {}});
             expect(spy).toHaveBeenCalled();
         });
+
+        describe('getButtonAriaText', () => {
+            const instance = getWrapper().instance()
+            test('returns correct string when given language is fi', () => {
+                expect(instance.getButtonAriaText('fi')).toBe('Valitse kieleksi Suomi')
+            })
+
+            test('returns correct string when given language is en', () => {
+                expect(instance.getButtonAriaText('en')).toBe('Set language to English')
+            })
+
+            test('returns correct string when given language is sv', () => {
+                expect(instance.getButtonAriaText('sv')).toBe('Byt språk till Svenska')
+            })
+
+            test('returns correct string when given language is not fi, sv or en', () => {
+                expect(instance.getButtonAriaText('abc')).toBe('Valitse kieleksi Suomi')
+            })
+        })
     });
 });
