@@ -1,8 +1,10 @@
 @use "src/assets/mixin" as m;
 .event-item-link {
-    @include m.add-outline($width: 4px){
-        outline-offset: 2px;
-    };
+    &:focus {
+        >.event-item {
+            outline: solid 4px black;
+        }
+    }
 }
 .event-item {
     position: relative;
