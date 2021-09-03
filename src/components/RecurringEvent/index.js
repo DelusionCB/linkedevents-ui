@@ -478,7 +478,7 @@ class RecurringEvent extends React.Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div role="progressbar" aria-valuemax={SubEventsLeft} aria-valuenow={subEvents.newSubCount} className={classNames('tip', {'error': subEvents.overMaxAmount})}>
+                        <div className={classNames('tip', {'error': subEvents.overMaxAmount})}>
                             <p role='status' className='count-message'>
                                 {!subEvents.overMaxAmount
                                     ?

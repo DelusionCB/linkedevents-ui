@@ -7,6 +7,7 @@ import mapValues from 'lodash/mapValues';
 import moment from 'moment';
 import {Modal} from 'reactstrap';
 import {setEventData, sortSubEvents} from 'src/actions/editor'
+import constants from '../../constants'
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 
@@ -46,7 +47,59 @@ describe('RecurringEvent', () => {
             const element = getWrapper().find(FormattedMessage)
             expect(element).toHaveLength(7)
         })
-    });
+
+        describe('sub events count status text', () => {
+            describe('wrapping div is rendered with correct props', () => {
+                test('when there are no errors', () => {
+                    const div = getWrapper().find('div.tip')
+                    expect(div).toHaveLength(1)
+                })
+                test('when there are errors', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance()
+                    const prevState = instance.state.subEvents
+                    instance.setState({subEvents: {...prevState, overMaxAmount: true}})
+                    const div = wrapper.find('div.tip')
+                    expect(div).toHaveLength(1)
+                    expect(div.prop('className')).toBe('tip error')
+                })
+            })
+
+            test('paragraph is rendered with correct props', () => {
+                const paragraph = getWrapper().find('p.count-message')
+                expect(paragraph).toHaveLength(1)
+                expect(paragraph.prop('role')).toBe('status')
+            })
+
+            describe('FormattedMessage is rendered with correct props', () => {
+                test('when there are no errors', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance()
+                    const message = getWrapper().find('p.count-message').find(FormattedMessage)
+                    expect(message).toHaveLength(1)
+                    expect(message.prop('id')).toBe('event-add-recurring-limit')
+                    const count = constants.GENERATE_LIMIT.EVENT_LENGTH - instance.state.subEvents.existingSubCount
+                    const subEventcount = instance.state.subEvents.newSubCount
+                    expect(message.prop('values')).toStrictEqual({count, subEventcount})
+                })
+                
+                test('when there are errors', () => {
+                    const limit = constants.GENERATE_LIMIT.EVENT_LENGTH
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance()
+                    const prevState = instance.state.subEvents
+                    instance.setState({subEvents: {...prevState, overMaxAmount: true, newSubCount: limit + 2}})
+                    const count = limit - instance.state.subEvents.existingSubCount
+                    const subEventcount = instance.state.subEvents.newSubCount
+                    const message = wrapper.find('p.count-message').find(FormattedMessage)
+                    expect(message).toHaveLength(1)
+                    expect(message.prop('id')).toBe('event-add-recurring-error')
+                    expect(message.prop('values')).toStrictEqual({count, subEventcount})
+                })
+            })
+        })
+    })
+    
     describe('methods', () => {
 
         describe('onChange and onTimeChange', () => {
