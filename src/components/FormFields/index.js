@@ -654,6 +654,7 @@ class FormFields extends React.Component {
                                 <div className='row radio-row'>
                                     <div className='custom-control custom-radio'>
                                         <input
+                                            aria-describedby='event-recurring-type-disabled-tip-message'
                                             className='custom-control-input'
                                             id='single'
                                             name='radiogroup'
@@ -674,6 +675,7 @@ class FormFields extends React.Component {
                                     </div>
                                     <div className='custom-control custom-radio'>
                                         <input
+                                            aria-describedby='event-recurring-type-disabled-tip-message'
                                             className='custom-control-input'
                                             id='recurring'
                                             name='radiogroup'
@@ -692,7 +694,7 @@ class FormFields extends React.Component {
                                         </label>
                                     </div>
                                     { !['update', 'add'].includes(formType) && (subTimeDisable || values.start_time !== undefined) ?
-                                        <div className='typetip'>
+                                        <div className='typetip' id='event-recurring-type-disabled-tip-message'>
                                             <FormattedMessage id="editor-tip-eventtype-disable"/>
                                         </div>
                                         : null

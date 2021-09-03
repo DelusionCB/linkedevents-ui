@@ -688,6 +688,7 @@ describe('FormField', () => {
                 })
                 test('default prop for radio buttons', () => {
                     radios.forEach((radio) => {
+                        expect(radio.prop('aria-describedby')).toBe('event-recurring-type-disabled-tip-message')
                         expect(radio.prop('onChange')).toBe(instance.toggleEventType)
                         expect(radio.prop('name')).toBe('radiogroup')
                         expect(radio.prop('type')).toBe('radio')
