@@ -161,7 +161,7 @@ describe('Search', () => {
                 const wrapper = getWrapper().find(Helmet);
                 const pageTitle = wrapper.prop('title');
                 expect(wrapper).toBeDefined();
-                expect(pageTitle).toBe('Linkedevents - Etsi tapahtumia');
+                expect(pageTitle).toBe('Linkedevents - Etsi sisältöjä');
             });
         });
 

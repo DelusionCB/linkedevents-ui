@@ -78,6 +78,6 @@ describe('Moderation', () => {
         const wrapper = getWrapper().find(Helmet);
         const pageTitle = wrapper.prop('title');
         expect(wrapper).toBeDefined();
-        expect(pageTitle).toBe('Linkedevents - Moderoi tapahtumia');
+        expect(pageTitle).toBe('Linkedevents - Moderoi sisältöjä');
     });
 });

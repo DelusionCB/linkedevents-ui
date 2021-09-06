@@ -163,7 +163,7 @@ describe('EventListing', () => {
             const pageTitle = wrapper.prop('title');
             test('react-helmet is defined and gets title prop', () => {
                 expect(wrapper).toBeDefined();
-                expect(pageTitle).toBe('Linkedevents - Tapahtumien hallinta');
+                expect(pageTitle).toBe('Linkedevents - Sisällön hallinta');
             });
         });
         describe('helCheckBoxes', () => {

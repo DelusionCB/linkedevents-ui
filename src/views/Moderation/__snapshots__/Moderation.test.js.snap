@@ -7,7 +7,7 @@ exports[`Moderation Snapshot should render view by default 1`] = `
   <HelmetWrapper
     defer={true}
     encodeSpecialCharacters={true}
-    title="Linkedevents - Moderoi tapahtumia"
+    title="Linkedevents - Moderoi sisältöjä"
   />
   <h1>
     <FormattedMessage
@@ -98,7 +98,7 @@ exports[`Moderation Snapshot should render view correctly 1`] = `
 >
   <h1>
     <span>
-      Moderoi tapahtumia
+      Moderoi sisältöjä
     </span>
   </h1>
   <h2>
@@ -108,12 +108,12 @@ exports[`Moderation Snapshot should render view correctly 1`] = `
   </h2>
   <strong>
     <span>
-      Ei tapahtumia mitä näyttää.
+      Ei sisältöjä, joita näyttää.
     </span>
   </strong>
   <h2>
     <span>
-      Julkaistut tapahtumat
+      Julkaistut sisällöt
     </span>
   </h2>
   <p>
@@ -123,7 +123,7 @@ exports[`Moderation Snapshot should render view correctly 1`] = `
   </p>
   <strong>
     <span>
-      Ei tapahtumia mitä näyttää.
+      Ei sisältöjä, joita näyttää.
     </span>
   </strong>
 </div>
