@@ -104,15 +104,19 @@ MultiLanguageValue.propTypes = {
     labelKey: PropTypes.string.isRequired,
 }
 
-const TextValue = (props) => {
+export const TextValue = (props) => {
     if (_.isInteger(props.value) || (props.value && props.value.length !== undefined && props.value.length > 0)) {
+        const isUrl = props.labelKey.includes('-url');
+        // role is only used if labelKey contains the string '-url',
+        // e.g. 'twitter-url' will have the role param and 'event-publisher' will not get the role param.
+        const additionalParams = isUrl ? {role: 'address'} : {};
         return (
             <div className="single-value-field">
                 <div>
                     <label htmlFor={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
                     <input type="hidden" id={props.labelKey} />
                 </div>
-                <span role='address' className="value">{props.value}</span>
+                <span {...additionalParams} className="value">{props.value}</span>
             </div>
         )
     } else {
