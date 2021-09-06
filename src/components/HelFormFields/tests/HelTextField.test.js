@@ -44,18 +44,31 @@ describe('HelTextField', () => {
         describe('label', () => {
             test('with correct props', () => {
                 const label = getWrapper().find('label')
+                const inputId = `${defaultProps.label}-${defaultProps.id}`.toLowerCase().replace(/\s+/g, '-');
                 expect(label).toHaveLength(1)
-                expect(label.prop('htmlFor')).toBe(defaultProps.label + defaultProps.id)
+                expect(label.prop('htmlFor')).toBe(inputId)
             })
             test('with correct text when required is true', () => {
                 const required = true
                 const label = getWrapper({required}).find('label')
                 expect(label.text()).toBe(defaultProps.label + '*')
             })
+            test('with correct span when required is true', () => {
+                const required = true
+                const span = getWrapper({required}).find('label').find('span')
+                expect(span).toHaveLength(1)
+                expect(span.prop('aria-hidden')).toBe('true')
+                expect(span.text()).toBe('*')
+            })
             test('with correct text when required is false', () => {
                 const required = false
                 const label = getWrapper({required}).find('label')
                 expect(label.text()).toBe(defaultProps.label)
+            })
+            test('with no span when required is false', () => {
+                const required = false
+                const span = getWrapper({required}).find('label').find('span')
+                expect(span).toHaveLength(0)
             })
         })
 
@@ -63,9 +76,10 @@ describe('HelTextField', () => {
             const wrapper = getWrapper()
             const instance = wrapper.instance()
             const inputComponent = wrapper.find(Input)
+            const expectedId = `${defaultProps.label}-${defaultProps.id}`.toLowerCase().replace(/\s+/g, '-');
 
             expect(inputComponent).toHaveLength(1)
-            expect(inputComponent.prop('id')).toBe(defaultProps.label + defaultProps.id)
+            expect(inputComponent.prop('id')).toBe(expectedId)
             expect(inputComponent.prop('placeholder')).toBe(defaultProps.placeholder)
             expect(inputComponent.prop('type')).toBe(defaultProps.type)
             expect(inputComponent.prop('name')).toBe(defaultProps.name)

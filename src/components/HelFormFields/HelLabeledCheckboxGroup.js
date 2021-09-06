@@ -46,6 +46,7 @@ const HelLabeledCheckboxGroup = (props) => {
                 <div className={classNames(('row'), {'validation': validationErrors})}>
                     {options.map((item, index) => {
                         const checked = checkedOptions.includes(item.value)
+                        const inputId = `${item.label}-checkbox-id`.toLowerCase().replace(/\s+/g, '-');
 
                         return (
                             <div key={`hel-checkbox-${index}`} className={(itemClassName) + (' custom-control custom-checkbox')} >
@@ -53,7 +54,6 @@ const HelLabeledCheckboxGroup = (props) => {
                                 <div className='validation-notification' />
                                 }
                                 <input
-                                    aria-label={item.label}
                                     className='custom-control-input checkboxes'
                                     type='checkbox'
                                     value={item.value}
@@ -61,9 +61,9 @@ const HelLabeledCheckboxGroup = (props) => {
                                     ref={ref => refs[`checkRef${index}`] = ref}
                                     checked={checked}
                                     onChange={() => handleChange(refs, props)}
-                                    id={item.label}
+                                    id={inputId}
                                 />
-                                <label htmlFor={item.label} className='custom-control-label'>{item.label}</label>
+                                <label htmlFor={inputId} className='custom-control-label'>{item.label}</label>
                             </div>
                         )
                     })}

@@ -226,18 +226,20 @@ class HelTextField extends Component {
         } = this.props
         const type = this.props.type;
         const alert = this.state.error ? {role: 'alert', className: 'red-alert'} : '';
+        const inputId = `${label}-${this.props.id}`.toLowerCase().replace(/\s+/g, '-');
 
         return (
             <Fragment>
                 <div className={classNames(`event-input`, className)}>
-                    <label htmlFor={label + this.props.id}>{label}{required ? '*' : ''}</label>
+                    <label htmlFor={inputId}>
+                        {label}{required ? <span aria-hidden="true">*</span> : null}
+                    </label>
                     <InputGroup>
                         <InputGroupAddon className={classNames('inputIcons', {'error': validationErrors})} addonType="prepend">
                             {this.getCorrectIcons(name, type)}
                         </InputGroupAddon>
                         <Input
-                            aria-label={label}
-                            id={label + this.props.id}
+                            id={inputId}
                             placeholder={placeholder}
                             type={type}
                             name={name}
