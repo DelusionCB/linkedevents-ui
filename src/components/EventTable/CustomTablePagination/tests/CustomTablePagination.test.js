@@ -57,14 +57,14 @@ describe('CustomTablePagination', () => {
                     const content = wrapper.find('.custom-table-pagination__content')
                     const label = content.find('label')
                     expect(label.length).toBe(1)
-                    expect(label.prop('htmlFor')).toBe('page-counts')
+                    expect(label.prop('htmlFor')).toBe(`page-counts-${defaultProps.shortcutElementId}`)
                     expect(label.text()).toBe(defaultProps.labelRowsPerPage)
                 })
 
                 test('select with correct props', () => {
-                    const select = wrapper.find('#page-counts')
+                    const select = wrapper.find(`#page-counts-${defaultProps.shortcutElementId}`)
                     expect(select.length).toBe(1)
-                    expect(select.prop('name')).toBe('page-counts')
+                    expect(select.prop('name')).toBe(`page-counts-${defaultProps.shortcutElementId}`)
                     expect(select.prop('value')).toBe(defaultProps.rowsPerPage)
                     expect(select.prop('onChange')).toBe(defaultProps.onChangeRowsPerPage)
                 })
@@ -132,7 +132,7 @@ describe('CustomTablePagination', () => {
 
         describe('shortcut link', () => {
             test('is rendered when shortcutElementId is defined', () => {
-                const shortcutLink = getWrapper().find('#back-to-start-shortcut')
+                const shortcutLink = getWrapper().find('.back-to-start-shortcut')
                 expect(shortcutLink.length).toBe(1)
                 expect(shortcutLink.prop('href')).toBe('#' + defaultProps.shortcutElementId)
                 expect(shortcutLink.text()).toBe(intl.formatMessage({id: 'table-pagination-shortcut-link'}))
@@ -140,7 +140,7 @@ describe('CustomTablePagination', () => {
 
             test('is not rendered when shortcutElementId isnt defined', () => {
                 const shortcutElementId = undefined
-                const shortcutLink = getWrapper({shortcutElementId}).find('#back-to-start-shortcut')
+                const shortcutLink = getWrapper({shortcutElementId}).find('.back-to-start-shortcut')
                 expect(shortcutLink.length).toBe(0)
             })
         })

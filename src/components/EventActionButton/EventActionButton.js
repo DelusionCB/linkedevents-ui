@@ -81,7 +81,7 @@ class EventActionButton extends React.Component {
      * @returns {*}
      */
     getButton(showTermsCheckbox, buttonLabel, disabled, explanationId = '') {
-        const {action, confirmAction, customAction, intl} = this.props;
+        const {action, confirmAction, customAction, intl, idPrefix} = this.props;
         const color = 'secondary';
         /*
         color = this.getButtonColor(action), to get color based on action.
@@ -121,7 +121,7 @@ class EventActionButton extends React.Component {
                 <Button
                     aria-disabled={disabled}
                     aria-label={ariaLabelText ? ariaLabelText : undefined}
-                    id={action}
+                    id={idPrefix + action}
                     color={color}
                     className={classNames(`editor-${action}-button`,{'disabled': disabled})}
                     onClick={handleOnClick}
@@ -130,7 +130,7 @@ class EventActionButton extends React.Component {
                     <FormattedMessage id={buttonLabel}>{txt => txt}</FormattedMessage>
                 </Button>
                 {(disabled && explanationId) &&
-                    <UncontrolledTooltip placement="bottom" target={action} innerClassName='tooltip-disabled' hideArrow>
+                    <UncontrolledTooltip placement="bottom" target={idPrefix + action} innerClassName='tooltip-disabled' hideArrow>
                         <FormattedMessage id={explanationId}>{txt => txt}</FormattedMessage>
                     </UncontrolledTooltip>
                 }
@@ -195,6 +195,7 @@ class EventActionButton extends React.Component {
 EventActionButton.defaultProps = {
     event: {},
     subEvents: [],
+    idPrefix: 'default-',
 }
 
 EventActionButton.propTypes = {
@@ -211,6 +212,7 @@ EventActionButton.propTypes = {
     loading: PropTypes.bool,
     runAfterAction: PropTypes.func,
     subEvents: PropTypes.array,
+    idPrefix: PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({

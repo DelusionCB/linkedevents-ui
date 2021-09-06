@@ -16,7 +16,7 @@
     &__content {
         flex-shrink: 0;
         text-align: end;
-        
+
         > * {
             margin-left: 4px;
             margin-right: 4px;
@@ -36,7 +36,7 @@
             overflow: hidden;
         }
 
-        #back-to-start-shortcut {
+        .back-to-start-shortcut {
             display: block;
             text-align: end;
             margin: 0;

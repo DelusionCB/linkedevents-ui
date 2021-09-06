@@ -197,7 +197,7 @@ class CustomDatePicker extends React.Component {
                             aria-required={required}
                         />
                         <DatePicker
-                            id={type}
+                            id={id + type + '-button'}
                             disabled={disabled}
                             openToDate={this.getDatePickerOpenDate(defaultValue, minDate)}
                             onChange={this.handleDatePickerChange}
@@ -219,10 +219,10 @@ class CustomDatePicker extends React.Component {
                                     boundariesElement: 'viewport',
                                 },
                             }}
-                        />                  
+                        />
                     </div>
-                      
-                    {this.state.showValidationError && 
+
+                    {this.state.showValidationError &&
                         <p id={inputErrorId} role="alert" className="date-input-error">{this.state.validationErrorText}</p>}
                 </FormGroup>
             </div>

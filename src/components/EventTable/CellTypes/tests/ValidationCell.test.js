@@ -11,6 +11,7 @@ const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {}
 const {intl} = intlProvider.getChildContext();
 import {mockUserEvents, mockKeywordSets} from '../../../../../__mocks__/mockData';
 const mockEvent = mockUserEvents[0];
+mockEvent.id = 'randomstringofcharacters';
 
 const defaultProps = {
     event: mockEvent,
@@ -58,7 +59,7 @@ describe('ValidationCell', () => {
                 const element = wrapper.find(Button);
                 expect(element).toHaveLength(1)
                 expect(element.prop('aria-label')).toBe('Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.')
-                expect(element.prop('id')).toBe('validationAlert')
+                expect(element.prop('id')).toBe(`${defaultProps.event.id.replace(/[^\w]/gi, '')}-validationAlert`)
                 expect(element.prop('onClick')).toBe(instance.moveToEdit)
             })
             test('correct length while hasErrors is false', () => {
@@ -92,7 +93,7 @@ describe('ValidationCell', () => {
                 const element = wrapper.find(Tooltip);
                 expect(element).toHaveLength(1)
                 expect(element.prop('isOpen')).toBe(instance.state.tooltipOpen)
-                expect(element.prop('target')).toBe('validationAlert')
+                expect(element.prop('target')).toBe(`${defaultProps.event.id.replace(/[^\w]/gi, '')}-validationAlert`)
                 expect(element.prop('toggle')).toBe(instance.toggleTooltip)
             })
             test('correct length while hasErrors is false', () => {

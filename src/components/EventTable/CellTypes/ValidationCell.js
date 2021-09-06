@@ -55,21 +55,22 @@ class ValidationCell extends React.Component {
 
 
     render() {
-        const {intl} = this.props;
-
+        const {intl, event:{id}} = this.props;
+        // This is a unique id based on the event id + -validationAlert
+        const uniqueId = id.replace(/[^\w]/gi, '') + '-validationAlert';
         return (
             <td className={classNames('validation-cell',{'error': this.state.hasErrors})}>
                 {this.state.hasErrors &&
                     <React.Fragment>
                         <Button
                             aria-label={intl.formatMessage({id: 'event-validation-errors'})}
-                            id='validationAlert'
+                            id={uniqueId}
                             onClick={this.moveToEdit}
                         >
                             <span aria-hidden className='glyphicon glyphicon-alert'/>
                         </Button>
-                    
-                        <Tooltip isOpen={this.state.tooltipOpen} target='validationAlert' toggle={this.toggleTooltip}>
+
+                        <Tooltip isOpen={this.state.tooltipOpen} target={uniqueId} toggle={this.toggleTooltip}>
                             {intl.formatMessage({id: 'event-validation-errors'})}
                         </Tooltip>
                     </React.Fragment>

@@ -17,7 +17,7 @@ import constants from '../../constants';
 const {EVENT_TYPE} = constants
 
 const NoValue = (props) => {
-    let header = props.labelKey ? (<span ><FormattedMessage id={`${props.labelKey}`}/>&nbsp;</span>) : null
+    let header = props.labelKey ? (<span ><FormattedMessage id={props.labelKey}/>&nbsp;</span>) : null
     return (
         <div className="no-value" >
             {header}
@@ -60,11 +60,12 @@ const MultiLanguageValue = (props) => {
         let val = value[curr];
         const createHTML = () => ({__html: val});
         if (val) {
+            const uniqueId = props.labelKey + `-${curr}`;
             acc.push(
                 <div className={colClass} key={curr}>
                     <div className={`in-${curr} indented`}>
-                        <label htmlFor="language" className="language"><FormattedMessage id={`in-${curr}`}/></label>
-                        <input type="hidden" id="language" name="language" />
+                        <label htmlFor={uniqueId} className="language"><FormattedMessage id={`in-${curr}`}/></label>
+                        <input type="hidden" id={uniqueId} name={uniqueId}/>
                         <div lang={curr} dangerouslySetInnerHTML={createHTML()}/>
                     </div>
                 </div>
@@ -76,8 +77,8 @@ const MultiLanguageValue = (props) => {
     if (elements.length > 0) {
         return (
             <div className="multi-value-field">
-                <label htmlFor= 'field'><FormattedMessage id={`${props.labelKey}`}/></label>
-                <input type='hidden' id='field' />
+                <label htmlFor={`${props.labelKey}-field`}><FormattedMessage id={props.labelKey}/></label>
+                <input type='hidden' id={`${props.labelKey}-field`} />
 
                 <div className="row">
                     {elements}
@@ -87,8 +88,8 @@ const MultiLanguageValue = (props) => {
     } else {
         return (
             <div className="multi-value-field" >
-                <label htmlFor= 'field1' ><FormattedMessage id={`${props.labelKey}`}/></label>
-                <input type="hidden" id='field1' name="field1"/>
+                <label htmlFor={`${props.labelKey}-field`}><FormattedMessage id={props.labelKey}/></label>
+                <input type="hidden" id={`${props.labelKey}-field`} name={`${props.labelKey}-field`}/>
                 <div>
                     <NoValue labelKey={props.labelKey}/>
                 </div>
@@ -108,8 +109,8 @@ const TextValue = (props) => {
         return (
             <div className="single-value-field">
                 <div>
-                    <label htmlFor='events-creator'><FormattedMessage id={`${props.labelKey}`}/></label>
-                    <input type="hidden" id="events-creator" />
+                    <label htmlFor={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
+                    <input type="hidden" id={props.labelKey} />
                 </div>
                 <span role='address' className="value">{props.value}</span>
             </div>
@@ -118,8 +119,8 @@ const TextValue = (props) => {
         return (
             <div className="single-value-field">
                 <div>
-                    <label htmlFor='socialmedia'aria-label="socialmedia"><FormattedMessage id={`${props.labelKey}`}/></label>
-                    <input type="hidden" id='socialmedia' />
+                    <label htmlFor={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
+                    <input type="hidden" id={props.labelKey} />
                 </div>
                 <NoValue labelKey={props.labelKey}/>
             </div>
@@ -162,12 +163,11 @@ const OptionGroup = (props) => {
     if (elements.length === 0) {
         elements = (<NoValue labelKey={props.labelKey}/>)
     }
-
     return (
         <div className="option-group">
             <div>
-                <label htmlFor='category'><FormattedMessage id={`${props.labelKey}`}/></label>
-                <input type="hidden" id='category' />
+                <label htmlFor={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
+                <input type="hidden" id={props.labelKey} />
             </div>
             {elements}
         </div>
@@ -190,9 +190,9 @@ const DateTime = (props) => {
         const value = Intl.DateTimeFormat(props.locale, options).format(new Date(props.value))
         return (
             <div className="single-value-field">
-                <label htmlFor='single-value-field'><FormattedMessage id={`${props.labelKey}`}/></label>
-                <input type="hidden" id="single-value-field" />
-                <span className="value" id="single-value-field">
+                <label id={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
+                <input type="hidden" aria-labelledby={props.labelKey} />
+                <span className="value" aria-labelledby={props.labelKey}>
                     {value}
                 </span>
             </div>
@@ -200,8 +200,8 @@ const DateTime = (props) => {
     } else {
         return (
             <div className="single-value-field">
-                <label htmlFor='value'><FormattedMessage id={`${props.labelKey}`}/></label>
-                <input type="hidden" id="value" />
+                <label htmlFor={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
+                <input type="hidden" id={props.labelKey} />
                 <span className="value">
                     <NoValue id='value' labelKey={props.labelKey}/>
                 </span>

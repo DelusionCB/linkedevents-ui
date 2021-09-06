@@ -160,21 +160,22 @@ class EventPage extends React.Component {
 
     /**
      * Returns a div containing all the action buttons for the view
+     * @param {string} idPrefix - optional string that is used as a prefix for the buttons id
      * @returns {*}
      */
-    getEventActions = () => {
+    getEventActions = (idPrefix) => {
         const {user} = this.props
         const {event, loading} = this.state
         const userType = get(user, 'userType')
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
         const isAdmin = userType === USER_TYPE.ADMIN
         const isRecurring = event.super_event_type === SUPER_EVENT_TYPE_RECURRING
-        const editEventButton = this.getActionButton('edit', this.openEventInEditor, false)
-        const addRecurringButton = this.getActionButton('add', () => this.openEventInEditor('addRecurring'), false)
-        const publishEventButton = this.getActionButton('publish')
-        const postponeEventButton = this.getActionButton('postpone')
-        const cancelEventButton = this.getActionButton('cancel')
-        const deleteEventButton = this.getActionButton('delete')
+        const editEventButton = this.getActionButton('edit', idPrefix,this.openEventInEditor, false)
+        const addRecurringButton = this.getActionButton('add',idPrefix, () => this.openEventInEditor('addRecurring'), false)
+        const publishEventButton = this.getActionButton('publish', idPrefix)
+        const postponeEventButton = this.getActionButton('postpone', idPrefix)
+        const cancelEventButton = this.getActionButton('cancel',idPrefix)
+        const deleteEventButton = this.getActionButton('delete', idPrefix)
 
         return <div className="event-actions">
             <div className="cancel-delete-btn">
@@ -202,12 +203,13 @@ class EventPage extends React.Component {
 
     /**
      * Returns a button for the given action
-     * @param action        Action to run
-     * @param customAction  Custom action that should be run instead of the default one
-     * @param confirm       Whether confirmation modal should be shown before running action
+     * @param {string} action        Action to run
+     * @param {string} [idPrefix] optional string that is used as a prefix for the buttons id
+     * @param {function} [customAction]  Custom action that should be run instead of the default one
+     * @param {boolean} [confirm]       Whether confirmation modal should be shown before running action
      * @returns {*}
      */
-    getActionButton = (action, customAction, confirm = true) => {
+    getActionButton = (action, idPrefix, customAction, confirm = true,) => {
         const {event, subEvents, loading} = this.state
         const {intl} = this.props;
 
@@ -220,6 +222,7 @@ class EventPage extends React.Component {
             runAfterAction={this.handleConfirmedAction}
             subEvents={subEvents}
             intl={intl}
+            idPrefix={idPrefix}
         />
     }
 
@@ -286,7 +289,7 @@ class EventPage extends React.Component {
                         </h2>
                         }
                     </header>
-                    {this.getEventActions()}
+                    {this.getEventActions('top')}
                     <div className="published-information">
                         {publishedText}
                     </div>
@@ -299,7 +302,7 @@ class EventPage extends React.Component {
                     />
                 </div>
                 <div className='event-action-buttons'>
-                    {this.getEventActions()}
+                    {this.getEventActions('bottom')}
                 </div>
             </Fragment>
         )

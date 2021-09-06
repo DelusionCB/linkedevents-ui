@@ -14,7 +14,7 @@ function renderOptions(options){
             >
                 {optionValue}
             </option>
-        )      
+        )
     })
 
     return optionElements
@@ -22,7 +22,7 @@ function renderOptions(options){
 
 function CustomTablePagination({count, rowsPerPage, rowsPerPageOptions, page, onChangePage,
     onChangeRowsPerPage, labelDisplayedRows, labelRowsPerPage, intl, shortcutElementId}){
- 
+
     const from = rowsPerPage * page + 1
     let to = rowsPerPage * page + rowsPerPage
     if(to > count)
@@ -36,15 +36,15 @@ function CustomTablePagination({count, rowsPerPage, rowsPerPageOptions, page, on
             <div className="flex-container">
                 <div className="custom-table-pagination__spacer"></div>
                 <div className="custom-table-pagination__content">
-                    {rowsPerPageOptions.length > 0 && 
-                        <label htmlFor="page-counts">{labelRowsPerPage}</label>
+                    {rowsPerPageOptions.length > 0 &&
+                        <label htmlFor={`page-counts-${shortcutElementId}`}>{labelRowsPerPage}</label>
                     }
-                    {rowsPerPageOptions.length > 0 && 
-                        <select id="page-counts" name="page-counts" value={rowsPerPage} onChange={onChangeRowsPerPage}>
+                    {rowsPerPageOptions.length > 0 &&
+                        <select id={`page-counts-${shortcutElementId}`} name={`page-counts-${shortcutElementId}`} value={rowsPerPage} onChange={onChangeRowsPerPage}>
                             {renderOptions(rowsPerPageOptions)}
                         </select>
                     }
-                    
+
                     <p
                         role="status"
                         className="visually-hidden"
@@ -58,8 +58,8 @@ function CustomTablePagination({count, rowsPerPage, rowsPerPageOptions, page, on
                         previousPageExists={previousPageExists}
                         nextPageExists={nextPageExists}
                         intl={intl}/>
-                    {shortcutElementId && 
-                        <a id="back-to-start-shortcut" href={'#' + shortcutElementId}>
+                    {shortcutElementId &&
+                        <a className="back-to-start-shortcut" href={'#' + shortcutElementId}>
                             {intl.formatMessage({id: 'table-pagination-shortcut-link'})}
                         </a>
                     }

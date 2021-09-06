@@ -31,6 +31,7 @@ describe('EventActionButton', () => {
         loading: false,
         runAfterAction: () => {},
         subEvents: [],
+        idPrefix: 'prefix',
     }
 
     function getWrapper(props) {
@@ -101,7 +102,7 @@ describe('EventActionButton', () => {
             expect(button).toHaveLength(1)
             expect(button.prop('aria-disabled')).toBe(true)
             expect(button.prop('aria-label')).toBe(expectedAriaLabeltext)
-            expect(button.prop('id')).toBe(defaultProps.action)
+            expect(button.prop('id')).toBe(defaultProps.idPrefix + defaultProps.action)
             expect(button.prop('color')).toBe('secondary')
             expect(button.prop('className')).toBe(classNames(`editor-${defaultProps.action}-button`,{'disabled': true}))
             expect(button.prop('onClick')).toBeDefined()
