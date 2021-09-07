@@ -363,6 +363,9 @@ h4 {
 }
 .mainwrapper {
     background-color: white;
+    .row-loginwarning ~ div {
+        pointer-events: none;
+    }
     .show {
         background-color: white;
     }
