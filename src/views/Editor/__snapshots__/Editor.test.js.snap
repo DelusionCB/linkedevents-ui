@@ -2055,9 +2055,6 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
         />
       </div>
     </div>
-    <Connect(Notifications)
-      flashMsg={null}
-    />
   </div>
 </Fragment>
 `;
@@ -4072,9 +4069,6 @@ exports[`Editor Snapshot should render view correctly when editing existing even
         </span>
       </Spinner>
     </div>
-    <Connect(Notifications)
-      flashMsg={null}
-    />
   </div>
 </Fragment>
 `;
@@ -5488,9 +5482,6 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
         />
       </div>
     </div>
-    <Connect(Notifications)
-      flashMsg={null}
-    />
   </div>
 </Fragment>
 `;

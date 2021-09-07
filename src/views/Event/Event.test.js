@@ -8,16 +8,22 @@ import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
 import constants from 'src/constants'
 import {getStringWithLocale} from '../../utils/locale.js';
+import CONSTANTS from '../../constants'
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
+    app: {
+        flashMsg: null,
+    },
     intl,
     userLocale: {
         locale: 'fi',
     },
+    setFlashMsg: () => {},
+    routerPush: () => {},
 };
 
 const {
@@ -57,6 +63,47 @@ describe('EventPage', () => {
                 expect(fetchDataSpy).toHaveBeenCalledTimes(0)
             });
         });
+
+        describe('handleConfirmedAction', () => {
+            const setFlashMsg = jest.fn()
+            const EVENT_CREATION = CONSTANTS.EVENT_CREATION
+            const event = {publication_status: 'test'}
+            afterEach(() => {
+                setFlashMsg.mockClear()
+            })
+            
+            test('calls setFlashMsg with correct params when action is delete', () => {
+                const instance = getWrapper({setFlashMsg}).instance()
+                const action = 'delete'
+                instance.handleConfirmedAction(action, event)
+                expect(setFlashMsg).toHaveBeenCalledTimes(1)
+                expect(setFlashMsg).toHaveBeenCalledWith(EVENT_CREATION.DELETE_SUCCESS, 'success', {sticky: false})
+            })
+
+            test('calls setFlashMsg with correct params when action is cancel', () => {
+                const instance = getWrapper({setFlashMsg}).instance()
+                const action = 'cancel'
+                instance.handleConfirmedAction(action, event)
+                expect(setFlashMsg).toHaveBeenCalledTimes(1)
+                expect(setFlashMsg).toHaveBeenCalledWith(EVENT_CREATION.CANCEL_SUCCESS, 'success', {sticky: false})
+            })
+
+            test('calls setFlashMsg with correct params when action is publish', () => {
+                const instance = getWrapper({setFlashMsg}).instance()
+                const action = 'publish'
+                instance.handleConfirmedAction(action, event)
+                expect(setFlashMsg).toHaveBeenCalledTimes(1)
+                expect(setFlashMsg).toHaveBeenCalledWith(EVENT_CREATION.PUBLISH_SUCCESS, 'success', {sticky: false})
+            })
+
+            test('calls setFlashMsg with correct params when action is postpone', () => {
+                const instance = getWrapper({setFlashMsg}).instance()
+                const action = 'postpone'
+                instance.handleConfirmedAction(action, event)
+                expect(setFlashMsg).toHaveBeenCalledTimes(1)
+                expect(setFlashMsg).toHaveBeenCalledWith(EVENT_CREATION.UPDATE_SUCCESS, 'success', {sticky: false})
+            })
+        })
     });
     describe('render', () => {
         describe('Helmet', () => {

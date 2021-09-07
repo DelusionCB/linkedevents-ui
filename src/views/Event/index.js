@@ -10,7 +10,7 @@ import {Helmet} from 'react-helmet';
 import Spinner from 'react-bootstrap/Spinner'
 import {push} from 'connected-react-router'
 import {replaceData as replaceDataAction} from 'src/actions/editor.js'
-import {confirmAction} from 'src/actions/app.js'
+import {confirmAction, setFlashMsg as setFlashMsgAction} from 'src/actions/app.js'
 import {getStringWithLocale} from 'src/utils/locale'
 import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import client from '../../api/client'
@@ -22,6 +22,7 @@ import {getBadge, scrollToTop} from '../../utils/helpers'
 import './index.scss'
 import EventActionButton from '../../components/EventActionButton/EventActionButton'
 import {getOrganizationAncestors, hasOrganizationWithRegularUsers} from '../../utils/user'
+import CONSTANTS from '../../constants'
 
 const {
     USER_TYPE,
@@ -227,11 +228,14 @@ class EventPage extends React.Component {
     }
 
     handleConfirmedAction = (action, event) => {
-        const {routerPush, user} = this.props;
+        const {routerPush, user, setFlashMsg} = this.props;
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
+        const EVENT_CREATION = CONSTANTS.EVENT_CREATION
 
         // navigate to moderation if an admin deleted a draft event, otherwise navigate to event listing
         if (action === 'delete') {
+            setFlashMsg(EVENT_CREATION.DELETE_SUCCESS, 'success', {sticky: false})
+
             if (isDraft && hasOrganizationWithRegularUsers(user)) {
                 routerPush('/moderation')
             } else {
@@ -240,6 +244,16 @@ class EventPage extends React.Component {
         }
         // re-fetch event data after cancel, postpone or publish action
         if (action === 'cancel' || action === 'publish' ||  action === 'postpone' ) {
+            if(action === 'cancel'){
+                setFlashMsg(EVENT_CREATION.CANCEL_SUCCESS, 'success', {sticky: false})
+            }
+            else if(action === 'publish'){
+                setFlashMsg(EVENT_CREATION.PUBLISH_SUCCESS, 'success', {sticky: false})
+            }
+            else if(action === 'postpone'){
+                setFlashMsg(EVENT_CREATION.UPDATE_SUCCESS, 'success', {sticky: false})
+            }
+            
             this.fetchEventData()
         }
     }
@@ -315,6 +329,7 @@ EventPage.propTypes = {
     user: PropTypes.object,
     match: PropTypes.object,
     events: PropTypes.object,
+    setFlashMsg: PropTypes.func,
     superEvent: PropTypes.object,
     subEvents: PropTypes.object,
     loading: PropTypes.bool,
@@ -334,6 +349,7 @@ const mapDispatchToProps = (dispatch) => ({
     replaceData: (event, recurring) => dispatch(replaceDataAction(event, recurring)),
     routerPush: (url) => dispatch(push(url)),
     confirm: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg, style, actionButtonLabel, data)),
+    setFlashMsg: (id, status, data) => dispatch(setFlashMsgAction(id, status, data)),
 })
 
 export {EventPage as UnconnectedEventPage}

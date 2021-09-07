@@ -31,7 +31,6 @@ describe('Notifications', () => {
             const div = getWrapper({flashMsg}).find('div')
             expect(div).toHaveLength(1)
             expect(div.prop('open')).toBe(!!flashMsg)
-            expect(div.prop('autohideduration')).toBe(duration)
             expect(div.prop('onClose')).toBeDefined()
         })
 
@@ -53,6 +52,44 @@ describe('Notifications', () => {
         test('doesnt render paragraph', () => {
             const paragraph = getWrapper().find('p')
             expect(paragraph).toHaveLength(0)
+        })
+    })
+
+    describe('componentDidUpdate', () => {
+        describe('when prop flashMsg changes', () => {
+            test('calls clearTimeout if state timer is defined', () => {
+                const instance = getWrapper().instance()
+                const timer = setTimeout(() => {}, 10000)
+                instance.setState({timer})
+                const prevProps = {...defaultProps, flashMsg}
+                const spy = jest.spyOn(window, 'clearTimeout')
+                instance.componentDidUpdate(prevProps)
+                expect(spy).toHaveBeenCalledTimes(1)
+                expect(spy).toHaveBeenCalledWith(timer)
+            })
+
+            test('calls setState and setTimeout when flashMsg is not sticky', () => {
+                const flashMsg = {msg: 'test-message', style: 'message', data: {sticky: false}}
+                const clearFlashMsg = () => {}
+                const instance = getWrapper({flashMsg, clearFlashMsg}).instance()
+                const setStateSpy = jest.spyOn(instance, 'setState')
+                const setTimeoutSpy = jest.spyOn(window, 'setTimeout')
+                
+                const prevProps = {...defaultProps}
+                instance.componentDidUpdate(prevProps)
+                expect(setStateSpy).toHaveBeenCalledTimes(1)
+                expect(setTimeoutSpy).toHaveBeenCalledTimes(1)
+                expect(setTimeoutSpy).toHaveBeenCalledWith(clearFlashMsg, 10000)
+            })
+
+            test('calls setState with correct params when flashMsg is sticky', () => {
+                const instance = getWrapper({flashMsg}).instance()
+                const setStateSpy = jest.spyOn(instance, 'setState')                
+                const prevProps = {...defaultProps}
+                instance.componentDidUpdate(prevProps)
+                expect(setStateSpy).toHaveBeenCalledTimes(1)
+                expect(setStateSpy).toHaveBeenCalledWith({timer: null})
+            })
         })
     })
 

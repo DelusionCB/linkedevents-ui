@@ -26,6 +26,7 @@ import moment from 'moment'
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import cookieUtil from '../../utils/cookieUtils';
 import NavStartingPoint from '../../components/NavStartingPoint';
+import Notification from '../Notification';
 
 // localized moment utils
 class LocalizedUtils extends MomentUtils {
@@ -119,6 +120,7 @@ class App extends React.Component {
                 <main id="main-content" className="content">
                     {this.props.children}
                 </main>
+                <Notification flashMsg={this.props.app.flashMsg} />
                 <Modal
                     size='lg'
                     isOpen={!!this.props.app.confirmAction}

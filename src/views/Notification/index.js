@@ -11,6 +11,32 @@ import {Button} from 'reactstrap';
 import {clearFlashMsg as clearFlashMsgAction} from 'src/actions/app.js'
 
 class Notifications extends React.Component {
+    constructor(props){
+        super(props)
+
+        this.state = {
+            timer: null,
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.flashMsg !== prevProps.flashMsg) {
+            if(this.state.timer) {
+                clearTimeout(this.state.timer)
+            }
+
+            if(this.props.flashMsg && !this.props.flashMsg.sticky) {
+                this.setState({
+                    timer: setTimeout(this.props.clearFlashMsg, 10000),
+                })
+            }
+            else {
+                this.setState({
+                    timer: null,
+                })
+            }
+        }
+    }
 
     shouldComponentUpdate(nextProps) {
         return !_.isEqual(nextProps, this.props)
@@ -33,7 +59,6 @@ class Notifications extends React.Component {
             }
         }
 
-        let duration = isSticky ? null : 7000
         let closeFn = isSticky ? function() {} : () => clearFlashMsg()
 
         let actionLabel
@@ -55,13 +80,12 @@ class Notifications extends React.Component {
         return (
             <React.Fragment>
                 { flashMsgSpan &&
-            <div className='notification'
-                open={(!!flashMsg)}
-                autohideduration={duration}
-                onClose={closeFn}
-            >
-                <p className="text-center" role='alert'>{flashMsgSpan}{[actionButton]}</p>
-            </div>
+                    <div className='notification'
+                        open={(!!flashMsg)}
+                        onClose={closeFn}
+                    >
+                        <p className="text-center" role='alert'>{flashMsgSpan}{[actionButton]}</p>
+                    </div>
                 }
             </React.Fragment>
         )

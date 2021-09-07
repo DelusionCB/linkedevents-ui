@@ -5,25 +5,29 @@ jest.mock('../../utils/cookieUtils')
 import {UnconnectedApp} from './';
 import {mockUser} from '__mocks__/mockData';
 import NavStartingPoint from '../../components/NavStartingPoint';
+import Notification from '../Notification';
 
 jest.mock('@city-images/favicon.ico', () => ({
     eventsFavicon: 'favicon for the site',
 }),{virtual: true});
 
 describe('views/App/index', () => {
+    const defaultProps = {
+        intl: {locale: 'fi'},
+        app: {
+            confirmAction: {msg: 'test-confirm-msg'},
+            flashMsg: {msg: 'test-notification-msg', style: 'message', data: {sticky: true}},
+        },
+        user: mockUser,
+        //dispatch: () => {},
+        fetchLanguages: () => {},
+        fetchKeywordSets: () => {},
+        fetchUser: () => {},
+        location: window.location,
+        authUser: {profile: {sub: 'test-sub'}},
+    }
 
     function getWrapper(props) {
-        const defaultProps = {
-            intl: {locale: 'fi'},
-            app: {confirmAction: {msg: 'test-confirm-msg'}},
-            user: mockUser,
-            //dispatch: () => {},
-            fetchLanguages: () => {},
-            fetchKeywordSets: () => {},
-            fetchUser: () => {},
-            location: window.location,
-            authUser: {profile: {sub: 'test-sub'}},
-        }
         return shallow(<UnconnectedApp {...defaultProps} {...props}/>)
     }
 
@@ -34,6 +38,13 @@ describe('views/App/index', () => {
             expect(navPoint).toHaveLength(1)
             expect(navPoint.prop('location')).toBe(location)
         });
+
+        test('Notification', () => {
+            const notification = getWrapper().find(Notification)
+            expect(notification).toHaveLength(1)
+            expect(notification.prop('flashMsg')).toBe(defaultProps.app.flashMsg)
+        });
+
         describe('and ', () => {
             afterEach(() => {
                 jest.clearAllMocks();

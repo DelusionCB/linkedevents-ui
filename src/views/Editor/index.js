@@ -33,7 +33,6 @@ import {scrollToTop} from '../../utils/helpers'
 import {doValidations} from '../../validation/validator'
 import {mapAPIDataToUIFormat} from '../../utils/formDataMapping'
 import getContentLanguages from '../../utils/language'
-import Notifications from '../Notification'
 import PreviewModal from '../../components/PreviewModal/PreviewModal'
 import classNames from 'classnames';
 const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
@@ -413,7 +412,6 @@ export class EditorPage extends React.Component {
                             </div>
                         }
                     </div>
-                    <Notifications flashMsg={this.props.app.flashMsg} />
                 </div>
             </React.Fragment>
         )
@@ -423,7 +421,6 @@ export class EditorPage extends React.Component {
 const mapStateToProps = (state) => ({
     editor: state.editor,
     user: state.user,
-    app: state.app,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -447,7 +444,6 @@ EditorPage.propTypes = {
         intlShape.isRequired,
     ]),
     editor: PropTypes.object,
-    app: PropTypes.object,
     user: PropTypes.object,
     setEventForEditing: PropTypes.func,
     clearData: PropTypes.func,
