@@ -18,6 +18,7 @@ const defaultProps = {
     required: true,
     resource: 'place',
     validationErrors: undefined,
+    disabled: false,
 }
 
 describe('HelSelect', () => {
@@ -32,6 +33,11 @@ describe('HelSelect', () => {
                     const wrapper = getWrapper()
                     const Select = wrapper.find(AsyncSelect)
                     expect(Select).toHaveLength(1)
+                })
+                test('disabled attribute is true if props.disabled is true', () => {
+                    const wrapper = getWrapper({disabled: true})
+                    const Select = wrapper.find(AsyncSelect)
+                    expect(Select.prop('isDisabled')).toBe(true)
                 })
             })
             describe('validationNotification', () => {

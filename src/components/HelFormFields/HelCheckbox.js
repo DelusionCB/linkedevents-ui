@@ -62,6 +62,7 @@ class HelCheckbox extends React.Component {
                     id={fieldID}
                     aria-checked={defaultChecked}
                     aria-disabled={disabled}
+                    disabled={disabled}
                 />
                 <label className={classNames('custom-control-label', {disabled: disabled})}  htmlFor={fieldID}>
                     {label}

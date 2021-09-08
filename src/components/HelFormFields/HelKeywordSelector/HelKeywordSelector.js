@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import {HelLabeledCheckboxGroup, HelSelect} from '../index'
 import SelectedKeywords from '../../SelectedKeywords/SelectedKeywords'
-import {SideField} from '../../FormFields'
 import {mapKeywordSetToForm} from '../../../utils/apiDataMapping'
 import {setData as setDataAction} from '../../../actions/editor'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
@@ -49,7 +48,7 @@ const getKeywordIds = (keywords) => keywords
     })
     .join()
 
-const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale}) => {
+const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale, disabled}) => {
     const [isRemoteEvent, toggleIsRemoteEvent] = useState(false);
     const {values, keywordSets, validationErrors} = editor
     let keywords = get(values, 'keywords', [])
@@ -99,6 +98,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 groupLabel={<FormattedMessage id="main-categories-header"/>}
                 selectedValues={keywords}
                 name="keywords"
+                disabled={disabled}
                 validationErrors={validationErrors['keywords']}
                 itemClassName="col-md-12 col-lg-6"
                 options={parsedMainCategoryOptions}
@@ -113,6 +113,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                     legend={intl.formatMessage({id: 'event-keywords'})}
                     name="keywords"
                     resource="keyword"
+                    disabled={disabled}
                     setDirtyState={setDirtyState}
                     customOnChangeHandler={(selectedOption) =>
                         handleKeywordChange(selectedOption, keywords, mainCategoryOptions, setData)
@@ -144,6 +145,7 @@ HelKeywordSelector.propTypes = {
     setDirtyState: PropTypes.func,
     editor: PropTypes.object,
     currentLocale: PropTypes.string,
+    disabled: PropTypes.bool,
 }
 
 const mapDispatchToProps = (dispatch) => ({

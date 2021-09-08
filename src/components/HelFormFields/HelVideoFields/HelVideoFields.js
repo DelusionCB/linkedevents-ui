@@ -2,10 +2,8 @@ import './HelVideoFields.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
 import {setData as setDataAction} from 'src/actions/editor';
 import {HelTextField, MultiLanguageField} from '../index';
-import {SideField} from '../../FormFields';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 import {isEmpty, get} from 'lodash';
@@ -242,6 +240,7 @@ class HelVideoFields extends React.Component {
                                         onBlur={(e, v) => this.handleBlur(e, v, this.state.videos)}
                                         placeholder='https://...'
                                         type='url'
+                                        disabled={this.props.disabled}
                                     />
                                     <MultiLanguageField
                                         id='event-video-name'
@@ -255,6 +254,7 @@ class HelVideoFields extends React.Component {
                                         onChange={(e, v) => this.handleChange(e, v, 'name', index)}
                                         onBlur={(e, v) => this.handleBlur(e, v, this.state.videos)}
                                         type='text'
+                                        disabled={this.props.disabled}
                                     />
                                     <MultiLanguageField
                                         id='event-video-alt_text'
@@ -268,6 +268,7 @@ class HelVideoFields extends React.Component {
                                         onChange={(e, v) => this.handleChange(e, v, 'alt_text', index)}
                                         onBlur={(e, v) => this.handleBlur(e, v, this.state.videos)}
                                         type='text'
+                                        disabled={this.props.disabled}
                                     />
                                 </div>
                             </div>
@@ -298,6 +299,7 @@ HelVideoFields.propTypes = {
     action: PropTypes.string,
     setData: PropTypes.func,
     defaultValues: PropTypes.array,
+    disabled: PropTypes.bool,
     validationErrors: PropTypes.object,
     setDirtyState: PropTypes.func,
     languages: PropTypes.array,

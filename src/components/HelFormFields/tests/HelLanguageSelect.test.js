@@ -12,6 +12,7 @@ const defaultProps = {
     onChange: () => {},
     setLanguages: () => {},
     checked: ['fi'],
+    disabled: false,
 };
 
 describe('HelLanguageSelect', () => {
@@ -29,7 +30,7 @@ describe('HelLanguageSelect', () => {
             expect(div.at(1).prop('className')).toBe('custom-control custom-checkbox');
         });
         describe('input checkbox', () => {
-            test('LanguageSelect input checkbox gets correct props', () => {
+            test('LanguageSelect input checkbox gets correct props based on defaultProps', () => {
                 const activeLang = availableLanguages[Math.floor(Math.random() * availableLanguages.length)];
                 const checkboxes = getWrapper({checked: [activeLang]}).find('input');
 
@@ -38,6 +39,7 @@ describe('HelLanguageSelect', () => {
                     expect(checkbox.prop('className')).toBe('custom-control-input');
                     expect(checkbox.prop('type')).toBe('checkbox');
                     expect(checkbox.prop('id')).toBe(`checkBox-${availableLanguages[index]}`);
+                    expect(checkbox.prop('disabled')).toBe(false);
                     if (availableLanguages[index] === activeLang) {
                         expect(checkbox.prop('aria-checked')).toBe(true);
                         expect(checkbox.prop('aria-disabled')).toBe(true);
@@ -45,6 +47,12 @@ describe('HelLanguageSelect', () => {
                         expect(checkbox.prop('aria-checked')).toBe(false);
                         expect(checkbox.prop('aria-disabled')).toBe(false);
                     }
+                });
+            });
+            test('LanguageSelect inputs are disabled if props.disabled = true', () => {
+                const checkboxes = getWrapper({checked: 'fi', disabled: true}).find('input');
+                checkboxes.forEach((checkbox) => {
+                    expect(checkbox.prop('disabled')).toBe(true);
                 });
             });
         });

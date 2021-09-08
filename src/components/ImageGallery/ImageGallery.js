@@ -55,6 +55,7 @@ class ImageGallery extends React.Component {
                         size='lg'
                         block
                         onClick={this.toggleEditModal}
+                        disabled={!user}
                     >
                         <span aria-hidden className="glyphicon glyphicon-plus"/>
                         <FormattedMessage id='upload-new-image' />
@@ -62,7 +63,7 @@ class ImageGallery extends React.Component {
                     <ValidationNotification
                         anchor={this.validationRef.current}
                         validationErrors={validationErrors}
-                        className='validation-notification' 
+                        className='validation-notification'
                     />
                     <Button
                         className='toggleOrg'
@@ -79,6 +80,7 @@ class ImageGallery extends React.Component {
                         size='lg'
                         block
                         onClick={() => this.toggleOrgModal(true)}
+                        disabled={!user}
                     >
                         <span aria-hidden className="glyphicon glyphicon-plus"/>
                         <FormattedMessage id='select-from-default'/>
@@ -88,12 +90,12 @@ class ImageGallery extends React.Component {
                 </div>
                 <div className='col-sm-5 side-field'>
                     <div className={classNames('image-picker', {'background': backgroundImage})}>
-                        <ImagePreview 
+                        <ImagePreview
                             image={this.props.editor.values.image}
                             locale={this.props.locale}
                             validationErrors={validationErrors}
                         />
-                        
+
                     </div>
                 </div>
             </React.Fragment>

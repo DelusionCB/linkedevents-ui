@@ -79,6 +79,7 @@ class HelOffersField extends React.Component {
                         languages={this.props.languages}
                         isFree={this.state.isFree}
                         setInitialFocus={key === firstKey}
+                        disabled={this.props.disabled}
                     />
                 );
             }
@@ -88,16 +89,18 @@ class HelOffersField extends React.Component {
 
     render() {
         const {values} = this.state;
+        const {disabled} = this.props;
         const offerDetails = this.generateOffers(this.props.defaultValue);
         //Change OFFER_LENGTH in constants to change maximum length of prices users can add, currently limited to 20
         const isOverLimit = values && values.length >= GENERATE_LIMIT.OFFER_LENGTH;
-        const disabled = isOverLimit || this.state.isFree;
+        const disabledButton = disabled || isOverLimit || this.state.isFree;
 
         return (
             <Fragment>
                 <HelCheckbox
                     fieldID='is-free-checkbox'
                     defaultChecked={this.state.isFree}
+                    disabled={disabled}
                     ref='is_free'
                     label={<FormattedMessage id='is-free' />}
                     onChange={(e, v) => this.setIsFree(e, v)}
@@ -109,7 +112,7 @@ class HelOffersField extends React.Component {
                     <Button
                         size='lg'block
                         variant="contained"
-                        disabled={disabled}
+                        disabled={disabledButton}
                         onClick={() => this.addNewOffer()}
                     ><span aria-hidden className="glyphicon glyphicon-plus"></span>
                         <FormattedMessage id="event-add-price" />
@@ -129,6 +132,7 @@ HelOffersField.propTypes = {
     defaultValue: PropTypes.array,
     validationErrors: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     languages: PropTypes.array,
+    disabled: PropTypes.bool,
 };
 
 export default HelOffersField;

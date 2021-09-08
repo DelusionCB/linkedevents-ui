@@ -363,7 +363,8 @@ h4 {
 }
 .mainwrapper {
     background-color: white;
-    .row-loginwarning ~ div {
+    .row-loginwarning ~ div.row,
+    .row-loginwarning ~ div  div.collapse{
         pointer-events: none;
     }
     .show {

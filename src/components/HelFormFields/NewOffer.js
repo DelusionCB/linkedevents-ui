@@ -77,7 +77,7 @@ class NewOffer extends React.Component {
     }
 
     render() {
-        const {offerKey, defaultValue, isFree, languages, intl, length} = this.props
+        const {offerKey, defaultValue, isFree, languages, intl, length, disabled} = this.props
         const {VALIDATION_RULES} = CONSTANTS
 
         return (
@@ -92,7 +92,7 @@ class NewOffer extends React.Component {
                         name='price'
                         min={0}
                         defaultValue={defaultValue.price}
-                        disabled={isFree}
+                        disabled={disabled || isFree}
                         ref="price"
                         label="event-price"
                         languages={languages}
@@ -108,7 +108,7 @@ class NewOffer extends React.Component {
                     <MultiLanguageField
                         id={'event-price-info' + this.props.offerKey}
                         defaultValue={defaultValue.description}
-                        disabled={isFree}
+                        disabled={disabled || isFree}
                         ref="description"
                         label="event-price-info"
                         languages={languages}
@@ -123,6 +123,7 @@ class NewOffer extends React.Component {
                     <MultiLanguageField
                         id={'event-purchase-link' + this.props.offerKey}
                         defaultValue={defaultValue.info_url}
+                        disabled={disabled}
                         ref="info_url"
                         label="event-purchase-link"
                         languages={languages}
@@ -157,6 +158,7 @@ NewOffer.propTypes = {
     intl: intlShape,
     setInitialFocus: PropTypes.bool,
     length: PropTypes.number,
+    disabled: PropTypes.bool,
 }
 
 export default injectIntl(NewOffer);

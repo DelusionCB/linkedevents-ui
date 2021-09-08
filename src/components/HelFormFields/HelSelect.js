@@ -28,6 +28,7 @@ const HelSelect = ({
     currentLocale,
     required,
     inputValue,
+    disabled,
 })  => {
     const labelRef = useRef(null)
     const selectInputRef = useRef(null)
@@ -56,7 +57,7 @@ const HelSelect = ({
             parentDiv.insertBefore(newDiv, input)
         }
     }, [name])
-    
+
     const onChange = (value) => {
         // let the custom handler handle the change if given
         if (typeof customOnChangeHandler === 'function') {
@@ -248,11 +249,12 @@ const HelSelect = ({
                 aria-label={intl.formatMessage({id: placeholderId})}
                 ref={selectInputRef}
                 styles={{control: invalidStyles}}
+                isDisabled={disabled}
             />
             <ValidationNotification
                 anchor={labelRef.current}
                 validationErrors={validationErrors}
-                className='validation-select' 
+                className='validation-select'
             />
         </div>
     )
@@ -272,6 +274,7 @@ HelSelect.propTypes = {
     name: PropTypes.string,
     isClearable: PropTypes.bool,
     isMultiselect: PropTypes.bool,
+    disabled: PropTypes.bool,
     setDirtyState: PropTypes.func,
     resource: PropTypes.string,
     legend: PropTypes.string,

@@ -19,6 +19,7 @@ const defaultProps = {
     defaultValue: undefined,
     languages: ['fi'],
     validationErrors: {},
+    disabled: false,
 }
 
 describe('HelOffersField', () => {
@@ -28,7 +29,7 @@ describe('HelOffersField', () => {
 
     describe('renders', () => {
         describe('checkbox', () => {
-            test('correct props', () => {
+            test('correct default props', () => {
                 const wrapper = getWrapper()
                 const checkbox = wrapper.find(HelCheckbox)
                 expect(checkbox).toHaveLength(1)
@@ -36,6 +37,11 @@ describe('HelOffersField', () => {
                 expect(checkbox.prop('defaultChecked')).toBe(true)
                 expect(checkbox.prop('label')).toEqual(<FormattedMessage id='is-free'/>)
                 expect(checkbox.prop('onChange')).toBeDefined()
+                expect(checkbox.prop('disabled')).toBe(false)
+            })
+            test('disabled is true if props.disable is true', () => {
+                const checkbox = getWrapper({disabled: true}).find(HelCheckbox)
+                expect(checkbox.prop('disabled')).toBe(true)
             })
         })
         describe('button', () => {
@@ -92,7 +98,7 @@ describe('HelOffersField', () => {
             const obj = {
                 is_free: true,
             };
-            
+
             test('addNewOffer called with addOffer(object)', () => {
                 instance.addNewOffer()
                 expect(dispatch).toHaveBeenCalledWith(addOffer(obj))
@@ -168,7 +174,7 @@ describe('HelOffersField', () => {
 
                 expect(wrapper.state('values')).toEqual(expectedValue)
                 wrapper.setProps({defaultValue: undefined})
-                
+
                 expect(dispatch).toHaveBeenCalledWith(setFreeOffers(true))
             })
         })
