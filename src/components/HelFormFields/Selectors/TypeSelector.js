@@ -140,6 +140,7 @@ class TypeSelector extends React.Component {
 
     render() {
         const {type, isCreateView} = this.state
+        const {disabled} = this.props;
 
         return (
             <div className="type-row row">
@@ -151,7 +152,7 @@ class TypeSelector extends React.Component {
                             checked={type === 'event'}
                             handleCheck={this.handleCheck}
                             messageID='event'
-                            disabled={!isCreateView}
+                            disabled={disabled || !isCreateView}
                             name='TypeGroup'
                         >
 
@@ -173,7 +174,7 @@ class TypeSelector extends React.Component {
                             ariaLabel={this.context.intl.formatMessage({id: `hobby`})}
                             value='hobby'
                             checked={type === 'hobby'}
-                            disabled={!isCreateView}
+                            disabled={disabled || !isCreateView}
                             handleCheck={this.handleCheck}
                             messageID='hobby'
                             name='TypeGroup'
@@ -196,6 +197,7 @@ TypeSelector.propTypes = {
     isUmbrellaEvent: PropTypes.bool,
     hasUmbrellaEvent: PropTypes.bool,
     editedEventIsSubEvent: PropTypes.bool,
+    disabled: PropTypes.bool,
 }
 
 TypeSelector.contextTypes = {

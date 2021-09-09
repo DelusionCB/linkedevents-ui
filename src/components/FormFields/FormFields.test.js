@@ -128,7 +128,7 @@ describe('FormField', () => {
                 const expectedValue = {sub_events: {}}
                 instance.toggleEventType({target: {value: 'recurring'}})
                 setData.mockClear()
-            
+
                 expect(wrapper.state().selectEventType).toBe('recurring')
                 instance.toggleEventType({target: {value: 'single'}})
                 expect(setData).toHaveBeenCalledWith(expectedValue)
@@ -234,7 +234,7 @@ describe('FormField', () => {
             })
         })
     })
-    
+
     describe('render', () => {
 
         describe('components', () => {
@@ -272,6 +272,7 @@ describe('FormField', () => {
                     multifields.forEach((element) => {
                         expect(element.prop('languages')).toBe(defaultProps.editor.contentLanguages)
                         expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
+                        expect(element.prop('disabled')).toBe(false)
                     })
                 })
                 test('correct props for event headline', () => {
@@ -353,6 +354,7 @@ describe('FormField', () => {
                     expect(helcheckbox.prop('name')).toBe('is_virtualevent')
                     expect(helcheckbox.prop('label')).toEqual(<FormattedMessage id='event-location-virtual'/>)
                     expect(helcheckbox.prop('fieldID')).toBe('is_virtual')
+                    expect(helcheckbox.prop('disabled')).toBe(false)
                 })
             })
             describe('HelTextField', () => {
@@ -376,6 +378,7 @@ describe('FormField', () => {
                     expect(virtualHelText.prop('label')).toBe(defaultProps.intl.formatMessage({id: 'event-location-virtual-url'}))
                     expect(virtualHelText.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.virtualevent_url)
                     expect(virtualHelText.prop('defaultValue')).toBe(defaultProps.editor.values.virtualevent_url)
+                    expect(virtualHelText.prop('disabled')).toBe(true)
                 })
                 test('correct props for event facebook field', () => {
                     const faceHelText = helfields.at(1)
@@ -385,6 +388,7 @@ describe('FormField', () => {
                     expect(faceHelText.prop('label')).toBe('Facebook')
                     expect(faceHelText.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.extlink_facebook)
                     expect(faceHelText.prop('defaultValue')).toBe(defaultProps.editor.values.extlink_facebook)
+                    expect(faceHelText.prop('disabled')).toBe(false)
                 })
                 test('correct props for event twitter field', () => {
                     const twitterHelText = helfields.at(2)
@@ -394,6 +398,7 @@ describe('FormField', () => {
                     expect(twitterHelText.prop('label')).toBe('Twitter')
                     expect(twitterHelText.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.extlink_twitter)
                     expect(twitterHelText.prop('defaultValue')).toBe(defaultProps.editor.values.extlink_twitter)
+                    expect(twitterHelText.prop('disabled')).toBe(false)
                 })
                 test('correct props for event instagram field', () => {
                     const instaHelText = helfields.at(3)
@@ -403,6 +408,7 @@ describe('FormField', () => {
                     expect(instaHelText.prop('label')).toBe('Instagram')
                     expect(instaHelText.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.extlink_instagram)
                     expect(instaHelText.prop('defaultValue')).toBe(defaultProps.editor.values.extlink_instagram)
+                    expect(instaHelText.prop('disabled')).toBe(false)
                 })
             })
             describe('HelLabeledCheckboxGroup', () => {
@@ -415,6 +421,7 @@ describe('FormField', () => {
                     helgroupboxes.forEach((element)=> {
                         expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                         expect(element.prop('itemClassName')).toBe('col-md-12 col-lg-6')
+                        expect(element.prop('disabled')).toBe(false)
                     })
                 })
                 test('correct props for audience checkboxgroup', () => {
@@ -440,6 +447,7 @@ describe('FormField', () => {
                 test('correct props for HelLanguageSelect ', () => {
                     expect(hellangselect.prop('options')).toEqual(API.eventInfoLanguages())
                     expect(hellangselect.prop('checked')).toBe(defaultProps.editor.contentLanguages)
+                    expect(hellangselect.prop('disabled')).toBe(false)
                 })
             })
             describe('HelSelect', () => {
@@ -454,6 +462,7 @@ describe('FormField', () => {
                     expect(helselect.prop('optionalWrapperAttributes')).toEqual({className: 'location-select'})
                     expect(helselect.prop('currentLocale')).toBe(intl.locale)
                     expect(helselect.prop('required')).toBe(true)
+                    expect(helselect.prop('disabled')).toBe(false)
                 })
             })
             describe('HelOffersField', () => {
@@ -465,6 +474,7 @@ describe('FormField', () => {
                     expect(heloffers.prop('defaultValue')).toBe(defaultProps.editor.values.offers)
                     expect(heloffers.prop('languages')).toBe(defaultProps.editor.contentLanguages)
                     expect(heloffers.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
+                    expect(heloffers.prop('disabled')).toBe(false)
                 })
             })
 
@@ -476,6 +486,7 @@ describe('FormField', () => {
                     expect(helkeywords.prop('intl')).toBe(intl)
                     expect(helkeywords.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                     expect(helkeywords.prop('currentLocale')).toBe(intl.locale)
+                    expect(helkeywords.prop('disabled')).toBe(false)
                 })
             })
 
@@ -512,6 +523,7 @@ describe('FormField', () => {
                     expect(umbrella.prop('editor')).toBe(defaultProps.editor)
                     expect(umbrella.prop('event')).toBe(defaultProps.event)
                     expect(umbrella.prop('superEvent')).toBe(defaultProps.editor.super_event_type)
+                    expect(umbrella.prop('disabled')).toBe(false)
                 })
             })
             describe('HelVideoFields', () => {
@@ -523,6 +535,7 @@ describe('FormField', () => {
                     expect(videofields.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                     expect(videofields.prop('intl')).toBe(intl)
                     expect(videofields.prop('action')).toBe(defaultProps.action)
+                    expect(videofields.prop('disabled')).toBe(false)
                 })
             })
             describe('CustomDateTime', () => {
@@ -614,7 +627,7 @@ describe('FormField', () => {
                     const message = getWrapper().find('#event-location-button')
                     expect(message).toHaveLength(1)
                 })
-                
+
                 test('button icon when state.openMapContainer is true', () => {
                     const wrapper = getWrapper()
                     const instance = wrapper.instance()

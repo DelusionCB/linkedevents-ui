@@ -118,7 +118,7 @@ class FormFields extends React.Component {
         if (prevState.selectEventType === 'recurring' && Object.keys(this.props.editor.values.sub_events).length === 0) {
             this.toggleEventType({target: {value: 'single'}})
         }
-        
+
         // if recurring was previously false and is true now -> reset back to false
         if(!prevState.createdRecurringEvents && this.state.createdRecurringEvents){
             this.setState({createdRecurringEvents: false})
@@ -307,7 +307,9 @@ class FormFields extends React.Component {
         const position = this.props.editor.values.location ? this.props.editor.values.location.position : null;
         const headerTextId = formType === 'update'
             ? 'edit-events'
-            : 'create-events'
+            : 'create-events';
+        // This variable is used to disable inputs if user doesn't exist.
+        const userDoesNotExist = !user;
 
         return (
             <div className='mainwrapper'>
@@ -327,7 +329,7 @@ class FormFields extends React.Component {
                 </div>
                 <FormHeader messageID='event-type-select'/>
                 <div className='row'>
-                    <TypeSelector editor={this.props.editor} event={event}/>
+                    <TypeSelector editor={this.props.editor} event={event} disabled={userDoesNotExist}/>
                 </div>
                 <FormHeader messageID='event-presented-in-languages'/>
                 <FormHeader messageID='event-presented-in-languages2' type='h4'/>
@@ -336,6 +338,7 @@ class FormFields extends React.Component {
                         <HelLanguageSelect
                             options={API.eventInfoLanguages()}
                             checked={contentLanguages}
+                            disabled={userDoesNotExist}
                         />
                     </div>
                 </div>
@@ -356,6 +359,7 @@ class FormFields extends React.Component {
                             defaultValue={values['name']}
                             languages={this.props.editor.contentLanguages}
                             setDirtyState={this.props.setDirtyState}
+                            disabled={userDoesNotExist}
                         />
 
                         <MultiLanguageField
@@ -371,6 +375,7 @@ class FormFields extends React.Component {
                             setDirtyState={this.props.setDirtyState}
                             forceApplyToStore
                             type='textarea'
+                            disabled={userDoesNotExist}
                         />
                         <MultiLanguageField
                             id='event-description'
@@ -384,6 +389,7 @@ class FormFields extends React.Component {
                             validations={[VALIDATION_RULES.LONG_STRING]}
                             setDirtyState={this.props.setDirtyState}
                             type='textarea'
+                            disabled={userDoesNotExist}
                         />
                         <OrganizationSelector
                             formType={formType}
@@ -404,6 +410,7 @@ class FormFields extends React.Component {
                             languages={this.props.editor.contentLanguages}
                             setDirtyState={this.props.setDirtyState}
                             type='textarea'
+                            disabled={userDoesNotExist}
                         />
                     </div>
                 </div>
@@ -543,6 +550,7 @@ class FormFields extends React.Component {
                                         label={<FormattedMessage id='event-location-virtual'/>}
                                         fieldID='is_virtual'
                                         defaultChecked={values['is_virtualevent']}
+                                        disabled={userDoesNotExist}
                                     />
                                     <HelTextField
                                         validations={[VALIDATION_RULES.IS_URL]}
@@ -556,7 +564,7 @@ class FormFields extends React.Component {
                                         forceApplyToStore
                                         type='url'
                                         required={values.is_virtualevent}
-                                        disabled={!values.is_virtualevent}
+                                        disabled={userDoesNotExist || !values.is_virtualevent}
                                     />
                                 </div>
                                 <HelSelect
@@ -570,6 +578,7 @@ class FormFields extends React.Component {
                                     optionalWrapperAttributes={{className: 'location-select'}}
                                     currentLocale={currentLocale}
                                     required={!values.is_virtualevent}
+                                    disabled={userDoesNotExist}
                                 />
                                 <div className='map-button-container'>
                                     <Button
@@ -625,6 +634,7 @@ class FormFields extends React.Component {
                                     languages={this.props.editor.contentLanguages}
                                     setDirtyState={this.props.setDirtyState}
                                     type='textarea'
+                                    disabled={userDoesNotExist}
                                 />
                             </div>
                         </div>
@@ -637,7 +647,7 @@ class FormFields extends React.Component {
                                     <p><FormattedMessage id="editor-tip-umbrella-selection1"/></p>
                                 </SideField>
                                 <div className="col-sm-6">
-                                    <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
+                                    <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent} disabled={userDoesNotExist}/>
                                 </div>
                             </div>
                         </React.Fragment>
@@ -663,11 +673,13 @@ class FormFields extends React.Component {
                                             onChange={this.toggleEventType}
                                             checked={!this.state.selectEventType}
                                             disabled={
+                                                userDoesNotExist ||
                                                 formType === 'update' ||
-                                                        formType === 'add' ||
-                                                        isSuperEventDisable ||
-                                                        isSuperEvent ||
-                                                        subTimeDisable}
+                                                formType === 'add' ||
+                                                isSuperEventDisable ||
+                                                isSuperEvent ||
+                                                subTimeDisable
+                                            }
                                         />
                                         <label className='custom-control-label' htmlFor='single'>
                                             <FormattedMessage id='event-type-single'/>
@@ -683,11 +695,14 @@ class FormFields extends React.Component {
                                             value='recurring'
                                             checked={this.state.selectEventType}
                                             onChange={this.toggleEventType}
-                                            disabled={formType === 'update' ||
-                                                    formType === 'add' ||
-                                                    isSuperEventDisable ||
-                                                    isSuperEvent ||
-                                                    values.start_time !== undefined}
+                                            disabled={
+                                                userDoesNotExist ||
+                                                formType === 'update' ||
+                                                formType === 'add' ||
+                                                isSuperEventDisable ||
+                                                isSuperEvent ||
+                                                values.start_time !== undefined
+                                            }
                                         />
                                         <label className='custom-control-label' htmlFor='recurring'>
                                             <FormattedMessage id='event-type-recurring'/>
@@ -713,13 +728,13 @@ class FormFields extends React.Component {
                                             setDirtyState={this.props.setDirtyState}
                                             maxDate={values['end_time'] ? moment(values['end_time']) : undefined}
                                             required={true}
-                                            disabled={formType === 'update' && isSuperEvent}
+                                            disabled={userDoesNotExist || (formType === 'update' && isSuperEvent)}
                                             validationErrors={validationErrors['start_time']}
                                         />
                                         <CustomDateTime
                                             id="end_time"
                                             disablePast
-                                            disabled={formType === 'update' && isSuperEvent}
+                                            disabled={userDoesNotExist || (formType === 'update' && isSuperEvent)}
                                             validationErrors={validationErrors['end_time']}
                                             defaultValue={values['end_time']}
                                             name="end_time"
@@ -828,6 +843,7 @@ class FormFields extends React.Component {
                                 intl={this.context.intl}
                                 setDirtyState={this.props.setDirtyState}
                                 currentLocale={currentLocale}
+                                disabled={userDoesNotExist}
                             />
                         </div>
                         <div className="row audience-row">
@@ -840,6 +856,7 @@ class FormFields extends React.Component {
                                 itemClassName="col-md-12 col-lg-6"
                                 options={helTargetOptions}
                                 setDirtyState={this.props.setDirtyState}
+                                disabled={userDoesNotExist}
                             />
                         </div>
                     </Collapse>
@@ -865,6 +882,7 @@ class FormFields extends React.Component {
                                     defaultValue={values['offers']}
                                     languages={this.props.editor.contentLanguages}
                                     setDirtyState={this.props.setDirtyState}
+                                    disabled={userDoesNotExist}
                                 />
                             </div>
 
@@ -900,6 +918,7 @@ class FormFields extends React.Component {
                                     forceApplyToStore
                                     type='url'
                                     placeholder='https://...'
+                                    disabled={userDoesNotExist}
                                 />
                                 <HelTextField
                                     validations={[VALIDATION_RULES.IS_URL]}
@@ -913,6 +932,7 @@ class FormFields extends React.Component {
                                     forceApplyToStore
                                     type='url'
                                     placeholder='https://...'
+                                    disabled={userDoesNotExist}
                                 />
                                 <i className='facebookIcon' />
                                 <HelTextField
@@ -927,6 +947,7 @@ class FormFields extends React.Component {
                                     forceApplyToStore
                                     type='url'
                                     placeholder='https://...'
+                                    disabled={userDoesNotExist}
                                 />
                                 <HelTextField
                                     validations={[VALIDATION_RULES.IS_URL]}
@@ -940,6 +961,7 @@ class FormFields extends React.Component {
                                     forceApplyToStore
                                     type='url'
                                     placeholder='https://...'
+                                    disabled={userDoesNotExist}
                                 />
                             </div>
                         </div>
@@ -949,6 +971,7 @@ class FormFields extends React.Component {
                             setDirtyState={this.props.setDirtyState}
                             intl={this.context.intl}
                             action={this.props.action}
+                            disabled={userDoesNotExist}
                         />
                     </Collapse>
                 </div>
@@ -973,6 +996,7 @@ class FormFields extends React.Component {
                                 itemClassName="col-md-12 col-lg-6"
                                 options={helEventLangOptions}
                                 setDirtyState={this.props.setDirtyState}
+                                disabled={userDoesNotExist}
                             />
                         </div>
                     </Collapse>

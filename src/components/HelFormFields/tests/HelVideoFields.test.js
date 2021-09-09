@@ -34,6 +34,7 @@ describe('HelVideoFields', () => {
         intl: {intl},
         editorValues: {},
         defaultValues: [],
+        disabled: false,
     };
     const MOCK_VIDEO = {
         url: 'http://www.turku.fi/',
@@ -270,6 +271,16 @@ describe('HelVideoFields', () => {
 
                 textFieldElements = wrapper.find(HelTextField);
                 expect(textFieldElements.at(randomKey([0, 1, 2])).prop('required')).toBe(false);
+            });
+            test('disabled attribute is determined by props.disabled', () => {
+                let elements = getWrapper({disabled: true}).find(HelTextField);
+                elements.forEach((element) => {
+                    expect(element.prop('disabled')).toBe(true);
+                });
+                elements = getWrapper({disabled: false}).find(HelTextField);
+                elements.forEach((element) => {
+                    expect(element.prop('disabled')).toBe(false);
+                });
             });
         });
     });

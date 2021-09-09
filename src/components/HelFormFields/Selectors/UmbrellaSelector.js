@@ -179,7 +179,7 @@ class UmbrellaSelector extends React.Component {
         this.setState(states);
         this.context.dispatch(clearValue(clearValues))
     }
-    
+
     /**
      * Handles select changes
      * @param selectedEvent Data for the selected event
@@ -222,10 +222,11 @@ class UmbrellaSelector extends React.Component {
      */
     getDisabledState = (value, editedEventIsSubEvent) => {
         const {isCreateView, superEventSuperEventType} = this.state
-        const {event, editor: {values}} = this.props
+        const {event, editor: {values}, disabled} = this.props
         const editedEventIsAnUmbrellaEvent = get(event, 'super_event_type') === constants.SUPER_EVENT_TYPE_UMBRELLA
         const editedEventIsARecurringEvent = get(event, 'super_event_type') === constants.SUPER_EVENT_TYPE_RECURRING
         const editedEventHasSubEvents = get(event, 'sub_events', []).length > 0
+        if (disabled) {return disabled;}
         if (value === 'is_independent') {
             return isCreateView
                 ? false
@@ -340,6 +341,7 @@ class UmbrellaSelector extends React.Component {
 UmbrellaSelector.propTypes = {
     intl: PropTypes.object,
     dispatch: PropTypes.func,
+    disabled: PropTypes.bool,
     store: PropTypes.object,
     editor: PropTypes.object,
     event: PropTypes.object,

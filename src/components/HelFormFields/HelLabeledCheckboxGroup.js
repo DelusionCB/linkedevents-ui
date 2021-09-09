@@ -28,7 +28,7 @@ const handleChange = (refs, {options, name, customOnChangeHandler, setDirtyState
 }
 
 const HelLabeledCheckboxGroup = (props) => {
-    const {options, name, selectedValues, itemClassName, groupLabel, validationErrors} = props
+    const {options, name, selectedValues, itemClassName, groupLabel, validationErrors, disabled} = props
     const refs = useRef({}).current;
     const labelRef = useRef(null);
     const checkedOptions = selectedValues.map(item => {
@@ -62,6 +62,7 @@ const HelLabeledCheckboxGroup = (props) => {
                                     checked={checked}
                                     onChange={() => handleChange(refs, props)}
                                     id={inputId}
+                                    disabled={disabled}
                                 />
                                 <label htmlFor={inputId} className='custom-control-label'>{item.label}</label>
                             </div>
@@ -86,6 +87,7 @@ HelLabeledCheckboxGroup.propTypes = {
     name: PropTypes.string,
     customOnChangeHandler: PropTypes.func,
     setData: PropTypes.func,
+    disabled: PropTypes.bool,
     setDirtyState: PropTypes.func,
     selectedValues: PropTypes.array,
     options: PropTypes.array,

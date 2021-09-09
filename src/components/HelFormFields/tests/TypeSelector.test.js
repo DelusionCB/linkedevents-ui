@@ -37,6 +37,7 @@ const defaultProps = {
         },
     },
     intl,
+    disabled: false,
 }
 
 describe('UmbrellaSelector', () => {
@@ -47,7 +48,7 @@ describe('UmbrellaSelector', () => {
     describe('renders', () => {
         describe('components', () => {
             describe('SelectorRadios', () => {
-                test('correct props', () => {
+                test('correct default props', () => {
                     const wrapper = getWrapper()
                     const instance = wrapper.instance();
                     const radioElements = wrapper.find(SelectorRadio)
@@ -61,10 +62,16 @@ describe('UmbrellaSelector', () => {
                         expect(radio.prop('messageID')).toBe(elementIds[index]);
                         expect(radio.prop('value')).toBe(elementValues[index]);
                         expect(radio.prop('ariaLabel')).toBe(intl.formatMessage({id: elementIds[index]}))
-                        expect(radio.prop('disabled')).toBe(!instance.state.isCreateView)
+                        expect(radio.prop('disabled')).toBe(defaultProps.disabled || !instance.state.isCreateView)
                         expect(radio.prop('checked')).toBe(elementStates[index])
                     })
                 })
+                test('disabled attribute is true if props.disabled is true', () => {
+                    const elements = getWrapper({disabled: true}).find(SelectorRadio)
+                    elements.forEach((element) => {
+                        expect(element.prop('disabled')).toBe(true);
+                    });
+                });
             })
         })
     })

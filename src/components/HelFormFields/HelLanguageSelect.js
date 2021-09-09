@@ -37,11 +37,11 @@ class HelLanguageSelect extends React.Component {
     };
 
     render() {
-        const {options, checked} = this.props;
+        const {options, checked, disabled} = this.props;
         const checkboxes = options.map((item, index) => {
             const checkedOptions = checked;
             const isChecked = checkedOptions && checkedOptions.includes(item.value);
-            const disabled = isChecked && checkedOptions && checkedOptions.length === 1;
+            const isDisabled = disabled || (isChecked && checkedOptions && checkedOptions.length === 1);
 
             return (
                 <div className='custom-control custom-checkbox' key={index}>
@@ -55,9 +55,10 @@ class HelLanguageSelect extends React.Component {
                         checked={isChecked}
                         onChange={this.onChange}
                         aria-checked={isChecked}
-                        aria-disabled={disabled}
+                        aria-disabled={isDisabled}
+                        disabled={disabled}
                     />
-                    <label className={classNames('custom-control-label', {disabled: disabled})} htmlFor={`checkBox-${item.value}`}>
+                    <label className={classNames('custom-control-label', {disabled: isDisabled})} htmlFor={`checkBox-${item.value}`}>
                         <FormattedMessage id={item.label} />
                     </label>
                 </div>
@@ -73,6 +74,7 @@ HelLanguageSelect.propTypes = {
     onChange: PropTypes.func,
     options: PropTypes.array,
     checked: PropTypes.array,
+    disabled: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({
