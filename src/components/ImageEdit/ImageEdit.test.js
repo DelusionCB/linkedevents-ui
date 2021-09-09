@@ -96,7 +96,7 @@ describe('ImageEdit', () => {
 
                     // photographerName
                     expect(wrapper.state('image')['photographerName']).toEqual('');
-                    wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
+                    wrapper.instance().handleChange({target:{id:'photographer'}}, 'Photographer Phil');
                     expect(wrapper.state('image')['photographerName']).toEqual('Photographer Phil');
                 });
             });
@@ -413,11 +413,12 @@ describe('ImageEdit', () => {
             });
             test('HelTextField with correct parameters', () => {
                 const wrapper = getWrapper();
-                wrapper.instance().handleChange({target:{id:'photo'}},'Phil Photo');
+                wrapper.instance().handleChange({target:{id:'photographer'}},'Phil Photo');
                 const element = wrapper.find(HelTextField);
 
                 expect(element).toHaveLength(1);
                 expect(element.prop('fullWidth')).toBeDefined();
+                expect(element.prop('id')).toEqual('photographer');
                 expect(element.prop('name')).toEqual('photographerName');
                 expect(element.prop('label')).toBe(intl.formatMessage({id: 'photographer'}))
                 expect(element.prop('validations')).toEqual([VALIDATION_RULES.SHORT_STRING]);

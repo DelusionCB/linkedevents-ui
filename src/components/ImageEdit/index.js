@@ -273,7 +273,7 @@ class ImageEdit extends React.Component {
             });
             this.setState({image: localImage})
         }
-        else {
+        else if (id.includes('photographer')) {
             localImage['photographerName'] = update(localImage['photographerName'], {
                 $set: value,
             })
@@ -328,6 +328,7 @@ class ImageEdit extends React.Component {
 
                 <HelTextField
                     fullWidth
+                    id='photographer'
                     name='photographerName'
                     required={true}
                     defaultValue={this.state.image.photographerName}
