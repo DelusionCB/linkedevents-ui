@@ -31,6 +31,7 @@ import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import CollapseButton from './CollapseButton/CollapseButton';
+import SideField from './SideField/SideField';
 import HelCheckbox from '../HelFormFields/HelCheckbox';
 import LoginNotification from './LoginNotification/LoginNotification'
 
@@ -48,22 +49,6 @@ FormHeader.propTypes = {
     messageID: PropTypes.string,
 }
 
-
-export const SideField = (props) => (
-    <div className='side-field col-sm-5'>
-        <div className='tip'>
-            {props.children}
-        </div>
-    </div>
-)
-
-SideField.propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object,
-    ]),
-}
 
 class FormFields extends React.Component {
     constructor(props) {
@@ -322,10 +307,7 @@ class FormFields extends React.Component {
                     <FormattedMessage id={headerTextId}>{txt => <h1>{txt}</h1>}</FormattedMessage>
                 </div>
                 <div className="row row-header">
-                    <FormattedMessage id='event-add-newInfo'>{txt => <h2>{txt}</h2>}</FormattedMessage>
-                    <SideField>
-                        <FormattedMessage id='editor-tip-required'/>
-                    </SideField>
+                    <FormattedMessage id='editor-tip-required'>{txt => <h2>{txt}</h2>}</FormattedMessage>
                 </div>
                 <FormHeader messageID='event-type-select'/>
                 <div className='row'>
@@ -537,10 +519,10 @@ class FormFields extends React.Component {
                     <Collapse isOpen={this.state.headerLocationDate}>
                         <FormHeader messageID='event-location-form-header'/>
                         <div className="row location-row">
-                            <SideField>
-                                <p><FormattedMessage id="editor-tip-location"/></p>
-                                <p><strong><FormattedMessage id="editor-tip-location-internet"/></strong></p>
-                                <p><FormattedMessage id="editor-tip-location-not-found"/></p>
+                            <SideField id='editor-tip-location'>
+                                <FormattedMessage id="editor-tip-location-multi">{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id="editor-tip-location-internet">{txt => <p><strong>{txt}</strong></p>}</FormattedMessage>
+                                <FormattedMessage id="editor-tip-location-not-found">{txt => <p>{txt}</p>}</FormattedMessage>
                             </SideField>
                             <div className="col-sm-6 hel-select">
                                 <div>
@@ -642,7 +624,7 @@ class FormFields extends React.Component {
                         <React.Fragment>
                             <FormHeader messageID='event-umbrella-header'/>
                             <div className="row umbrella-row">
-                                <SideField>
+                                <SideField id='editor-tip-umbrella'>
                                     <p><FormattedMessage id="editor-tip-umbrella-selection"/></p>
                                     <p><FormattedMessage id="editor-tip-umbrella-selection1"/></p>
                                 </SideField>
@@ -654,7 +636,7 @@ class FormFields extends React.Component {
                         }
                         <FormHeader messageID='event-datetime-form-header'/>
                         <div className='row date-row'>
-                            <SideField>
+                            <SideField id='editor-tip-times'>
                                 <p><FormattedMessage id="editor-tip-time-start"/></p>
                                 <p><FormattedMessage id="editor-tip-time-start-end"/></p>
                                 <p><FormattedMessage id="editor-tip-time-type"/></p>

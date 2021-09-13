@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme';
-import FormFields, {SideField} from './index'
+import FormFields from './index'
 import {IntlProvider, FormattedMessage} from 'react-intl';
 import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
@@ -30,6 +30,7 @@ import ImageGallery from '../ImageGallery/ImageGallery';
 import {mockKeywordSets, mockLanguages, mockUser, mockUserEvents} from '__mocks__/mockData';
 import CollapseButton from './CollapseButton/CollapseButton';
 import {NewEvent} from '../HelFormFields';
+import SideField from './SideField/SideField';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -243,22 +244,35 @@ describe('FormField', () => {
                 test('amount of formattedmessages', () => {
                     const wrapper = getWrapper()
                     const messages = wrapper.find(FormattedMessage)
-                    expect(messages).toHaveLength(16)
+                    expect(messages).toHaveLength(15)
                 })
             })
             describe('SideField', () => {
                 const wrapper = getWrapper()
                 const Sidefields = wrapper.find(SideField)
                 test('amount of sidefields', () => {
-                    expect(Sidefields).toHaveLength(4)
+                    expect(Sidefields).toHaveLength(3)
+                })
+                test('correct props', () => {
+                    const ids = ['editor-tip-location', 'editor-tip-umbrella', 'editor-tip-times']
+                    Sidefields.forEach((element, index) => {
+                        expect(element.prop('id')).toEqual(ids[index])
+                    })
                 })
                 test('sidefields childrens has formattedmesssages', () => {
                     Sidefields.forEach((element) => {
                         expect(element.find(FormattedMessage))
                     })
                 })
-                test('first sidefield with correct props', () => {
-                    expect(Sidefields.at(0).prop('children')).toEqual(<FormattedMessage id="editor-tip-required"/>)
+                test('first sidefield with correct amount of children',() => {
+                    const fields = Sidefields.at(0).children();
+                    expect(fields.find(FormattedMessage).length).toEqual(3)
+                })
+                test('first sidefield with correct children ids', () => {
+                    const fields = Sidefields.at(0).children();
+                    expect(fields.at(0).prop('id')).toEqual('editor-tip-location-multi')
+                    expect(fields.at(1).prop('id')).toEqual('editor-tip-location-internet')
+                    expect(fields.at(2).prop('id')).toEqual('editor-tip-location-not-found')
                 })
             })
             describe('MultiLanguageField', () => {

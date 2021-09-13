@@ -387,7 +387,7 @@
     "editor-tip-time-type": "Lägg till en ny tidpunkt: Lägg till återkommande evenemang till en serie.",
     "editor-tip-time-end": "Ett regelbundet återkommande evenemang: Lägg till regelbundet återkommande tider som upprepas t.ex varje vecka (bl.a. en teaterföreställning som upprepas likadan flera gånger).",
 
-    "editor-tip-location": "Evenemanget kan vara virtuellt, fysiskt eller båda.",
+    "editor-tip-location-multi": "Evenemanget kan vara virtuellt, fysiskt eller båda.",
     "editor-tip-location-internet": "Om evenemanget ordnas på distans över internet, välj då Virtuellt evenemang som evenemangsplats, samt mata in en URL. Du kan ange ytterligare information för att hitta evenemangsplatsen, till exempel konferensrummets namn eller instruktioner för att hitta ingången.",
     "editor-tip-location-not-found": "Om en exakt evenemangsplats inte finns på listan, välj då närmaste gatuaddress och skriv platsens namn eller ankomst instruktioner i fältet för tilläggsuppgifter.",
 
@@ -400,6 +400,9 @@
     "editor-tip-required": "Obligatoriska fält är utmärkta med en asterisk (*).",
     "editor-tip-eventtype-disable": "Radera tiderna om du vill byta evenemangets repetition.",
 
+    "editor-tip-umbrella": "Anvisningen om ett paraplyevenemang.",
+    "editor-tip-times": "Anvisningen om evenemangets repetition.",
+    "editor-tip-location": "Anvisningen om att välja plats.",
 
     "editor-headerbutton-collapse": "Klicka för att stänga sektionen",
     "editor-headerbutton-expand": "Klicka för att utöka sektionen",

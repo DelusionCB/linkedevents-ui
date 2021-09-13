@@ -37,32 +37,6 @@ $actionBtnHeight: 60px;
             }
         }
     }
-    .side-field {
-        padding-top: 24px;
-        @media (max-width: 768px) {
-            padding-top: 15px;
-            padding-bottom: 15px;
-            &.ImagePickerField {
-                margin-top: 25px;
-            }
-        }
-        p {
-            font-size: 18px;
-            font-weight: 300;
-        }
-        strong {
-            font-weight: bold;
-        }
-        &.padded {
-            padding-top: 66px;
-        }
-        &-umbrella {
-            padding-top: 0;
-            .tip {
-                margin-top: 0;
-            }
-        }
-    }
 
     .hel-select {
         display: block;

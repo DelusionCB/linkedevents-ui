@@ -373,10 +373,9 @@
     "editor-tip-time-type": "Add new occasion: add sub-events to a serial event.",
     "editor-tip-time-end": "Regularly recurring event: Add regularly recurring events, e.g. a weekly.",
 
-    "editor-tip-location": "The event can be virtual, physical or both.",
-    "editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instructions to find an entrance.",
+    "editor-tip-location-multi": "The event can be virtual, physical or both.",
+    "editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instruction to find an entrance.",
     "editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
-
 
     "editor-tip-umbrella-sub-event": "If you wish to add this event under an umbrella event, you may do so from the associated ",
     "editor-tip-umbrella-sub-event-link": "top level event",
@@ -385,6 +384,10 @@
     "editor-tip-umbrella-selection1": "Part of an umbrella event = The event is a part of a larger event. For example, Meet with the Writer on Night of the Arts",
     "editor-tip-eventtype-disable": "Delete the added times, if you would like to change the event recurrence.",
     "editor-tip-required": "Fields marked with an asterisk (*) are mandatory.",
+
+    "editor-tip-umbrella": "Instructions for an umbrella event.",
+    "editor-tip-times": "Instructions for choosing event recurrence.",
+    "editor-tip-location": "Instructions for selecting a location.",
 
     "editor-headerbutton-collapse": "Click to close section",
     "editor-headerbutton-expand": "Click to expand section",

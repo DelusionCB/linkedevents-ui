@@ -14,7 +14,6 @@ jest.mock('@city-assets/urls.json', () => ({
 }),{virtual: true});
 
 import {UnconnectedHelVideoFields} from '../HelVideoFields/HelVideoFields';
-import {SideField} from '../../FormFields';
 import {HelTextField} from '../index';
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages});

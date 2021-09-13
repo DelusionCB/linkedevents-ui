@@ -40,12 +40,12 @@ function CollapseButton({id, intl, isOpen, isRequired, targetCollapseNameId, tog
 }
 
 CollapseButton.propTypes = {
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     intl: intlShape.isRequired,
-    isOpen: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool,
     isRequired: PropTypes.bool,
     targetCollapseNameId: PropTypes.string.isRequired,
-    toggleHeader: PropTypes.func.isRequired,
+    toggleHeader: PropTypes.func,
     validationErrorList: PropTypes.array,
 }
 

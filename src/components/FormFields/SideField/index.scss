@@ -1,0 +1,31 @@
+.side-field {
+    .tip {
+        p {
+            font-size: 18px;
+            font-weight: 300;
+            strong {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+
+@media (max-width: 991px) {
+    .side-field {
+        margin-bottom: 10px;
+        padding-top: 5px;
+        .show {
+            margin-bottom: 10px;
+        }
+    }
+}
+@media (min-width: 992px) {
+    .side-field {
+        padding-top: 24px;
+        .headerbutton {
+            display: none;
+        }
+    }
+}
+
