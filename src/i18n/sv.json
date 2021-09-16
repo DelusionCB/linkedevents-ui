@@ -436,7 +436,8 @@
 
     "draft-cancel": "Evenemangutkast kan inte ångras.",
     "draft-publish-subevent": "Evenemang i serien kan inte publiceras.",
-    "event-validation-errors": "Det finns brister i evenemangsuppgifterna. Redigera evenemanget före publiceringen.",
+    "event-validation-errors": "Innehållets information är felaktigt, korrigera felen före publicering.",
+    "event-validation-no-errors": "Innehållets information innehåller inga fel.",
     "event-in-the-past": "Gångna evenemang kan inte redigeras.",
     "event-canceled": "Inställda evenemang kan inte redigeras.",
     "user-no-rights-copy": "Logga in för att kopiera det här evenemanget",

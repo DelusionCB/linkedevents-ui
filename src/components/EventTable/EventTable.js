@@ -5,6 +5,7 @@ import CustomTablePagination from './CustomTablePagination'
 import {FormattedMessage, injectIntl} from 'react-intl';
 import EventRow from './EventRow';
 import TableHeaderCell from './CellTypes/TableHeaderCell';
+import SelectionCell from './CellTypes/SelectionCell';
 import constants from 'src/constants';
 
 import Spinner from 'react-bootstrap/Spinner';
@@ -59,6 +60,16 @@ const EventTable = ({
     return (
         <Table className="event-table" responsive='md' id={tableId}>
             <FormattedMessage id={tableCaption}>{txt => <caption className='visually-hidden'>{txt}</caption>}</FormattedMessage>
+            {tableName === 'draft' &&
+                    <thead className='selection-head'>
+                        <tr className='selection-row'>
+                            <SelectionCell
+                                tableName={tableName}
+                                handleRowSelect={handleRowSelect}
+                            />
+                        </tr>
+                    </thead>
+            }
             <thead>
                 <tr>
                     {tableColumns.map(item => (
@@ -162,5 +173,5 @@ EventTable.propTypes = {
     fetchComplete: PropTypes.bool,
     tableCaption: PropTypes.string,
 }
-
+export {EventTable as UnconnectedEventTable}
 export default injectIntl(EventTable)

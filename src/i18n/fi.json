@@ -67,6 +67,7 @@
     "table-event-moderation": "Moderoinnin taulukko sisällön julkaisuun ja poistoon",
     "table-event-published": "Julkaistun sisällön moderointitaulukko",
 
+    "event-sort-checkbox": "Valinta",
     "event-sort-name": "Otsikko",
     "event-sort-start_time": "Tapahtuma alkaa",
     "event-sort-context": "Sisältö",
@@ -419,11 +420,12 @@
     "table-events-checkbox": "Valitse {name} julkaistavaksi tai poistettavaksi",
     "table-events-checkbox-invalid": "Korjaa sisällön {name} validaatiovirheet ennen kuin voit valita",
     "table-events-checkbox-error": "Korjaa sisällön {name} validaatiovirheet ennen kuin voit valita",
-    "table-events-checkbox-all": "Valitse kaikki sisältö joilla ei ole validaatiovirheitä poistaaksesi tai julkaistaksesi",
+    "table-events-checkbox-all": "Valitse kaikki sisältö jossa ei ole validaatiovirheitä poistaaksesi tai julkaistaksesi",
 
     "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
     "draft-publish-subevent": "Sarjan alatapahtumia ei voi julkaista.",
-    "event-validation-errors": "Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.",
+    "event-validation-errors": "Sisällön tiedoissa on puutteita. Korjaa puutteet ennen julkaisua.",
+    "event-validation-no-errors": "Sisällön tiedoissa ei ole puutteita.",
     "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
     "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
     "user-no-rights-copy": "Kirjaudu sisään kopioidaksesi tämä tapahtuma",

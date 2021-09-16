@@ -50,6 +50,11 @@ describe('ValidationCell', () => {
                 const element = wrapper.find('td');
                 expect(element.prop('className')).toBe('validation-cell')
             })
+            test('correct id', () => {
+                const wrapper = getWrapper()
+                const element = wrapper.find('td');
+                expect(element.prop('id')).toBe(`${defaultProps.event.id.replace(/[^\w]/gi, '')}-validationAlert`)
+            })
         })
         describe('button', () => {
             test('correct props & length while hasErrors is true', () => {
@@ -58,8 +63,7 @@ describe('ValidationCell', () => {
                 const instance = wrapper.instance()
                 const element = wrapper.find(Button);
                 expect(element).toHaveLength(1)
-                expect(element.prop('aria-label')).toBe('Tapahtumatiedoissa on puutteita. Muokkaa tapahtumaa ennen julkaisua.')
-                expect(element.prop('id')).toBe(`${defaultProps.event.id.replace(/[^\w]/gi, '')}-validationAlert`)
+                expect(element.prop('aria-label')).toBe('Sisällön tiedoissa on puutteita. Korjaa puutteet ennen julkaisua.')
                 expect(element.prop('onClick')).toBe(instance.moveToEdit)
             })
             test('correct length while hasErrors is false', () => {
@@ -78,15 +82,17 @@ describe('ValidationCell', () => {
                 expect(element.prop('aria-hidden')).toBe(true)
                 expect(element.prop('className')).toBe('glyphicon glyphicon-alert')
             })
-            test('correct length while hasErrors is false', () => {
+            test('correct props & length while hasErrors is false', () => {
                 const wrapper = getWrapper()
                 wrapper.setState({hasErrors: false})
-                const element = wrapper.find('span');
-                expect(element).toHaveLength(0)
+                const element = wrapper.find('span').at(0);
+                expect(element).toHaveLength(1)
+                expect(element.prop('aria-hidden')).toBe(true)
+                expect(element.prop('className')).toBe('glyphicon glyphicon-ok')
             })
         })
         describe('tooltip', () => {
-            test('correct props & length while hasErrors is true', () => {
+            test('correct props & length', () => {
                 const wrapper = getWrapper()
                 wrapper.setState({hasErrors: true})
                 const instance = wrapper.instance()
@@ -95,13 +101,6 @@ describe('ValidationCell', () => {
                 expect(element.prop('isOpen')).toBe(instance.state.tooltipOpen)
                 expect(element.prop('target')).toBe(`${defaultProps.event.id.replace(/[^\w]/gi, '')}-validationAlert`)
                 expect(element.prop('toggle')).toBe(instance.toggleTooltip)
-            })
-            test('correct length while hasErrors is false', () => {
-                const wrapper = getWrapper()
-                wrapper.setState({hasErrors: false})
-                const instance = wrapper.instance()
-                const element = wrapper.find(Tooltip);
-                expect(element).toHaveLength(0)
             })
         })
     })

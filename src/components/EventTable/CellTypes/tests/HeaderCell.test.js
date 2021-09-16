@@ -1,6 +1,5 @@
 import React from 'react';
 import HeaderCell from '../HeaderCell';
-import {Input} from 'reactstrap';
 import {shallow} from 'enzyme';
 import {IntlProvider} from 'react-intl';
 import mapValues from 'lodash/mapValues';
@@ -11,7 +10,6 @@ const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
 const defaultProps = {
-    handleRowSelect: jest.fn(),
     handleSortChange: jest.fn(),
     name: 'checkbox',
     sortDirection: '',
@@ -24,42 +22,76 @@ describe('HeaderCell', () => {
     function getWrapper(props) {
         return shallow(<HeaderCell {...defaultProps} {...props}/>, {context: {intl}});
     }
-    describe('checkbox element', () => {
 
-        let element;
-        beforeEach(() => {
-            element = getWrapper();
-        });
+    describe('components', () => {
+        describe('div', () => {
+            test('correct props', () => {
+                const wrapper = getWrapper({name: 'publisher'})
+                const instance = wrapper.instance()
+                const divElement = wrapper.find('div')
+                expect(divElement).toHaveLength(1)
+                expect(divElement.prop('aria-sort')).toBe(defaultProps.sortDirection)
+                expect(divElement.prop('onClick')).toBe(instance.handleSort)
+            })
+        })
+        describe('other element', () => {
+            const childElement = React.createElement('p',null,'Julkaisija');
 
-        test('renders', () => {
-            const inputElement = element.find('input');
-            expect(element.find('th.checkbox')).toHaveLength(1);
-            expect(inputElement).toHaveLength(1);
-        });
-        test('checked prop changes according to state.isChecked', () => {
-            const instance = element.instance();
-            expect(element.find('input').prop('checked')).toBe(false);
-            instance.handleRow();
-            expect(element.find('input').prop('checked')).toBe(true);
-        });
-    });
+            test('renders', () => {
+                const element = getWrapper({children: childElement, name: 'publisher'});
+                expect(element.find('div').prop('onClick')).toBeDefined();
+                expect(element.find('p')).toHaveLength(1);
+                expect(element.find('p').text()).toBe('Julkaisija');
+            });
 
-    describe('other element', () => {
-        const childElement = React.createElement('p',null,'Julkaisija');
-
-        test('renders', () => {
-            const element = getWrapper({children: childElement, name: 'publisher'});
-            expect(element.find('div').prop('onClick')).toBeDefined();
-            expect(element.find('p')).toHaveLength(1);
-            expect(element.find('p').text()).toBe('Julkaisija');
-        });
-
-        test('renders span element(arrow icons) according to sortDirection', () => {
-            let element = getWrapper({children: childElement, name: 'publisher', active: true, sortDirection: 'asc'});
-            expect(element.find('span.glyphicon-arrow-up')).toHaveLength(1);
-            element = getWrapper({children: childElement, name: 'publisher', active: true, sortDirection: 'desc'});
-            expect(element.find('span.glyphicon-arrow-down')).toHaveLength(1);
-        });
+            test('renders span element(arrow icons) according to sortDirection', () => {
+                let element = getWrapper({children: childElement, name: 'publisher', active: true, sortDirection: 'asc'});
+                expect(element.find('span.glyphicon-arrow-up')).toHaveLength(1);
+                element = getWrapper({children: childElement, name: 'publisher', active: true, sortDirection: 'desc'});
+                expect(element.find('span.glyphicon-arrow-down')).toHaveLength(1);
+            });
+        })
+        describe('th', () => {
+            test('correct className', () => {
+                const wrapper = getWrapper()
+                const thElement = wrapper.find('th')
+                expect(thElement).toHaveLength(1)
+                expect(thElement.prop('className')).toBe('table-header')
+            })
+            test('correct className based on name-prop being context', () => {
+                const wrapper = getWrapper({name: 'context'})
+                const thElement = wrapper.find('th')
+                expect(thElement).toHaveLength(1)
+                expect(thElement.prop('className')).toBe('table-header context-header')
+            })
+            test('correct className based on name-prop being validation', () => {
+                const wrapper = getWrapper({name: 'validation'})
+                const thElement = wrapper.find('th')
+                expect(thElement).toHaveLength(1)
+                expect(thElement.prop('className')).toBe('table-header validation-header')
+            })
+        })
     })
+    describe('methods', () => {
+        describe('handleSort', () => {
+            test('called with right params', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(wrapper.instance().props, 'handleSortChange')
 
+                jest.clearAllMocks()
+                instance.handleSort()
+
+                expect(spy).toHaveBeenCalledTimes(1)
+                expect(spy).toHaveBeenCalledWith(defaultProps.name, defaultProps.tableName)
+            })
+            test('changes state correctly', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(wrapper.state('isActive')).toBe(false)
+                instance.handleSort()
+                expect(wrapper.state('isActive')).toBe(true)
+            })
+        })
+    })
 })

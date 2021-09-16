@@ -426,7 +426,8 @@
 
     "draft-cancel": "Event drafts can't be cancelled.",
     "draft-publish-subevent": "A subevent of a series cannot be published.",
-    "event-validation-errors": "Event data incomplete. Edit the event before publishing.",
+    "event-validation-errors": "Content data contains errors, correct the erraneous data before publishing..",
+    "event-validation-no-errors": "Content data contains no errors.",
     "event-in-the-past": "Past events can't be edited.",
     "event-canceled": "Cancelled events can't be edited.",
     "user-no-rights-copy": "Login to copy this event",

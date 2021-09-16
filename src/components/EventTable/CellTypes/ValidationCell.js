@@ -58,23 +58,31 @@ class ValidationCell extends React.Component {
         const {intl, event:{id}} = this.props;
         // This is a unique id based on the event id + -validationAlert
         const uniqueId = id.replace(/[^\w]/gi, '') + '-validationAlert';
-        return (
-            <td className={classNames('validation-cell',{'error': this.state.hasErrors})}>
-                {this.state.hasErrors &&
-                    <React.Fragment>
-                        <Button
-                            aria-label={intl.formatMessage({id: 'event-validation-errors'})}
-                            id={uniqueId}
-                            onClick={this.moveToEdit}
-                        >
-                            <span aria-hidden className='glyphicon glyphicon-alert'/>
-                        </Button>
+        const messageId = this.state.hasErrors ? 'event-validation-errors' : 'event-validation-no-errors'
 
-                        <Tooltip isOpen={this.state.tooltipOpen} target={uniqueId} toggle={this.toggleTooltip}>
-                            {intl.formatMessage({id: 'event-validation-errors'})}
-                        </Tooltip>
+        return (
+            <td id={uniqueId} className={classNames('validation-cell',{'error': this.state.hasErrors})}>
+                {this.state.hasErrors &&
+                <React.Fragment>
+                    <Button
+                        aria-label={intl.formatMessage({id: messageId})}
+                        onClick={this.moveToEdit}
+                    >
+                        <span aria-hidden className='glyphicon glyphicon-alert'/>
+                    </Button>
+                </React.Fragment>
+                }
+                {!this.state.hasErrors &&
+                    <React.Fragment>
+                        <span aria-hidden className='glyphicon glyphicon-ok'/>
+                        <span className='visually-hidden'>
+                            {intl.formatMessage({id: messageId})}
+                        </span>
                     </React.Fragment>
                 }
+                <Tooltip isOpen={this.state.tooltipOpen} target={uniqueId} toggle={this.toggleTooltip}>
+                    {intl.formatMessage({id: messageId})}
+                </Tooltip>
             </td>
         );
     }
