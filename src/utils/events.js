@@ -25,6 +25,7 @@ export class EventQueryParams {
     text = null
     language = null
     type_id = null
+    keyword = null
 
     setPublisher (publisher) {
         this.publisher = publisher && publisher.join()

@@ -752,7 +752,7 @@ class FormFields extends React.Component {
                                     forceApplyToStore
                                     type='number'
                                     min={0}
-                                    required={values.type_id !== 1}
+                                    required={values.type_id !== CONSTANTS.EVENT_TYPE.GENERAL}
                                 />
 
                                 <HelTextField

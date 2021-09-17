@@ -387,9 +387,9 @@
     "editor-tip-eventtype-disable": "Delete the added times, if you would like to change the event recurrence.",
     "editor-tip-required": "Fields marked with an asterisk (*) are mandatory.",
 
-    "editor-tip-umbrella": "Instructions for an umbrella event.",
-    "editor-tip-times": "Instructions for choosing event recurrence.",
-    "editor-tip-location": "Instructions for selecting a location.",
+    "editor-tip-umbrella": "Instructions for an umbrella event",
+    "editor-tip-times": "Instructions for choosing event recurrence",
+    "editor-tip-location": "Instructions for selecting a location",
 
     "editor-headerbutton-collapse": "Click to close section",
     "editor-headerbutton-expand": "Click to expand section",

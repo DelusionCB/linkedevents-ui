@@ -382,9 +382,9 @@
 
 
     "editor-tip-required": "Tähdellä (*) merkityt kentät ovat pakollisia.",
-    "editor-tip-umbrella": "Kattotapahtuman ohjeet.",
-    "editor-tip-times": "Tapahtumien toistuvuuden ohjeet.",
-    "editor-tip-location": "Paikan valinnan ohjeet.",
+    "editor-tip-umbrella": "Kattotapahtuman ohjeet",
+    "editor-tip-times": "Tapahtumien toistuvuuden ohjeet",
+    "editor-tip-location": "Paikan valinnan ohjeet",
     "editor-tip-eventtype-disable": "Jos haluat vaihtaa tapahtumien toistuvuutta, poista lisätyt ajat.",
 
     "editor-headerbutton-collapse": "Klikkaa sulkeaksesi osio",
