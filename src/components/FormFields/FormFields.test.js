@@ -61,6 +61,8 @@ describe('FormField', () => {
                 extlink_facebook: '',
                 extlink_twitter: '',
                 extlink_instagram: '',
+                audience_min_age: 5,
+                audience_max_age: 15,
                 sub_events: {},
                 audience: {},
                 in_language: {},
@@ -375,13 +377,14 @@ describe('FormField', () => {
                 const wrapper = getWrapper()
                 const helfields = wrapper.find(HelTextField)
                 test('amount of heltextfields', () => {
-                    expect(helfields).toHaveLength(4)
+                    expect(helfields).toHaveLength(6)
                 })
                 test('default props for HelTextFields', () => {
-                    helfields.forEach((element) => {
+                    const types = ['url', 'number', 'number', 'url', 'url', 'url']
+                    helfields.forEach((element, index) => {
                         expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                         expect(element.prop('forceApplyToStore')).toBe(true)
-                        expect(element.prop('type')).toBe('url')
+                        expect(element.prop('type')).toBe(types[index])
                     })
                 })
                 test('correct props for virtualevent_url field', () => {
@@ -394,8 +397,24 @@ describe('FormField', () => {
                     expect(virtualHelText.prop('defaultValue')).toBe(defaultProps.editor.values.virtualevent_url)
                     expect(virtualHelText.prop('disabled')).toBe(true)
                 })
+                test('correct props for enrolment min age field', () => {
+                    const enrolmentHelText = helfields.at(1)
+                    expect(enrolmentHelText.prop('id')).toBe('audience_min_age')
+                    expect(enrolmentHelText.prop('name')).toBe('audience_min_age')
+                    expect(enrolmentHelText.prop('label')).toEqual(<FormattedMessage id="audience-min-age"/>)
+                    expect(enrolmentHelText.prop('validationErrors')).toBe(undefined)
+                    expect(enrolmentHelText.prop('defaultValue')).toBe(defaultProps.editor.values.audience_min_age)
+                })
+                test('correct props for enrolment max age field', () => {
+                    const enrolmentHelText = helfields.at(2)
+                    expect(enrolmentHelText.prop('id')).toBe('audience_max_age')
+                    expect(enrolmentHelText.prop('name')).toBe('audience_max_age')
+                    expect(enrolmentHelText.prop('label')).toEqual(<FormattedMessage id="audience-max-age"/>)
+                    expect(enrolmentHelText.prop('validationErrors')).toBe(undefined)
+                    expect(enrolmentHelText.prop('defaultValue')).toBe(defaultProps.editor.values.audience_max_age)
+                })
                 test('correct props for event facebook field', () => {
-                    const faceHelText = helfields.at(1)
+                    const faceHelText = helfields.at(3)
                     expect(faceHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(faceHelText.prop('id')).toBe('extlink_facebook')
                     expect(faceHelText.prop('name')).toBe('extlink_facebook')
@@ -405,7 +424,7 @@ describe('FormField', () => {
                     expect(faceHelText.prop('disabled')).toBe(false)
                 })
                 test('correct props for event twitter field', () => {
-                    const twitterHelText = helfields.at(2)
+                    const twitterHelText = helfields.at(4)
                     expect(twitterHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(twitterHelText.prop('id')).toBe('extlink_twitter')
                     expect(twitterHelText.prop('name')).toBe('extlink_twitter')
@@ -415,7 +434,7 @@ describe('FormField', () => {
                     expect(twitterHelText.prop('disabled')).toBe(false)
                 })
                 test('correct props for event instagram field', () => {
-                    const instaHelText = helfields.at(3)
+                    const instaHelText = helfields.at(5)
                     expect(instaHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(instaHelText.prop('id')).toBe('extlink_instagram')
                     expect(instaHelText.prop('name')).toBe('extlink_instagram')

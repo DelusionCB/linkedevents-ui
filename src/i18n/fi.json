@@ -234,7 +234,7 @@
     "event-keywords-search": "Aloita kirjoittamaan asiasanaa",
     "event-keywords-delete": "Poista asiasana",
 
-    "event-hobby-form-header": "Harrastuksen tiedot*",
+    "event-hobby-form-header": "Syötä ilmoittautumistiedot*",
 
     "event-umbrella-header": "Liittyykö tapahtumasi muihin tapahtumiin?",
     "event-umbrella": "Kattotapahtumat",
@@ -252,8 +252,8 @@
     "audience-max-age": "Yläikäraja",
 
     "enrolment-time": "Ilmoittautumisaika",
-    "enrolment-start-time": "Ilmoittautuminen alkaa (pp.kk.vvvv tt.mm)",
-    "enrolment-end-time": "Ilmoittautuminen päättyy (pp.kk.vvvv tt.mm)",
+    "enrolment-start-time": "Ilmoittautuminen alkaa (pp.kk.vvvv)",
+    "enrolment-end-time": "Ilmoittautuminen päättyy (pp.kk.vvvv)",
 
     "attendee-capacity": "Osallistujamäärä",
     "minimum-attendee-capacity": "Vähimmäisosallistujamäärä",

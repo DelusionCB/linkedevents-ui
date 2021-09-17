@@ -396,117 +396,13 @@ class FormFields extends React.Component {
                         />
                     </div>
                 </div>
-                {values['type_id'] !== CONSTANTS.EVENT_TYPE.GENERAL &&
-                <div>
-                    <h2>
-                        <CollapseButton
-                            id='headerCourses'
-                            isOpen={this.state.headerCourses}
-                            targetCollapseNameId='event-hobby-form-header'
-                            toggleHeader={this.toggleHeader}
-                            validationErrorList={[validationErrors['audience_min_age'], validationErrors['audience_max_age'],
-                                validationErrors['enrolment_start_time'], validationErrors['enrolment_end_time'],
-                                validationErrors['minimum_attendee_capacity'], validationErrors['maximum_attendee_capacity']]}
-                        />
-                    </h2>
-                    <Collapse isOpen={this.state.headerCourses}>
-                        <FormHeader messageID='audience-age-restrictions'/>
-                        <div className="row">
-                            <div className="col-sm-6">
-                                <HelTextField
-                                    id="audience_min_age"
-                                    ref="audience_min_age"
-                                    name="audience_min_age"
-                                    label={<FormattedMessage id="audience-min-age"/>}
-                                    validationErrors={validationErrors['audience_min_age']}
-                                    defaultValue={values['audience_min_age']}
-                                    setDirtyState={this.props.setDirtyState}
-                                    type='number'
-                                    min={0}
-                                    required={values.type_id !== 1}
-                                />
 
-                                <HelTextField
-                                    id="audience_max_age"
-                                    ref="audience_max_age"
-                                    name="audience_max_age"
-                                    label={<FormattedMessage id="audience-max-age"/>}
-                                    validationErrors={validationErrors['audience_max_age']}
-                                    defaultValue={values['audience_max_age']}
-                                    setDirtyState={this.props.setDirtyState}
-                                    type='number'
-                                    min={0}
-                                />
-                            </div>
-                        </div>
-
-                        <FormHeader messageID='enrolment-time'/>
-                        <div className="row courses-row">
-                            <div className='col-xs-12 col-sm-12'>
-                                <CustomDateTime
-                                    id="enrolment_start_time"
-                                    name="enrolment_start_time"
-                                    labelDate={<FormattedMessage  id="event-starting-datelabel" />}
-                                    labelTime={<FormattedMessage  id="event-starting-timelabel" />}
-                                    defaultValue={values['enrolment_start_time']}
-                                    setDirtyState={this.props.setDirtyState}
-                                    maxDate={values['enrolment_end_time'] ? moment(values['enrolment_end_time']) : undefined}
-                                    disabled={formType === 'update' && isSuperEvent}
-                                    validationErrors={validationErrors['enrolment_start_time']}
-                                    required={values['type_id'] !== 1}
-                                />
-                                <CustomDateTime
-                                    id="enrolment_end_time"
-                                    disablePast
-                                    disabled={formType === 'update' && isSuperEvent}
-                                    validationErrors={validationErrors['enrolment_end_time']}
-                                    defaultValue={values['enrolment_end_time']}
-                                    name="enrolment_end_time"
-                                    labelDate={<FormattedMessage  id="event-ending-datelabel" />}
-                                    labelTime={<FormattedMessage  id="event-ending-timelabel" />}
-                                    setDirtyState={this.props.setDirtyState}
-                                    minDate={values['enrolment_start_time'] ? moment(values['enrolment_start_time']) : undefined}
-                                    required={values['type_id'] !== 1}
-                                />
-                            </div>
-                        </div>
-
-                        <FormHeader messageID='attendee-capacity'/>
-                        <div className="row">
-                            <div className="col-xs-12 col-sm-6">
-                                <HelTextField
-                                    id="minimum_attendee_capacity"
-                                    ref="minimum_attendee_capacity"
-                                    name="minimum_attendee_capacity"
-                                    label={<FormattedMessage id="minimum-attendee-capacity"/>}
-                                    validationErrors={validationErrors['minimum_attendee_capacity']}
-                                    defaultValue={values['minimum_attendee_capacity']}
-                                    setDirtyState={this.props.setDirtyState}
-                                    type='number'
-                                    min={0}
-                                />
-
-                                <HelTextField
-                                    id="maximum_attendee_capacity"
-                                    ref="maximum_attendee_capacity"
-                                    name="maximum_attendee_capacity"
-                                    label={<FormattedMessage id="maximum-attendee-capacity"/>}
-                                    validationErrors={validationErrors['maximum_attendee_capacity']}
-                                    defaultValue={values['maximum_attendee_capacity']}
-                                    setDirtyState={this.props.setDirtyState}
-                                    type='number'
-                                    min={0}
-                                />
-                            </div>
-                        </div>
-                    </Collapse>
-                </div>
-                }
                 <div>
                     <h2>
                         <CollapseButton
                             id='headerLocationDate'
                             isOpen={this.state.headerLocationDate}
+                            isRequired={true}
                             targetCollapseNameId='event-locationDate-form-header'
                             toggleHeader={this.toggleHeader}
                             validationErrorList={[
@@ -815,7 +711,8 @@ class FormFields extends React.Component {
                             isRequired={true}
                             targetCollapseNameId='event-category-form-header'
                             toggleHeader={this.toggleHeader}
-                            validationErrorList={[validationErrors['keywords'], validationErrors['audience']]}
+                            validationErrorList={[validationErrors['keywords'], validationErrors['audience'],
+                                validationErrors['audience_min_age'], validationErrors['audience_max_age']]}
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerCategories}>
@@ -840,6 +737,37 @@ class FormFields extends React.Component {
                                 setDirtyState={this.props.setDirtyState}
                                 disabled={userDoesNotExist}
                             />
+                        </div>
+                        <FormHeader messageID='audience-age-restrictions'/>
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <HelTextField
+                                    id="audience_min_age"
+                                    ref="audience_min_age"
+                                    name="audience_min_age"
+                                    label={<FormattedMessage id="audience-min-age"/>}
+                                    validationErrors={validationErrors['audience_min_age']}
+                                    defaultValue={values['audience_min_age']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    forceApplyToStore
+                                    type='number'
+                                    min={0}
+                                    required={values.type_id !== 1}
+                                />
+
+                                <HelTextField
+                                    id="audience_max_age"
+                                    ref="audience_max_age"
+                                    name="audience_max_age"
+                                    label={<FormattedMessage id="audience-max-age"/>}
+                                    validationErrors={validationErrors['audience_max_age']}
+                                    defaultValue={values['audience_max_age']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    forceApplyToStore
+                                    type='number'
+                                    min={0}
+                                />
+                            </div>
                         </div>
                     </Collapse>
                 </div>
@@ -871,6 +799,84 @@ class FormFields extends React.Component {
                         </div>
                     </Collapse>
                 </div>
+                {values['type_id'] !== CONSTANTS.EVENT_TYPE.GENERAL &&
+                <div>
+                    <h2>
+                        <CollapseButton
+                            id='headerCourses'
+                            isRequired={values['type_id'] !== CONSTANTS.EVENT_TYPE.GENERAL}
+                            isOpen={this.state.headerCourses}
+                            targetCollapseNameId='event-hobby-form-header'
+                            toggleHeader={this.toggleHeader}
+                            validationErrorList={[validationErrors['enrolment_start_time'], validationErrors['enrolment_end_time'],
+                                validationErrors['minimum_attendee_capacity'], validationErrors['maximum_attendee_capacity']]}
+                        />
+                    </h2>
+                    <Collapse isOpen={this.state.headerCourses}>
+                        <FormHeader messageID='enrolment-time'/>
+                        <div className="row courses-row">
+                            <div className='col-xs-12 col-sm-6'>
+                                <CustomDateTime
+                                    id="enrolment_start_time"
+                                    name="enrolment_start_time"
+                                    labelDate={<FormattedMessage  id="enrolment-start-time" />}
+                                    labelTime={<FormattedMessage  id="event-starting-timelabel" />}
+                                    defaultValue={values['enrolment_start_time']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    maxDate={values['enrolment_end_time'] ? moment(values['enrolment_end_time']) : undefined}
+                                    disabled={formType === 'update' && isSuperEvent}
+                                    validationErrors={validationErrors['enrolment_start_time']}
+                                    required={values['type_id'] !== 1}
+                                />
+                                <CustomDateTime
+                                    id="enrolment_end_time"
+                                    disablePast
+                                    disabled={formType === 'update' && isSuperEvent}
+                                    validationErrors={validationErrors['enrolment_end_time']}
+                                    defaultValue={values['enrolment_end_time']}
+                                    name="enrolment_end_time"
+                                    labelDate={<FormattedMessage  id="enrolment-end-time" />}
+                                    labelTime={<FormattedMessage  id="event-ending-timelabel" />}
+                                    setDirtyState={this.props.setDirtyState}
+                                    minDate={values['enrolment_start_time'] ? moment(values['enrolment_start_time']) : undefined}
+                                    required={values['type_id'] !== 1}
+                                />
+                            </div>
+                        </div>
+
+                        <FormHeader messageID='attendee-capacity'/>
+                        <div className="row">
+                            <div className="col-xs-12 col-sm-6">
+                                <HelTextField
+                                    id="minimum_attendee_capacity"
+                                    ref="minimum_attendee_capacity"
+                                    name="minimum_attendee_capacity"
+                                    label={<FormattedMessage id="minimum-attendee-capacity"/>}
+                                    validationErrors={validationErrors['minimum_attendee_capacity']}
+                                    defaultValue={values['minimum_attendee_capacity']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    forceApplyToStore
+                                    type='number'
+                                    min={0}
+                                />
+
+                                <HelTextField
+                                    id="maximum_attendee_capacity"
+                                    ref="maximum_attendee_capacity"
+                                    name="maximum_attendee_capacity"
+                                    label={<FormattedMessage id="maximum-attendee-capacity"/>}
+                                    validationErrors={validationErrors['maximum_attendee_capacity']}
+                                    defaultValue={values['maximum_attendee_capacity']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    forceApplyToStore
+                                    type='number'
+                                    min={0}
+                                />
+                            </div>
+                        </div>
+                    </Collapse>
+                </div>
+                }
                 <div>
                     <h2>
                         <CollapseButton

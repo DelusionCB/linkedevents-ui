@@ -210,6 +210,8 @@
     "event-location-button-tooltip": "No location selected",
     "event-location-map-error-missing-coordinates": "Selected location has no coordinates.",
 
+    "event-hobby-form-header": "Enter registration information*",
+
     "event-price-fields-header": "Event price",
     "event-price-header": "Enter price details",
     "is-free": "Free",
@@ -253,8 +255,8 @@
     "audience-max-age": "Maximum age",
 
     "enrolment-time": "Enrolment time",
-    "enrolment-start-time": "Enrolment starts (dd.mm.yyyy hh.mm)",
-    "enrolment-end-time": "Enrolment ends (dd.mm.yyyy hh.mm)",
+    "enrolment-start-time": "Enrolment starts (dd.mm.yyyy)",
+    "enrolment-end-time": "Enrolment ends (dd.mm.yyyy)",
 
     "attendee-capacity": "Attendee capacity",
     "minimum-attendee-capacity": "Minimum attendees",

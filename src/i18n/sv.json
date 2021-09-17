@@ -190,6 +190,7 @@
     "event-add-recurring-limit": "Det kan förekomma högst {count} stycken tillfälle, du matar in {subEventcount} stycken.",
     "event-add-recurring-error": "Minska på mängden tillfällen. Det kan förekomma högst {count} stycken tillfällen, du matar in {subEventcount} stycken.",
     "event-social-header": "Ange evenemangets kanaler",
+    "event-hobby-form-header": "Mata in anmälningsinformationen*",
     "event-price-header": "Mata in prisinformation",
     "event-price-count": "Prisinformation {count}",
     "event-add-price":  "Lägg till en ny prisinformation",
@@ -263,8 +264,8 @@
     "audience-max-age": "Övre åldersgränsen",
 
     "enrolment-time": "Anmälningstiden",
-    "enrolment-start-time": "Anmälan inleds (dd.mm.åååå tt.mm)",
-    "enrolment-end-time": "Anmälan avslutas (dd.mm.åååå tt.mm)",
+    "enrolment-start-time": "Anmälan inleds (dd.mm.åååå)",
+    "enrolment-end-time": "Anmälan avslutas (dd.mm.åååå)",
 
     "attendee-capacity": "Deltagarantalet",
     "minimum-attendee-capacity": "Deltagarnas minimiantal",
