@@ -6,7 +6,7 @@ import getContentLanguages from './language'
 import {mapAPIDataToUIFormat} from './formDataMapping'
 import {getOrganizationMembershipIds} from './user'
 
-const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA} = constants
+const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA, SUPER_EVENT_TYPE_RECURRING} = constants
 
 export const userMayEdit = (user, event) => {
     const eventOwner = get(event, 'is_owner')
@@ -60,6 +60,7 @@ export const userCanDoAction = (user, event, action, editor) => {
     const isUmbrellaEvent = get(event, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const isPublic = get(event, 'publication_status') === PUBLICATION_STATUS.PUBLIC
+    const isSeries = get(event, 'super_event_type') === SUPER_EVENT_TYPE_RECURRING
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
     const eventOwner = get(event, 'is_owner')
@@ -80,6 +81,9 @@ export const userCanDoAction = (user, event, action, editor) => {
         return !hasValidationErrors
     }
     if (action === 'update' && isDraft && isSubEvent && !isRegularUser) {
+        return false
+    }
+    if (action === 'postpone' && isSeries) {
         return false
     }
     if (action === 'cancel') {
