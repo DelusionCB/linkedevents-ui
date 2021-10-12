@@ -16,6 +16,18 @@ import constants from '../../constants';
 
 const {EVENT_TYPE} = constants
 
+/**
+ * Replaces potentially malicious <script> elements from value string with empty strings.
+ * @param {string} value
+ * @returns {string}
+ * @example
+ * const foo = removeScriptElements('this <script>alert("contains");</script> stuff.');
+ * foo === 'this alert("contains"); stuff.';
+ */
+export const removeScriptElements = (value) => {
+    return value.replace(/(<script[a-zA-Z\s="\d]*\/*>)|([&;]lt;script[a-zA-Z\s="&]*)[amp]*[&;]gt;|(<\/script[a-zA-Z\s="]*)>/gi, '');
+}
+
 const NoValue = (props) => {
     let header = props.labelKey ? (<span ><FormattedMessage id={props.labelKey}/>&nbsp;</span>) : null
     return (
@@ -58,6 +70,7 @@ const MultiLanguageValue = (props) => {
     let langOptions = ['fi', 'sv', 'en', 'ru', 'zh_hans', 'ar']
     let elements = langOptions.reduce((acc, curr) => {
         let val = value[curr];
+        if (val) {val = removeScriptElements(val);}
         const createHTML = () => ({__html: val});
         if (val) {
             const uniqueId = props.labelKey + `-${curr}`;
@@ -116,7 +129,7 @@ export const TextValue = (props) => {
                     <label htmlFor={props.labelKey}><FormattedMessage id={props.labelKey}/></label>
                     <input type="hidden" id={props.labelKey} />
                 </div>
-                <span {...additionalParams} className="value">{props.value}</span>
+                <span {...additionalParams} className="value">{removeScriptElements(props.value)}</span>
             </div>
         )
     } else {
@@ -287,7 +300,7 @@ const VideoValue = ({values}) => {
                                     <TextValue
                                         key={`video-value-${key}`}
                                         labelKey={`event-video-${key}`}
-                                        value={value}
+                                        value={removeScriptElements(value)}
                                     />
                                 )
                             } else {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextValue} from './index';
+import {TextValue, removeScriptElements} from './index';
 import {shallow} from 'enzyme';
 import {IntlProvider, FormattedMessage} from 'react-intl';
 import mapValues from 'lodash/mapValues';
@@ -52,4 +52,15 @@ describe('TextValue', () => {
             expect(spanElement.prop('role')).toBe('address');
         });
     });
+});
+describe('removeScriptElements', () => {
+    test('does nothing to value if it does not contain script elements', () => {
+        const value = 'This is a string that doesnt contain any script elements';
+        expect(removeScriptElements(value)).toBe(value);
+    })
+    test('replaces a potentially malicious script element from a string with an empty string', () => {
+        const value = 'This <script>alert("is potentially");</script> malicious';
+        const expectedValue = 'This alert("is potentially"); malicious';
+        expect(removeScriptElements(value)).toBe(expectedValue);
+    })
 });
