@@ -18,6 +18,7 @@ const {EVENT_TYPE} = constants
 
 /**
  * Replaces potentially malicious <script> elements from value string with empty strings.
+ * Non-string values are returned unchanged.
  * @param {string} value
  * @returns {string}
  * @example
@@ -25,6 +26,7 @@ const {EVENT_TYPE} = constants
  * foo === 'this alert("contains"); stuff.';
  */
 export const removeScriptElements = (value) => {
+    if (typeof value !== 'string') { return value;}
     return value.replace(/(<script[a-zA-Z\s="\d]*\/*>)|([&;]lt;script[a-zA-Z\s="&]*)[amp]*[&;]gt;|(<\/script[a-zA-Z\s="]*)>/gi, '');
 }
 

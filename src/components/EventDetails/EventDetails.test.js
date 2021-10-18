@@ -57,10 +57,14 @@ describe('removeScriptElements', () => {
     test('does nothing to value if it does not contain script elements', () => {
         const value = 'This is a string that doesnt contain any script elements';
         expect(removeScriptElements(value)).toBe(value);
-    })
+    });
     test('replaces a potentially malicious script element from a string with an empty string', () => {
         const value = 'This <script>alert("is potentially");</script> malicious';
         const expectedValue = 'This alert("is potentially"); malicious';
         expect(removeScriptElements(value)).toBe(expectedValue);
-    })
+    });
+    test('returns value if value is not a string', () => {
+        const value = 7;
+        expect(removeScriptElements(value)).toEqual(value);
+    });
 });
