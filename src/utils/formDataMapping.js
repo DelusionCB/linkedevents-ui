@@ -143,6 +143,9 @@ function mapUIDataToAPIFormat(values) {
     if (values.maximum_attendee_capacity) {
         obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
     }
+    if (values.enrolment_url) {
+        obj.enrolment_url = values.enrolment_url
+    }
     // date published
     if (!values.publication_status) {
         obj.date_published = moment().utc().format()
@@ -241,6 +244,9 @@ function mapAPIDataToUIFormat(values) {
     }
     if (values.maximum_attendee_capacity) {
         obj.maximum_attendee_capacity = parseInt(values.maximum_attendee_capacity, 10)
+    }
+    if (values.enrolment_url) {
+        obj.enrolment_url = values.enrolment_url
     }
 
     return obj

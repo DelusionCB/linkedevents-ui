@@ -319,6 +319,8 @@
     "enrolment-time": "Ilmoittautumisaika",
     "enrolment-start-time": "Ilmoittautuminen alkaa (pp.kk.vvvv)",
     "enrolment-end-time": "Ilmoittautuminen päättyy (pp.kk.vvvv)",
+    "enrolment-url": "Linkki ilmoittautumiseen",
+    "enrolment-header": "Ilmoittautumisen tiedot",
 
     "attendee-capacity": "Osallistujamäärä",
     "minimum-attendee-capacity": "Vähimmäisosallistujamäärä",

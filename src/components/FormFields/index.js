@@ -813,11 +813,30 @@ class FormFields extends React.Component {
                             isOpen={this.state.headerCourses}
                             targetCollapseNameId='event-hobby-form-header'
                             toggleHeader={this.toggleHeader}
-                            validationErrorList={[validationErrors['enrolment_start_time'], validationErrors['enrolment_end_time'],
+                            validationErrorList={[validationErrors['enrolment_url'],validationErrors['enrolment_start_time'], validationErrors['enrolment_end_time'],
                                 validationErrors['minimum_attendee_capacity'], validationErrors['maximum_attendee_capacity']]}
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerCourses}>
+                        <div className='row courses-row'>
+                            <div className='col-xs-12 col-sm-6'>
+                                <HelTextField
+                                    validations={[VALIDATION_RULES.IS_URL]}
+                                    id='enrolment_url'
+                                    ref="enrolment_url"
+                                    name="enrolment_url"
+                                    label={<FormattedMessage id='enrolment-url' />}
+                                    validationErrors={validationErrors['enrolment_url']}
+                                    defaultValue={values['enrolment_url']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    forceApplyToStore
+                                    type='url'
+                                    placeholder='https://...'
+                                    disabled={userDoesNotExist}
+                                    required={values.type_id !== CONSTANTS.EVENT_TYPE.GENERAL}
+                                />
+                            </div>
+                        </div>
                         <FormHeader messageID='enrolment-time'/>
                         <div className="row courses-row">
                             <div className='col-xs-12 col-sm-6'>
@@ -858,24 +877,27 @@ class FormFields extends React.Component {
                                     name="minimum_attendee_capacity"
                                     label={<FormattedMessage id="minimum-attendee-capacity"/>}
                                     validationErrors={validationErrors['minimum_attendee_capacity']}
+                                    validations={[VALIDATION_RULES.IS_INT]}
                                     defaultValue={values['minimum_attendee_capacity']}
                                     setDirtyState={this.props.setDirtyState}
                                     forceApplyToStore
                                     type='number'
                                     min={0}
+                                    disabled={userDoesNotExist}
                                 />
-
                                 <HelTextField
                                     id="maximum_attendee_capacity"
                                     ref="maximum_attendee_capacity"
                                     name="maximum_attendee_capacity"
                                     label={<FormattedMessage id="maximum-attendee-capacity"/>}
                                     validationErrors={validationErrors['maximum_attendee_capacity']}
+                                    validations={[VALIDATION_RULES.IS_INT]}
                                     defaultValue={values['maximum_attendee_capacity']}
                                     setDirtyState={this.props.setDirtyState}
                                     forceApplyToStore
                                     type='number'
                                     min={0}
+                                    disabled={userDoesNotExist}
                                 />
                             </div>
                         </div>

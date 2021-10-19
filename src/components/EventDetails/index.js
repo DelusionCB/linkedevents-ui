@@ -484,13 +484,19 @@ const EventDetails = (props) => {
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups" locale={intl.locale}/>
             <OptionGroup values={rawData['in_language']} labelKey="event-languages" locale={intl.locale}/>
 
+            <FormHeader>
+                {intl.formatMessage({id: 'audience-age-restrictions'})}
+            </FormHeader>
+
+            <TextValue labelKey="audience-min-age" value={values['audience_min_age']}/>
+            <TextValue labelKey="audience-max-age" value={values['audience_max_age']}/>
             {values['type_id'] !== EVENT_TYPE.GENERAL &&
                 <React.Fragment>
                     <FormHeader>
-                        {intl.formatMessage({id: 'audience-age-restrictions'})}
+                        {intl.formatMessage({id: 'enrolment-header'})}
                     </FormHeader>
-                    <TextValue labelKey="audience-min-age" value={values['audience_min_age']}/>
-                    <TextValue labelKey="audience-max-age" value={values['audience_max_age']}/>
+
+                    <TextValue labelKey="enrolment-url" value={values['enrolment_url']}/>
 
                     <FormHeader>
                         {intl.formatMessage({id: 'enrolment-time'})}

@@ -76,6 +76,9 @@ describe('FormField', () => {
                 end_time: '',
                 super_event_type: [SUPER_EVENT_TYPE_RECURRING, SUPER_EVENT_TYPE_UMBRELLA],
                 type_id: CONSTANTS.EVENT_TYPE.GENERAL,
+                enrolment_url: '',
+                minimum_attendee_capacity: '',
+                maximum_attendee_capacity: '',
             },
             validationErrors: {
                 sub_events: {},
@@ -95,6 +98,9 @@ describe('FormField', () => {
                 end_time: {},
                 virtualevent_url: {},
                 image: {},
+                enrolment_url: {},
+                maximum_attendee_capacity: {},
+                minimum_attendee_capacity: {},
             },
             contentLanguages: [
             ],
@@ -447,6 +453,88 @@ describe('FormField', () => {
                     expect(instaHelText.prop('defaultValue')).toBe(defaultProps.editor.values.extlink_instagram)
                     expect(instaHelText.prop('disabled')).toBe(false)
                 })
+            })
+            describe('hobbyfields', () => {
+                let wrapper;
+                let instance;
+                const editor = {editor: {values: {type_id: CONSTANTS.EVENT_TYPE.HOBBIES}}}
+                beforeEach(() => {
+                    wrapper = getWrapper();
+                    instance = wrapper.instance();
+                    wrapper.setProps(merge(defaultProps, editor))
+                })
+                afterEach(() => {
+                    wrapper.unmount();
+                })
+
+                describe('collapsebutton', () => {
+                    test('correct props', () => {
+                        const enrolmentCollapse = wrapper.find(CollapseButton).at(4)
+                        expect(enrolmentCollapse.prop('toggleHeader')).toBe(instance.toggleHeader)
+                        expect(enrolmentCollapse.prop('id')).toBe('headerCourses')
+                    })
+                })
+                describe('customdatetime', () => {
+                    test('default props for CustomDateTime', () => {
+                        const datetime = wrapper.find(CustomDateTime)
+                        datetime.forEach((element)=> {
+                            expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
+                            expect(element.prop('disabled')).toBe(false)
+                            expect(element.prop('required')).toBe(true)
+                        })
+                    })
+                    test('enrolment_start_time', () => {
+                        const enrolmentStart = wrapper.find(CustomDateTime).at(2)
+                        expect(enrolmentStart.prop('id')).toBe('enrolment_start_time')
+                        expect(enrolmentStart.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.enrolment_start_time)
+                        expect(enrolmentStart.prop('defaultValue')).toBe(defaultProps.editor.values.enrolment_start_time)
+                        expect(enrolmentStart.prop('name')).toBe('enrolment_start_time')
+                        expect(enrolmentStart.prop('labelDate')).toEqual(<FormattedMessage  id="enrolment-start-time" />)
+                        expect(enrolmentStart.prop('labelTime')).toEqual(<FormattedMessage  id="event-starting-timelabel" />)
+                        expect(enrolmentStart.prop('maxDate')).toBe()
+                    })
+                    test('enrolment_end_time', () => {
+                        const enrolmentEnd = wrapper.find(CustomDateTime).at(3)
+                        expect(enrolmentEnd.prop('id')).toBe('enrolment_end_time')
+                        expect(enrolmentEnd.prop('disablePast')).toBe(true)
+                        expect(enrolmentEnd.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.enrolment_end_time)
+                        expect(enrolmentEnd.prop('defaultValue')).toBe(defaultProps.editor.values.enrolment_end_time)
+                        expect(enrolmentEnd.prop('name')).toBe('enrolment_end_time')
+                        expect(enrolmentEnd.prop('labelDate')).toEqual(<FormattedMessage  id="enrolment-end-time" />)
+                        expect(enrolmentEnd.prop('labelTime')).toEqual(<FormattedMessage  id="event-ending-timelabel" />)
+                        expect(enrolmentEnd.prop('minDate')).toBe()
+                    })
+                })
+                describe('heltextfields', () => {
+                    test('enrolment_url', () => {
+                        const enrolmentUrl = wrapper.find(HelTextField).at(3)
+                        expect(enrolmentUrl.prop('id')).toBe('enrolment_url')
+                        expect(enrolmentUrl.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
+                        expect(enrolmentUrl.prop('name')).toBe('enrolment_url')
+                        expect(enrolmentUrl.prop('label')).toEqual(<FormattedMessage id="enrolment-url"/>)
+                        expect(enrolmentUrl.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.enrolment_url)
+                        expect(enrolmentUrl.prop('defaultValue')).toBe(defaultProps.editor.values.enrolment_url)
+                    })
+                    test('minimum_attendee_capacity', () => {
+                        const minimumAttendee = wrapper.find(HelTextField).at(4)
+                        expect(minimumAttendee.prop('id')).toBe('minimum_attendee_capacity')
+                        expect(minimumAttendee.prop('validations')).toEqual([VALIDATION_RULES.IS_INT])
+                        expect(minimumAttendee.prop('name')).toBe('minimum_attendee_capacity')
+                        expect(minimumAttendee.prop('label')).toEqual(<FormattedMessage id="minimum-attendee-capacity"/>)
+                        expect(minimumAttendee.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.minimum_attendee_capacity)
+                        expect(minimumAttendee.prop('defaultValue')).toBe(defaultProps.editor.values.minimum_attendee_capacity)
+                    })
+                    test('maximum_attendee_capacity', () => {
+                        const maximumAttendee = wrapper.find(HelTextField).at(5)
+                        expect(maximumAttendee.prop('id')).toBe('maximum_attendee_capacity')
+                        expect(maximumAttendee.prop('validations')).toEqual([VALIDATION_RULES.IS_INT])
+                        expect(maximumAttendee.prop('name')).toBe('maximum_attendee_capacity')
+                        expect(maximumAttendee.prop('label')).toEqual(<FormattedMessage id="maximum-attendee-capacity"/>)
+                        expect(maximumAttendee.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.maximum_attendee_capacity)
+                        expect(maximumAttendee.prop('defaultValue')).toBe(defaultProps.editor.values.maximum_attendee_capacity)
+                    })
+                })
+
             })
             describe('HelLabeledCheckboxGroup', () => {
                 const wrapper = getWrapper()

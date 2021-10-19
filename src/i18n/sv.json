@@ -332,6 +332,8 @@
     "enrolment-time": "Anmälningstiden",
     "enrolment-start-time": "Anmälan inleds (dd.mm.åååå)",
     "enrolment-end-time": "Anmälan avslutas (dd.mm.åååå)",
+    "enrolment-url": "Länk till anmälning",
+    "enrolment-header": "Anmälningsinformation",
 
     "attendee-capacity": "Deltagarantalet",
     "minimum-attendee-capacity": "Deltagarnas minimiantal",

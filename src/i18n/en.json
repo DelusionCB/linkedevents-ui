@@ -318,6 +318,8 @@
     "enrolment-time": "Enrolment time",
     "enrolment-start-time": "Enrolment starts (dd.mm.yyyy)",
     "enrolment-end-time": "Enrolment ends (dd.mm.yyyy)",
+    "enrolment-url": "Link to enrolment",
+    "enrolment-header": "Enrolment information",
 
     "attendee-capacity": "Attendee capacity",
     "minimum-attendee-capacity": "Minimum number of attendees",
