@@ -15,7 +15,7 @@ describe('CollapseButton', () => {
         id: 'test-id',
         intl,
         isOpen: false,
-        targetCollapseNameId: 'event-category-header',
+        targetCollapseNameId: 'event-category-form-header',
         toggleHeader: () => {},
     }
 

@@ -1,4 +1,5 @@
 import {get} from 'lodash'
+import constants from '../constants';
 
 /**
  * A safe getter for multi language field
@@ -20,6 +21,26 @@ export function getStringWithLocale(obj, fieldPath = '', locale = 'fi', defaultV
     }
 
     return defaultValue
+}
+
+
+/**
+ * Takes {value} (type_id) and returns locale_type string based on type_id
+ * @param {value} editor
+ * @returns {string}
+ */
+export function getEventLanguageType(editor) {
+    switch (editor) {
+        case constants.EVENT_TYPE.HOBBIES: {
+            return constants.LOCALE_TYPE.HOBBY
+        }
+        case constants.EVENT_TYPE.GENERAL: {
+            return constants.LOCALE_TYPE.EVENT
+        }
+        default: {
+            return constants.LOCALE_TYPE.EVENT
+        }
+    }
 }
 
 /**

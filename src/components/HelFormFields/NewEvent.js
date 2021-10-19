@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl';
 import ValidationNotification from '../ValidationNotification';
-const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocus, subErrors, length}) => {
+const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocus, subErrors, length, localeType}) => {
     /**
      * If eventKey is 0 -> return all errors, for other keys filter out the max sub count error
      * @returns {string[]|undefined}
@@ -28,7 +28,7 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
                 <CustomDateTime
                     id={'start_time' + eventKey}
                     name="start_time"
-                    labelDate={<FormattedMessage  id="event-starting-datelabel" />}
+                    labelDate={<FormattedMessage  id={`${localeType}-starting-datelabel`} />}
                     labelTime={<FormattedMessage  id="event-starting-timelabel" />}
                     defaultValue={event.start_time}
                     eventKey={eventKey}
@@ -40,7 +40,7 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
                     disablePast
                     id={'end_time' + eventKey}
                     name="end_time"
-                    labelDate={<FormattedMessage  id="event-ending-datelabel" />}
+                    labelDate={<FormattedMessage  id={`${localeType}-ending-datelabel`} />}
                     labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                     defaultValue={event.end_time}
                     eventKey={eventKey}
@@ -78,6 +78,7 @@ NewEvent.propTypes = {
     setInitialFocus: PropTypes.bool,
     subErrors: PropTypes.object,
     length: PropTypes.number,
+    localeType: PropTypes.string,
 }
 
 

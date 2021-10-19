@@ -24,6 +24,7 @@ const mockEditor = mockEditorNewEvent;
 
 describe('HelVideoFields', () => {
     const defaultProps = {
+        localeType: 'event',
         action: 'create',
         setData: jest.fn(),
         clearVideos: jest.fn(),

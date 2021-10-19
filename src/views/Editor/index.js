@@ -307,7 +307,6 @@ export class EditorPage extends React.Component {
             : 'create-events'
             // Defined React Helmet title with intl
         const pageTitle = `Linkedevents - ${intl.formatMessage({id: headerTextId})}`
-
         // TODO: fix flow for non-authorized users
         if (user && !user.organization && sentinel) {
             setTimeout(() => alert(intl.formatMessage({id:'editor-sentinel-alert'})), 1000);

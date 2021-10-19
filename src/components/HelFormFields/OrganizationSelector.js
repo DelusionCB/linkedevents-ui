@@ -13,12 +13,12 @@ function renderSelectOptions(options) {
     )
 }
 
-const OrganizationSelector = ({formType, selectedOption, options, onChange}) => {
+const OrganizationSelector = ({formType, selectedOption, options, onChange, labelOrg}) => {
     const label = selectedOption.label ? selectedOption.label : ''
 
     return (
         <React.Fragment>
-            <label className='event-publisher' htmlFor='event-publisher'>{<FormattedMessage id='event-publisher' />}</label>
+            <label className='event-publisher' htmlFor='event-publisher'>{<FormattedMessage id={labelOrg} />}</label>
             {formType === 'update' ? (
                 <Input
                     className='event-publisher-input-disabled'
@@ -56,6 +56,7 @@ OrganizationSelector.propTypes = {
     options: PropTypes.arrayOf(PropTypes.object),
     formType: PropTypes.oneOf(['update', 'create', 'add']),
     selectedOption: PropTypes.object,
-    onChange: PropTypes.func,   
+    onChange: PropTypes.func,
+    labelOrg: PropTypes.string,
 }
 export default OrganizationSelector;

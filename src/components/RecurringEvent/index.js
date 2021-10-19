@@ -38,6 +38,7 @@ class RecurringEvent extends React.Component {
         isOpen: PropTypes.bool,
         intl: intlShape,
         uiMode: PropTypes.string,
+        localeType: PropTypes.string,
     }
 
     constructor (props) {
@@ -342,7 +343,7 @@ class RecurringEvent extends React.Component {
 
     render() {
         const {recurringStartDate, recurringEndDate, errors, subEvents} = this.state
-        const {intl, uiMode} = this.props
+        const {intl, uiMode, localeType} = this.props
         const SubEventsLeft = GENERATE_LIMIT.EVENT_LENGTH - subEvents.existingSubCount
         const days = this.generateCheckboxes(this.state.daysSelected)
         const closebtn = <Button onClick={this.props.toggle} aria-label={this.context.intl.formatMessage({id: `close-recurring-modal`})}><span className="glyphicon glyphicon-remove"></span></Button>
@@ -354,7 +355,7 @@ class RecurringEvent extends React.Component {
                 toggle={this.props.toggle}
             >
                 <ModalHeader tag='h1' close={closebtn}>
-                    <FormattedMessage id="event-add-recurring"/>
+                    <FormattedMessage id={`${localeType}-add-recurring`}/>
                 </ModalHeader>
                 <ModalBody>
                     <div className="row">
@@ -454,7 +455,7 @@ class RecurringEvent extends React.Component {
                                 name="recurringStartTime"
                                 label={
                                     <span ref={this.startTimeRef}>
-                                        <FormattedMessage  id="repetition-start-time" />
+                                        <FormattedMessage  id={`${localeType}-repetition-start-time`} />
                                     </span>
                                 }
                                 defaultValue={this.state.recurringStartTime}
@@ -471,7 +472,7 @@ class RecurringEvent extends React.Component {
                                 type={'time'}
                                 id="recurringEndTime"
                                 name="recurringEndTime"
-                                label={<FormattedMessage  id="repetition-end-time" />}
+                                label={<FormattedMessage  id={`${localeType}-repetition-end-time`} />}
                                 defaultValue={this.state.recurringEndTime}
                                 onChange={(value) => this.onTimeChange('recurringEndTime', value)}
                             />

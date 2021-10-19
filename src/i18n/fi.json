@@ -10,7 +10,7 @@
     "pick-time-range": "Etsi vain ajalta",
     "event-search": "Hae",
     "event-name-or-place": "Tapahtuman nimi tai paikka",
-    "event-type-select": "Valitse tapahtuman tyyppi",
+    "event-type-select": "Valitse sisällön tyyppi",
     "search-event-button": "Hae sisältöjä",
     "lang-fi": "Suomi",
     "lang-en": "Englanti",
@@ -85,12 +85,12 @@
     "clear-form": "Tyhjennä kentät",
     "validate-form": "Tarkista puuttuvat tiedot",
 
-    "event-presented-in-languages": "Valitse kielet, joilla julkaiset tapahtuman",
+    "event-presented-in-languages": "Valitse kielet, joilla julkaiset sisällön",
     "event-presented-in-languages2": "Suosittelemme syöttämään tiedot usealla kielellä.",
 
-    "in-fi": "suomeksi",
-    "in-en": "englanniksi",
-    "in-sv": "ruotsiksi",
+    "in-fi": "Suomi",
+    "in-en": "Englanti",
+    "in-sv": "Ruotsi",
     "in-ru": "venäjäksi",
     "in-zh_hans": "kiinaksi",
     "in-ar": "arabiaksi",
@@ -98,13 +98,17 @@
     "no-value": "-kenttää ei ole täytetty.",
 
     "event-page-default-title": "Tapahtumasivu",
-    "event-picture-header": "Määritä kuva*",
+
     "event-description-fields-header": "Tapahtuman kuvaus",
+    "hobby-description-fields-header": "Harrastuksen kuvaus",
+
     "event-locationDate-form-header": "Syötä paikka ja aika*",
-    "event-category-header": "Tapahtuman luokittelu ja kohderyhmät",
+
     "event-category-form-header": "Määritä luokat ja kohderyhmät*",
     "event-price-header": "Syötä hintatiedot",
+
     "event-social-header": "Määritä tapahtuman kanavat",
+    "hobby-social-header": "Määritä harrastuksen kanavat",
 
     "event-add-newInfo": "Täytä tapahtuman tiedot",
     "event-headline": "Otsikko",
@@ -112,10 +116,19 @@
     "event-name-descriptions-tip": "Vältä lyhenteitä ja HUUTAMISTA.",
     "event-short-description": "Lyhyt kuvaus eli ingressi",
     "event-description": "Kuvaus",
+
     "event-info-url": "Tapahtuman sivusto (URL)",
+    "hobby-info-url": "Harrastuksen sivusto (URL)",
+
     "event-provider": "Tapahtuman järjestäjä",
+    "hobby-provider": "Harrastuksen järjestäjä",
+
     "event-provider-input": "Tapahtuman järjestäjän nimi tai yhteystiedot. Huom! Tiedot ovat julkisia.",
+    "hobby-provider-input": "Harrastuksen järjestäjän nimi tai yhteystiedot. Huom! Tiedot ovat julkisia.",
+
     "event-publisher": "Tapahtuman julkaisija",
+    "hobby-publisher": "Harrastuksen julkaisija",
+
     "event-publisher-info": "Julkaisija: {publisher}",
     "event-isvirtual": "Tapahtuma on virtuaalinen",
     "event-isvirtualphysical": "Tapahtuma on sekä virtuaalinen että fyysinen",
@@ -129,8 +142,11 @@
     "events-management-description-public-user": "Selaa ja muokkaa julkaisemiasi tapahtumia.",
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
-    "event-image": "Tapahtuman kuva (klikkaa vaihtaaksesi)",
     "event-image-title": "Tapahtuman kuva*",
+    "hobby-image-title": "Harrastuksen kuva*",
+
+    "event-image-title-modal": "Kuvapankki",
+
     "new-image": "Lisää uusi kuva",
     "upload-image": "Lataa kuva laitteeltasi",
     "choose-image": "Lisää tapahtumalle kuva tai valitse kuvapankista",
@@ -151,25 +167,50 @@
     "organization-missing-message-contact2": "saadaksesi oikeudet muokata yksikkösi tapahtumia. ",
     "use-existing-image": "Kuvapankki on tyhjä. Lataa kuva tai valitse oletuskuvista.",
     "chosen-event-image": "Tapahtumalle on valittu kuva: {name}",
-    "no-image": "Tapahtumalla ei ole kuvaa",
+
+    "event-no-image": "Tapahtumalla ei ole kuvaa",
+    "hobby-no-image": "Harrastuksella ei ole kuvaa",
+
     "search-images": "Hae kuvan nimellä, ALT-tekstillä tai kuvaajan nimellä.",
     "search-images-text": "Hae",
     "search-image-result": "Kuvapankissa {count} kuvaa {page} sivulla",
 
     "event-datetime-form-header": "Valitse tapahtumien toistuvuus",
+
+    "hobby-datetime-form-header": "Valitse harrastuksen toistuvuus",
+
     "event-datetime-form-header2": "Määritä ajankohdat",
+
     "event-datetime-fields-header": "Tapahtuman ajankohdat",
+    "hobby-datetime-fields-header": "Harrastuksen ajankohdat",
+
     "event-subEvent-fields-header": "Tapahtumasarja",
+
     "event-starting": "Tapahtuma alkaa",
+    "hobby-starting": "Harrastus alkaa",
+
     "event-starting-datetime": "Tapahtuma alkaa (pp.kk.vvvv tt.mm)",
     "event-starting-datelabel": "Tapahtuma alkaa (pp.kk.vvvv)",
+
+    "hobby-starting-datetime": "Harrastus alkaa  (pp.kk.vvvv tt.mm)",
+    "hobby-starting-datelabel": "Harrastus alkaa  (pp.kk.vvvv)",
+
     "event-starting-timelabel": "Alkuaika (tt.mm)",
+
     "event-ending": "Tapahtuma päättyy",
+    "hobby-ending": "Harrastus päättyy",
+
     "event-ending-datetime": "Tapahtuma päättyy (pp.kk.vvvv tt.mm)",
     "event-ending-datelabel": "Tapahtuma päättyy (pp.kk.vvvv)",
+    "hobby-ending-datetime": "Harrastus päättyy (pp.kk.vvvv tt.mm)",
+    "hobby-ending-datelabel": "Harrastus päättyy (pp.kk.vvvv)",
+
     "event-ending-timelabel": "Loppuaika (tt.mm)",
     "event-add-new-occasion": "Lisää uusi ajankohta",
+
     "event-add-recurring": "Säännöllisesti toistuva tapahtuma",
+    "hobby-add-recurring": "Säännöllisesti toistuva harrastus",
+
     "event-type-single": "Yksittäinen tapahtuma",
     "event-type-recurring": "Sarjatapahtuma",
     "event-series": "Tapahtuma {count}: {start} - {end}",
@@ -196,14 +237,24 @@
     "repetition-interval-label": "Toistoväli",
     "repeated": "Toistetaan ",
     "repetition-interval": " viikon välein.",
-    "repetition-start-time": "Tapahtumien alkuaika (tt.mm)",
-    "repetition-end-time": "Tapahtumien loppuaika (tt.mm)",
+
+    "event-repetition-start-time": "Tapahtumien alkuaika (tt.mm)",
+    "event-repetition-end-time": "Tapahtumien loppuaika (tt.mm)",
+    "hobby-repetition-start-time": "Harrastuksen alkuaika (tt.mm)",
+    "hobby-repetition-end-time": "Harrastuksen loppuaika (tt.mm)",
 
     "event-location-fields-header": "Tapahtumapaikka",
+    "hobby-location-fields-header": "Harrastuspaikka",
+
     "event-location-form-header": "Valitse paikka",
     "event-location": "Paikan nimi tai osoite",
+
     "event-location-virtual": "Virtuaalitapahtuma",
     "event-location-virtual-url": "Linkki virtuaaliseen tapahtumaan",
+
+    "hobby-location-virtual": "Virtuaalinen harrastus",
+    "hobby-location-virtual-url": "Linkki virtuaaliseen harrastukseen",
+
     "event-location-id": "Paikan ID",
     "event-location-additional-info": "Paikan lisätiedot",
     "event-location-button": "Näytä kartalla",
@@ -215,21 +266,29 @@
     "event-is-free": "Tapahtuma on maksuton",
     "event-price": "Hinta",
     "event-price-info": "Hintatietojen kuvaus",
-    "event-purchase-link": "Linkki lipunmyyntiin/ilmoittautumiseen",
+    "event-purchase-link": "Linkki lipunmyyntiin",
 
     "event-video": "Tapahtumaan liittyvä video",
     "event-video-url": "Tapahtumaan liittyvä video (URL)",
+    "hobby-video": "Harrastukseen liittyvä video",
+    "hobby-video-url": "Harrastukseen liittyvä video (URL)",
+
     "event-video-name": "Videon nimi",
     "event-video-alt_text": "Videon alt-teksti",
     "event-video-add": "Lisää uusi video",
 
     "event-social-media-fields-header": "Tapahtuman kanavat",
+    "hobby-social-media-fields-header": "Harrastuksen kanavat",
+
     "facebook-url": "Facebook (URL)",
     "twitter-url": "Twitter (URL)",
     "instagram-url": "Instagram (URL)",
 
     "event-categorization-form": "Määritä luokat",
+
     "event-categorization": "Tapahtuman luokittelu",
+    "hobby-categorization": "Harrastuksen luokittelu",
+
     "event-keywords": "Hae ja valitse asiasanoja",
     "event-keywords-search": "Aloita kirjoittamaan asiasanaa",
     "event-keywords-delete": "Poista asiasana",
@@ -240,12 +299,18 @@
     "event-umbrella": "Kattotapahtumat",
     "event-is-umbrella": "Kattotapahtuma",
     "event-has-umbrella": "Liittyy kattotapahtumaan",
+
     "event-is-independent": "Itsenäinen tapahtuma",
+    "hobby-is-independent": "Itsenäinen harrastus",
+
     "event-has-umbrella-select-tip": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
 
-    "hel-event-languages": "Käytetyt kielet",
-    "hel-event-languages-header2": "Kielet, joilla tapahtuma järjestetään",
-    "hel-event-languages-header": "Valitse tapahtumassa käytetyt kielet",
+    "event-languages": "Käytetyt kielet",
+
+    "event-languages-header2": "Kielet, joilla tapahtuma järjestetään",
+    "event-languages-header": "Valitse tapahtumassa käytetyt kielet",
+    "hobby-languages-header2": "Kielet, joilla harrastus järjestetään",
+    "hobby-languages-header": "Valitse harrastuksessa käytetyt kielet",
 
     "audience-age-restrictions": "Ikärajoitukset",
     "audience-min-age": "Alaikäraja",
@@ -335,7 +400,10 @@
     "copy-keyword-to-clipboard": "Kopioi asiasana leikepöydälle",
 
     "hel-target-groups": "Kohderyhmät",
-    "target-groups-header": "Tee valinta, jos tapahtuma on suunnattu erityisesti tietylle kohderyhmälle",
+
+    "event-target-groups-header": "Tee valinta, jos tapahtuma on suunnattu erityisesti tietylle kohderyhmälle",
+    "hobby-target-groups-header": "Tee valinta vain, jos harrastus on suunnattu erityisesti tietylle kohderyhmälle",
+
     "additional-keywords": "Asiasanat",
     "main-categories": "Luokittelu",
     "main-categories-header": "Valitse vähintään yksi luokka*",
@@ -371,9 +439,13 @@
     "editor-tip-time-type": "Lisää uusi ajankohta: lisää alitapahtumia sarjatapahtumaan.",
     "editor-tip-time-end": "Säännöllisesti toistuva tapahtuma: lisää esimerkiksi viikoittain, samoina päivinä toistuvia tapahtumakertoja (esim. teatterinäytös, joka toistuu useita kertoja samanlaisena eri päivinä).",
 
-    "editor-tip-location-multi": "Tapahtuma voi olla virtuaalinen, lähitapahtuma tai molemmat.",
-    "editor-tip-location-internet": "Jos tapahtuma järjestetään etänä internetissä, valitse tapahtumapaikaksi Virtuaalitapahtuma ja syötä URL-osoite. Lähitapahtumassa voit antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi konferenssihuoneen nimen tai ohjeet sisäänkäynnille.",
-    "editor-tip-location-not-found": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+    "event-editor-tip-location-multi": "Tapahtuma voi olla virtuaalinen, lähitapahtuma tai molemmat.",
+    "event-editor-tip-location-internet": "Jos tapahtuma järjestetään etänä internetissä, valitse tapahtumapaikaksi Virtuaalitapahtuma ja syötä URL-osoite. Lähitapahtumassa voit antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi konferenssihuoneen nimen tai ohjeet sisäänkäynnille.",
+    "event-editor-tip-location-not-found": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
+
+    "hobby-editor-tip-location-multi": "Harrastus on yleensä fyysisesti paikan päällä tapahtuva.",
+    "hobby-editor-tip-location-internet": "Jos harrastus järjestetään etänä internetissä, valitse harrastuspaikaksi \"Virtuaalinen harrastus\" ja syötä URL-osoite. Paikan päällä tapahtuvaa harrastusta varten voit antaa lisätietoja harrastuspaikan löytämiseksi, esimerkiksi ohjeet sisäänkäynnille tai liikuntasalin nimen / numeron.",
+    "hobby-editor-tip-location-not-found": "Jos tarkkaa harrastuspaikkaa ei löydy listasta, valitse paikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
 
     "editor-tip-umbrella-sub-event": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
     "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
@@ -383,7 +455,10 @@
 
     "editor-tip-required": "Tähdellä (*) merkityt kentät ovat pakollisia.",
     "editor-tip-umbrella": "Kattotapahtuman ohjeet",
-    "editor-tip-times": "Tapahtumien toistuvuuden ohjeet",
+
+    "event-editor-tip-times": "Tapahtumien toistuvuuden ohjeet",
+    "hobby-editor-tip-times": "Harrastuksen toistuvuuden ohjeet",
+
     "editor-tip-location": "Paikan valinnan ohjeet",
     "editor-tip-eventtype-disable": "Jos haluat vaihtaa tapahtumien toistuvuutta, poista lisätyt ajat.",
 
@@ -407,7 +482,6 @@
     "image-caption-limit-for-min-and-max": "Kuvan nimi",
     "delete-from-filesystem": "Poista kuva järjestelmästä",
     "edit-selected-image": "Muokkaa valittua kuvaa",
-    "attach-image-to-event": "Lisää kuva tapahtumaan",
 
     "moderation-page": "Moderoi sisältöjä",
     "moderation-page-tip": "Moderoinnin ohjeet",
@@ -440,10 +514,13 @@
     "uploaded-image-size-error": "Kuva on liian suuri. Kuvan koon on oltava alle 4 Mt.",
     "uploaded-image-size-tip": "Sallitut tiedostotyypit: jpeg, gif ja png. Kuvan sallittu koko 4 Mt.",
     "uploaded-image-size-tip2": "Suosittelemme kuvasuhdetta 1920x1080px.",
-    "uploaded-image-event-tip": "Tapahtumalle lisäämäsi kuva lisätään myös kuvapankkiisi.",
+    "uploaded-image-event-tip": "Lisäämäsi kuva lisätään myös kuvapankkiisi.",
 
     "uploaded-image-button-delete": "Poista lisätty kuva",
-    "uploaded-image-alt-decoration": "Kuva on koriste. Valitse, kun kuva ei tarjoa lisätietoa tapahtumasta.",
+
+    "event-uploaded-image-alt-decoration": "Kuva on koriste. Valitse, kun kuva ei tarjoa lisätietoa tapahtumasta.",
+    "hobby-uploaded-image-alt-decoration": "Kuva on koriste. Valitse, kun kuva ei tarjoa lisätietoa harrastuksesta.",
+
     "upload-image-from-url-button": "Lataa osoitteesta",
     "upload-image-select-bank": "Valitse kuvapankista",
     "upload-new-image": "Lataa kuva",
@@ -457,12 +534,18 @@
 
     "alt-text": "Oma sanallinen selityksesi kuvan sisällöstä ruudunlukijaa käyttävälle",
     "photographer": "Kuvaaja / kuvan oikeudenomistaja",
-    "image-modal-license-restricted-to-event": "Käyttö rajattu tapahtuman yhteyteen",
+
+    "event-image-modal-license-restricted": "Käyttö rajattu tapahtuman yhteyteen.",
+    "hobby-image-modal-license-restricted": "Käyttö rajattu harrastuksen yhteyteen.",
+
     "image-modal-image-license": "Lisenssi",
     "image-page": "Sivu {n}",
     "image-pagination": "Kuvien sivutus",
     "image-modal-image-license-permission": "Minulla on oikeus lähettää kuva.",
-    "image-modal-image-license-explanation-event-only": "Käyttö rajattu tapahtuman yhteyteen: kuvaa saa käyttää ja jakaa vain tämän tapahtumatiedon yhteydessä.",
+
+    "event-image-modal-image-license-explanation-only": "Käyttö rajattu tapahtuman yhteyteen: kuvaa saa käyttää ja jakaa vain tämän tapahtumatiedon yhteydessä.",
+    "hobby-image-modal-image-license-explanation-only": "Käyttö rajattu harrastuksen yhteyteen: kuvaa saa käyttää ja jakaa vain tämän harrastustiedon yhteydessä. ",
+
     "image-modal-image-license-explanation-cc-by": "CC BY 4.0: kuvaa saa jakaa ja käyttää vapaasti, kun tekijätiedot mainitaan. Valitse aina, kun kuva on saatu tällä käyttöoikeudella. (ks. <a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>lisätietoja CC BY 4.0 oikeuksista. Aukeaa uudessa välilehdessä</a>).",
     "image-modal-view-terms-paragraph-text": "Voit tutustua laajemmin <a href='/help#images' target='_blank' rel='noopener noreferrer'>kuvien lisäämisen ehtoihin ja suosituksiin (aukeaa uudessa välilehdessä).</a>",
     "image-modal-save-button-text": "Tallenna tiedot",
@@ -490,7 +573,10 @@
     "footer-city3": "www.hel.fi",
     "footer-link": "https://www.hel.fi",
 
-    "preview-event": "Tapahtuman tiedot",
+    "event-preview": "Tapahtuman tiedot",
+    "hobby-preview": "Harrastuksen tiedot",
+
+
     "preview-event-button": "Esikatsele tapahtumatiedot",
 
     "reportbutton-send": "Lähetä raportti",
@@ -510,8 +596,6 @@
 	"table-pagination-next-page": "Seuraava sivu",
     "table-pagination-previous-page": "Edellinen sivu",
 
-    "editor-tip-event-description": "Kirjoita eri yhteyksissä ymmärrettävä otsikko, lyhyt kuvaus ja kuvaus.",
-    "editor-tip-event-description1": "Lyhyt kuvaus näytetään vain listoissa, kuvaus vain tapahtuman omalla sivulla. Jos kohderyhmä on rajattu, kerro siitä kuvaustekstissä.",
 
     "close-report-modal": "Sulje raportoinnin dialogi",
     "close-recurring-modal": "Sulje toistuvan tapahtuman dialogi",
@@ -538,10 +622,13 @@
 
     "login-warning": "Huom! Sinun täytyy",
     "login-warning1": "kirjautua sisään",
-    "login-warning2": "lisätäksesi tapahtuman!",
+    "login-warning2": "lisätäksesi sisällön.",
 
     "event-list-show": "Näytä tapahtumat",
     "event-list-hide": "Piilota tapahtumat",
+    "hobby-list-show": "Näytä harrastukset",
+    "hobby-list-hide": "Piilota harrastukset",
+
     "event-is-virtualandhaslocation": "Tämä tapahtuma on sekä virtuaalinen että lähitapahtuma",
     "homepage-welcome": "Tervetuloa Linked-palveluihin",
     "homepage-introduction-one": "Tervetuloa lisäämään tapahtumasi, harrastuksesi tai koulutuksesi avoimeen Linked Events -tietokantaan. Linked Events on avoin tapahtumatietokanta ja -rajapinta joka tarjoaa tiedot avoimena datana yhdenmukaisessa koneluettavassa muodossa erilaisille sovelluksille.",

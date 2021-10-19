@@ -8,7 +8,7 @@ import {
     FormattedMessage,
     intlShape,
 } from 'react-intl'
-import {getStringWithLocale} from '../../utils/locale'
+import {getStringWithLocale, getEventLanguageType} from '../../utils/locale'
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {Badge} from 'reactstrap';
@@ -161,7 +161,7 @@ const ImageValue = (props) => {
     }
     return (
         <FormHeader>
-            <FormattedMessage id="no-image"/>
+            <FormattedMessage id={props.labelKey}/>
         </FormHeader>
     )
 }
@@ -169,6 +169,7 @@ const ImageValue = (props) => {
 ImageValue.propTypes = {
     value: PropTypes.object,
     locale: PropTypes.string,
+    labelKey: PropTypes.string,
 }
 
 const OptionGroup = (props) => {
@@ -282,7 +283,7 @@ OffersValue.propTypes = {
     label: PropTypes.string,
 }
 
-const VideoValue = ({values}) => {
+const VideoValue = ({values, localeType}) => {
 
     if (!values || values.length === 0) {
         return (<NoValue labelKey={'event-video'}/>)
@@ -301,7 +302,7 @@ const VideoValue = ({values}) => {
                                 return (
                                     <TextValue
                                         key={`video-value-${key}`}
-                                        labelKey={`event-video-${key}`}
+                                        labelKey={`${localeType}-video-${key}`}
                                         value={removeScriptElements(value)}
                                     />
                                 )
@@ -324,6 +325,7 @@ const VideoValue = ({values}) => {
 
 VideoValue.propTypes = {
     values: PropTypes.array,
+    localeType: PropTypes.string,
 }
 
 const VirtualInfo = (props) => {
@@ -413,28 +415,29 @@ const EventDetails = (props) => {
         nonMainCategoryKeywords = values.keywords.filter(item => !mainCategoryValues.includes(item.value))
     }
     const subsExists = Object.keys(editor.values['sub_events']).length > 0
+    const localeType = getEventLanguageType(values['type_id']);
 
     return (
         <div className={classNames('event-details', {'preview': props.isPreview})}>
-            <ImageValue labelKey="event-image" value={values['image']} locale={intl.locale}/>
+            <ImageValue labelKey={`${localeType}-no-image`} value={values['image']} locale={intl.locale}/>
             <FormHeader>
-                {intl.formatMessage({id: 'event-description-fields-header'})}
+                {intl.formatMessage({id: `${localeType}-description-fields-header`})}
             </FormHeader>
 
             <MultiLanguageValue labelKey="event-headline" value={values['name']}/>
             <MultiLanguageValue labelKey="event-short-description" value={values['short_description']}/>
             <MultiLanguageValue labelKey="event-description" value={values['description']}/>
-            <MultiLanguageValue labelKey="event-info-url" value={values['info_url']}/>
-            <MultiLanguageValue labelKey="event-provider" value={values['provider']}/>
-            {publisher && <TextValue labelKey="event-publisher" value={get(publisher, 'name')}/>}
+            <MultiLanguageValue labelKey={`${localeType}-info-url`} value={values['info_url']}/>
+            <MultiLanguageValue labelKey={`${localeType}-provider`} value={values['provider']}/>
+            {publisher && <TextValue labelKey={`${localeType}-publisher`} value={get(publisher, 'name')}/>}
 
             <FormHeader>
-                {intl.formatMessage({id: 'event-datetime-fields-header'})}
+                {intl.formatMessage({id: `${localeType}-datetime-fields-header`})}
             </FormHeader>
             {(!props.isPreview || (props.isPreview && !subsExists)) && (
                 <Fragment>
-                    <DateTime locale={intl.locale} value={values['start_time']} labelKey="event-starting"/>
-                    <DateTime locale={intl.locale} value={values['end_time']} labelKey="event-ending"/>
+                    <DateTime locale={intl.locale} value={values['start_time']} labelKey={`${localeType}-starting`}/>
+                    <DateTime locale={intl.locale} value={values['end_time']} labelKey={`${localeType}-ending`}/>
                 </Fragment>)
             }
             {props.isPreview && subsExists && (
@@ -443,7 +446,7 @@ const EventDetails = (props) => {
                 </Fragment>)
             }
             <FormHeader>
-                {intl.formatMessage({id: 'event-location-fields-header'})}
+                {intl.formatMessage({id: `${localeType}-location-fields-header`})}
             </FormHeader>
 
             <VirtualInfo labelvirtualphysical='event-isvirtualphysical' labelvirtual='event-isvirtual' labelvirtualURL='event-location-virtual-url' location={get(values, 'location.name')} isvirtual={values['is_virtualevent']} values={get(values, 'virtualevent_url')}/>
@@ -461,25 +464,25 @@ const EventDetails = (props) => {
             <OffersValue label={'event-price-count'} values={values}/>
 
             <FormHeader>
-                {intl.formatMessage({id: 'event-social-media-fields-header'})}
+                {intl.formatMessage({id: `${localeType}-social-media-fields-header`})}
             </FormHeader>
             <TextValue labelKey="facebook-url" value={values['extlink_facebook']}/>
             <TextValue labelKey="twitter-url" value={values['extlink_twitter']}/>
             <TextValue labelKey="instagram-url" value={values['extlink_instagram']}/>
 
             <FormHeader>
-                {intl.formatMessage({id: 'event-video'})}
+                {intl.formatMessage({id: `${localeType}-video`})}
             </FormHeader>
-            <VideoValue values={values['videos']} />
+            <VideoValue localeType={localeType} values={values['videos']} />
 
             <FormHeader>
-                {intl.formatMessage({id: 'event-categorization'})}
+                {intl.formatMessage({id: `${localeType}-categorization`})}
             </FormHeader>
 
             <OptionGroup values={mainCategoryKeywords} labelKey="main-categories" locale={intl.locale}/>
             <OptionGroup values={nonMainCategoryKeywords} labelKey="additional-keywords" locale={intl.locale}/>
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups" locale={intl.locale}/>
-            <OptionGroup values={rawData['in_language']} labelKey="hel-event-languages" locale={intl.locale}/>
+            <OptionGroup values={rawData['in_language']} labelKey="event-languages" locale={intl.locale}/>
 
             {values['type_id'] !== EVENT_TYPE.GENERAL &&
                 <React.Fragment>

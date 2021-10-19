@@ -198,6 +198,7 @@ describe('FormField', () => {
         describe('generateNewEventFields', () => {
             const instance = getWrapper().instance()
             const events = {0: {start_time: undefined}, 1: {start_time: undefined}}
+            const localeType = 'event'
             const eventOne = <NewEvent
                 length={1}
                 key={0}
@@ -206,6 +207,7 @@ describe('FormField', () => {
                 errors={{}}
                 setInitialFocus={true}
                 subErrors={instance.props.editor.validationErrors}
+                localeType='event'
             />
             const eventTwo = <NewEvent
                 length={2}
@@ -215,15 +217,16 @@ describe('FormField', () => {
                 errors={{}}
                 setInitialFocus={false}
                 subErrors={instance.props.editor.validationErrors}
+                localeType='event'
             />
             test('returns correct array of NewEvent components', () => {
-                const fields = instance.generateNewEventFields(events)
+                const fields = instance.generateNewEventFields(events, localeType)
                 expect(fields).toStrictEqual([eventOne, eventTwo])
             })
 
             test('returns correct array of NewEvent components when createdRecurringEvents is true', () => {
                 instance.state.createdRecurringEvents = true
-                const fields = instance.generateNewEventFields(events)
+                const fields = instance.generateNewEventFields(events, localeType)
                 const eventOneNoFocus = <NewEvent
                     length={1}
                     key={0}
@@ -232,6 +235,7 @@ describe('FormField', () => {
                     errors={{}}
                     setInitialFocus={false}
                     subErrors={instance.props.editor.validationErrors}
+                    localeType='event'
                 />
                 expect(fields).toStrictEqual([eventOneNoFocus, eventTwo])
             })
@@ -256,7 +260,7 @@ describe('FormField', () => {
                     expect(Sidefields).toHaveLength(3)
                 })
                 test('correct props', () => {
-                    const ids = ['editor-tip-location', 'editor-tip-umbrella', 'editor-tip-times']
+                    const ids = ['editor-tip-location', 'editor-tip-umbrella', 'event-editor-tip-times']
                     Sidefields.forEach((element, index) => {
                         expect(element.prop('id')).toEqual(ids[index])
                     })
@@ -272,9 +276,9 @@ describe('FormField', () => {
                 })
                 test('first sidefield with correct children ids', () => {
                     const fields = Sidefields.at(0).children();
-                    expect(fields.at(0).prop('id')).toEqual('editor-tip-location-multi')
-                    expect(fields.at(1).prop('id')).toEqual('editor-tip-location-internet')
-                    expect(fields.at(2).prop('id')).toEqual('editor-tip-location-not-found')
+                    expect(fields.at(0).prop('id')).toEqual('event-editor-tip-location-multi')
+                    expect(fields.at(1).prop('id')).toEqual('event-editor-tip-location-internet')
+                    expect(fields.at(2).prop('id')).toEqual('event-editor-tip-location-not-found')
                 })
             })
             describe('MultiLanguageField', () => {
@@ -459,7 +463,7 @@ describe('FormField', () => {
                 })
                 test('correct props for audience checkboxgroup', () => {
                     const audiencegroup = helgroupboxes.at(0)
-                    expect(audiencegroup.prop('groupLabel')).toEqual(<FormattedMessage id='target-groups-header' />)
+                    expect(audiencegroup.prop('groupLabel')).toEqual(<FormattedMessage id='event-target-groups-header' />)
                     expect(audiencegroup.prop('selectedValues')).toBe(defaultProps.editor.values.audience)
                     expect(audiencegroup.prop('name')).toBe('audience')
                     expect(audiencegroup.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.audience)
@@ -467,7 +471,7 @@ describe('FormField', () => {
                 })
                 test('correct props for in_language checkboxgroup', () => {
                     const languagegroup = helgroupboxes.at(1)
-                    expect(languagegroup.prop('groupLabel')).toEqual(<FormattedMessage id="hel-event-languages-header2"/>)
+                    expect(languagegroup.prop('groupLabel')).toEqual(<FormattedMessage id="event-languages-header2"/>)
                     expect(languagegroup.prop('selectedValues')).toBe(defaultProps.editor.values.in_language)
                     expect(languagegroup.prop('name')).toBe('in_language')
                     expect(languagegroup.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.in_language)

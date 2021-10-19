@@ -347,7 +347,7 @@ class ImageEdit extends React.Component {
             <div className='image-license-container'>
                 <div className='license-choices'>
                     <div className='license-help-text tip'>
-                        <FormattedMessage id={'image-modal-image-license-explanation-event-only'}/>
+                        <FormattedMessage id={`${this.props.localeType}-image-modal-image-license-explanation-only`}/>
                         <FormattedHTMLMessage id={'image-modal-image-license-explanation-cc-by'} />
                     </div>
                     <div className='custom-control custom-checkbox'>
@@ -373,7 +373,7 @@ class ImageEdit extends React.Component {
                             checked
                         />
                         <label className='custom-control-label' htmlFor='event_only'>
-                            <FormattedMessage id={'image-modal-license-restricted-to-event'}/>
+                            <FormattedMessage id={`${this.props.localeType}-image-modal-license-restricted`}/>
                         </label>
                     </div>
                     <div className='custom-control custom-radio'>
@@ -419,7 +419,7 @@ class ImageEdit extends React.Component {
 
 
     render() {
-        const {open, close, uiMode} = this.props;
+        const {open, close, uiMode, localeType} = this.props;
         const {thumbnailUrl} = this.state;
         const thumb = this.state.thumbnailUrl || this.props.thumbnailUrl;
         const errorMessage = this.state.urlError ? 'validation-isUrl' : 'uploaded-image-size-error';
@@ -520,7 +520,7 @@ class ImageEdit extends React.Component {
                                                             onChange={this.setAltDecoration}
                                                         />
                                                         <label className='custom-control-label' htmlFor='hideAltText'>
-                                                            <FormattedMessage id={'uploaded-image-alt-decoration'}/>
+                                                            <FormattedMessage id={`${localeType}-uploaded-image-alt-decoration`}/>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -574,6 +574,7 @@ ImageEdit.propTypes = {
     license: PropTypes.string,
     open: PropTypes.bool,
     uiMode: PropTypes.string,
+    localeType: PropTypes.string,
 };
 ImageEdit.contextTypes = {
     intl: PropTypes.object,

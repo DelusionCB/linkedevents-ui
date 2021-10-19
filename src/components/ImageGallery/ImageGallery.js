@@ -10,6 +10,7 @@ import {get as getIfExists} from 'lodash';
 import ValidationNotification from 'src/components/ValidationNotification'
 import classNames from 'classnames';
 import ImagePreview from './ImagePreview';
+import {getEventLanguageType} from '../../utils/locale';
 
 class ImageGallery extends React.Component {
     constructor(props) {
@@ -39,9 +40,10 @@ class ImageGallery extends React.Component {
     }
 
     render() {
-        const {validationErrors, user, uiMode} = this.props;
+        const {validationErrors, user, uiMode, editor} = this.props;
         const {openDefault, openOrgModal} = this.state;
-        const backgroundImage = getIfExists(this.props.editor.values,'image.url', '');
+        const backgroundImage = getIfExists(editor.values,'image.url', '');
+        const localeType = getEventLanguageType(editor.values.type_id)
         const pickerProps = {
             isOpen: openDefault ? openDefault : openOrgModal,
             defaultModal: openDefault,
@@ -85,7 +87,7 @@ class ImageGallery extends React.Component {
                         <span aria-hidden className="glyphicon glyphicon-plus"/>
                         <FormattedMessage id='select-from-default'/>
                     </Button>
-                    <ImageEdit uiMode={uiMode} open={this.state.openEditModal} close={this.toggleEditModal}/>
+                    <ImageEdit localeType={localeType} uiMode={uiMode} open={this.state.openEditModal} close={this.toggleEditModal}/>
                     <ImagePickerForm uiMode={uiMode} label="image-preview" name="image" loading={false} close={() => this.toggleOrgModal(openDefault)} {...pickerProps}/>
                 </div>
                 <div className='col-sm-5 side-field'>
@@ -94,6 +96,7 @@ class ImageGallery extends React.Component {
                             image={this.props.editor.values.image}
                             locale={this.props.locale}
                             validationErrors={validationErrors}
+                            localeType={localeType}
                         />
 
                     </div>

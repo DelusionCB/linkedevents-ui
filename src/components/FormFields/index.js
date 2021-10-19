@@ -34,6 +34,7 @@ import CollapseButton from './CollapseButton/CollapseButton';
 import SideField from './SideField/SideField';
 import HelCheckbox from '../HelFormFields/HelCheckbox';
 import LoginNotification from './LoginNotification/LoginNotification'
+import {getEventLanguageType} from '../../utils/locale';
 
 
 let FormHeader = ({type = 'h3', messageID}) => {
@@ -179,7 +180,7 @@ class FormFields extends React.Component {
         }
     }
 
-    generateNewEventFields(events) {
+    generateNewEventFields(events, localeType) {
         const {validationErrors} = this.props.editor;
         const {createdRecurringEvents} = this.state
         const subEventErrors = {...validationErrors.sub_events} || {}
@@ -200,6 +201,7 @@ class FormFields extends React.Component {
                         errors={subEventErrors[key] || {}}
                         setInitialFocus={createdRecurringEvents ? false : key === focusEvent}
                         subErrors={this.props.editor.validationErrors}
+                        localeType={localeType}
                     />
                 )
             }
@@ -280,7 +282,8 @@ class FormFields extends React.Component {
         const isSuperEventDisable = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_UMBRELLA
         const {VALIDATION_RULES, USER_TYPE} = CONSTANTS
         const addedEvents = pickBy(values.sub_events, event => !event['@id'])
-        const newEvents = this.generateNewEventFields(addedEvents)
+        const currentEventType = getEventLanguageType(values['type_id'])
+        const newEvents = this.generateNewEventFields(addedEvents, currentEventType)
         const maxSubEventCount = CONSTANTS.GENERATE_LIMIT.EVENT_LENGTH
         const userType = get(user, 'userType')
         const isRegularUser = userType === USER_TYPE.REGULAR
@@ -378,12 +381,13 @@ class FormFields extends React.Component {
                             options={publisherOptions}
                             selectedOption={selectedPublisher}
                             onChange={this.handleOrganizationChange}
+                            labelOrg={`${currentEventType}-provider`}
                         />
                         <MultiLanguageField
                             id='event-provider-input'
                             required={false}
                             multiLine={false}
-                            label="event-provider-input"
+                            label={`${currentEventType}-provider-input`}
                             ref="provider"
                             name="provider"
                             validationErrors={validationErrors['provider']}
@@ -416,16 +420,16 @@ class FormFields extends React.Component {
                         <FormHeader messageID='event-location-form-header'/>
                         <div className="row location-row">
                             <SideField id='editor-tip-location'>
-                                <FormattedMessage id="editor-tip-location-multi">{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id="editor-tip-location-internet">{txt => <p><strong>{txt}</strong></p>}</FormattedMessage>
-                                <FormattedMessage id="editor-tip-location-not-found">{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`${currentEventType}-editor-tip-location-multi`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`${currentEventType}-editor-tip-location-internet`}>{txt => <p><strong>{txt}</strong></p>}</FormattedMessage>
+                                <FormattedMessage id={`${currentEventType}-editor-tip-location-not-found`}>{txt => <p>{txt}</p>}</FormattedMessage>
                             </SideField>
                             <div className="col-sm-6 hel-select">
                                 <div>
 
                                     <HelCheckbox
                                         name='is_virtualevent'
-                                        label={<FormattedMessage id='event-location-virtual'/>}
+                                        label={<FormattedMessage id={`${currentEventType}-location-virtual`}/>}
                                         fieldID='is_virtual'
                                         defaultChecked={values['is_virtualevent']}
                                         disabled={userDoesNotExist}
@@ -435,7 +439,7 @@ class FormFields extends React.Component {
                                         id='event-location-virtual-url'
                                         ref="event-location-virtual-url"
                                         name="virtualevent_url"
-                                        label={this.context.intl.formatMessage({id: 'event-location-virtual-url'})}
+                                        label={this.context.intl.formatMessage({id: `${currentEventType}-location-virtual-url`})}
                                         validationErrors={validationErrors['virtualevent_url']}
                                         defaultValue={values['virtualevent_url']}
                                         setDirtyState={this.props.setDirtyState}
@@ -530,9 +534,9 @@ class FormFields extends React.Component {
                             </div>
                         </React.Fragment>
                         }
-                        <FormHeader messageID='event-datetime-form-header'/>
+                        <FormHeader messageID={`${currentEventType}-datetime-form-header`}/>
                         <div className='row date-row'>
-                            <SideField id='editor-tip-times'>
+                            <SideField id={`${currentEventType}-editor-tip-times`}>
                                 <p><FormattedMessage id="editor-tip-time-start"/></p>
                                 <p><FormattedMessage id="editor-tip-time-start-end"/></p>
                                 <p><FormattedMessage id="editor-tip-time-type"/></p>
@@ -600,7 +604,7 @@ class FormFields extends React.Component {
                                         <CustomDateTime
                                             id="start_time"
                                             name="start_time"
-                                            labelDate={<FormattedMessage  id="event-starting-datelabel" />}
+                                            labelDate={<FormattedMessage  id={`${currentEventType}-starting-datelabel`}/>}
                                             labelTime={<FormattedMessage  id="event-starting-timelabel" />}
                                             defaultValue={values['start_time']}
                                             setDirtyState={this.props.setDirtyState}
@@ -616,7 +620,7 @@ class FormFields extends React.Component {
                                             validationErrors={validationErrors['end_time']}
                                             defaultValue={values['end_time']}
                                             name="end_time"
-                                            labelDate={<FormattedMessage  id="event-ending-datelabel" />}
+                                            labelDate={<FormattedMessage  id={`${currentEventType}-ending-datelabel`} />}
                                             labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                                             setDirtyState={this.props.setDirtyState}
                                             minDate={values['start_time'] ? moment(values['start_time']) : undefined}
@@ -636,8 +640,8 @@ class FormFields extends React.Component {
                                             id='events-list'
                                             onClick={() => this.showEventList()}>
                                             {this.state.displayEvents
-                                                ? <FormattedMessage id='event-list-hide'/>
-                                                : <FormattedMessage id='event-list-show'/>
+                                                ? <FormattedMessage id={`${currentEventType}-list-hide`}/>
+                                                : <FormattedMessage id={`${currentEventType}-list-show`}/>
                                             }
                                         </Button>
                                         {this.state.showRecurringEvent &&
@@ -649,6 +653,7 @@ class FormFields extends React.Component {
                                                     values={values}
                                                     formType={formType}
                                                     uiMode={uiMode}
+                                                    localeType={currentEventType}
                                                 />
                                         }
                                         <Button
@@ -676,7 +681,7 @@ class FormFields extends React.Component {
                                             onClick={() => this.showRecurringEventDialog()}>
 
                                             <span aria-hidden='true' className="glyphicon glyphicon-refresh"/>
-                                            <FormattedMessage id="event-add-recurring">{txt =>txt}</FormattedMessage>
+                                            <FormattedMessage id={`${currentEventType}-add-recurring`}>{txt =>txt}</FormattedMessage>
                                         </Button>
 
                                     </React.Fragment>
@@ -692,7 +697,7 @@ class FormFields extends React.Component {
                             id='headerImage'
                             isOpen={this.state.headerImage}
                             isRequired={true}
-                            targetCollapseNameId='event-image-title'
+                            targetCollapseNameId={`${currentEventType}-image-title`}
                             toggleHeader={this.toggleHeader}
                             validationErrorList={validationErrors['image']}
                         />
@@ -727,7 +732,7 @@ class FormFields extends React.Component {
                         </div>
                         <div className="row audience-row">
                             <HelLabeledCheckboxGroup
-                                groupLabel={<FormattedMessage id="target-groups-header"/>}
+                                groupLabel={<FormattedMessage id={`${currentEventType}-target-groups-header`}/>}
                                 selectedValues={values['audience']}
                                 ref="audience"
                                 name="audience"
@@ -882,7 +887,7 @@ class FormFields extends React.Component {
                         <CollapseButton
                             id='headerSocials'
                             isOpen={this.state.headerSocials}
-                            targetCollapseNameId='event-social-header'
+                            targetCollapseNameId={`${currentEventType}-social-header`}
                             toggleHeader={this.toggleHeader}
                             validationErrorList={[validationErrors['info_url'], validationErrors['extlink_facebook'],
                                 validationErrors['extlink_twitter'], validationErrors['extlink_instagram']]}
@@ -895,7 +900,7 @@ class FormFields extends React.Component {
                                     id='event-info-url'
                                     required={false}
                                     multiLine={false}
-                                    label="event-info-url"
+                                    label={`${currentEventType}-info-url`}
                                     ref="info_url"
                                     name="info_url"
                                     validationErrors={validationErrors['info_url']}
@@ -960,6 +965,7 @@ class FormFields extends React.Component {
                             intl={this.context.intl}
                             action={this.props.action}
                             disabled={userDoesNotExist}
+                            localeType={currentEventType}
                         />
                     </Collapse>
                 </div>
@@ -968,7 +974,7 @@ class FormFields extends React.Component {
                         <CollapseButton
                             id='headerInlanguage'
                             isOpen={this.state.headerInlanguage}
-                            targetCollapseNameId='hel-event-languages-header'
+                            targetCollapseNameId={`${currentEventType}-languages-header`}
                             toggleHeader={this.toggleHeader}
                             validationErrorList={[validationErrors['in_language']]}
                         />
@@ -976,7 +982,7 @@ class FormFields extends React.Component {
                     <Collapse isOpen={this.state.headerInlanguage}>
                         <div className="row inlanguage-row">
                             <HelLabeledCheckboxGroup
-                                groupLabel={<FormattedMessage id="hel-event-languages-header2"/>}
+                                groupLabel={<FormattedMessage id={`${currentEventType}-languages-header2`}/>}
                                 selectedValues={values['in_language']}
                                 ref="in_language"
                                 name="in_language"

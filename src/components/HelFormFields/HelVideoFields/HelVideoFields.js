@@ -233,7 +233,7 @@ class HelVideoFields extends React.Component {
                                         key='url-video-field'
                                         required={required[index]}
                                         defaultValue={video.url}
-                                        label={this.context.intl.formatMessage({id: 'event-video-url'})}
+                                        label={this.context.intl.formatMessage({id: `${this.props.localeType}-video-url`})}
                                         validations={[VALIDATION_RULES.IS_URL]}
                                         validationErrors={get(this.props.validationErrors,['videos', index, 'url'], null)}
                                         onChange={(e, v) => this.handleChange(e, v, 'url', index)}
@@ -305,6 +305,7 @@ HelVideoFields.propTypes = {
     languages: PropTypes.array,
     intl: PropTypes.object,
     editorValues: PropTypes.object,
+    localeType: PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({

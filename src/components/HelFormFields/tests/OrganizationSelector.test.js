@@ -15,6 +15,7 @@ const testOrgA = {value: 'a', label: 'a-label'}
 const testOrgB = {value: 'b', label: 'b-label'}
 
 const defaultProps = {
+    labelOrg: 'event',
     options: [testOrgA],
     formType: 'create',
     selectedOption: {},
@@ -34,7 +35,7 @@ describe('OrganizationSelector', () => {
             expect(label.prop('htmlFor')).toBe('event-publisher')
             const message = label.find(FormattedMessage)
             expect(message).toHaveLength(1)
-            expect(message.prop('id')).toBe('event-publisher')
+            expect(message.prop('id')).toBe(defaultProps.labelOrg)
         })
 
         describe('when form type is update', () => {

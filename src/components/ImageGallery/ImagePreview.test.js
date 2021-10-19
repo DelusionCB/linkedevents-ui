@@ -11,6 +11,7 @@ const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {}
 const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
+    localeType: 'event',
     intl,
     image: undefined,
     locale: 'fi',
@@ -129,7 +130,7 @@ describe('ImagePreview', () => {
                 const spy = jest.spyOn(instance, 'setState')
                 const prevProps = {locale: 'en'}
                 instance.componentDidUpdate(prevProps)
-                expect(spy).toHaveBeenCalledTimes(1)
+                expect(spy).toHaveBeenCalledTimes(2)
                 expect(spy).toHaveBeenCalledWith({
                     currentText: instance.getCurrentText(),
                 })
@@ -140,7 +141,7 @@ describe('ImagePreview', () => {
             test('returns correct then when prop image is undefined', () =>  {
                 const instance = getWrapper({image: undefined}).instance()
                 const result = instance.getCurrentText()
-                expect(result).toBe(intl.formatMessage({id: 'no-image'}))
+                expect(result).toBe(intl.formatMessage({id: `${defaultProps.localeType}-no-image`}))
             })
 
             test('returns correct then when prop image is defined', () =>  {

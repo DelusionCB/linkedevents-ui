@@ -84,12 +84,12 @@
     "clear-form": "Clear form",
     "validate-form": "Validate form",
 
-    "event-presented-in-languages": "Select the language the event will be published in",
+    "event-presented-in-languages": "Select the language the content will be published in",
     "event-presented-in-languages2": "We recommend writing in multiple languages.",
 
-    "in-fi": "in Finnish",
-    "in-en": "in English",
-    "in-sv": "in Swedish",
+    "in-fi": "Finnish",
+    "in-en": "English",
+    "in-sv": "Swedish",
     "in-ru": "In Russian",
     "in-zh_hans": "In Chinese",
     "in-ar": "In Arabic",
@@ -99,14 +99,26 @@
     "event-page-default-title": "Event page",
     "event-picture-header": "Set image*",
     "event-locationDate-form-header": "Enter the place and time*",
+
     "event-description-fields-header": "Event description",
+    "hobby-description-fields-header": "Hobby description",
+
     "event-headline": "Title",
     "event-short-description": "Short description, lead",
     "event-description": "Description",
+
     "event-info-url": "Website (URL)",
+    "hobby-info-url": "Website (URL)",
+
     "event-provider": "Event organizer",
+    "hobby-provider": "Hobby organizer",
+
     "event-provider-input": "Event organizer or contact details. Notice! The information is public.",
+    "hobby-provider-input": "Hobby organizer or contact details. Notice! The information is public.",
+
     "event-publisher": "Event publisher",
+    "hobby-publisher": "Publisher of the hobby",
+
     "event-publisher-info": "Publisher: {publisher}",
     "event-isvirtual": "Event is virtual",
     "event-isvirtualphysical": "Event is virtual and physical",
@@ -135,8 +147,11 @@
     "filter-event-sv-mobile": "SV",
     "filter-event-en-mobile": "EN",
 
-    "event-image": "Event image (click to change)",
     "event-image-title": "Event image*",
+    "hobby-image-title": "Hobby image*",
+
+    "event-image-title-modal": "Image bank",
+
     "new-image": "Add a new image",
     "upload-image": "Upload image from your device",
     "choose-image": "Upload or choose an image for this event",
@@ -152,24 +167,48 @@
     "organization-missing-message-contact2": "to gain permissions to edit events in your unit. ",
     "use-existing-image": "Image bank is empty. Upload an image or choose a standard image.",
     "chosen-event-image": "Image chosen for the event: {name}",
-    "no-image": "NO IMAGE",
+
+    "event-no-image": "NO IMAGE",
+    "hobby-no-image": "NO IMAGE",
+
     "search-images": "Search by image name, alt-text or photographer's name",
     "search-images-text": "Search",
     "search-image-result": "{count} images in the image bank on {page} pages",
 
     "event-datetime-form-header": "Choose event recurrence",
+
+    "hobby-datetime-form-header": "Choose hobby recurrence",
+
     "event-datetime-form-header2": "Set times",
+
     "event-datetime-fields-header": "Event times",
+    "hobby-datetime-fields-header": "Hobby times",
+
+
     "event-starting": "Event starts",
+    "hobby-starting": "Hobby starts",
+
     "event-starting-datetime": "Event starts (dd.mm.yyyy hh.mm)",
     "event-starting-datelabel": "Event starts (dd.mm.yyyy)",
+    "hobby-starting-datetime": "Hobby starts (dd.mm.yyyy hh.mm)",
+    "hobby-starting-datelabel": "Hobby starts (dd.mm.yyyy)",
+
     "event-starting-timelabel": "Starting time (hh.mm)",
+
     "event-ending": "Event ends",
+    "hobby-ending": "Hobby ends",
+
     "event-ending-datetime": "Event ends (dd.mm.yyyy hh.mm)",
     "event-ending-datelabel": "Event ends (dd.mm.yyyy)",
+    "hobby-ending-datetime": "Hobby ends (dd.mm.yyyy hh.mm)",
+    "hobby-ending-datelabel": "Hobby ends (dd.mm.yyyy)",
+
     "event-ending-timelabel": "Ending time (hh.mm)",
     "event-add-new-occasion": "Add new occasion",
+
     "event-add-recurring": "Regularly recurring event",
+    "hobby-add-recurring": "Regularly recurring hobby",
+
     "event-add-recurring-limit": "The maximum amount of recurring times is {count}, you are adding {subEventcount} times.",
     "event-add-recurring-error": "Reduce the number of recurring times, the maximum amount of recurring times is {count} and you are adding {subEventcount} times.",
     "event-type-single": "Single event",
@@ -196,14 +235,20 @@
     "repetition-interval-label": "Repeat interval",
     "repeated": "Repeated at",
     "repetition-interval": " week intervals.",
+
     "repetition-start-time": "Start time (hh.mm)",
     "repetition-end-time": "End time (hh.mm)",
 
     "event-location-fields-header": "Venue",
     "event-location": "Name or address of venue",
     "event-location-form-header": "Select location",
+
     "event-location-virtual": "Virtual event",
     "event-location-virtual-url": "Link to a virtual event",
+
+    "hobby-location-virtual": "Virtual hobby",
+    "hobby-location-virtual-url": "Link to a virtual hobby",
+
     "event-location-id": "Location ID",
     "event-location-additional-info": "Additional information",
     "event-location-button": "Show location on map",
@@ -218,37 +263,53 @@
     "event-is-free": "The event is free",
     "event-price": "Price",
     "event-price-info": "Price information",
-    "event-purchase-link": "Link to ticket purchase/signup",
+    "event-purchase-link": "Link to ticket purchase",
 
-    "event-video": "Event video",
-    "event-video-url": "Event video (URL)",
+    "event-video": "Video connected to the event",
+    "event-video-url": "Video connected to the event (URL)",
+    "hobby-video": "Video connected to the hobby",
+    "hobby-video-url": "Video connected to the hobby (URL)",
+
     "event-video-name": "Video name",
     "event-video-alt_text": "Videos alt-text",
     "event-video-add": "Add new video",
 
-    "event-social-header": "Enter the events channels",
+    "event-social-header": "Enter the event's channels",
+    "hobby-social-header": "Enter the hobby's channels",
+
     "event-social-media-fields-header": "Event channels",
+    "hobby-social-media-fields-header": "Hobby channels",
+
     "facebook-url": "Facebook (URL)",
     "twitter-url": "Twitter (URL)",
     "instagram-url": "Instagram (URL)",
 
     "event-categorization-form": "Set categories",
     "event-category-form-header": "Specify categories and target groups*",
+
     "event-categorization": "Categorization",
+    "hobby-categorization": "Categorization",
+
     "event-keywords": "Search and select keywords",
     "event-keywords-search": "Start typing a keyword",
     "event-keywords-delete": "Delete keyword",
 
     "event-is-independent": "Independent event",
+
+    "hobby-is-independent": "Independent hobby",
+
     "event-umbrella-header": "Is your event related to other events?",
     "event-umbrella": "Umbrella events",
     "event-is-umbrella": "Umbrella event",
     "event-has-umbrella": "Part of an umbrella event",
     "event-has-umbrella-select-tip": "An umbrella event has to be created before events can be added under it.",
 
-    "hel-event-languages": "Event languages",
-    "hel-event-languages-header2": "Languages, in which the event will be hosted",
-    "hel-event-languages-header": "Select the languages used in the event",
+    "event-languages": "Languages used",
+
+    "event-languages-header2": "Languages, in which the event will be hosted",
+    "event-languages-header": "Select the languages used in the event",
+    "hobby-languages-header2": "Languages the hobby will be hosted in",
+    "hobby-languages-header": "Select the languages used in the hobby",
 
     "audience-age-restrictions": "Age restrictions",
     "audience-min-age": "Minimum age",
@@ -259,8 +320,8 @@
     "enrolment-end-time": "Enrolment ends (dd.mm.yyyy)",
 
     "attendee-capacity": "Attendee capacity",
-    "minimum-attendee-capacity": "Minimum attendees",
-    "maximum-attendee-capacity": "Maximum attendees",
+    "minimum-attendee-capacity": "Minimum number of attendees",
+    "maximum-attendee-capacity": "Maximum number of attendees",
 
     "validation-isUrl": "Enter the URL in correct format (http://...)",
     "validation-isTime": "Enter the time in the correct format hh.mm",
@@ -338,7 +399,9 @@
     "copy-keyword-to-clipboard": "Copy keyword to clipboard",
 
     "hel-target-groups": "Target groups",
-    "target-groups-header": "Select only if the event targets a specific target group",
+
+    "event-target-groups-header": "Select only if the event targets a specific target group",
+    "hobby-target-groups-header": "Select only when the hobby targets a specific target group",
 
     "additional-keywords": "Other keywords",
     "main-categories": "Main categories",
@@ -375,9 +438,13 @@
     "editor-tip-time-type": "Add new occasion: add sub-events to a serial event.",
     "editor-tip-time-end": "Regularly recurring event: Add regularly recurring events, e.g. a weekly.",
 
-    "editor-tip-location-multi": "The event can be virtual, physical or both.",
-    "editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instruction to find an entrance.",
-    "editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
+    "event-editor-tip-location-multi": "The event can be virtual, physical or both.",
+    "event-editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instruction to find an entrance.",
+    "event-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
+
+    "hobby-editor-tip-location-multi": "Hobbies are usually onsite events.",
+    "hobby-editor-tip-location-internet": "If the hobby is virtual on the Internet, select Virtual hobby as the location and enter a URL. For onsite hobbies, you can enter details about the exact location, for example the instructions to find the entrance or the name / number of the sports hall.",
+    "hobby-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
 
     "editor-tip-umbrella-sub-event": "If you wish to add this event under an umbrella event, you may do so from the associated ",
     "editor-tip-umbrella-sub-event-link": "top level event",
@@ -388,7 +455,11 @@
     "editor-tip-required": "Fields marked with an asterisk (*) are mandatory.",
 
     "editor-tip-umbrella": "Instructions for an umbrella event",
-    "editor-tip-times": "Instructions for choosing event recurrence",
+
+    "event-editor-tip-times": "Instructions for choosing event recurrence",
+
+    "hobby-editor-tip-times": "Instructions for choosing hobby recurrence",
+
     "editor-tip-location": "Instructions for selecting a location",
 
     "editor-headerbutton-collapse": "Click to close section",
@@ -445,7 +516,10 @@
     "upload-image-from-url-button": "Upload from URL",
     "upload-image-select-bank": "Select from the image bank",
     "uploaded-image-button-delete": "Delete added image",
-    "uploaded-image-alt-decoration": "The picture is decorative. Choose when the image does not convey any relevant information about the event.",
+
+    "event-uploaded-image-alt-decoration": "The picture is decorative. Choose when the image does not convey any relevant information about the event.",
+    "hobby-uploaded-image-alt-decoration": "The picture is decorative. Choose when the image does not convey any relevant information about the hobby.",
+
     "upload-new-image": "Add image",
 
     "thumbnail-picture-edit": "Edit this image",
@@ -456,12 +530,18 @@
 
     "alt-text": "Your own description of the image contents for screen readers",
     "photographer": "Photographer / rights holder",
-    "image-modal-license-restricted-to-event": "Image may be used only for this event",
+
+    "event-image-modal-license-restricted": "Image may be used only for this event.",
+    "hobby-image-modal-license-restricted": "Image may be used only for this hobby.",
+
     "image-modal-image-license": "Image licence",
     "image-page": "Page {n}",
     "image-pagination": "Paging of the images",
     "image-modal-image-license-permission": "I have permission to use this image.",
-    "image-modal-image-license-explanation-event-only": "Image may be used only for this event: image use is limited to this event.",
+
+    "event-image-modal-image-license-explanation-only": "Image may be used only for this event: image use is limited to this event.",
+    "hobby-image-modal-image-license-explanation-only": "Image may be used only for this hobby = Image use is limited to this hobby.",
+
     "image-modal-image-license-explanation-cc-by": "CC BY 4.0: image is free to share and use, as long as a link to license is provided (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>additional information about CC BY 4.0. Opens in a new browser tab</a>).",
     "image-modal-view-terms-paragraph-text": "Prior to uploading a new image, get to know the <a href='/help#images' target='_blank' rel='noopener noreferrer'>image terms and recommendations (opens in a new browser tab).</a>",
     "image-modal-view-terms-link-text": "image terms and recommendations.",
@@ -483,7 +563,9 @@
     "skiplink-shortcut": "Move to content",
 
 
-    "preview-event": "Event information",
+    "event-preview": "Event information",
+    "hobby-preview": "Hobby information",
+
     "preview-event-button": "Preview event information",
 
     "uploaded-image-size-tip": "Accepted file formats include jpeg, gif and png. Maximum image size is 4 MB.",
@@ -528,10 +610,13 @@
 
     "login-warning": "Warning! You must",
     "login-warning1": "login",
-    "login-warning2": "to be able to submit or edit events!",
+    "login-warning2": "to be able to submit or edit contents.",
 
     "event-list-show": "Show events",
     "event-list-hide": "Hide events",
+    "hobby-list-show": "Show hobbies",
+    "hobby-list-hide": "Hide hobbies",
+
     "event-is-virtualandhaslocation": "This event is both virtual and physical",
     "homepage-welcome": "Welcome to Linked Services",
     "homepage-introduction-one": "Welcome to add your events, hobbies or training to the open Linked Events database. Linked Events is an open event database and interface that provides information as open data in a consistent machine-readable format for a variety of applications.",

@@ -49,7 +49,7 @@ export class ImagePicker extends Component {
         const closebtn = this.getModalCloseButton();
         const defaultImages = {items: this.props.images.defaultImages};
         const {defaultModal, editor, user, intl, images, close, uiMode} = this.props;
-        const formattedHeader = !defaultModal ? 'event-image-title' : 'default-modal-images'
+        const formattedHeader = !defaultModal ? 'event-image-title-modal' : 'default-modal-images'
         return (
             <div className='image-pickers'>
                 <Modal

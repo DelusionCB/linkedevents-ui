@@ -261,7 +261,6 @@ class EventPage extends React.Component {
     render() {
         const {event, superEvent, loading, publisher} = this.state
         const {editor, intl, userLocale} = this.props
-
         const formattedEvent = mapAPIDataToUIFormat(this.state.event)
         const isUmbrellaEvent = event.super_event_type === SUPER_EVENT_TYPE_UMBRELLA
         const isRecurringEvent = event.super_event_type === SUPER_EVENT_TYPE_RECURRING

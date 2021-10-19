@@ -8,7 +8,7 @@ class ImagePreview extends React.PureComponent {
     constructor(props){
         super(props)
         this.state = {
-            currentText: props.intl.formatMessage({id: 'no-image'}),
+            currentText: props.intl.formatMessage({id: `${props.localeType}-no-image`}),
             image: undefined,
         }
 
@@ -38,16 +38,21 @@ class ImagePreview extends React.PureComponent {
                 currentText: this.getCurrentText(),
             })
         }
+        if (this.props.localeType !== prevProps.localeType) {
+            this.setState({
+                currentText: this.getCurrentText(),
+            })
+        }
     }    
 
     getCurrentText(){
-        const {image, locale, intl} = this.props
+        const {image, locale, intl, localeType} = this.props
         const imgUrl = image ? image.url : null
         const imgName = image ? getStringWithLocale(image, 'name', locale, '') : ''
         if(imgUrl){
             return intl.formatMessage({id: 'chosen-event-image'}, {name: imgName})
         }
-        return intl.formatMessage({id: 'no-image'})
+        return intl.formatMessage({id: `${localeType}-no-image`})
     }
 
     render(){
@@ -77,6 +82,7 @@ ImagePreview.propTypes = {
     image: PropTypes.object,
     locale: PropTypes.string.isRequired,
     validationErrors: PropTypes.array,
+    localeType: PropTypes.string,
 }
 
 export {ImagePreview as UnconnectedImagePreview}

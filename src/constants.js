@@ -71,6 +71,12 @@ const constants = {
         LOCALE_SET: 'LOCALE_SET',
         LOCALE_RESET: 'LOCALE_RESET',
     },
+
+    // Locale types
+    LOCALE_TYPE: {
+        EVENT: 'event',
+        HOBBY: 'hobby',
+    },
     
     // Local storage keys
     EDITOR_VALUES: 'EDITOR_VALUES',
