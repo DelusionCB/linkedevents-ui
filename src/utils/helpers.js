@@ -4,10 +4,9 @@ import constants from '../constants'
 import {FormattedMessage} from 'react-intl'
 import React from 'react'
 import moment from 'moment'
-
 import Badge from 'react-bootstrap/Badge'
 
-const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
+const {VALIDATION_RULES, CHARACTER_LIMIT, EVENT_TYPE} = constants
 
 /**
  * Get text limit base on it's rule
@@ -41,6 +40,15 @@ export const textLimitValidator = (value, limit) => {
         return value.length <= limit
     }
     return true
+}
+
+/**
+ * Check events type & return keywordSets based on the type
+ * @param  {string} values type_id
+ * @returns {string} keywordSet
+ */
+export const getCurrentTypeSet = (values) => {
+    return values === EVENT_TYPE.GENERAL ? 'turku:topic' : 'turku:hobbytopics';
 }
 
 // set a property of an object to empty value based on its type

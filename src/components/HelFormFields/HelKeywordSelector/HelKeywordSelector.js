@@ -9,6 +9,7 @@ import {mapKeywordSetToForm} from '../../../utils/apiDataMapping'
 import {setData as setDataAction} from '../../../actions/editor'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {UncontrolledTooltip} from 'reactstrap'
+import {getCurrentTypeSet} from '../../../utils/helpers';
 
 const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
     if (isNil(checkedOptions)) {
@@ -52,7 +53,8 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
     const [isRemoteEvent, toggleIsRemoteEvent] = useState(false);
     const {values, keywordSets, validationErrors} = editor
     let keywords = get(values, 'keywords', [])
-    const mainCategoryOptions = mapKeywordSetToForm(keywordSets, 'turku:topics', currentLocale)
+    const typeSet = getCurrentTypeSet(values.type_id)
+    const mainCategoryOptions = mapKeywordSetToForm(keywordSets, typeSet, currentLocale)
     const parsedMainCategoryOptions = mainCategoryOptions.map(item => ({label: item.label, value: item.value}))
     const remoteParticipationKeyword = mainCategoryOptions.find(keyword => keyword['value'].includes('yso:p26626'))
 

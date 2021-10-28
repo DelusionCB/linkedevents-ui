@@ -2,7 +2,7 @@
 import moment from 'moment'
 import {includes, every, isNull} from 'lodash';
 import CONSTANT from '../constants'
-import {textLimitValidator} from '../utils/helpers'
+import {getCurrentTypeSet, textLimitValidator} from '../utils/helpers'
 import {mapKeywordSetToForm} from '../utils/apiDataMapping'
 /**
  * Notice that all the validation functions follow the Formsy's parameter setup (values, value)
@@ -232,11 +232,12 @@ var validations = {
         return false
     },
     atLeastOneMainCategory(values, value, keywordSets) {
+        const typeSet = getCurrentTypeSet(values['type_id'])
         if (!value) {
             return false
         }
         // Changed keywordSets to be compatible with Turku's backend.
-        return mapKeywordSetToForm(keywordSets, 'turku:topics')
+        return mapKeywordSetToForm(keywordSets, typeSet)
             .map(item => item.value)
             .some(item => value.find(_item => _item.value.includes(item)))
     },
