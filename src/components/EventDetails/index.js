@@ -8,8 +8,9 @@ import {
     FormattedMessage,
     intlShape,
 } from 'react-intl'
-import {getStringWithLocale, getEventLanguageType} from '../../utils/locale'
+
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
+import {getStringWithLocale, getEventLanguageType} from '../../utils/locale'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {Badge} from 'reactstrap';
 import constants from '../../constants';
@@ -248,12 +249,27 @@ FormHeader.propTypes = {
 const OffersValue = (props) => {
     const {offers} = props.values
 
+    const handlePaymentMethods = (editor, values = [], locale) => {
+        return values.reduce((acc, curr) => {
+            let name;
+            if (Object.values(curr).length === 1) {
+                const checkedValue = editor.paymentMethods.find(element => element['@id'] === curr['@id']);
+                name = getStringWithLocale(checkedValue, 'name', locale)
+            } else {
+                name = getStringWithLocale(curr, 'name', locale) || curr.label || curr.id || curr || ''
+            }
+            acc.push(name);
+            return acc;
+        }, []);
+    }
+
     if (!offers || !offers.length || offers[0].is_free === true || offers[0] && typeof offers[0] !== 'object') {
         return (<FormattedMessage id="is-free"/>)
     }
     return (
         <div>
             {props.values.offers.map((offer, key) => (
+
                 <div key={`offer-value-${key}`} className="offer-values">
                     <FormattedMessage id={props.label} values={{count: key + 1}}>{txt => <h3>{txt}</h3>}</FormattedMessage>
                     <MultiLanguageValue
@@ -271,6 +287,7 @@ const OffersValue = (props) => {
                         hidden={offer.is_free}
                         value={offer.description}
                     />
+                    <OptionGroup values={handlePaymentMethods(props.editor, offer.payment_methods, props.locale)} labelKey="event-price-methods" locale={props.locale}/>
                 </div>
             ))}
         </div>
@@ -281,6 +298,8 @@ OffersValue.propTypes = {
     values: PropTypes.object,
     labelKey: PropTypes.string,
     label: PropTypes.string,
+    locale: PropTypes.string,
+    editor: PropTypes.object,
 }
 
 const VideoValue = ({values, localeType}) => {
@@ -461,7 +480,7 @@ const EventDetails = (props) => {
             <FormHeader>
                 {intl.formatMessage({id: 'event-price-fields-header'})}
             </FormHeader>
-            <OffersValue label={'event-price-count'} values={values}/>
+            <OffersValue locale={intl.locale} editor={editor} label={'event-price-count'} values={values}/>
 
             <FormHeader>
                 {intl.formatMessage({id: `${localeType}-social-media-fields-header`})}

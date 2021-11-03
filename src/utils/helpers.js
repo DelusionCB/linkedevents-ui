@@ -100,7 +100,7 @@ export const nullifyMultiLanguageValues = (formValues, contentLanguages) => {
                 multiLanguageValues[field].push(offer)
                 Object.keys(offer)
                     // filter out the is_free key
-                    .filter(key => key !== 'is_free')
+                    .filter(key => !['is_free','payment_methods'].includes(key))
                     .forEach(key => multiLanguageValues[field][index][key] = !isNil(offer[key]) ? nullifyField(offer[key]) : null)
             })
             continue

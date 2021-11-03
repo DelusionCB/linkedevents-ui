@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch'
 import {includes, keys, pickBy, isUndefined, isNil, get, omit} from 'lodash';
 
 import constants from '../constants'
@@ -63,6 +62,14 @@ export function setEventData(values, key) {
 export function setOfferData(values, key) {
     return {
         type: constants.EDITOR_SETDATA,
+        key,
+        values,
+        offer: true,
+    }
+}
+export function setMethods(values, key) {
+    return {
+        type: constants.EDITOR_SETMETHODDATA,
         key,
         values,
         offer: true,
@@ -453,6 +460,27 @@ export const sendRecurringData = (
             null,
             updatingSubEvents
         ))
+    }
+}
+// Fetch payment methods
+export const fetchPaymentMethods = () => async (dispatch) => {
+
+    try {
+        const response = await client.get('paymentmethod')
+        const paymentMethods = response.data.data
+
+        dispatch(receivePaymentMethods(paymentMethods))
+    } catch (e) {
+        throw Error(e)
+    }
+}
+
+export const receivePaymentMethods = (paymentMethods) => {
+    localStorage.setItem('PAYMENTMETHODS', JSON.stringify(paymentMethods))
+
+    return {
+        type: constants.EDITOR_RECEIVE_PAYMENTMETHODS,
+        paymentMethods,
     }
 }
 

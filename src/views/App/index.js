@@ -14,7 +14,11 @@ import {Helmet} from 'react-helmet';
 
 import {injectIntl, FormattedMessage} from 'react-intl'
 
-import {fetchLanguages as fetchLanguagesAction, fetchKeywordSets as fetchKeywordSetsAction} from '../../actions/editor'
+import {
+    fetchLanguages as fetchLanguagesAction,
+    fetchKeywordSets as fetchKeywordSetsAction,
+    fetchPaymentMethods as fetchPaymentMethodsAction,
+} from '../../actions/editor'
 import {fetchUser as fetchUserAction} from '../../actions/user'
 
 import {cancelAction, doAction} from 'src/actions/app'
@@ -65,6 +69,8 @@ class App extends React.Component {
 
         // Prefetch editor related hel.fi categories
         this.props.fetchKeywordSets()
+
+        this.props.fetchPaymentMethods()
 
     }
 
@@ -162,6 +168,7 @@ App.propTypes = {
     user: PropTypes.object,
     dispatch: PropTypes.func,
     fetchLanguages: PropTypes.func,
+    fetchPaymentMethods: PropTypes.func,
     auth : PropTypes.object,
     fetchUser: PropTypes.func,
     location: PropTypes.object,
@@ -177,6 +184,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchKeywordSets: () => dispatch(fetchKeywordSetsAction()),
     fetchLanguages:() => dispatch(fetchLanguagesAction()),
+    fetchPaymentMethods:() => dispatch(fetchPaymentMethodsAction()),
     do: (data) => dispatch(doAction(data)),
     cancel: () => dispatch(cancelAction()),
     fetchUser: (id) => dispatch(fetchUserAction(id)),

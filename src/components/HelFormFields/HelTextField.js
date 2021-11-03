@@ -102,9 +102,12 @@ class HelTextField extends Component {
     handleBlur = (event) => {
         const {name, forceApplyToStore, setDirtyState, onBlur} = this.props
         const value = event.target.value
+        if (typeof onBlur === 'function') {
+            onBlur(event, value)
+        }
 
         // Apply changes to store if no validation errors, or the prop 'forceApplyToStore' is defined
-        if (
+        else if (
             name
             && this.getValidationErrors().length === 0
             && !name.includes('time') || name
@@ -115,10 +118,6 @@ class HelTextField extends Component {
             if (setDirtyState) {
                 setDirtyState()
             }
-        }
-
-        if (typeof onBlur === 'function') {
-            onBlur(event, value)
         }
     }
 
@@ -180,18 +179,18 @@ class HelTextField extends Component {
 
     /**
      * Push glyphicons into array based on name & type
-     * @param {string} name
+     * @param {string} nameRef
      * @param {string} type
      * @returns {JSX.Element[]} returns array of elements
      */
-    getCorrectIcons(name, type) {
+    getCorrectIcons(nameRef, type) {
         const extlinks = ['extlink_facebook', 'extlink_twitter', 'extlink_instagram'];
         const icons = ['facebookIcon', 'twitterIcon', 'instaIcon'];
         const types = ['text', 'textarea', 'url', 'number'];
         const typeIcons = ['pencil', 'pencil', 'link', 'euro'];
 
         let content = extlinks.reduce((acc, curr, index) => {
-            if (name === curr) {
+            if (nameRef === curr) {
                 acc.push(<span aria-hidden key={Math.random()} className={icons[index]} />);
             }
             return acc;
@@ -200,7 +199,7 @@ class HelTextField extends Component {
         if (content.length === 0) {
             content = types.reduce((acc, curr, index) => {
                 if (type === curr) {
-                    const classNames = type === 'number' && name !== 'price' ? 'numberIcon' : `glyphicon glyphicon-${typeIcons[index]}`;
+                    const classNames = type === 'number' && nameRef !== 'price' ? 'numberIcon' : `glyphicon glyphicon-${typeIcons[index]}`;
                     acc.push(<span aria-hidden key={Math.random()} className={classNames} />);
                 }
                 return acc;
@@ -223,6 +222,7 @@ class HelTextField extends Component {
             min,
             max,
             className,
+            nameRef,
         } = this.props
         const type = this.props.type;
         const alert = this.state.error ? {role: 'alert', className: 'red-alert'} : '';
@@ -236,7 +236,7 @@ class HelTextField extends Component {
                     </label>
                     <InputGroup>
                         <InputGroupAddon className={classNames('inputIcons', {'error': validationErrors})} addonType="prepend">
-                            {this.getCorrectIcons(name, type)}
+                            {this.getCorrectIcons(nameRef, type)}
                         </InputGroupAddon>
                         <Input
                             id={inputId}
@@ -306,6 +306,7 @@ HelTextField.propTypes = {
     setInitialFocus: PropTypes.bool,
     min: PropTypes.number,
     max: PropTypes.number,
+    nameRef: PropTypes.string,
 }
 
 HelTextField.defaultProps = {

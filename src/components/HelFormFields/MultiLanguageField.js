@@ -51,6 +51,7 @@ class MultiLanguageField extends React.Component {
         min: PropTypes.number,
         max: PropTypes.number,
         className: PropTypes.string,
+        nameRef: PropTypes.string,
     }
 
     onChange(e,value,lang) {
@@ -131,6 +132,7 @@ class MultiLanguageField extends React.Component {
                         name={this.props.name}
                         label={label}
                         ref={langs[0]}
+                        nameRef={this.props.nameRef}
                         onChange={(e,v) => this.onChange(e,v,langs[0])}
                         onBlur={(e,v) => this.onBlur(e,v)}
                         disabled={this.props.disabled}
@@ -160,6 +162,7 @@ class MultiLanguageField extends React.Component {
                             required={this.props.required}
                             defaultValue={value} ref={lang}
                             label={this.context.intl.formatMessage({id: `${this.props.label}`}) + ' ' + this.context.intl.formatMessage({id: `in-${lang}`})}
+                            nameRef={this.props.nameRef}
                             onChange={(e,v) => this.onChange(e,v,lang)}
                             onBlur={(e,v) => this.onBlur(e,v)}
                             disabled={this.props.disabled}

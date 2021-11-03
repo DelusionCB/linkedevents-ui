@@ -55,7 +55,7 @@ function mapUIDataToAPIFormat(values) {
 
     // Location data
     if (values.location) {
-        obj.location = {'@id': values.location['@id']}
+        obj.location = embedValuesToIDs(values.location['@id'])
     } else if (!values.location) {
         obj.location = null
     }
@@ -91,15 +91,15 @@ function mapUIDataToAPIFormat(values) {
 
     // Keywords, audience, languages
     if(values.keywords && values.keywords.length !== undefined) {
-        obj.keywords = map(values.keywords, (item) => ({'@id': item.value}))
+        obj.keywords = map(values.keywords, (item) => (embedValuesToIDs(item.value)))
     }
 
     if(values.audience && values.audience.length !== undefined) {
-        obj.audience = map(values.audience, (item) => ({'@id': item}))
+        obj.audience = map(values.audience, embedValuesToIDs)
     }
 
     if(values.in_language) {
-        obj.in_language = values.in_language.map(lang => ({'@id': lang}))
+        obj.in_language = map(values.in_language, embedValuesToIDs)
     }
 
     // External links
@@ -251,6 +251,14 @@ function mapAPIDataToUIFormat(values) {
 
     return obj
 }
+
+/**
+ *  Used for returning object with id: values
+ * @param {string} values
+ * @returns {{'@id': string}}
+ */
+export const embedValuesToIDs = (values = '') => ({'@id': values})
+
 
 /*
     take an array of sub events, return start and end time for the

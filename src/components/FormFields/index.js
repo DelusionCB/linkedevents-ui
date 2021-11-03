@@ -791,6 +791,7 @@ class FormFields extends React.Component {
                         <div className="row offers-row">
                             <div className="col-sm-6">
                                 <HelOffersField
+                                    editor={editor}
                                     ref="offers"
                                     name="offers"
                                     validationErrors={validationErrors}

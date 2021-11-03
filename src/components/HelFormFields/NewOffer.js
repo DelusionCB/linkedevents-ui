@@ -2,16 +2,19 @@ import './NewOffer.scss'
 import PropTypes from 'prop-types';
 import React from 'react'
 import MultiLanguageField from 'src/components/HelFormFields/MultiLanguageField'
-import {setOfferData, deleteOffer} from 'src/actions/editor'
+import {setOfferData, deleteOffer, setMethods} from 'src/actions/editor'
+import {get} from 'lodash'
 import CONSTANTS from '../../constants'
 import {
     injectIntl,
     intlShape,
     FormattedMessage,
 } from 'react-intl'
-
+import {mapPaymentMethodsToForm} from '../../utils/apiDataMapping';
+import {embedValuesToIDs} from '../../utils/formDataMapping'
 
 class NewOffer extends React.Component {
+    
     static contextTypes = {
         dispatch: PropTypes.func,
     };
@@ -23,7 +26,7 @@ class NewOffer extends React.Component {
         ]),
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.isFree !== this.props.isFree) {
             this.onBlur()
         }
@@ -31,11 +34,9 @@ class NewOffer extends React.Component {
 
     onBlur(e) {
         if(this.props.offerKey) {
-        //            if(this.noValidationErrors()) {
             let obj = {}
             obj[this.props.offerKey] = this.buildObject()
             this.context.dispatch(setOfferData(obj, this.props.offerKey))
-        //            }
         }
     }
 
@@ -44,6 +45,8 @@ class NewOffer extends React.Component {
     }
 
     // Creates database 'offers' object from inputs
+    // const pairs - value being price, description etc
+    // for (const key in defaultValue) forEach being language object
     buildObject() {
         let obj = {}
         obj['is_free'] = this.props.isFree
@@ -52,29 +55,67 @@ class NewOffer extends React.Component {
             key: key,
             value: ref.getValue(),
         }))
+
         for (const key in this.props.defaultValue) {
             pairs.forEach((pair) => {
                 obj[pair.key] = pair.value
             })
             if(obj.is_free == true) {
-                obj = _.omit(obj, ['price', 'description']);
+                obj = _.omit(obj, ['price', 'description', 'payment_methods']);
             }
         }
         return obj
     }
 
-    noValidationErrors() {
-        let noErrors = _.map(this.refs, (ref, key) =>
-            (ref.noValidationErrors())
-        )
-        let actualErrors = _.filter(noErrors, i => (i === false))
-
-        if(actualErrors.length > 0) {
-            return false
-        }
-
-        return true
+    isChecked = (values) => {
+        const{defaultValue} = this.props;
+        let currentMethods = get(defaultValue, 'payment_methods', []);
+        return currentMethods.map(method => method['@id']).includes(values);
     }
+
+    handlePaymentMethodChange = (e) => {
+        const{defaultValue, editor, offerKey} = this.props;
+        let currentMethods = get(defaultValue, 'payment_methods', []);
+        if (e.target.checked){
+            const checkedValue = editor.paymentMethods.find(element => element['@id'] === e.target.value);
+            const checkedIDs = embedValuesToIDs(checkedValue['@id'])
+            this.context.dispatch(setMethods({payment_methods: [...currentMethods, checkedIDs]}, offerKey));
+        }
+        else {
+            const newCheckedValues = currentMethods.filter(method => method['@id'] !== e.target.value);
+            if (newCheckedValues.length === 0) {
+                this.context.dispatch(setMethods({payment_methods: []}, offerKey));
+            } else {
+                this.context.dispatch(setMethods({payment_methods: newCheckedValues}, offerKey));
+            }
+        }
+    }
+
+    getCheckboxes() {
+        const{intl:{locale}, offerKey, editor} = this.props;
+        const methodOptions = mapPaymentMethodsToForm(editor.paymentMethods, locale);
+        const paymentOptionInputs = methodOptions.reduce((acc,curr,index) => {
+            acc.push(
+                <div key={index} className='custom-control custom-checkbox col-md-12 col-lg-6'>
+                    <input
+                        className='custom-control-input'
+                        type="checkbox"
+                        id={`${curr.label} ${offerKey}`}
+                        checked={this.isChecked(curr.value)}
+                        aria-checked={this.isChecked(curr.value)}
+                        value={curr.value}
+                        onChange={(e) => this.handlePaymentMethodChange(e)}
+                    />
+                    <label className='custom-control-label' htmlFor={`${curr.label} ${offerKey}`}>
+                        {curr.label}
+                    </label>
+                </div>
+            );
+            return acc;
+        }, []);
+        return [...paymentOptionInputs];
+    }
+
 
     render() {
         const {offerKey, defaultValue, isFree, languages, intl, length, disabled} = this.props
@@ -89,11 +130,11 @@ class NewOffer extends React.Component {
                     <MultiLanguageField
                         id={'event-price' + this.props.offerKey}
                         type='number'
-                        name='price'
                         min={0}
                         defaultValue={defaultValue.price}
                         disabled={disabled || isFree}
                         ref="price"
+                        nameRef='price'
                         label="event-price"
                         languages={languages}
                         onBlur={e => this.onBlur(e)}
@@ -134,6 +175,12 @@ class NewOffer extends React.Component {
                         placeholder='https://...'
                         type='url'
                     />
+                    <div className="methods">
+                        <FormattedMessage id="event-price-methods">{txt => <h4>{txt}</h4>}</FormattedMessage>
+                        <div className='col-sm-12 row'>
+                            {this.getCheckboxes()}
+                        </div>
+                    </div>
                 </div>
                 <button
                     aria-label={intl.formatMessage({id: 'delete'}) + ' ' + intl.formatMessage({id: 'event-price-fields-header'})}
@@ -159,6 +206,8 @@ NewOffer.propTypes = {
     setInitialFocus: PropTypes.bool,
     length: PropTypes.number,
     disabled: PropTypes.bool,
+    editor: PropTypes.object,
 }
 
-export default injectIntl(NewOffer);
+export {NewOffer as UnconnectedNewOffer}
+export default (injectIntl(NewOffer));

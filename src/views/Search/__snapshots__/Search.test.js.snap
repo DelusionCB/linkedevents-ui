@@ -200,6 +200,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "event-price-fields-header": "Hintatiedot",
       "event-price-header": "Syötä hintatiedot",
       "event-price-info": "Hintatietojen kuvaus",
+      "event-price-methods": "Maksutavat",
       "event-provider": "Tapahtuman järjestäjä",
       "event-provider-input": "Tapahtuman järjestäjän nimi tai yhteystiedot. Huom! Tiedot ovat julkisia.",
       "event-publisher": "Tapahtuman julkaisija",

@@ -71,6 +71,7 @@ class HelOffersField extends React.Component {
             if (offers.hasOwnProperty(key) && !this.state.isFree) {
                 newOffers.push(
                     <NewOffer
+                        editor={this.props.editor}
                         key={key}
                         length={newOffers.length + 1}
                         offerKey={key}
@@ -133,6 +134,7 @@ HelOffersField.propTypes = {
     validationErrors: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     languages: PropTypes.array,
     disabled: PropTypes.bool,
+    editor: PropTypes.object,
 };
 
 export default HelOffersField;

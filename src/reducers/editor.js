@@ -12,12 +12,13 @@ let editorValues = {
 }
 let languages = {}
 let keywordSets = {}
-
+let paymentMethods = {}
 try {
     // Local storage form value loading and saving disabled for now
     // editorValues = JSON.parse(localStorage.getItem('EDITOR_VALUES'))
     keywordSets = JSON.parse(localStorage.getItem('KEYWORDSETS'))
     languages = JSON.parse(localStorage.getItem('LANGUAGES'))
+    paymentMethods = JSON.parse(localStorage.getItem('PAYMENTMETHODS'))
     //
 } catch(e) {
     editorValues = {}
@@ -28,6 +29,7 @@ const initialState = {
     languages: languages,
     contentLanguages: ['fi'],
     keywordSets: keywordSets,
+    paymentMethods: paymentMethods,
     validationErrors: {},
     validateFor: null,
     loading: false,
@@ -57,7 +59,7 @@ function update(state = initialState, action) {
                 values: {
                     offers: {
                         [action.key]: {
-                            $set: action.values[action.key],
+                            $merge: action.values[action.key],
                         },
                     },
                 },
@@ -103,6 +105,19 @@ function update(state = initialState, action) {
         return Object.assign({}, state, {
             values: newValues,
             validationErrors: validationErrors,
+        })
+    }
+
+    if (action.type === constants.EDITOR_SETMETHODDATA) {
+        const newValues = updater(state.values, {
+            offers: {
+                [action.key]: {
+                    $merge: action.values,
+                },
+            },
+        })
+        return Object.assign({}, state, {
+            values: newValues,
         })
     }
 
@@ -275,6 +290,12 @@ function update(state = initialState, action) {
     if (action.type === constants.EDITOR_RECEIVE_KEYWORDSETS) {
         return Object.assign({}, state, {
             keywordSets: action.keywordSets,
+        })
+    }
+
+    if (action.type === constants.EDITOR_RECEIVE_PAYMENTMETHODS) {
+        return Object.assign({}, state, {
+            paymentMethods: action.paymentMethods,
         })
     }
 

@@ -89,7 +89,7 @@ class EventPage extends React.Component {
         this.setState({loading: true})
 
         const queryParams = new EventQueryParams()
-        queryParams.include = 'keywords,location,audience,in_language,external_links,sub_events'
+        queryParams.include = 'keywords,location,audience,in_language,external_links,sub_events,offers'
 
         try {
             const eventData = await fetchEvent(eventId, queryParams, true)

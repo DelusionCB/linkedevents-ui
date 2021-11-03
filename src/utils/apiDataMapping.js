@@ -21,6 +21,23 @@ export function mapKeywordSetToForm(keywordSets, id, locale = 'fi') {
     }
 }
 
+export function mapPaymentMethodsToForm(paymentMethods, locale = 'fi') {
+    if(paymentMethods) {
+        return paymentMethods.map((item) => {
+            let label = getStringWithLocale(item, 'name', locale)
+            label = label.split([' ('])[0]
+            return {
+                value: item['@id'],
+                label: label,
+                name: item.name,
+            }
+        })
+    }
+    else {
+        return []
+    }
+}
+
 export function mapLanguagesSetToForm(set, locale = 'fi') {
     if(set && set.length) {
         return set.map((item) => {

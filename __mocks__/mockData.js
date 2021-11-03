@@ -59,6 +59,42 @@ export const mockUserEvents = [
     },
 ];
 
+export const mockPaymentMethods = [
+    {
+        id: '1',
+        name: {
+            fi: 'testikortit',
+            en: 'test cards',
+            sv: 'testkort',
+        },
+        '@id': 'https://api.hel.fi/linkedevents-test/v1/paymentmethod/1/',
+        '@context': 'http://schema.org',
+        '@type': 'PaymentMethod',
+    },
+    {
+        id: '2',
+        name: {
+            fi: 'testisetelit',
+            en: 'test vouchers',
+            sv: 'test sedlar',
+        },
+        '@id': 'https://api.hel.fi/linkedevents-test/v1/paymentmethod/2/',
+        '@context': 'http://schema.org',
+        '@type': 'PaymentMethod',
+    },
+    {
+        id: '3',
+        name: {
+            fi: 'testikolikot',
+            en: 'test coins',
+            sv: 'testmynt',
+        },
+        '@id': 'https://api.hel.fi/linkedevents-test/v1/paymentmethod/3/',
+        '@context': 'http://schema.org',
+        '@type': 'PaymentMethod',
+    },
+];
+
 export const mockKeywordSets = [
     {
         id: 'helfi:topics',
