@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react'
-import {setData} from '../../../actions/editor'
-import {injectIntl} from 'react-intl'
+import {clearValue, setData} from '../../../actions/editor'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import {get} from 'lodash'
 import SelectorRadio from './SelectorRadio';
 import constants from '../../../constants'
+import {confirmAction} from '../../../actions/app';
 
 const {
     EVENT_TYPE,
@@ -27,7 +28,7 @@ class TypeSelector extends React.Component {
 
 
     handleMount = () => {
-        const {event:{type_id}} = this.props
+        const {event:{type_id},editor:{values}} = this.props
         const editedEventTypeIsEvent = type_id === EVENT_TYPE.GENERAL
         //const editedEventTypeIsCourse = type_id === 'Course'
         const editedEventTypeIsHobby = type_id === EVENT_TYPE.HOBBIES
@@ -46,6 +47,7 @@ class TypeSelector extends React.Component {
         }
         this.setState({type: type})
     }
+
     /**
      * Handles the updating of the state based on changes.
      * @param prevState Previous state
@@ -60,6 +62,7 @@ class TypeSelector extends React.Component {
 
         // whether we are creating a new event. used to help determine the radio disabled state
         const updatedIsCreateView = get(router, ['location' ,'pathname'], '').includes('/event/create/new')
+        const creatingNewSubEvent = get(router, ['location', 'pathname'], '').includes('/recurring/add/')
         const superEventIsNotNull = get(event, 'super_event_type') !== null
         const editedEventTypeIsEvent = get(event, 'type_id') === EVENT_TYPE.GENERAL
         //const editedEventTypeIsCourse = get(event, 'type_id') === EVENT_TYPE.COURSE
@@ -69,13 +72,15 @@ class TypeSelector extends React.Component {
         if (updatedIsCreateView !== isCreateView) {
             stateToSet.isCreateView = updatedIsCreateView
         }
+
         if(updatedIsCreateView && superEventIsNotNull && !values.type_id && type === '') {
             stateToSet.type = 'event'
             this.context.dispatch(setData({type_id: EVENT_TYPE.GENERAL}))
         }
 
         if ((!updatedIsCreateView
-            && editedEventTypeIsEvent) || (updatedIsCreateView && values.type_id === EVENT_TYPE.GENERAL)
+            && editedEventTypeIsEvent) || (updatedIsCreateView && values.type_id === EVENT_TYPE.GENERAL) ||
+            (creatingNewSubEvent && values.type_id === EVENT_TYPE.GENERAL)
         ) {
             stateToSet.type = 'event'
         }
@@ -87,7 +92,8 @@ class TypeSelector extends React.Component {
         }
          */
         if ((!updatedIsCreateView
-            && editedEventTypeIsHobby) || (updatedIsCreateView && values.type_id === EVENT_TYPE.HOBBIES)
+            && editedEventTypeIsHobby) || (updatedIsCreateView && values.type_id === EVENT_TYPE.HOBBIES) ||
+            (creatingNewSubEvent && values.type_id === EVENT_TYPE.HOBBIES)
         ) {
             stateToSet.type = 'hobby'
         }
@@ -101,85 +107,97 @@ class TypeSelector extends React.Component {
     /**
      * Handles radio changes
      * 'event'
-     * if value === 'event', set state.isUmbrellaEvent: true, state.hasUmbrellaEvent: false and set empty obj to state.selectedUmbrellaEvent.
-     * finally dispatch setData(super_event_type: 'umbrella') and clearValue( 'super_event','sub_event_type')
-     *
-     * 'courses'
-     * if value === 'has_umbrella', set state.hasUmbrellaEvent: true, state.isUmbrellaEvent: false
-     * if event.super_event_type !== 'recurring', dispatch clearValue('sub_event_type')
+     * if value === 'event', set typeId.type_id to constants.EVENT_TYPE.GENERAL & set states.type to {@param event.target.value}
      *
      * 'hobby'
-     * if value === 'is_independent', set state.isUmbrellaEvent & state.hasUmbrellaEvent: false and set empty obj to state.selectedUmbrellaEvent
-     * if event.super_event_type !== 'recurring', dispatch clearValue('super_event', 'sub_event_type')
-     * else dispatch clearValue('super_event_type')
+     * if value === 'hobby', set typeId.type_id to constants.EVENT_TYPE.HOBBIES & set states.type to {@param event.target.value}
+     *
      * @param event Event
      */
-    handleCheck = event => {
+    handleTypeChange = event => {
         const {value} = event.target
-        let states = {}
-        const typeId = {}
+        const {editor:{values}} = this.props;
+
+        let checkValues = [values.keywords, values.enrolment_url, values.enrolment_start_time,
+            values.enrolment_end_time, values.minimum_attendee_capacity,
+            values.maximum_attendee_capacity]
+        // Falsy values are filtered
+        checkValues = checkValues.filter(val => val);
+        // Keys used for clearing values from editor.values
+        const clearValueKeys = ['keywords' ,'enrolment_url', 'enrolment_start_time',
+            'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity']
+
+        const content = {}
+        const valuesToClear = []
+        let additionalMsg
         if (value === 'event') {
-            states = {type: 'event'};
-            typeId.type_id = EVENT_TYPE.GENERAL
+            content.type_id = EVENT_TYPE.GENERAL;
+            content.type = value;
+            // If checkValues has length more than 0, push keys to clear and strings for modal
+            if (checkValues.length > 0) {
+                valuesToClear.push(...clearValueKeys);
+                additionalMsg = <FormattedMessage id='event-type-switch' />
+            }
         }
         /*
-        This section should be enabled when there is support for courses
         else if (value === 'courses') {
-            states = {type: 'courses'};
-            typeId.type_id = EVENT_TYPE.COURSE
+        typeId.type_id = EVENT_TYPE.COURSES
+        states.type = value
         }
          */
         else if (value === 'hobby') {
-            states = {type: 'hobby'};
-            typeId.type_id = EVENT_TYPE.HOBBIES
+            content.type_id = EVENT_TYPE.HOBBIES
+            content.type = value
+            // If checkValues includes values.keywords, push keys[0] to clear and strings for modal
+            if (checkValues.includes(values.keywords)) {
+                valuesToClear.push(clearValueKeys[0])
+                additionalMsg = <FormattedMessage id='hobby-type-switch' />
+
+            }
         }
-        this.context.dispatch(setData(typeId))
-        this.setState(states);
+        // If valuesToClear has length over 0, push confirmActionProps & values for action
+        if (valuesToClear.length > 0) {
+            this.context.dispatch(confirmAction('confirm-type-switch', 'warning', 'switch-type', {
+                action: (e) => {
+                    this.context.dispatch(setData({type_id: content.type_id}));
+                    this.context.dispatch(clearValue(valuesToClear));
+                    this.setState({type: content.type});
+                },
+                additionalMsg: additionalMsg,
+                additionalMarkup: ' ',
+            }));
+            // Else proceed with dispatching data & setting state
+        } else {
+            this.context.dispatch(setData({type_id: content.type_id}));
+            this.setState({type: content.type});
+        }
+    }
+
+    getSelectors = (value = '') => {
+        const {type, isCreateView} = this.state
+        const {disabled} = this.props;
+        return (
+            <SelectorRadio
+                ariaLabel={this.context.intl.formatMessage({id: value})}
+                value={value}
+                checked={type === value}
+                handleCheck={this.handleTypeChange}
+                messageID={value}
+                disabled={disabled || !isCreateView}
+                name='TypeGroup'
+            >
+            </SelectorRadio>
+        )
     }
 
 
     render() {
-        const {type, isCreateView} = this.state
-        const {disabled} = this.props;
-
         return (
             <div className="type-row row">
                 <div className="col-sm-6">
                     <div className='custom-control-radio'>
-                        <SelectorRadio
-                            ariaLabel={this.context.intl.formatMessage({id: `event`})}
-                            value='event'
-                            checked={type === 'event'}
-                            handleCheck={this.handleCheck}
-                            messageID='event'
-                            disabled={disabled || !isCreateView}
-                            name='TypeGroup'
-                        >
-
-                        </SelectorRadio>
-                        {/*
-                        This section should be enabled when there is support for courses
-                        <SelectorRadio
-                            ariaLabel={this.context.intl.formatMessage({id: `courses`})}
-                            value='courses'
-                            checked={type === 'courses'}
-                            disabled={!isCreateView}
-                            handleCheck={this.handleCheck}
-                            messageID='courses'
-                            name='TypeGroup'
-                        >
-                        </SelectorRadio>
-                        */}
-                        <SelectorRadio
-                            ariaLabel={this.context.intl.formatMessage({id: `hobby`})}
-                            value='hobby'
-                            checked={type === 'hobby'}
-                            disabled={disabled || !isCreateView}
-                            handleCheck={this.handleCheck}
-                            messageID='hobby'
-                            name='TypeGroup'
-                        >
-                        </SelectorRadio>
+                        {this.getSelectors('event')}
+                        {this.getSelectors('hobby')}
                     </div>
                 </div>
             </div>
@@ -205,5 +223,6 @@ TypeSelector.contextTypes = {
     dispatch: PropTypes.func,
     store: PropTypes.object,
 };
+
 export {TypeSelector as UnconnectedTypeSelector}
-export default injectIntl(TypeSelector)
+export default injectIntl(TypeSelector);

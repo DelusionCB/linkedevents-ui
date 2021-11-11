@@ -410,6 +410,11 @@
     "image-update-error": "Fel då bilden uppdaterades.",
     "confirm-image-delete": "Bekräfta avlägsnandet av bilden",
 
+    "confirm-type-switch": "Bekräfta ändring av innehållets typ",
+    "switch-type": "Ändra typ",
+    "hobby-type-switch": "OBS! När innehållets typ ändras från evenemang till hobby så raderas följande data: evenemangets kategori och ämnesord.",
+    "event-type-switch": "OBS! När innehållets typ ändras från hobby till evenemang så raderas följande data: hobbyns kategori, ämnesord och anmälningsinformation.",
+
     "search-minimum-length": "Ange minst tre tecken",
     "search-results-count": "Antalet sökresultat är {count}",
     "search-no-results": "Inga resultat",

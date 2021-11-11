@@ -150,7 +150,7 @@ const showConfirmationModal = (
 
     let modalStyle = 'message'
 
-    if (action === 'cancel' || action === 'delete') {
+    if (action === 'cancel' || action === 'delete' || action === 'postpone') {
         modalStyle = 'warning'
     }
 

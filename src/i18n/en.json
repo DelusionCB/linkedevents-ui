@@ -391,6 +391,11 @@
     "image-update-error": "Error while updating image.",
     "confirm-image-delete": "Confirm image deletion",
 
+    "confirm-type-switch": "Confirm the change of content type",
+    "switch-type": "Change type",
+    "hobby-type-switch": "Notice! When changing the content type from event to hobby, following information will be cleared: event category and keywords.",
+    "event-type-switch": "Notice! When changing the content type from hobby to event, following information will be cleared: hobby category, keywords, and registration information.",
+
     "search-minimum-length": "Enter at least 3 characters",
     "search-no-results": "No results",
     "search-results-count": "Found {count} results",

@@ -11,26 +11,20 @@ import Headerbar from 'src/components/Header'
 import Footer from 'src/components/Footer/Footer';
 import SkipLink from 'src/components/SkipLink'
 import {Helmet} from 'react-helmet';
-
-import {injectIntl, FormattedMessage} from 'react-intl'
-
+import {injectIntl} from 'react-intl'
 import {
     fetchLanguages as fetchLanguagesAction,
     fetchKeywordSets as fetchKeywordSetsAction,
     fetchPaymentMethods as fetchPaymentMethodsAction,
 } from '../../actions/editor'
 import {fetchUser as fetchUserAction} from '../../actions/user'
-
-import {cancelAction, doAction} from 'src/actions/app'
-
 import Favicon from '../../assets/images/favicon'
-
 import MomentUtils from '@date-io/moment';
 import moment from 'moment'
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import cookieUtil from '../../utils/cookieUtils';
 import NavStartingPoint from '../../components/NavStartingPoint';
 import Notification from '../Notification';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 // localized moment utils
 class LocalizedUtils extends MomentUtils {
@@ -80,37 +74,9 @@ class App extends React.Component {
             this.props.fetchUser(this.props.auth.user.profile.sub);
         }
     }
-    getModalCloseButton() {
-        return (
-            <Button onClick={() => this.props.dispatch(cancelAction())}><span className="glyphicon glyphicon-remove" /></Button>
-        );
-    }
 
     render() {
-        const closebtn = this.getModalCloseButton();
 
-        let confirmMsg = (<span/>)
-        if(this.props.app.confirmAction && this.props.app.confirmAction.msg && this.props.app.confirmAction.msg.length) {
-            confirmMsg = (<FormattedMessage id={this.props.app.confirmAction.msg} />)
-        }
-
-        let additionalMsg = ''
-        if(this.props.app.confirmAction && this.props.app.confirmAction.data && this.props.app.confirmAction.data.additionalMsg) {
-            additionalMsg = this.props.app.confirmAction.data.additionalMsg
-        }
-
-        let additionalMarkup = (<div/>)
-        if(this.props.app.confirmAction && this.props.app.confirmAction.data && this.props.app.confirmAction.data.additionalMarkup) {
-            additionalMarkup = this.props.app.confirmAction.data.additionalMarkup
-        }
-        const getMarkup = () => ({__html: additionalMarkup})
-
-        const useWarningButtonStyle = this.props.app.confirmAction && this.props.app.confirmAction.style === 'warning'
-
-        let actionButtonLabel = 'confirm'
-        if(this.props.app.confirmAction && this.props.app.confirmAction.actionButtonLabel && this.props.app.confirmAction.actionButtonLabel.length > 0) {
-            actionButtonLabel = this.props.app.confirmAction.actionButtonLabel;
-        }
         return (
             <div className='main-wrapper'>
                 <Helmet>
@@ -127,35 +93,7 @@ class App extends React.Component {
                     {this.props.children}
                 </main>
                 <Notification flashMsg={this.props.app.flashMsg} />
-                <Modal
-                    size='lg'
-                    isOpen={!!this.props.app.confirmAction}
-                    onClose={() => this.props.dispatch(cancelAction())}
-                    className='ConfirmationModal'
-                >
-                    <ModalHeader tag='h1' close={closebtn}>
-                        {confirmMsg}
-                    </ModalHeader>
-                    <ModalBody>
-                        <p><strong>{additionalMsg}</strong></p>
-                        <div dangerouslySetInnerHTML={getMarkup()}/>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button
-                            variant="contained"
-                            onClick={() => this.props.cancel()}
-                        >
-                            <FormattedMessage id="cancel" />
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color={useWarningButtonStyle ? 'secondary' : 'primary'}
-                            onClick={() => this.props.do(this.props.app.confirmAction.data)}
-                        >
-                            <FormattedMessage id={actionButtonLabel} />
-                        </Button>
-                    </ModalFooter>
-                </Modal>
+                <ConfirmDialog />
                 <Footer />
             </div>
         )
@@ -176,8 +114,8 @@ App.propTypes = {
 
 const mapStateToProps = (state) => ({
     editor: state.editor,
-    user: state.user,
     app: state.app,
+    user: state.user,
     auth: state.auth,
 })
 
@@ -185,8 +123,6 @@ const mapDispatchToProps = (dispatch) => ({
     fetchKeywordSets: () => dispatch(fetchKeywordSetsAction()),
     fetchLanguages:() => dispatch(fetchLanguagesAction()),
     fetchPaymentMethods:() => dispatch(fetchPaymentMethodsAction()),
-    do: (data) => dispatch(doAction(data)),
-    cancel: () => dispatch(cancelAction()),
     fetchUser: (id) => dispatch(fetchUserAction(id)),
 })
 

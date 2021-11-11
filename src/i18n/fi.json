@@ -393,6 +393,11 @@
     "image-update-error": "Virhe kuvaa päivittäessä.",
     "confirm-image-delete": "Varmista kuvan poistaminen",
 
+    "confirm-type-switch": "Varmista sisältötyypin vaihto",
+    "switch-type": "Vaihda tyyppiä",
+    "hobby-type-switch": "Huom! Vaihtaessasi sisältötyyppiä tapahtumasta harrastukseen, lomakkeelta tyhjennetään seuraavat tiedot: tapahtuman luokka ja avainsanat.",
+    "event-type-switch": "Huom! Vaihtaessasi sisältötyyppiä harrastuksesta tapahtumaan, lomakkeelta tyhjennetään seuraavat tiedot: harrastuksen luokka, avainsanat ja ilmoittautumistiedot.",
+
     "search-minimum-length": "Syötä vähintään 3 merkkiä",
     "search-no-results": "Ei tuloksia",
     "search-results-count": "Hakutulosten määrä on {count}",
