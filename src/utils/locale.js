@@ -25,12 +25,13 @@ export function getStringWithLocale(obj, fieldPath = '', locale = 'fi', defaultV
 
 
 /**
- * Takes {value} (type_id) and returns locale_type string based on type_id
- * @param {value} editor
+ * Returns locale_type string based on value
+ * @param {string} value
  * @returns {string}
  */
-export function getEventLanguageType(editor) {
-    switch (editor) {
+
+export function getEventLanguageType(value) {
+    switch (value) {
         case constants.EVENT_TYPE.HOBBIES: {
             return constants.LOCALE_TYPE.HOBBY
         }

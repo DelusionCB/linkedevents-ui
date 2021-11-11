@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl'
 import {connect} from 'react-redux'
 import {deleteImage, selectImage as selectImageAction} from 'src/actions/userImages'
 import ImageEdit from '../ImageEdit'
-import {getStringWithLocale} from 'src/utils/locale';
+import {getEventLanguageType, getStringWithLocale} from 'src/utils/locale';
 import {Button} from 'reactstrap'
 import {isEmpty} from 'lodash';
 import {confirmAction} from '../../actions/app';
@@ -67,6 +67,7 @@ class ImageThumbnail extends React.PureComponent {
                 open={this.state.edit}
                 close={() => this.setState({edit: false})}
                 updateExisting
+                localeType={getEventLanguageType(this.props.editor.values.type_id)}
             />;
         }
 
@@ -125,6 +126,7 @@ ImageThumbnail.propTypes = {
     action: PropTypes.func,
     user: PropTypes.object,
     close: PropTypes.func,
+    editor: PropTypes.object,
 }
 
 ImageThumbnail.contextTypes = {
@@ -137,7 +139,9 @@ const mapDispatchToProps = (dispatch) => ({
     confirmAction: (msg,style, actionButtonLabel, data) => dispatch(confirmAction(msg,style,actionButtonLabel,data)),
 })
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state, ownProps) => ({
+    editor: state.editor,
+});
 // TODO: if leave null, react-intl not refresh. Replace this with better React context
 export {ImageThumbnail as UnconnectedImageThumbnail}
 export default connect(mapStateToProps, mapDispatchToProps)(ImageThumbnail)

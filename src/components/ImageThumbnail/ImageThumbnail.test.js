@@ -26,6 +26,11 @@ const defaultProps = {
     selected: false,
     locale: 'fi',
     url: 'www.google.com',
+    editor: {
+        values: {
+            type_id: 'event',
+        },
+    },
 };
 
 describe('ImageThumbnail', () => {
@@ -61,7 +66,6 @@ describe('ImageThumbnail', () => {
                 });
                 test('defaultModal true, buttons not found', () => {
                     const wrapper = getWrapper({defaultModal: true})
-                    const instance = wrapper.instance();
                     const element = wrapper.find('button');
                     expect(element).toHaveLength(0);
                 });

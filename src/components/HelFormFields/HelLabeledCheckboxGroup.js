@@ -39,7 +39,7 @@ const HelLabeledCheckboxGroup = (props) => {
 
     return (
         <Fragment>
-            <fieldset className="col-sm-6 checkbox-group">
+            <fieldset className="checkbox-group">
                 <h3 ref={labelRef}>
                     {groupLabel}
                 </h3>
