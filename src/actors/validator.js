@@ -19,7 +19,14 @@ export default (store) => {
         let action = {
             labelId: 'validation-error-goto-error',
             fn: () => {
-                let top = (window.scrollY || window.pageYOffset)
+                let top = (window.scrollY || window.pageYOffset);
+                // This scrolls the document so that the focused input is in the middle of the screen.
+                window.scrollTo(
+                    0,
+                    top +
+                    document.getElementsByClassName('validation-notification')[0].parentElement.getBoundingClientRect().top -
+                    (window.innerHeight / 2)
+                );
                 let popovers = document.getElementsByClassName('validation-notification')[0].parentElement.children[1].focus();
                 if(popovers) {
                     window.scrollTo(0, top + popovers.getBoundingClientRect().top - 16);
