@@ -86,7 +86,7 @@ describe('ImageEdit', () => {
 
                     // altText
                     expect(wrapper.state('image')['altText']).toEqual({});
-                    wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt'});
+                    wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     expect(wrapper.state('image')['altText']).toEqual({fi:'finnishAlt'});
 
                     //name
@@ -145,7 +145,7 @@ describe('ImageEdit', () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
                     wrapper.setState({imageFile: imageFile});
                     jest.spyOn(wrapper.instance(),'imageToBase64');
-                    wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt'});
+                    wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
                     const expectedImage = await wrapper.instance().imageToBase64(defaultImageBlob);
@@ -174,7 +174,7 @@ describe('ImageEdit', () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
                     wrapper.setState({imageFile: imageFile});
                     jest.spyOn(wrapper.instance(),'imageToBase64');
-                    wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt'});
+                    wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
                     const expectedImage = await wrapper.instance().imageToBase64(defaultImageBlob);
@@ -241,7 +241,7 @@ describe('ImageEdit', () => {
                     wrapper.setState({imageFile: imageFile});
                     const checked = (bool) => ({target: {checked: bool}});
                     jest.spyOn(wrapper.instance(),'imageToBase64');
-                    wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt'});
+                    wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
                     wrapper.instance().setAltDecoration(checked(true))
@@ -309,12 +309,12 @@ describe('ImageEdit', () => {
             test('returns boolean based on if some altText is too short', () => {
 
                 wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName', sv:'swedishName'});
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swed'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swed'});
                 wrapper.instance().handleChange({target:{id:'photographerName'}},'Phil Photo');
 
 
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(true);
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swedis'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swedis'});
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(false);
             });
 
@@ -324,16 +324,16 @@ describe('ImageEdit', () => {
                 // max altText length is 320
                 const tooLongAlt = longString(322);
 
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:tooLongAlt});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:tooLongAlt});
 
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(true);
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'this is short'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'this is short'});
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(false);
             });
 
             test('returns boolean based on if some name is too short', () => {
                 wrapper.instance().handleChange({target:{id:'name'}}, {fi:'', sv:'swedishName'});
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swedishAlt'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swedishAlt'});
                 wrapper.instance().handleChange({target:{id:'photographerName'}},'Phil Photo');
 
 
@@ -343,7 +343,7 @@ describe('ImageEdit', () => {
             });
 
             test('returns boolean based on if some name is too long', () => {
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swedishAlt'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swedishAlt'});
                 wrapper.instance().handleChange({target:{id:'photographerName'}},'Phil Photo');
                 //max name length is 160
                 const tooLongName = longString(170);
@@ -356,7 +356,7 @@ describe('ImageEdit', () => {
 
             test('returns boolean based on if photographerName exists', () => {
                 wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName', sv:'swedishName'});
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swedishAlt'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swedishAlt'});
 
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(true);
                 wrapper.instance().handleChange({target:{id: 'photographerName'}}, 'Phil Photo');
@@ -365,7 +365,7 @@ describe('ImageEdit', () => {
 
             test('returns boolean based on if photographerName is too long', () => {
                 wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName', sv:'swedishName'});
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swedishAlt'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swedishAlt'});
 
                 // max photographer name length is 160
                 const longName = longString(161);
@@ -378,13 +378,43 @@ describe('ImageEdit', () => {
 
             test('return true if state.imagePermission is false', () => {
                 wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName', sv:'swedishName'});
-                wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt', sv:'swedishAlt'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt', sv:'swedishAlt'});
                 wrapper.instance().handleChange({target:{id:'photographerName'}},'Phil Photo');
 
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(false);
                 wrapper.instance().handleLicenseChange({target:{name:'permission'}});
                 expect(wrapper.instance().getNotReadyToSubmit()).toBe(true);
             });
+        });
+        describe('getCheckedValue', () => {
+            test('returns correct obj based on if prop === state.license', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(instance.getCheckedValue('event_only')).toEqual({checked: true});
+                instance.handleLicenseChange({target:{name:'license_type', value:'cc_by'}});
+                expect(instance.getCheckedValue('cc_by')).toEqual({checked: true});
+                instance.handleLicenseChange({target:{name:'license_type', value:'event_only'}});
+                expect(instance.getCheckedValue('event_only')).toEqual({checked: true});
+            });
+        });
+        describe('getLicense', () => {
+            test('license inputs have checked param based on state.license', () => {
+                const licenseTypes = ['event_only','cc_by'];
+
+                licenseTypes.forEach((license, index) => {
+                    const wrapper = getWrapper();
+                    const instance = wrapper.instance();
+                    instance.handleLicenseChange({target:{name:'license_type', value: license}});
+                    const localWrapper = shallow(instance.getLicense());
+                    const elements = localWrapper.find('input').filterWhere(element => element.prop('name') === 'license_type');
+                    expect(elements).toHaveLength(2);
+                    expect(elements.at(0).prop('id')).toBe(licenseTypes[0])
+                    expect(elements.at(0).prop('checked')).toBe(wrapper.state('license') === licenseTypes[0]);
+                    expect(elements.at(1).prop('id')).toBe(licenseTypes[1])
+                    expect(elements.at(1).prop('checked')).toBe(wrapper.state('license') === licenseTypes[1]);
+                })
+            });
+
         });
     });
 
@@ -393,13 +423,13 @@ describe('ImageEdit', () => {
         describe('contains input -', () => {
             test('two MultiLanguageField with correct parameters', () => {
                 const wrapper = getWrapper();
-                wrapper.instance().handleChange({target:{id:'altText'}},{fi: 'finnish alt-text'});
+                wrapper.instance().handleChange({target:{id:'alt-text'}},{fi: 'finnish alt-text'});
                 wrapper.instance().handleChange({target:{id:'name'}},{fi: 'finnish name'});
                 const elements = wrapper.find(MultiLanguageField);
                 expect(elements).toHaveLength(2);
 
                 // first MultiLanguageField - altText
-                expect(elements.at(0).prop('id')).toBe('altText');
+                expect(elements.at(0).prop('id')).toBe('alt-text');
                 expect(elements.at(0).prop('validations')).toEqual([VALIDATION_RULES.MEDIUM_STRING]);
                 expect(elements.at(0).prop('label')).toBe('alt-text');
                 expect(elements.at(0).prop('maxLength')).toEqual(CHARACTER_LIMIT.MEDIUM_STRING);

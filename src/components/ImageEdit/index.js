@@ -113,7 +113,7 @@ class ImageEdit extends React.Component {
         if (!validationFn['isUrl'](undefined, url, undefined)) {
             this.setState({urlError: true,
             })
-            return false 
+            return false
         } else {
             return true
         }
@@ -144,7 +144,7 @@ class ImageEdit extends React.Component {
 
     /**
      * Handles setting decorative altText for picture and hiding inputs
-     * @param e 
+     * @param e
      */
     setAltDecoration(e) {
         this.setState({hideAltText: e.target.checked})
@@ -254,7 +254,7 @@ class ImageEdit extends React.Component {
     handleChange(event, value){
         const {id} = event.target;
         let localImage = this.state.image;
-        if (id.includes('altText')) {
+        if (id.includes('alt-text')) {
 
             localImage = update(localImage, {
                 'altText': {
@@ -300,7 +300,7 @@ class ImageEdit extends React.Component {
             <React.Fragment>
                 {!this.state.hideAltText &&
                     <MultiLanguageField
-                        id='altText'
+                        id='alt-text'
                         multiLine
                         required={true}
                         defaultValue={this.state.image.altText}
@@ -342,12 +342,21 @@ class ImageEdit extends React.Component {
         )
     }
 
+    /**
+     * Used to determine 'checked' property of license_type input elements.
+     * @param {string} prop
+     * @returns {{checked: boolean}}
+     */
+    getCheckedValue = (prop) => ({checked: prop === this.state.license})
+
     getLicense() {
+        const {imagePermission} = this.state;
+        const {localeType} = this.props;
         return (
             <div className='image-license-container'>
                 <div className='license-choices'>
                     <div className='license-help-text tip'>
-                        <FormattedMessage id={`${this.props.localeType}-image-modal-image-license-explanation-only`}/>
+                        <FormattedMessage id={`${localeType}-image-modal-image-license-explanation-only`}/>
                         <FormattedHTMLMessage id={'image-modal-image-license-explanation-cc-by'} />
                     </div>
                     <div className='custom-control custom-checkbox'>
@@ -357,6 +366,7 @@ class ImageEdit extends React.Component {
                             id='permission'
                             name='permission'
                             onChange={this.handleLicenseChange}
+                            checked={imagePermission}
                         />
                         <label className='custom-control-label' htmlFor='permission'>
                             <FormattedMessage id={'image-modal-image-license-permission'}>{txt => txt}</FormattedMessage>
@@ -370,10 +380,10 @@ class ImageEdit extends React.Component {
                             name='license_type'
                             value='event_only'
                             onChange={this.handleLicenseChange}
-                            checked
+                            {...this.getCheckedValue('event_only')}
                         />
                         <label className='custom-control-label' htmlFor='event_only'>
-                            <FormattedMessage id={`${this.props.localeType}-image-modal-license-restricted`}/>
+                            <FormattedMessage id={`${localeType}-image-modal-license-restricted`}/>
                         </label>
                     </div>
                     <div className='custom-control custom-radio'>
@@ -384,6 +394,7 @@ class ImageEdit extends React.Component {
                             name='license_type'
                             value='cc_by'
                             onChange={this.handleLicenseChange}
+                            {...this.getCheckedValue('cc_by')}
                         />
                         <label className='custom-control-label' htmlFor='cc_by'>
                             Creative Commons BY 4.0
