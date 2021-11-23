@@ -728,6 +728,7 @@ class FormFields extends React.Component {
                                 setDirtyState={this.props.setDirtyState}
                                 currentLocale={currentLocale}
                                 disabled={userDoesNotExist}
+                                localeType={currentEventType}
                             />
                         </div>
                         <div className="row audience-row">

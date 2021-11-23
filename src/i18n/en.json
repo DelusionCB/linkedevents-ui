@@ -287,6 +287,10 @@
 
     "event-categorization-form": "Set categories",
     "event-category-form-header": "Specify categories and target groups*",
+    "hobby-categories-header-type": "Select at least one category",
+    "event-categories-header-type": "Select at least one from each category",
+    "categories-header-content": "Content*",
+    "event-categories-type": "Type of event*",
 
     "event-categorization": "Categorization",
     "hobby-categorization": "Categorization",
@@ -331,7 +335,8 @@
     "validation-isDate": "Enter the date in the correct format dd.mm.yyyy hh.mm",
     "validation-isInt": "The input has to be a number",
     "validation-atLeastOne": "At least one item must be selected",
-    "validation-atLeastOneMainCategory": "At least one main category must be selected",
+    "validation-atLeastOneMainCategory": "At least one item must be selected",
+    "validation-atLeastOneSecondaryCategory": "At least one item must be selected",
     "validation-required": "This field is required",
     "validation-requiredForCourses": "This field is required",
     "validation-requiredMulti": "This field is required",
@@ -413,7 +418,6 @@
 
     "additional-keywords": "Other keywords",
     "main-categories": "Main categories",
-    "main-categories-header": "Select at least one category",
 
     "editor-publish-draft-warning": "N.B. The event will be published on the Internet. The original submitter can no longer edit the event.",
     "editor-publish-draft-extra-warning": "The following events will be published:",

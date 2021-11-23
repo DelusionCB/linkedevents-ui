@@ -236,8 +236,15 @@ var validations = {
         if (!value) {
             return false
         }
-        // Changed keywordSets to be compatible with Turku's backend.
         return mapKeywordSetToForm(keywordSets, typeSet)
+            .map(item => item.value)
+            .some(item => value.find(_item => _item.value.includes(item)))
+    },
+    atLeastOneSecondaryCategory(values, value, keywordSets) {
+        if (!value) {
+            return false
+        }
+        return mapKeywordSetToForm(keywordSets, 'turku:topic_type')
             .map(item => item.value)
             .some(item => value.find(_item => _item.value.includes(item)))
     },

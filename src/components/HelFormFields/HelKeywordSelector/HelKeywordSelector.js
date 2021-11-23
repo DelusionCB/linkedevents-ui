@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {get, isNil, uniqBy} from 'lodash'
 import {connect} from 'react-redux'
@@ -10,8 +10,9 @@ import {setData as setDataAction} from '../../../actions/editor'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {UncontrolledTooltip} from 'reactstrap'
 import {getCurrentTypeSet} from '../../../utils/helpers';
+import constants from '../../../constants';
 
-const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
+export const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
     if (isNil(checkedOptions)) {
         return
     }
@@ -30,14 +31,14 @@ const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setD
     setData({keywords: updatedKeywords})
 }
 
-const handleKeywordDelete = (deletedItem, keywords, setData) => {
+export const handleKeywordDelete = (deletedItem, keywords, setData) => {
     const updatedSelectedKeywords = keywords
         .filter(item => item.value !== deletedItem.value)
 
     setData({keywords: updatedSelectedKeywords})
 }
 
-const getKeywordIds = (keywords) => keywords
+export const getKeywordIds = (keywords) => keywords
     .filter(item => item)
     .map(item => {
         const value = item.value
@@ -49,67 +50,64 @@ const getKeywordIds = (keywords) => keywords
     })
     .join()
 
-const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale, disabled}) => {
-    const [isRemoteEvent, toggleIsRemoteEvent] = useState(false);
+/**
+ * Returns new array with string inside it for validation
+ * @param {object} errors
+ * @param {string} validationRule
+ */
+export const filterValidations = (errors, validationRule) => {
+    let rule;
+    if (errors['keywords']) {
+        rule = errors.keywords.find(rule => rule === validationRule);
+        if (rule) {
+            rule = [rule]
+        }
+    }
+    return rule
+}
+
+const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale, disabled, localeType}) => {
     const {values, keywordSets, validationErrors} = editor
     let keywords = get(values, 'keywords', [])
     const typeSet = getCurrentTypeSet(values.type_id)
     const mainCategoryOptions = mapKeywordSetToForm(keywordSets, typeSet, currentLocale)
-    const parsedMainCategoryOptions = mainCategoryOptions.map(item => ({label: item.label, value: item.value}))
-    const remoteParticipationKeyword = mainCategoryOptions.find(keyword => keyword['value'].includes('yso:p26626'))
-
-    /**
-     * if location is now virtual:public, push remoteParticipationKeyword onto keywords array and set isRemoteEvent to true.
-     */
-    if (remoteParticipationKeyword
-        && !isRemoteEvent
-        && values['location']
-        && values['location']['id'] === 'virtual:public'
-        && !keywords.find(keyword => keyword['value'].includes('yso:p26626'))) {
-        keywords.push(remoteParticipationKeyword) && toggleIsRemoteEvent(true)
-    }
-
-    /**
-     * if location was previously virtual and now either event.location doesnt exist or the location.id is not virtual:public
-     * -> some other location was selected or location was removed
-     */
-    if (remoteParticipationKeyword && isRemoteEvent && (!values['location'] || values['location']['id'] !== 'virtual:public')) {
-        toggleIsRemoteEvent(false)
-    }
-
-    /**
-     * If keywords exist -> they are used, otherwise remote participation is added specifically
-     */
-    const handleRemoteKeywordChange = () => {
-        if (remoteParticipationKeyword && values['location'] && values['location']['id'] === 'virtual:public') {
-            const checkedOptions = keywords.length !== 0 ? keywords.map(key => key.value) : [remoteParticipationKeyword.value];
-            handleKeywordChange(checkedOptions, keywords, mainCategoryOptions, setData)
-        }
-    }
-    /**
-     * handleRemoteKeywordChange is called if 'isRemoteEvent' changes.
-     */
-    useEffect(() => {
-        handleRemoteKeywordChange(isRemoteEvent)
-    },[isRemoteEvent])
-
+    const secondaryCategoryOptions = mapKeywordSetToForm(keywordSets, 'turku:topic_type', currentLocale)
 
     return (
         <React.Fragment>
-            <HelLabeledCheckboxGroup
-                groupLabel={<FormattedMessage id="main-categories-header"/>}
-                selectedValues={keywords}
-                name="keywords"
-                disabled={disabled}
-                validationErrors={validationErrors['keywords']}
-                itemClassName="col-md-12 col-lg-6"
-                options={parsedMainCategoryOptions}
-                setDirtyState={setDirtyState}
-                customOnChangeHandler={(checkedOptions) => {
-                    handleKeywordChange(checkedOptions, keywords, mainCategoryOptions, setData)
-                }}
-                currentLocale={currentLocale}
-            />
+            <FormattedMessage id={`${localeType}-categories-header-type`}>{txt => <h3>{txt}</h3>}</FormattedMessage>
+            <div>
+                <HelLabeledCheckboxGroup
+                    groupLabel={<FormattedMessage id="categories-header-content"/>}
+                    selectedValues={keywords}
+                    name="keywords"
+                    disabled={disabled}
+                    validationErrors={filterValidations(validationErrors,'atLeastOneMainCategory')}
+                    itemClassName="col-lg-6"
+                    options={mainCategoryOptions}
+                    setDirtyState={setDirtyState}
+                    customOnChangeHandler={(checkedOptions) => {
+                        handleKeywordChange(checkedOptions, keywords, mainCategoryOptions, setData)
+                    }}
+                    currentLocale={currentLocale}
+                />
+                {values.type_id === constants.EVENT_TYPE.GENERAL &&
+                <HelLabeledCheckboxGroup
+                    groupLabel={<FormattedMessage id="event-categories-type"/>}
+                    selectedValues={keywords}
+                    name="keywords"
+                    disabled={disabled}
+                    validationErrors={filterValidations(validationErrors,'atLeastOneSecondaryCategory')}
+                    itemClassName="col-lg-6"
+                    options={secondaryCategoryOptions}
+                    setDirtyState={setDirtyState}
+                    customOnChangeHandler={(checkedOptions) => {
+                        handleKeywordChange(checkedOptions, keywords, secondaryCategoryOptions, setData)
+                    }}
+                    currentLocale={currentLocale}
+                />
+                }
+            </div>
             <div className="col-sm-6 hel-select keywords-select">
                 <HelSelect
                     legend={intl.formatMessage({id: 'event-keywords'})}
@@ -148,10 +146,11 @@ HelKeywordSelector.propTypes = {
     editor: PropTypes.object,
     currentLocale: PropTypes.string,
     disabled: PropTypes.bool,
+    localeType: PropTypes.string,
 }
 
 const mapDispatchToProps = (dispatch) => ({
     setData: (value) => dispatch(setDataAction(value)),
 })
-
+export {HelKeywordSelector as UnconnectedHelKeywordSelector}
 export default connect(null, mapDispatchToProps)(HelKeywordSelector)

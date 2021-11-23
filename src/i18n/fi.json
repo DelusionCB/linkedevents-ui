@@ -332,7 +332,8 @@
     "validation-isDate": "Kirjoita päivämäärä muodossa pp.kk.vvvv tt.mm",
     "validation-isInt": "Tulon on oltava numero",
     "validation-atLeastOne": "Valitse vähintään yksi",
-    "validation-atLeastOneMainCategory": "Valitse vähintään yksi pääkategoria",
+    "validation-atLeastOneMainCategory": "Valitse vähintään yksi",
+    "validation-atLeastOneSecondaryCategory": "Valitse vähintään yksi",
     "validation-required": "Tämä kenttä vaaditaan",
     "validation-requiredForCourses": "Tämä kenttä vaaditaan",
     "validation-requiredMulti": "Tämä kenttä vaaditaan",
@@ -414,7 +415,10 @@
 
     "additional-keywords": "Asiasanat",
     "main-categories": "Luokittelu",
-    "main-categories-header": "Valitse vähintään yksi luokka*",
+    "event-categories-header-type": "Valitse vähintään yksi molemmista luokista",
+    "hobby-categories-header-type": "Valitse vähintään yksi luokka",
+    "categories-header-content": "Sisältö*",
+    "event-categories-type": "Tapahtuman tyyppi*",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",

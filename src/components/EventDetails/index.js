@@ -14,6 +14,7 @@ import {getStringWithLocale, getEventLanguageType} from '../../utils/locale'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {Badge} from 'reactstrap';
 import constants from '../../constants';
+import {getCurrentTypeSet} from '../../utils/helpers';
 
 const {EVENT_TYPE} = constants
 
@@ -423,16 +424,34 @@ SubEventListing.propTypes = {
     locale: PropTypes.string,
 }
 
+function keywordValues(props) {
+    const {editor, values, intl} = props;
+    let mainKeywords = [], secondaryKeywords = [], nonMainKeywords = [];
+    if (values.keywords) {
+        const mainCategoryValues = mapKeywordSetToForm(editor.keywordSets, getCurrentTypeSet(values.type_id), intl.locale)
+            .map(item => item.value)
+        const secondaryCategoryValues = mapKeywordSetToForm(editor.keywordSets, 'turku:topic_type', intl.locale)
+            .map(item => item.value)
+
+        nonMainKeywords = values.keywords.reduce((acc, curr) => {
+            if (mainCategoryValues.includes(curr.value)) {
+                mainKeywords.push(curr);
+            }
+            else if (secondaryCategoryValues.includes(curr.value)) {
+                secondaryKeywords.push(curr);
+            }
+            else {
+                acc.push(curr);
+            }
+            return acc;
+        }, []);
+    }
+    return [mainKeywords, secondaryKeywords, nonMainKeywords]
+}
 const EventDetails = (props) => {
     const {editor, values, intl, rawData, publisher, superEvent} = props
     // Changed keywordSets to be compatible with Turku's backend.
-    const mainCategoryValues = mapKeywordSetToForm(editor.keywordSets, 'turku:topics', intl.locale)
-        .map(item => item.value)
-    let mainCategoryKeywords, nonMainCategoryKeywords = [];
-    if (values.keywords) {
-        mainCategoryKeywords = values.keywords.filter(item => mainCategoryValues.includes(item.value))
-        nonMainCategoryKeywords = values.keywords.filter(item => !mainCategoryValues.includes(item.value))
-    }
+    const [mainCategoryKeywords, secondaryCategoryKeywords, nonMainCategoryKeywords] = keywordValues({editor, values, intl})
     const subsExists = Object.keys(editor.values['sub_events']).length > 0
     const localeType = getEventLanguageType(values['type_id']);
 
@@ -498,7 +517,10 @@ const EventDetails = (props) => {
                 {intl.formatMessage({id: `${localeType}-categorization`})}
             </FormHeader>
 
-            <OptionGroup values={mainCategoryKeywords} labelKey="main-categories" locale={intl.locale}/>
+            <OptionGroup values={mainCategoryKeywords} labelKey="categories-header-content" locale={intl.locale}/>
+            {values['type_id'] === EVENT_TYPE.GENERAL &&
+            <OptionGroup values={secondaryCategoryKeywords} labelKey="event-categories-type" locale={intl.locale}/>
+            }
             <OptionGroup values={nonMainCategoryKeywords} labelKey="additional-keywords" locale={intl.locale}/>
             <OptionGroup values={rawData['audience']} labelKey="hel-target-groups" locale={intl.locale}/>
             <OptionGroup values={rawData['in_language']} labelKey="event-languages" locale={intl.locale}/>

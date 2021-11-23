@@ -7,6 +7,7 @@ import moment from 'moment'
 const {
     VALIDATION_RULES,
     PUBLICATION_STATUS,
+    EVENT_TYPE,
 } = CONSTANTS
 
 
@@ -50,7 +51,7 @@ const publicValidations = {
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
-    sub_events: { 
+    sub_events: {
         start_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.IS_DATE, VALIDATION_RULES.DEFAULT_END_IN_FUTURE],
         end_time: [VALIDATION_RULES.REQUIRED_STRING, VALIDATION_RULES.AFTER_START_TIME, VALIDATION_RULES.IS_DATE, VALIDATION_RULES.IN_THE_FUTURE],
     },
@@ -140,7 +141,9 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
             errors = validateOffers(valuesWithLanguages)
         // validate keywords
         } else if (key === 'keywords') {
-            errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key], keywordSets) ? null : validation)
+            const updatedValidations = [...validations];
+            if (valuesWithLanguages.type_id === EVENT_TYPE.GENERAL) { updatedValidations.push(VALIDATION_RULES.AT_LEAST_ONE_SECONDARY_CATEGORY);}
+            errors = updatedValidations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key], keywordSets) ? null : validation)
         // validate videos
         } else if (key === 'videos') {
             errors = values && values.videos && values.videos.length

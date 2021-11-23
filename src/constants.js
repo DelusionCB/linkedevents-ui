@@ -152,6 +152,7 @@ const constants = {
         REQUIRE_AT_ID: 'requiredAtId',
         AT_LEAST_ONE: 'atLeastOne',
         AT_LEAST_ONE_MAIN_CATEGORY: 'atLeastOneMainCategory',
+        AT_LEAST_ONE_SECONDARY_CATEGORY: 'atLeastOneSecondaryCategory',
         IS_MORE_THAN_ONE: 'isMoreThanOne',
         AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
         DEFAULT_END_IN_FUTURE: 'defaultEndInTheFuture',
