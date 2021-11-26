@@ -4,10 +4,12 @@
     padding-right: 5px;
     margin-top: 0.2rem;
     margin-bottom: 0.2rem;
-    text-transform: capitalize;
     text-align: center;
     font-size: 100%;
     background-color: #0072c6;
+}
+.badge-primary:first-letter{
+    text-transform: capitalize
 }
 .badge {
     .btn-secondary {
