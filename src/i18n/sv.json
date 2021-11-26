@@ -643,6 +643,10 @@
     "homepage-organization-button": "Lägg till din organisation",
     "homepage-example-events": "Exempel på skapade innehåll",
 
+    "page-not-found-return": "Till startsidan.",
+    "page-not-found-lead": "Tyvärr hittade vi inte sidan du letade efter.",
+    "page-not-found": "404 Webbplatsen hittades inte",
+
     "event-is-virtualandhaslocation": "Evenemanget är både virtuellt och fysiskt",
 
     "price-placeholder": "T.ex 4,99",

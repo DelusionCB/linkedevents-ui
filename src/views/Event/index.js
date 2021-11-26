@@ -92,12 +92,17 @@ class EventPage extends React.Component {
         queryParams.include = 'keywords,location,audience,in_language,external_links,sub_events,offers'
 
         try {
-            const eventData = await fetchEvent(eventId, queryParams, true)
-            const [event, subEvents, superEvent] = eventData
+            try {
+                const eventData = await fetchEvent(eventId, queryParams, true)
+                const [event, subEvents, superEvent] = eventData
 
-            this.setState({event, subEvents, superEvent})
-        } finally {
-            this.setState({loading: false})
+                this.setState({event, subEvents, superEvent})
+            } finally {
+                this.setState({loading: false})
+            }
+        } catch (error) {
+            this.props.routerPush('/404')
+            scrollToTop()
         }
     }
 

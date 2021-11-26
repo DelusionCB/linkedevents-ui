@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Route} from 'react-router'
-import {withRouter} from 'react-router-dom'
+import {Route, Switch} from 'react-router'
+import {withRouter, Redirect} from 'react-router-dom'
 import {Provider, connect} from 'react-redux'
 import {ConnectedRouter} from 'connected-react-router'
 import {isIE, isLegacyEdge} from 'react-device-detect'
@@ -19,6 +19,7 @@ import ModerationPage from './views/Moderation/Moderation'
 import Accessibility from './views/Accessibility'
 import BrowserWarning from './views/Browser-Warning/BrowserWarning'
 import HomePage from './views/HomePage/HomePage'
+import PageNotFound from './views/PageNotFound';
 
 // Actors
 import Validator from './actors/validator'
@@ -61,19 +62,23 @@ if (window.location.pathname === '/silent-renew') {
                     <IntlProviderWrapper>
                         <ConnectedRouter history={history}>
                             <LayoutContainer>
-                                <Route exact path="/" component={HomePage}/>
-                                <Route exact path="/listing" component={EventListingPage}/>
-                                <Route exact path="/event/:eventId" component={Event}/>
-                                <Route exact path="/event/:action/:eventId" component={Editor}/>
-                                <Route exact path="/event/:eventId/recurring/:action" component={Editor}/>
-                                <Route exact path="/event/done/:action/:eventId" component={EventCreated}/>
-                                <Route exact path="/search" component={Search}/>
-                                <Route exact path="/help" component={Help}/>
-                                <Route exact path="/terms" component={Terms}/>
-                                <Route exact path="/moderation" component={ModerationPage}/>
-                                <Route exact path="/accessibility" component={Accessibility}/>
-                                <Route exact path="/callback" component={LoginCallback}/>
-                                <Route exact path="/callback/logout" component={LogoutCallback}/>
+                                <Switch>
+                                    <Route exact path="/" component={HomePage}/>
+                                    <Route exact path="/listing" component={EventListingPage}/>
+                                    <Route exact path="/event/:eventId" component={Event}/>
+                                    <Route exact path="/event/:action/:eventId" component={Editor}/>
+                                    <Route exact path="/event/:eventId/recurring/:action" component={Editor}/>
+                                    <Route exact path="/event/done/:action/:eventId" component={EventCreated}/>
+                                    <Route exact path="/search" component={Search}/>
+                                    <Route exact path="/help" component={Help}/>
+                                    <Route exact path="/terms" component={Terms}/>
+                                    <Route exact path="/moderation" component={ModerationPage}/>
+                                    <Route exact path="/accessibility" component={Accessibility}/>
+                                    <Route exact path="/callback" component={LoginCallback}/>
+                                    <Route exact path="/callback/logout" component={LogoutCallback}/>
+                                    <Route exact path="/404" component={PageNotFound} />
+                                    <Redirect from="*" to="/404" />
+                                </Switch>
                             </LayoutContainer>
                         </ConnectedRouter>
                     </IntlProviderWrapper>

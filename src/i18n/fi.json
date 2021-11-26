@@ -651,6 +651,10 @@
     "homepage-organization-button": "Lisää organisaatiosi",
     "homepage-example-events": "Esimerkkejä luoduista sisällöistä",
 
+    "page-not-found-return": "Palaa etusivulle.",
+    "page-not-found-lead": "Valitettavasti etsimääsi sivua ei löytynyt.",
+    "page-not-found": "404 Sivua ei löydy",
+
     "eventItem-location": "Paikka:",
     "eventItem-date": "Päivämäärä:",
     "eventItem-time": "Kello:",

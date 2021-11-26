@@ -14,6 +14,8 @@ const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
 
+window.scrollTo = jest.fn()
+
 const defaultProps = {
     app: {
         flashMsg: null,
@@ -62,6 +64,19 @@ describe('EventPage', () => {
                 wrapper.setProps({user})
                 expect(fetchDataSpy).toHaveBeenCalledTimes(0)
             });
+            test('fetchEventData is not called again when eventId does not change', () => {
+                const eventOne = {match: {params: {eventId: 'system:one'}}}
+                wrapper.setProps(eventOne)
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1)
+                fetchDataSpy.mockClear()
+                wrapper.setProps(eventOne)
+                expect(fetchDataSpy).toHaveBeenCalledTimes(0)
+            })
+            test('fetchEventData is called again when eventId changes', () => {
+                const eventTwo = {match: {params: {eventId: 'system:two'}}}
+                wrapper.setProps(eventTwo)
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1)
+            })
         });
 
         describe('handleConfirmedAction', () => {

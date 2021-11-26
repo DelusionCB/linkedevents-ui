@@ -639,6 +639,10 @@
     "homepage-organization-button": "Add your organization",
     "homepage-example-events": "Examples of created contents",
 
+    "page-not-found-return": "Return to home page.",
+    "page-not-found-lead": "Unfortunately, the page you're looking for was not found.",
+    "page-not-found": "404 Page not found",
+
     "eventItem-date": "Date:",
     "eventItem-description": "Short description:",
     "eventItem-location": "Location:",
