@@ -33,7 +33,8 @@ class CustomDateTime extends React.Component {
         this.handleInputBlur = this.handleInputBlur.bind(this)
         this.handleDateTimePickerChange = this.handleDateTimePickerChange.bind(this)
         this.handleDataUpdate = this.handleDataUpdate.bind(this)
-        this.validateDate = this.validateDate.bind(this)
+        this.updateValidationState = this.updateValidationState.bind(this)
+        this.validateInputValue = this.validateInputValue.bind(this)
 
         this.firstInput = React.createRef()
     }
@@ -71,15 +72,13 @@ class CustomDateTime extends React.Component {
     }
        
     handleDataUpdate(date, time){
-        const {setData, setDirtyState, updateSubEvent, minDate, eventKey, name} = this.props;
+        const {setData, setDirtyState, updateSubEvent, eventKey, name} = this.props;
         let formattedDatetime = undefined
         if(date && time){
             // combine date and time into single datetime which is used in upper scope
             const datetimeString = `${date} ${time}`
             const datetime = roundDateToCorrectUnit(moment(datetimeString, getDateFormat('date-time'), true), 'date-time')
-            if(this.validateDate(datetime, minDate)){
-                formattedDatetime = moment(datetime).tz('Europe/Helsinki').utc().toISOString()                
-            }
+            formattedDatetime = moment(datetime).tz('Europe/Helsinki').utc().toISOString()
         }
         if(eventKey){
             updateSubEvent(formattedDatetime, name, eventKey)
@@ -90,28 +89,36 @@ class CustomDateTime extends React.Component {
         setDirtyState()
     }
 
-    validateDate(date, minDate){
-        if(!moment(date, getDateFormat('date-time'), true).isValid()){
-            this.setState({
-                validationErrorText: <FormattedMessage id="invalid-date-time-format" />,
-                showValidationError: true,
-            })
-            return false
-        }
-        if(minDate){
-            if(moment(date).isBefore(minDate)){
-                this.setState({
-                    validationErrorText: <FormattedMessage id="validation-afterStartTimeAndInFuture" />,
-                    showValidationError: true,
-                })
-                return false
-            }
-        }
-
-        this.setState({
+    updateValidationState(date, minDate){
+        const {validationErrors} = this.props;
+        const updatedState = {
             showValidationError: false,
-        })
-        return true
+        };
+        
+        if(!moment(date, getDateFormat('date-time'), true).isValid()){
+            updatedState.validationErrorText = <FormattedMessage id="invalid-date-time-format" />;
+            updatedState.showValidationError = true;
+        }
+        else if(minDate && moment(date).isBefore(minDate)){
+            updatedState.validationErrorText = <FormattedMessage id="validation-afterStartTimeAndInFuture" />;
+            updatedState.showValidationError = true;
+        }
+        else if(validationErrors && validationErrors.includes('inTheFuture')){
+            updatedState.validationErrorText = <FormattedMessage id="validation-inTheFuture" />;
+            updatedState.showValidationError = true;
+        }
+        this.setState(updatedState);
+    }
+    /**
+     *
+     * @param {string} inputValue state with value
+     * @param {boolean} validValue moment approved string
+     * @returns {boolean|arg is any[]}
+     */
+    validateInputValue(inputValue, validValue) {
+        const {showValidationError} = this.state;
+        const {validationErrors} = this.props;
+        return inputValue ? (showValidationError || !validValue) : Array.isArray(validationErrors)
     }
 
     componentDidMount(){
@@ -127,7 +134,7 @@ class CustomDateTime extends React.Component {
         if (minDate !== prevProps.minDate || maxDate !== prevProps.maxDate) {
             if(dateInputValue && timeInputValue) {
                 const datetimeString = `${this.state.dateInputValue} ${this.state.timeInputValue}`
-                this.validateDate(moment(datetimeString, getDateFormat('date-time'), true), minDate)
+                this.updateValidationState(moment(datetimeString, getDateFormat('date-time'), true), minDate)
             }
         }
         if (prevProps.defaultValue !== this.props.defaultValue) {
@@ -147,6 +154,8 @@ class CustomDateTime extends React.Component {
         const timeFieldId = `${id}-time-field`
         const validDate = moment(dateInputValue, 'D.M.YYYY', true).isValid()
         const validTime = moment(timeInputValue, 'H.mm', true).isValid()
+        const invalidDate = this.validateInputValue(dateInputValue, validDate)
+        const invalidTime = this.validateInputValue(timeInputValue, validTime)
 
         return (
             <div>
@@ -177,7 +186,7 @@ class CustomDateTime extends React.Component {
                                 <Input
                                     aria-describedby={showValidationError ? inputErrorId : undefined}
                                     aria-invalid={showValidationError}
-                                    invalid={dateInputValue ? false : Array.isArray(validationErrors)}
+                                    invalid={invalidDate}
                                     type="text"
                                     name={name}
                                     id={dateFieldId}
@@ -188,7 +197,7 @@ class CustomDateTime extends React.Component {
                                     aria-required={required}
                                     innerRef={this.firstInput}
                                 />
-                                {validationErrors && !validDate &&
+                                {validationErrors && (!validDate || showValidationError) &&
                                 <div className='validation-notification'/>
                                 }
                             </div>
@@ -227,7 +236,7 @@ class CustomDateTime extends React.Component {
                                 <Input
                                     aria-describedby={showValidationError ? inputErrorId : undefined}
                                     aria-invalid={showValidationError}
-                                    invalid={timeInputValue ? false : Array.isArray(validationErrors)}
+                                    invalid={invalidTime}
                                     type="text"
                                     name={name}
                                     id={timeFieldId}
@@ -237,7 +246,7 @@ class CustomDateTime extends React.Component {
                                     disabled={disabled}
                                     aria-required={required}
                                 />
-                                {validationErrors && !validTime &&
+                                {validationErrors && (!validTime || showValidationError) &&
                                 <div className='validation-notification'/>
                                 }
                             </div>

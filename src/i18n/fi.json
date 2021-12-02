@@ -343,7 +343,6 @@
     "validation-afterStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
     "validation-afterStartTimeAndInFuture": "Päättymisajan pitää olla tulevaisuudessa ja alkamisaikaa myöhemmin",
     "validation-afterEnrolmentStartTime": "Päättymisajan pitää olla alkamisaikaa myöhemmin",
-    "validation-defaultEndInTheFuture": "Alkamisajan pitää olla tulevaisuudessa, jos päättymisaikaa ei tunneta",
     "validation-inTheFuture": "Päättymisajan pitää olla tulevaisuudessa",
     "validation-stringLimitReached": "Tämä kenttä voi olla korkeintaan {limit} merkkiä pitkä",
     "validation-stringLengthCounter": "{counter} merkkiä jäljellä",

@@ -356,7 +356,6 @@
     "validation-afterStartTime": "Avslutningstiden måste vara senare än inledningstiden",
     "validation-afterStartTimeAndInFuture": "Avslutningstiden måste vara i framtiden och senare än inledningstiden",
     "validation-afterEnrolmentStartTime": "Avslutningstiden måste vara senare än inledningstiden",
-    "validation-defaultEndInTheFuture": "Inledningstiden måste vara i framtiden om avslutningstiden är inte känd",
     "validation-inTheFuture": "Avslutningstiden måste vara i framtiden",
     "validation-stringLimitReached": "Denna fält kan vara maximalt {limit} tecken lång",
     "validation-stringLengthCounter": "{counter} tecken kvar",

@@ -1,5 +1,5 @@
 import React from 'react'
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 import DatePickerButton from '../DatePickerButton'
 import {IntlProvider, FormattedMessage} from 'react-intl';
 import mapValues from 'lodash/mapValues';
@@ -8,15 +8,13 @@ import {Label, Input} from 'reactstrap';
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import constants from '../../../../constants'
-const {VALIDATION_RULES, CHARACTER_LIMIT} = constants
+const {VALIDATION_RULES} = constants
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
 import {UnconnectedCustomDateTime} from '../CustomDateTime';
 import {roundDateToCorrectUnit, getCorrectInputLabel, getCorrectMinDate, convertDateToLocaleString, getDateFormat, getDatePickerOpenDate} from '../utils/datetime'
 import ValidationNotification from '../../../ValidationNotification';
-
-
 
 const defaultProps = {
     id: 'test-id',
@@ -28,7 +26,7 @@ const defaultProps = {
     setDirtyState: () => {},
     labelDate: 'event-starting-datelabel',
     labelTime: 'event-starting-timelabel',
-    validationErrors: {error: 'test-error'},
+    validationErrors: undefined,
     disabled: false,
     disablePast: false,
     minDate: moment('2020-03-23'),
@@ -231,7 +229,7 @@ describe('renders', () => {
         test('invalid-prop is true in time when date has value & vice versa', () => {
             const wrapper = getWrapper({validationErrors: [VALIDATION_RULES.REQUIRED], defaultValue: ''});
             const instance = wrapper.instance();
-            const dateInputValue = '02.01'
+            const dateInputValue = '02.01.2020'
             instance.setState({dateInputValue})
             const inputElement = wrapper.find(Input)
             expect(inputElement.at(0).prop('invalid')).toBe(false)
@@ -292,6 +290,24 @@ describe('functions', () => {
             instance.handleInputChangeTime(event)
             expect(instance.state.timeInputValue).toBe(expectedValue)
             expect(instance.state.showValidationError).toBe(false)
+        })
+    })
+
+    describe('validateInputValue', () => {
+        test('returns correctly true for input prop invalid', () => {
+            const wrapper = getWrapper()
+            const instance = wrapper.instance()
+            const dateInputValue = '6456445'
+            wrapper.setState({dateInputValue})
+            const validValue = moment(instance.state.dateInputValue, 'D.M.YYYY', true).isValid()
+
+            instance.validateInputValue(instance.state.dateInputValue, validValue)
+
+            expect(instance.state.dateInputValue).toBe(dateInputValue)
+
+            const inputElement = wrapper.find(Input)
+            expect(inputElement.at(0).prop('invalid')).toBe(true)
+            expect(inputElement.at(1).prop('invalid')).toBe(false)
         })
     })
 
@@ -368,32 +384,32 @@ describe('functions', () => {
         })
     })
 
-    describe('validateDate', () => {
-        const instance = getWrapper().instance()
+    describe('updateValidationState', () => {
+        let instance;
+        beforeEach(() => {
+            instance = getWrapper().instance()
+        });
 
-        test('sets correct state when date is not valid and returns false', () => {
+        test('sets correct state when date is not valid', () => {
             const date = roundDateToCorrectUnit(moment('abc', getDateFormat(defaultProps.type)))
-            const returnValue = instance.validateDate(date, undefined)
+            instance.updateValidationState(date, undefined)
             expect(instance.state.validationErrorText).toEqual(<FormattedMessage id="invalid-date-time-format" />)
             expect(instance.state.showValidationError).toBe(true);
-            expect(returnValue).toBe(false)
         })
 
         test('sets correct state when date is valid, minDate is defined and date is before minDate', () => {
             const date = moment('2020-03-21')
             const minDate = moment('2020-03-22')
-            const returnValue = instance.validateDate(date, minDate)
+            instance.updateValidationState(date, minDate)
             expect(instance.state.validationErrorText).toEqual(<FormattedMessage id="validation-afterStartTimeAndInFuture" />)
             expect(instance.state.showValidationError).toBe(true);
-            expect(returnValue).toBe(false)
         })
             
-        test('sets correct state and returns true if date is valid and not before minDate', () => {
+        test('sets correct state and if date is valid, and not before minDate', () => {
             const date = moment('2020-03-23')
             const minDate = moment('2020-03-22')
-            const returnValue = instance.validateDate(date, minDate)
+            instance.updateValidationState(date, minDate)
             expect(instance.state.showValidationError).toBe(false);
-            expect(returnValue).toBe(true)
         })
     })
 
@@ -423,13 +439,13 @@ describe('functions', () => {
     })
 
     describe('componentDidUpdate', () => {
-        const spy = jest.spyOn(UnconnectedCustomDateTime.prototype, 'validateDate');
+        const spy = jest.spyOn(UnconnectedCustomDateTime.prototype, 'updateValidationState');
 
         beforeEach(() => {
             spy.mockClear()
         })
             
-        test('calls validateDate if state.dateInputValue and state.timeInputValue are defined', () => {
+        test('calls updateValidationState if state.dateInputValue and state.timeInputValue are defined', () => {
             const wrapper = shallow(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
             const instance = wrapper.instance()
             instance.state.dateInputValue = '123'
@@ -443,7 +459,7 @@ describe('functions', () => {
             expect(spy.mock.calls[0][1]).toBe(minDate)
         })
 
-        test('doesnt call validateDate if state.dateInputValue and state.timeInputValue are not defined', () => {
+        test('doesnt call updateValidationState if state.dateInputValue and state.timeInputValue are not defined', () => {
             const wrapper = shallow(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
             const instance = wrapper.instance()
             instance.setState({dateInputValue: '', timeInputValue: ''})

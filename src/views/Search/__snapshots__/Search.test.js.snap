@@ -513,7 +513,6 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "validation-atLeastOneMainCategory": "Valitse vähintään yksi",
       "validation-atLeastOneSecondaryCategory": "Valitse vähintään yksi",
       "validation-daysWithinInterval": "Yksi tai useampi valituista päivistä ei esiinny toistovälillä",
-      "validation-defaultEndInTheFuture": "Alkamisajan pitää olla tulevaisuudessa, jos päättymisaikaa ei tunneta",
       "validation-error": "Lomakkeessa on virheitä. Tarkasta lomake.",
       "validation-error-goto-error": "Siirry virheeseen",
       "validation-hasPrice": "Hintatietoja puuttuu",
