@@ -486,7 +486,9 @@
 
     "event-editor-tip-keywords": "Valitse tapahtuman sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka, mutta tarvittaessa voit valita useampia luokkia. Valitse myös tapahtuman järjestämistapaa kuvaava luokka.",
     "hobby-editor-tip-keywords": "Valitse harrastuksen sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka.",
-    "editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat tapahtumaa/harrastusta mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). usein kuvailuun riittää 1-5 asiasanaa.",
+    "event-editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat tapahtumaa mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). Usein kuvailuun riittää 1-5 asiasanaa.",
+    "hobby-editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat harrastusta mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). Usein kuvailuun riittää 1-5 asiasanaa.",
+
     "editor-tip-keyword-sidefield": "Sisällön ohjeet",
     "editor-tip-category-sidefield": "Asiasanojen ohjeet",
 

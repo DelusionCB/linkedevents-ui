@@ -115,7 +115,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 }
             </div>
             <SideField id='editor-tip-category-sidefield'>
-                <FormattedMessage id='editor-tip-keyword-selection' />
+                <FormattedMessage id={`${localeType}-editor-tip-keyword-selection`} />
             </SideField>
             <div className="col-sm-6 hel-select keywords-select">
                 <HelSelect
