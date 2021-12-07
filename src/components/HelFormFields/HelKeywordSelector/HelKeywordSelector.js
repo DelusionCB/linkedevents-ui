@@ -1,3 +1,5 @@
+import './index.scss'
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import {get, isNil, uniqBy} from 'lodash'
@@ -11,6 +13,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {UncontrolledTooltip} from 'reactstrap'
 import {getCurrentTypeSet} from '../../../utils/helpers';
 import constants from '../../../constants';
+import SideField from '../../FormFields/SideField/SideField';
 
 export const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
     if (isNil(checkedOptions)) {
@@ -74,8 +77,11 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
     const secondaryCategoryOptions = mapKeywordSetToForm(keywordSets, 'turku:topic_type', currentLocale)
 
     return (
-        <React.Fragment>
+        <div className='keyword-selector'>
             <FormattedMessage id={`${localeType}-categories-header-type`}>{txt => <h3>{txt}</h3>}</FormattedMessage>
+            <SideField id='editor-tip-keyword-sidefield'>
+                <FormattedMessage id={`${localeType}-editor-tip-keywords`} />
+            </SideField>
             <div>
                 <HelLabeledCheckboxGroup
                     groupLabel={<FormattedMessage id="categories-header-content"/>}
@@ -108,6 +114,9 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 />
                 }
             </div>
+            <SideField id='editor-tip-category-sidefield'>
+                <FormattedMessage id='editor-tip-keyword-selection' />
+            </SideField>
             <div className="col-sm-6 hel-select keywords-select">
                 <HelSelect
                     legend={intl.formatMessage({id: 'event-keywords'})}
@@ -134,8 +143,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                     intl={intl}
                 />
             </div>
-
-        </React.Fragment>
+        </div>
     )
 }
 

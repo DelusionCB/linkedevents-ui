@@ -484,6 +484,12 @@
     "editor-tip-required": "Obligatoriska fält är utmärkta med en asterisk (*).",
     "editor-tip-eventtype-disable": "Radera tiderna om du vill byta evenemangets repetition.",
 
+    "event-editor-tip-keywords": "Valitse tapahtuman sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka, mutta tarvittaessa voit valita useampia luokkia. Valitse myös tapahtuman järjestämistapaa kuvaava luokka.",
+    "hobby-editor-tip-keywords": "Valitse harrastuksen sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka.",
+    "editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat tapahtumaa/harrastusta mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). usein kuvailuun riittää 1-5 asiasanaa.",
+    "editor-tip-keyword-sidefield": "Sisällön ohjeet",
+    "editor-tip-category-sidefield": "Asiasanojen ohjeet",
+
     "editor-tip-umbrella": "Anvisningen om ett paraplyevenemang",
 
     "event-editor-tip-times": "Anvisningen om evenemangets repetition",

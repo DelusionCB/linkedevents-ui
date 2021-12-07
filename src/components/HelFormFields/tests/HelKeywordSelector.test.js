@@ -6,6 +6,7 @@ import React from 'react'
 import {UnconnectedHelKeywordSelector, filterValidations,
     handleKeywordDelete, handleKeywordChange, getKeywordIds,
 } from '../HelKeywordSelector/HelKeywordSelector';
+import SideField from '../../FormFields/SideField/SideField';
 import {HelLabeledCheckboxGroup, HelSelect} from '../index';
 import {mapKeywordSetToForm} from '../../../utils/apiDataMapping';
 import {mockKeywordSets} from '../../../../__mocks__/mockData';
@@ -55,7 +56,17 @@ describe('HelSelect', () => {
                 test('correct amount', () => {
                     const wrapper = getWrapper()
                     const formattedElement = wrapper.find(FormattedMessage)
-                    expect(formattedElement).toHaveLength(1)
+                    expect(formattedElement).toHaveLength(3)
+                })
+            })
+            describe('Sidefield', () => {
+                test('correct amount & props', () => {
+                    const wrapper = getWrapper()
+                    const sideElement = wrapper.find(SideField)
+                    expect(sideElement).toHaveLength(2)
+
+                    expect(sideElement.at(0).prop('id')).toBe('editor-tip-keyword-sidefield')
+                    expect(sideElement.at(1).prop('id')).toBe('editor-tip-category-sidefield')
                 })
             })
             describe('HelLabeledCheckBoxGroup', () => {

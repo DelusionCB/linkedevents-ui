@@ -463,7 +463,6 @@
     "editor-tip-umbrella-selection": "Kattotapahtuma: tapahtuma kokoaa alleen useita muita tapahtumia. Esim. Taiteiden yö tai Elokuvapäivä.",
     "editor-tip-umbrella-selection1": "Liittyy kattotapahtumaan: tapahtuma liittyy suoraan isompaan tapahtumaan. Esim. Kirjailijatapaaminen Taiteiden yönä.",
 
-
     "editor-tip-required": "Tähdellä (*) merkityt kentät ovat pakollisia.",
     "editor-tip-umbrella": "Kattotapahtuman ohjeet",
 
@@ -472,6 +471,12 @@
 
     "editor-tip-location": "Paikan valinnan ohjeet",
     "editor-tip-eventtype-disable": "Jos haluat vaihtaa tapahtumien toistuvuutta, poista lisätyt ajat.",
+
+    "event-editor-tip-keywords": "Valitse tapahtuman sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka, mutta tarvittaessa voit valita useampia luokkia. Valitse myös tapahtuman järjestämistapaa kuvaava luokka.",
+    "hobby-editor-tip-keywords": "Valitse harrastuksen sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka.",
+    "editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat tapahtumaa/harrastusta mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). usein kuvailuun riittää 1-5 asiasanaa.",
+    "editor-tip-keyword-sidefield": "Sisällön ohjeet",
+    "editor-tip-category-sidefield": "Asiasanojen ohjeet",
 
     "editor-headerbutton-collapse": "Klikkaa sulkeaksesi osio",
     "editor-headerbutton-expand": "Klikkaa laajentaaksesi osio",
