@@ -1,9 +1,9 @@
 import {createAction} from 'redux-actions';
 import {USER_EXPIRED} from 'redux-oidc';
 
-import constants from '../constants';
+import constants from '../../constants';
 
-import user from './user';
+import user from '../user';
 
 describe('reducers/user', () => {
     test('initial state is null', () => {

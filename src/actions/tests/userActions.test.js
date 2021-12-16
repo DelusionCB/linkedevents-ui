@@ -1,5 +1,5 @@
-import {receiveUserData, clearUserData} from './user';
-import constants from '../constants.js'
+import {receiveUserData, clearUserData} from '../user';
+import constants from '../../constants.js'
 
 
 const {RECEIVE_USERDATA, CLEAR_USERDATA} = constants

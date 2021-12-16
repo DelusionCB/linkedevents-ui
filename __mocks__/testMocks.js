@@ -21,3 +21,13 @@ export function mockCurrentTime(mockTime) {
 export const resetMockDate = () => {
     global.Date = window.Date
 }
+
+/**
+ *
+ * @param initialState
+ * @param props
+ * @returns {*}
+ */
+export function getProps(initialState, props){
+    return {...initialState, ...props}
+}

@@ -144,7 +144,7 @@ export function receiveUserImagesAndMeta(response) {
 
 export function receiveDefaultImagesAndMeta(response) {
     return {
-        type: 'defaultImages',
+        type: constants.RECEIVE_DEFAULT_IMAGES,
         items: response.data.data,
         meta: response.data.meta,
     }

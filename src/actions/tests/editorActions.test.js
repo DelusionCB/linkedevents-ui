@@ -10,12 +10,18 @@ import {
     setFreeOffers,
     setLanguages,
     deleteOffer,
-    clearData} from './editor';
-import constants from '../constants.js'
-import {mockUserEvents, mockLanguages} from '__mocks__/mockData';
+    clearData,
+    validateFor,
+    receivePaymentMethods,
+    receiveKeywordSets,
+    receiveLanguages,
+} from '../editor';
+import constants from '../../constants.js'
+import {mockUserEvents, mockLanguages, mockPaymentMethods, mockKeywordSets} from '__mocks__/mockData';
 const mockEvent = mockUserEvents[0];
 
 const {
+    PUBLICATION_STATUS,
     EDITOR_SETDATA,
     EDITOR_UPDATE_SUB_EVENT,
     EDITOR_DELETE_SUB_EVENT,
@@ -25,7 +31,11 @@ const {
     EDITOR_SET_FREE_OFFERS,
     EDITOR_SETLANGUAGES,
     EDITOR_DELETE_OFFER,
-    EDITOR_CLEARDATA} = constants
+    EDITOR_CLEARDATA,
+    EDITOR_RECEIVE_LANGUAGES,
+    EDITOR_RECEIVE_KEYWORDSETS,
+    EDITOR_RECEIVE_PAYMENTMETHODS,
+    VALIDATE_FOR} = constants
 
 describe('actions/editor', () => {
     describe('setData', () => {
@@ -106,9 +116,57 @@ describe('actions/editor', () => {
         });
     });
     describe('clearData', () => {
-        test('clears all data', () => {
+        test('return object with correct type', () => {
             const expectedResult  = {type: EDITOR_CLEARDATA}
-            expect(clearData(mockEvent)).toEqual(expectedResult);
+            expect(clearData()).toEqual(expectedResult);
+        });
+    });
+    describe('validateFor', () => {
+        let expectedResult = {type: VALIDATE_FOR};
+        beforeEach(() => {
+            expectedResult = {type: VALIDATE_FOR};
+        })
+        test('returns correct object when publicationStatus is public', () => {
+            expectedResult.validateFor = PUBLICATION_STATUS.PUBLIC;
+            expect(validateFor(PUBLICATION_STATUS.PUBLIC)).toEqual(expectedResult);
+        });
+        test('returns correct object when publicationStatus is draft', () => {
+            expectedResult.validateFor = PUBLICATION_STATUS.DRAFT;
+            expect(validateFor(PUBLICATION_STATUS.DRAFT)).toEqual(expectedResult);
+        });
+        test('returns correct object when no publicationStatus', () => {
+            expectedResult.validateFor = null;
+            expect(validateFor()).toEqual(expectedResult);
+        })
+    });
+    describe('receivePaymentMethods', () => {
+        test('returns object with correct values & saves payment methods to localStorage', () => {
+            localStorage.clear()
+            const paymentMethods = mockPaymentMethods
+            const expectedResult  = {type: EDITOR_RECEIVE_PAYMENTMETHODS, paymentMethods}
+            expect(receivePaymentMethods(paymentMethods)).toEqual(expectedResult);
+            const expectedLocalStorage = JSON.stringify(paymentMethods);
+            expect(localStorage.getItem('PAYMENTMETHODS')).toEqual(expectedLocalStorage);
+        });
+    });
+    describe('receiveKeywordSets', () => {
+        test('returns object with correct values & saves keywordSets to localStorage', () => {
+            localStorage.clear()
+            const keywordSets = mockKeywordSets
+            const expectedResult  = {type: EDITOR_RECEIVE_KEYWORDSETS, keywordSets}
+            expect(receiveKeywordSets(keywordSets)).toEqual(expectedResult);
+            const expectedLocalStorage = JSON.stringify(keywordSets);
+            expect(localStorage.getItem('KEYWORDSETS')).toEqual(expectedLocalStorage);
+        });
+    });
+    describe('receiveLanguages', () => {
+        test('returns object with correct values & saves languages to localStorage', () => {
+            localStorage.clear()
+            const languages = mockLanguages
+            const expectedResult  = {type: EDITOR_RECEIVE_LANGUAGES, languages}
+            expect(receiveLanguages(languages)).toEqual(expectedResult);
+            const expectedLocalStorage = JSON.stringify(languages);
+            expect(localStorage.getItem('LANGUAGES')).toEqual(expectedLocalStorage);
         });
     });
 });

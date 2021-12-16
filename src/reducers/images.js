@@ -27,7 +27,7 @@ function update(state = initialState, action) {
         });
     }
 
-    if (action.type === 'defaultImages') {
+    if (action.type === constants.RECEIVE_DEFAULT_IMAGES) {
         return Object.assign({}, state, {
             isFetching: false,
             fetchComplete: true,

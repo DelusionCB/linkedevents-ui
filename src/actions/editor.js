@@ -23,7 +23,7 @@ const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_RECURRING, EVENT_CREATION, SUB_EVENT
 
 /**
  * Set editor form data
- * @param {obj} formValues      new form values
+ * @param {obj} values  new form values
  */
 export function setData(values) {
     return {
@@ -166,11 +166,9 @@ export const clearData = () =>  ({type: constants.EDITOR_CLEARDATA})
  * @param {obj} errors
  */
 export function setValidationErrors(errors) {
-    return (dispatch) => {
-        dispatch({
-            type: constants.SET_VALIDATION_ERRORS,
-            errors: errors,
-        })
+    return {
+        type: constants.SET_VALIDATION_ERRORS,
+        errors: errors,
     }
 }
 
