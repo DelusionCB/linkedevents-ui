@@ -10,7 +10,7 @@ import {doValidations} from 'src/validation/validator.js'
 let editorValues = {
     sub_events: {},
 }
-let languages = {}
+let languages = []
 let keywordSets = {}
 let paymentMethods = {}
 try {
@@ -26,7 +26,7 @@ try {
 
 const initialState = {
     values: editorValues || {},
-    languages: languages,
+    languages: languages || [],
     contentLanguages: ['fi'],
     keywordSets: keywordSets,
     paymentMethods: paymentMethods,
