@@ -89,6 +89,24 @@ describe('HelSelect', () => {
                         expect(element.prop('currentLocale')).toBe(defaultProps.currentLocale)
                     })
                 })
+
+                test('third extra group is rendered when there is atleast 1 option in the extra group', () => {
+                    mapKeywordSetToForm.mockImplementation(() => {
+                        return [{test: 'kw-1'}, {test: 'kw-2'}]
+                    })           
+                    const groups = getWrapper().find(HelLabeledCheckboxGroup)
+                    expect(groups).toHaveLength(3)
+                    const extraGroup = groups.at(2)
+                    expect(extraGroup.prop('groupLabel')).toEqual(<FormattedMessage id='event-categories-extra'/>)
+                    expect(extraGroup.prop('selectedValues')).toBe(defaultProps.editor.values.keywords)
+                    expect(extraGroup.prop('name')).toBe('keywords')
+                    expect(extraGroup.prop('disabled')).toBe(defaultProps.disabled)
+                    expect(extraGroup.prop('itemClassName')).toBe('col-lg-6')
+                    expect(extraGroup.prop('options')).toBeDefined()
+                    expect(extraGroup.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
+                    expect(extraGroup.prop('customOnChangeHandler')).toBeDefined()
+                    expect(extraGroup.prop('currentLocale')).toBe(defaultProps.currentLocale)
+                })
             })
             describe('HelSelect', () => {
                 test('correct props', () => {
@@ -148,9 +166,10 @@ describe('HelSelect', () => {
                 })
 
                 test('mapKeywordSetToForm called with correct params', () => {
-                    expect(mapKeywordSetToForm).toHaveBeenCalledTimes(2)
+                    expect(mapKeywordSetToForm).toHaveBeenCalledTimes(3)
                     expect(mapKeywordSetToForm).toHaveBeenNthCalledWith(1, defaultProps.editor.keywordSets, 'turku:topic_content', defaultProps.currentLocale)
                     expect(mapKeywordSetToForm).toHaveBeenNthCalledWith(2, defaultProps.editor.keywordSets, 'turku:topic_type', defaultProps.currentLocale)
+                    expect(mapKeywordSetToForm).toHaveBeenNthCalledWith(3, defaultProps.editor.keywordSets, 'system:extra', defaultProps.currentLocale)
                 })
             })
         })

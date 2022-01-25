@@ -435,6 +435,7 @@
     "event-categories-header-type": "Välj minst en av varje kategori",
     "categories-header-content": "Innehåll*",
     "event-categories-type": "Innehållets typ*",
+    "event-categories-extra": "Ytterligare kategorier",
 
     "editor-publish-draft-warning": "OBS. Denna funktion publicerar evenemanget på Internet. Evenemangsförslagets ursprungliga skapare kan inte mera redigera evenemanget.",
     "editor-publish-draft-extra-warning": "Följande evenemang publiceras:",

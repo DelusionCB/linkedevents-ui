@@ -127,6 +127,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "event-add-recurring-error": "Vähennä ajankohtien lukumäärää, korkein sallittu määrä on {count} kappaletta, olet lisäämässä {subEventcount} kappaletta.",
       "event-add-recurring-limit": "Toistuvia ajankohtia voi olla korkeintaan {count} kappaletta, olet lisäämässä {subEventcount} kappaletta.",
       "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
+      "event-categories-extra": "Lisäluokat",
       "event-categories-header-type": "Valitse vähintään yksi molemmista luokista",
       "event-categories-type": "Tapahtuman tyyppi*",
       "event-categorization": "Tapahtuman luokittelu",

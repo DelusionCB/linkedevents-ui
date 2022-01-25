@@ -75,7 +75,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
     const typeSet = getCurrentTypeSet(values.type_id)
     const mainCategoryOptions = mapKeywordSetToForm(keywordSets, typeSet, currentLocale)
     const secondaryCategoryOptions = mapKeywordSetToForm(keywordSets, 'turku:topic_type', currentLocale)
-
+    const extraCategoryOptions = mapKeywordSetToForm(keywordSets, 'system:extra', currentLocale)
     return (
         <div className='keyword-selector'>
             <FormattedMessage id={`${localeType}-categories-header-type`}>{txt => <h3>{txt}</h3>}</FormattedMessage>
@@ -109,6 +109,21 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                     setDirtyState={setDirtyState}
                     customOnChangeHandler={(checkedOptions) => {
                         handleKeywordChange(checkedOptions, keywords, secondaryCategoryOptions, setData)
+                    }}
+                    currentLocale={currentLocale}
+                />
+                }
+                {(extraCategoryOptions && extraCategoryOptions.length > 0) &&
+                <HelLabeledCheckboxGroup
+                    groupLabel={<FormattedMessage id="event-categories-extra"/>}
+                    selectedValues={keywords}
+                    name="keywords"
+                    disabled={disabled}
+                    itemClassName="col-lg-6"
+                    options={extraCategoryOptions}
+                    setDirtyState={setDirtyState}
+                    customOnChangeHandler={(checkedOptions) => {
+                        handleKeywordChange(checkedOptions, keywords, extraCategoryOptions, setData)
                     }}
                     currentLocale={currentLocale}
                 />

@@ -418,6 +418,7 @@
     "hobby-categories-header-type": "Valitse vähintään yksi luokka",
     "categories-header-content": "Sisältö*",
     "event-categories-type": "Tapahtuman tyyppi*",
+    "event-categories-extra": "Lisäluokat",
 
     "editor-publish-draft-warning": "HUOM. Tämä toiminto julkaisee tapahtuman Internetiin. Tapahtumaehdotuksen alkuperäinen tekijä ei voi enää muokata tapahtumaa.",
     "editor-publish-draft-extra-warning": "Seuraavat tapahtumat julkaistaan:",

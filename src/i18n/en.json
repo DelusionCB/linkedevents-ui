@@ -291,6 +291,7 @@
     "event-categories-header-type": "Select at least one from each category",
     "categories-header-content": "Content*",
     "event-categories-type": "Type of event*",
+    "event-categories-extra": "Additional categories",
 
     "event-categorization": "Categorization",
     "hobby-categorization": "Categorization",
