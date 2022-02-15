@@ -9,15 +9,16 @@
         .keywordItemParent {
             display: flex;
             align-items: flex-start;
+            label:first-letter {
+                text-transform: capitalize;
+            }
         }
         .keywordItemChild {
             display: flex;
             align-items: flex-start;
             margin-left: 25px;
-            label {
-                &:first-letter {
-                    text-transform: capitalize;
-                }
+            label:first-letter {
+                text-transform: capitalize;
             }
         }
         .keywordItemOption {
@@ -25,6 +26,9 @@
             display: flex;
             align-items: flex-start;
             margin-left: 50px;
+            label:first-letter {
+                    text-transform: capitalize;
+            }
         }
         .keywordButton {
             background-color: transparent;
