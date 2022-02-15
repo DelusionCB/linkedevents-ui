@@ -1,6 +1,6 @@
 import './HelSelect.scss'
 
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, useState} from 'react'
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async'
 import {setData as setDataAction} from '../../actions/editor'
@@ -10,106 +10,83 @@ import ValidationNotification from '../ValidationNotification'
 import client from '../../api/client'
 import {injectIntl} from 'react-intl'
 import {getStringWithLocale} from '../../utils/locale';
+import {ariaOverrides, optionsMessageValue, screenReaderOverrideValue} from './utils/SelectHelper';
 
-const HelSelect = ({
+const LocationSelect = ({
     intl,
     setData,
     isClearable,
     isMultiselect,
-    name,
     setDirtyState,
     resource,
     legend,
     selectedValue,
     validationErrors,
     placeholderId,
-    customOnChangeHandler,
+    name,
     optionalWrapperAttributes,
     currentLocale,
     required,
-    inputValue,
     disabled,
 })  => {
     const labelRef = useRef(null)
     const selectInputRef = useRef(null)
 
+
     // react-select doesnt support attributes aria-required or required
     // this is a workaround way to add aria-required to react-select
     useEffect(() => {
         if (required && selectInputRef.current) {
-            selectInputRef.current.select.select.inputRef.setAttribute('aria-required', 'true');
+            selectInputRef.current.inputRef.setAttribute('aria-required', 'true');
         }
     }, [selectInputRef.current, required])
 
     useEffect(() => {
-        if (validationErrors && name === 'location') {
-            selectInputRef.current.select.select.inputRef.setAttribute('class', 'validation-notification')
+        if (validationErrors) {
+            selectInputRef.current.inputRef.setAttribute('class', 'validation-notification')
         } else {
-            selectInputRef.current.select.select.inputRef.removeAttribute('class');
+            selectInputRef.current.inputRef.removeAttribute('class');
         }
     }, [validationErrors])
 
     useEffect(() => {
         const input = document.getElementById('react-select-2-input')
-        if (input && name === 'location') {
+        if (input) {
             const newDiv = document.createElement('div');
             const parentDiv = document.getElementById('react-select-2-input').parentElement
             parentDiv.insertBefore(newDiv, input)
         }
-    }, [name])
+    }, [])
 
+
+    /**
+     * setData to redux for location data
+     * if value is null, set the data null.
+     * @param {Object} value
+     */
     const onChange = (value) => {
-        // let the custom handler handle the change if given
-        if (typeof customOnChangeHandler === 'function') {
-            customOnChangeHandler(value)
-        // otherwise set data
+        if (isNil(value)) {
+            setData({[name]: null})
         } else {
-            if (isNil(value)) {
-                setData({[name]: null})
-            } else {
-                if (name === 'keywords') {
-                    setData({[name]: value})
-                }
-                if (name === 'location') {
-                    setData({[name]: {
-                        name: value.names,
-                        id: value.value,
-                        '@id': value['@id'],
-                        position: value.position,
-                    }})
-                }
-            }
+            setData({[name]: {
+                name: value.names,
+                id: value.value,
+                '@id': value['@id'],
+                position: value.position,
+            }})   
         }
-
         if (setDirtyState) {
             setDirtyState()
         }
     }
 
-    const getKeywordOptions = async (input) => {
-        const queryParams = {
-            show_all_keywords: 1,
-            data_source: 'yso',
-            text: input,
-        }
-
-        try {
-            const response = await client.get(`${resource}`, queryParams)
-            const options = response.data.data
-
-            return options.map((item) => {
-                return ({
-                    value: item['@id'],
-                    label: getStringWithLocale(item,'name', currentLocale || intl.locale),
-                    n_events: item.n_events,
-                    name: item.name,
-                })
-            })
-        } catch (e) {
-            throw Error(e)
-        }
-    }
-
+    /**
+     * Takes users input w/ & parameters and
+     * returns formatted object with data
+     * for usage in other functions & React-selects AsyncSelect
+     * @param {String} input
+     * @returns {Promise<*>}
+     */
     const getLocationOptions = async (input) => {
         const queryParams = {
             show_all_places: 1,
@@ -138,7 +115,6 @@ const HelSelect = ({
                         names[`${lang}`] = `${itemNames[`${lang}`]} (${getStringWithLocale(item, 'street_address',`${lang}`)})`;
                     });
                 }
-
                 return {
                     label: previewLabel,
                     value: item.id,
@@ -154,37 +130,39 @@ const HelSelect = ({
         }
     }
 
+    /**
+     * Returns getLocationOptions with input if input.length > 2
+     * We limit search with inputs length for better results.
+     * @param {String} input
+     * @returns {Promise<*|undefined>}
+     */
     const getOptions = async (input) => {
         if (input.length > 2) {
-            if (name === 'keywords') {
-                return getKeywordOptions(input)
-            }
-            if (name === 'location') {
-                return getLocationOptions(input)
-            }
+            return getLocationOptions(input)
         }
     }
 
+    /**
+     * if React-selects selectedValue is null or has obj.key length 0,
+     * @return null, else
+     * @returns {{label: string, value}|null}
+     */
     const getDefaultValue = () => {
         if (!selectedValue || Object.keys(selectedValue).length === 0) {
             return null
         }
-        if (name === 'keywords') {
-            return selectedValue.map((item) => {
-                return ({
-                    label: getStringWithLocale(item,'label', currentLocale || intl.locale),
-                    value: item.value,
-                })
-            })
-        }
-        if (name === 'location') {
-            return ({
-                label: getStringWithLocale(selectedValue,'name', currentLocale || intl.locale),
-                value: selectedValue.id,
-            })
-        }
+        return ({
+            label: getStringWithLocale(selectedValue,'name', currentLocale || intl.locale),
+            value: selectedValue.id,
+        })
     }
 
+    /**
+     * Takes label & n_count from item & formats it for React-selects AsyncSelect
+     * to display it in the menu
+     * @param {Object} item
+     * @returns {JSX.Element}
+     */
     const formatOption = (item) => (
         <React.Fragment>
             {item.label}
@@ -200,10 +178,12 @@ const HelSelect = ({
         </React.Fragment>
     )
 
-    const filterOptions = (candidate, input) => {
-        // no need to filter data returned by the api, text filter might have matched to non-displayed fields
-        return true
-    }
+    /**
+     *  Override React-selects own styles for control
+     *  in order to display glyphicon & custom styling w/ validationErrors
+     * @param {Array} styles
+     * @returns styles
+     */
     const invalidStyles = (styles) => (
         {...styles,
             borderColor: validationErrors ? '#ff3d3d' : 'black',
@@ -226,9 +206,13 @@ const HelSelect = ({
     )
 
     const optionsMessage = (value) => {
-        const messageId = value.length > 2 ? 'search-no-results' : 'search-minimum-length';
-        return intl.formatMessage({id: messageId});
+        return intl.formatMessage(optionsMessageValue(value));
     }
+
+    const screenReaderOverride = (obj) => {
+        return  intl.formatMessage(...screenReaderOverrideValue(obj))
+    }
+
 
     return (
         <div {...optionalWrapperAttributes}>
@@ -244,12 +228,13 @@ const HelSelect = ({
                 placeholder={intl.formatMessage({id: placeholderId})}
                 loadingMessage={() => intl.formatMessage({id: 'loading'})}
                 noOptionsMessage={({inputValue}) => optionsMessage(inputValue)}
-                filterOption={filterOptions}
                 formatOptionLabel={formatOption}
                 aria-label={intl.formatMessage({id: placeholderId})}
                 ref={selectInputRef}
                 styles={{control: invalidStyles}}
                 isDisabled={disabled}
+                ariaLiveMessages={ariaOverrides(intl, placeholderId)}
+                screenReaderStatus={screenReaderOverride}
             />
             <ValidationNotification
                 anchor={labelRef.current}
@@ -260,14 +245,14 @@ const HelSelect = ({
     )
 }
 
-HelSelect.defaultProps = {
+LocationSelect.defaultProps = {
     placeholderId: 'select',
     isClearable: true,
     isMultiselect: false,
     required: false,
 }
 
-HelSelect.propTypes = {
+LocationSelect.propTypes = {
     inputValue: PropTypes.string,
     intl: PropTypes.object,
     setData: PropTypes.func,
@@ -287,6 +272,7 @@ HelSelect.propTypes = {
         PropTypes.object,
     ]),
     placeholderId: PropTypes.string,
+    ariaId: PropTypes.string,
     customOnChangeHandler: PropTypes.func,
     optionalWrapperAttributes: PropTypes.object,
     currentLocale: PropTypes.string,
@@ -296,5 +282,5 @@ HelSelect.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
     setData: (value) => dispatch(setDataAction(value)),
 })
-export {HelSelect as UnconnectedHelSelect}
-export default connect(null, mapDispatchToProps)(injectIntl(HelSelect))
+export {LocationSelect as UnconnectedLocationSelect}
+export default connect(null, mapDispatchToProps)(injectIntl(LocationSelect))

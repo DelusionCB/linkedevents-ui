@@ -7,7 +7,8 @@ import {UnconnectedHelKeywordSelector, filterValidations,
     handleKeywordDelete, handleKeywordChange, getKeywordIds,
 } from '../HelKeywordSelector/HelKeywordSelector';
 import SideField from '../../FormFields/SideField/SideField';
-import {HelLabeledCheckboxGroup, HelSelect} from '../index';
+import {HelLabeledCheckboxGroup} from '../index';
+import KeywordSearch from '../KeywordSearch/KeywordSearch';
 import {mapKeywordSetToForm} from '../../../utils/apiDataMapping';
 import {mockKeywordSets} from '../../../../__mocks__/mockData';
 import CONSTANTS from '../../../constants';
@@ -108,16 +109,15 @@ describe('HelSelect', () => {
                     expect(extraGroup.prop('currentLocale')).toBe(defaultProps.currentLocale)
                 })
             })
-            describe('HelSelect', () => {
+            describe('KeywordSearch', () => {
                 test('correct props', () => {
                     const wrapper = getWrapper()
-                    const selectElement = wrapper.find(HelSelect)
+                    const selectElement = wrapper.find(KeywordSearch)
                     expect(selectElement).toHaveLength(1)
                     expect(selectElement.prop('legend')).toBe(intl.formatMessage({id: 'event-keywords'}))
                     expect(selectElement.prop('name')).toBe('keywords')
                     expect(selectElement.prop('resource')).toBe('keyword')
                     expect(selectElement.prop('disabled')).toBe(defaultProps.disabled)
-                    expect(selectElement.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                     expect(selectElement.prop('customOnChangeHandler')).toBeDefined()
                     expect(selectElement.prop('currentLocale')).toBe(defaultProps.currentLocale)
                     expect(selectElement.prop('placeholderId')).toBe('event-keywords-search')

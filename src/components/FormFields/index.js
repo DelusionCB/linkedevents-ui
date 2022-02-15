@@ -9,7 +9,7 @@ import {
     HelTextField,
     HelLabeledCheckboxGroup,
     HelLanguageSelect,
-    HelSelect,
+    LocationSelect,
     HelOffersField,
     NewEvent,
     HelKeywordSelector,
@@ -449,7 +449,7 @@ class FormFields extends React.Component {
                                         disabled={userDoesNotExist || !values.is_virtualevent}
                                     />
                                 </div>
-                                <HelSelect
+                                <LocationSelect
                                     legend={this.context.intl.formatMessage({id: 'event-location'})}
                                     selectedValue={values['location']}
                                     ref="location"

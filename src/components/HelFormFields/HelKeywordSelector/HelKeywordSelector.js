@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {get, isNil, uniqBy} from 'lodash'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
-import {HelLabeledCheckboxGroup, HelSelect} from '../index'
+import {HelLabeledCheckboxGroup} from '../index'
 import SelectedKeywords from '../../SelectedKeywords/SelectedKeywords'
 import {mapKeywordSetToForm} from '../../../utils/apiDataMapping'
 import {setData as setDataAction} from '../../../actions/editor'
@@ -14,6 +14,7 @@ import {UncontrolledTooltip} from 'reactstrap'
 import {getCurrentTypeSet} from '../../../utils/helpers';
 import constants from '../../../constants';
 import SideField from '../../FormFields/SideField/SideField';
+import KeywordSearch from '../KeywordSearch/KeywordSearch';
 
 export const handleKeywordChange = (checkedOptions, keywords, mainCategoryOptions, setData) => {
     if (isNil(checkedOptions)) {
@@ -133,15 +134,16 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 <FormattedMessage id={`${localeType}-editor-tip-keyword-selection`} />
             </SideField>
             <div className="col-sm-6 hel-select keywords-select">
-                <HelSelect
+                <KeywordSearch
                     legend={intl.formatMessage({id: 'event-keywords'})}
+                    keywordData={keywords}
                     name="keywords"
                     resource="keyword"
                     disabled={disabled}
-                    setDirtyState={setDirtyState}
                     customOnChangeHandler={(selectedOption) =>
                         handleKeywordChange(selectedOption, keywords, mainCategoryOptions, setData)
                     }
+                    deleteValue={(deletedItem) => handleKeywordDelete(deletedItem, keywords, setData)}
                     currentLocale={currentLocale}
                     placeholderId={'event-keywords-search'}
                 />

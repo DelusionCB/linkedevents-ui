@@ -23,6 +23,9 @@ class HelCheckbox extends React.Component {
         if (typeof this.props.onChange === 'function') {
             this.props.onChange(event, newValue);
         }
+        if (typeof this.props.onChangeValue === 'function') {
+            this.props.onChangeValue(event)
+        }
     }
 
     getValidationErrors() {
@@ -49,7 +52,6 @@ class HelCheckbox extends React.Component {
             }
         }
         const {fieldID} = this.props;
-
         return (
             <div className='custom-control custom-checkbox'>
                 <input
@@ -80,8 +82,9 @@ HelCheckbox.contextTypes = {
 HelCheckbox.propTypes = {
     name: PropTypes.string,
     onChange: PropTypes.func,
+    onChangeValue: PropTypes.func,
     required: PropTypes.bool,
-    label: PropTypes.object,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     defaultChecked: PropTypes.bool,
     id: PropTypes.string,
     fieldID: PropTypes.string,

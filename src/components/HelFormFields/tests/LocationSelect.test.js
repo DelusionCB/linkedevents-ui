@@ -5,7 +5,7 @@ import mapValues from 'lodash/mapValues';
 import React from 'react'
 import AsyncSelect from 'react-select/async'
 import ValidationNotification from '../../ValidationNotification'
-import {UnconnectedHelSelect} from '../HelSelect'
+import {UnconnectedLocationSelect} from '../LocationSelect'
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -23,7 +23,7 @@ const defaultProps = {
 
 describe('HelSelect', () => {
     function getWrapper(props) {
-        return mount(<UnconnectedHelSelect {...defaultProps} {...props} />, {context: {intl, dispatch}});
+        return mount(<UnconnectedLocationSelect {...defaultProps} {...props} />, {context: {intl, dispatch}});
     }
 
     describe('renders', () => {
@@ -50,7 +50,7 @@ describe('HelSelect', () => {
             describe('AsyncSelect input', () => {
                 const wrapper = getWrapper()
                 const selectInput = wrapper.find('input')
-                test('find input inside HelSelects AsyncSelect', () => {
+                test('find input inside LocationSelects AsyncSelect', () => {
                     expect(selectInput).toHaveLength(1)
                 })
                 test('correct props on input', () => {

@@ -1,0 +1,41 @@
+.keywordBoxes {
+    display: none;
+    &.hasValue {
+        display: block;
+        max-height: 350px;
+        overflow-y: scroll;
+        border: 1px solid black;
+        padding-top: 10px;
+        .keywordItemParent {
+            display: flex;
+            align-items: flex-start;
+        }
+        .keywordItemChild {
+            display: flex;
+            align-items: flex-start;
+            margin-left: 25px;
+            label {
+                &:first-letter {
+                    text-transform: capitalize;
+                }
+            }
+        }
+        .keywordItemOption {
+            font-weight: bold;
+            display: flex;
+            align-items: flex-start;
+            margin-left: 50px;
+        }
+        .keywordButton {
+            background-color: transparent;
+            width: 50px;
+            border: 0;
+        }
+        .notPaddedUl {
+            padding-inline-start: 0px;
+        }
+        .paddedUl {
+            padding-inline-start: 20px;
+        }
+    }
+}

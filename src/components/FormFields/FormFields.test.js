@@ -9,7 +9,7 @@ import {
     HelTextField,
     HelLabeledCheckboxGroup,
     HelLanguageSelect,
-    HelSelect,
+    LocationSelect,
     HelCheckbox,
     HelOffersField,
     HelKeywordSelector,
@@ -575,19 +575,19 @@ describe('FormField', () => {
                     expect(hellangselect.prop('disabled')).toBe(false)
                 })
             })
-            describe('HelSelect', () => {
+            describe('LocationSelect', () => {
                 const wrapper = getWrapper()
-                const helselect = wrapper.find(HelSelect)
+                const locationSelect = wrapper.find(LocationSelect)
                 test('correct props for HelSelect ', () => {
-                    expect(helselect.prop('selectedValue')).toBe(defaultProps.editor.values.location)
-                    expect(helselect.prop('name')).toBe('location')
-                    expect(helselect.prop('resource')).toBe('place')
-                    expect(helselect.prop('validationErrors')).toEqual(defaultProps.editor.validationErrors.location)
-                    expect(helselect.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
-                    expect(helselect.prop('optionalWrapperAttributes')).toEqual({className: 'location-select'})
-                    expect(helselect.prop('currentLocale')).toBe(intl.locale)
-                    expect(helselect.prop('required')).toBe(true)
-                    expect(helselect.prop('disabled')).toBe(false)
+                    expect(locationSelect.prop('selectedValue')).toBe(defaultProps.editor.values.location)
+                    expect(locationSelect.prop('name')).toBe('location')
+                    expect(locationSelect.prop('resource')).toBe('place')
+                    expect(locationSelect.prop('validationErrors')).toEqual(defaultProps.editor.validationErrors.location)
+                    expect(locationSelect.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
+                    expect(locationSelect.prop('optionalWrapperAttributes')).toEqual({className: 'location-select'})
+                    expect(locationSelect.prop('currentLocale')).toBe(intl.locale)
+                    expect(locationSelect.prop('required')).toBe(true)
+                    expect(locationSelect.prop('disabled')).toBe(false)
                 })
             })
             describe('HelOffersField', () => {
