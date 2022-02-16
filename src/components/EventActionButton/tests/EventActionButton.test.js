@@ -2,10 +2,9 @@ import React from 'react'
 import {shallow} from 'enzyme';
 import {IntlProvider,FormattedMessage} from 'react-intl';
 import mapValues from 'lodash/mapValues';
-import {Button, Input} from 'reactstrap';
+import {Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
-
 import fiMessages from 'src/i18n/fi.json';
 import {UnconnectedEventActionButton} from '../EventActionButton'
 import constants from '../../../constants';
@@ -31,6 +30,7 @@ describe('EventActionButton', () => {
         loading: false,
         runAfterAction: () => {},
         subEvents: [],
+        superEvent: {},
         idPrefix: 'prefix',
     }
 
@@ -120,7 +120,7 @@ describe('EventActionButton', () => {
                 });
             })
 
-            test('returns false when action is not ublish, update or update-draft', () => {
+            test('returns false when action is not publish, update or update-draft', () => {
                 const instance = getWrapper().instance()
                 expect(instance.isSaveButton('test-action')).toBe(false)
             })
@@ -136,6 +136,38 @@ describe('EventActionButton', () => {
                 event.target.checked = false
                 instance.handleChange(event)
                 expect(instance.state.agreedToTerms).toBe(false)
+            })
+        })
+
+        describe('disabled control', () => {
+            const user = {userType: USER_TYPE.ADMIN}
+            const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
+            const action = 'delete'
+            function getEvents(count = 0, type = constants.SUPER_EVENT_TYPE_RECURRING) {
+                const sub_events = [];
+                for(let i = 0; i < count; i++) {
+                    sub_events.push({test: `random value ${i}`});
+                }
+                return {
+                    sub_events: sub_events,
+                    super_event_type: type,
+                }
+            }
+
+            test('is disabled when action is delete & superEvent only has 2 subs', () => {
+                const wrapper = getWrapper({user, event, action, superEvent: getEvents(2)})
+                const button = wrapper.find(Button)
+                expect(button.prop('aria-disabled')).toBe(true)
+            })
+            test('is not disabled when action is delete & superEvent has more than 2 subs', () => {
+                const wrapper = getWrapper({user, event, action, superEvent: getEvents(3)})
+                const button = wrapper.find(Button)
+                expect(button.prop('aria-disabled')).toBe(false)
+            })
+            test('is not disabled when super event is umbrella', () => {
+                const wrapper = getWrapper({user, event, action, superEvent: getEvents(2, constants.SUPER_EVENT_TYPE_UMBRELLA)})
+                const button = wrapper.find(Button)
+                expect(button.prop('aria-disabled')).toBe(false)
             })
         })
     })

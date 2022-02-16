@@ -18,7 +18,7 @@ import RecurringEvent from 'src/components/RecurringEvent'
 import {Button, Form, FormGroup, Collapse, UncontrolledCollapse} from 'reactstrap';
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData, clearValue} from '../../actions/editor'
-import {get, isNull, isString, pickBy} from 'lodash'
+import {get, isNull, pickBy} from 'lodash'
 import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
@@ -35,6 +35,7 @@ import SideField from './SideField/SideField';
 import HelCheckbox from '../HelFormFields/HelCheckbox';
 import LoginNotification from './LoginNotification/LoginNotification'
 import {getEventLanguageType} from '../../utils/locale';
+import ValidationNotification from '../ValidationNotification';
 
 
 let FormHeader = ({type = 'h3', messageID}) => {
@@ -101,7 +102,12 @@ class FormFields extends React.Component {
         if ((Object.keys(prevProps.editor.validationErrors).length === 0) && (Object.keys(this.props.editor.validationErrors).length > 0)) {
             this.setState({headerPrices: true, headerSocials: true, headerCategories: true, headerInlanguage: true, headerLocationDate: true, headerImage: true, headerCourses: true});
         }
-        if (prevState.selectEventType === 'recurring' && Object.keys(this.props.editor.values.sub_events).length === 0) {
+        // if the last sub_event of a recurring event was deleted -> toggle to single.
+        if (
+            prevState.selectEventType === 'recurring' &&
+            Object.keys(prevProps.editor.values.sub_events).length > 0 &&
+            Object.keys(this.props.editor.values.sub_events).length === 0
+        ) {
             this.toggleEventType({target: {value: 'single'}})
         }
 
@@ -187,8 +193,8 @@ class FormFields extends React.Component {
 
         let newEvents = []
         const keys = Object.keys(events)
-        // if more than 2 events -> focus last otherwise focus first
-        const focusEvent = keys.length > 2 ? keys[keys.length - 1] : keys[0];
+        // Focus moved to last if new events are added to a recurring event.
+        const focusEvent = keys.length > 1 ? keys[keys.length - 1] : keys[0];
 
         for (const key in events) {
             if (events.hasOwnProperty(key)) {
@@ -200,7 +206,6 @@ class FormFields extends React.Component {
                         event={events[key]}
                         errors={subEventErrors[key] || {}}
                         setInitialFocus={createdRecurringEvents ? false : key === focusEvent}
-                        subErrors={this.props.editor.validationErrors}
                         localeType={localeType}
                     />
                 )
@@ -241,14 +246,17 @@ class FormFields extends React.Component {
      *  or sub_event related values
      */
     toggleEventType = (event) => {
-        const type = event.target.value === 'single' ? '' : event.target.value;
+        const updatedState = {
+            selectEventType: event.target.value === 'single' ? '' : event.target.value,
+        };
         if (event.target.value === 'single') {
-            this.context.dispatch(setData({sub_events: {}}))
+            this.context.dispatch(setData({sub_events: {}}));
         } else if (event.target.value === 'recurring' && !this.state.selectEventType) {
-            this.context.dispatch(clearValue(['start_time', 'end_time']))
-            this.addNewEventDialog(true)
+            this.context.dispatch(clearValue(['start_time', 'end_time']));
+            updatedState['createdRecurringEvents'] = true;
+            this.addNewEventDialog(true);
         }
-        this.setState({selectEventType: type});
+        this.setState(updatedState);
     }
 
     /**
@@ -669,7 +677,11 @@ class FormFields extends React.Component {
                                             <span aria-hidden='true' className="glyphicon glyphicon-plus"/>
                                             <FormattedMessage id="event-add-new-occasion">{txt =>txt}</FormattedMessage>
                                         </Button>
-
+                                        <ValidationNotification
+                                            className='validation-notification'
+                                            anchor={{}}
+                                            validationErrors={validationErrors && validationErrors['sub_length']}
+                                        />
                                         <Button
                                             size='lg' block
                                             variant="contained"

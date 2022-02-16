@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import {Button} from 'reactstrap';
 import {Helmet} from 'react-helmet';
-//Replaced Material-ui Spinner for a Bootstrap implementation. - Turku
 import Spinner from 'react-bootstrap/Spinner'
 import {push} from 'connected-react-router'
 import {replaceData as replaceDataAction} from 'src/actions/editor.js'
@@ -154,10 +153,10 @@ class EventPage extends React.Component {
             <span>
                 <FormattedMessage id="event-publisher-info" values={{publisher: publisher.name}}/>
                 {creator && email &&
-                    <React.Fragment>
-                        <span> | {creator} | </span>
-                        <a href={`mailto:${email}`}>{email}</a>
-                    </React.Fragment>
+                <React.Fragment>
+                    <span> | {creator} | </span>
+                    <a href={`mailto:${email}`}>{email}</a>
+                </React.Fragment>
                 }
                 <span> | {publishedAt}</span>
             </span>
@@ -216,7 +215,7 @@ class EventPage extends React.Component {
      * @returns {*}
      */
     getActionButton = (action, idPrefix, customAction, confirm = true,) => {
-        const {event, subEvents, loading} = this.state
+        const {event, subEvents, superEvent, loading} = this.state
         const {intl} = this.props;
 
         return <EventActionButton
@@ -227,6 +226,7 @@ class EventPage extends React.Component {
             loading={loading}
             runAfterAction={this.handleConfirmedAction}
             subEvents={subEvents}
+            superEvent={superEvent}
             intl={intl}
             idPrefix={idPrefix}
         />
@@ -258,7 +258,6 @@ class EventPage extends React.Component {
             else if(action === 'postpone'){
                 setFlashMsg(EVENT_CREATION.UPDATE_SUCCESS, 'success', {sticky: false})
             }
-            
             this.fetchEventData()
         }
     }

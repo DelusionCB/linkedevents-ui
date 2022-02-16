@@ -526,6 +526,7 @@
     "user-no-rights-create": "Sinulla ei ole oikeuksia julkaista tapahtumia.",
     "return-without-saving": "Palaa tekemättä muutoksia",
     "return-to-events": "Palaa takaisin tapahtumiin",
+    "not-enough-sub-events": "Sarjalla tulee olla vähintään 2 sisältöä",
 
     "format-select-count": " ({count} tapahtumaa)",
 

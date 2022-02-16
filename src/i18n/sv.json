@@ -542,6 +542,7 @@
     "user-no-rights-create": "Du har inte rättigheter att publicera evenemang.",
     "return-without-saving": "Återvänd utan att göra förändringar",
     "return-to-events": "Återvänd till evenemangen",
+    "not-enough-sub-events": "Serie måste innehålla åtminstone 2 innehåll",
 
     "format-select-count": " ({count} evenemang)",
     "upload-image-from-url": "Eller mata in adressen (URL) av en extern bild",

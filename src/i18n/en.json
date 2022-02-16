@@ -528,6 +528,7 @@
     "user-no-rights-create": "You have insufficient rights to create events.",
     "return-without-saving": "Return without changes",
     "return-to-events": "Return to events",
+    "not-enough-sub-events": "Series needs to contain atleast 2 contents",
 
     "format-select-count": " ({count} events)",
     "upload-image-from-url": "Upload image from URL",

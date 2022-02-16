@@ -119,7 +119,7 @@ export const eventIsEditable = (event) => {
     return {editable: true, explanationId: ''}
 }
 
-export const checkEventEditability = (user, event, action, editor) => {
+export const checkEventEditability = (user, event, action, editor, superEvent) => {
     const eventIsEditable = module.exports.eventIsEditable(event)
     if (!eventIsEditable['editable']) {
         return eventIsEditable
@@ -129,11 +129,14 @@ export const checkEventEditability = (user, event, action, editor) => {
     const userCanDoAction = module.exports.userCanDoAction(user, event, action, editor)
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
+    const isUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
+    const disableSubEventDeletion = superEvent !== null  && Object.keys(superEvent).length > 0 && get(superEvent, 'sub_events', []).length <= 2
 
     const getExplanationId = () => {
         if (isDraft && action === 'cancel') {
             return 'draft-cancel'
         }
+
         if (!userCanDoAction && (action === 'publish' || action === 'update') && isSubEvent) {
             return 'draft-publish-subevent'
         }
@@ -145,6 +148,9 @@ export const checkEventEditability = (user, event, action, editor) => {
         }
         if (!userMayEdit || !userCanDoAction) {
             return 'user-no-rights-edit'
+        }
+        if (userMayEdit && action === 'delete' && disableSubEventDeletion && !isUmbrella) {
+            return 'not-enough-sub-events'
         }
     }
 

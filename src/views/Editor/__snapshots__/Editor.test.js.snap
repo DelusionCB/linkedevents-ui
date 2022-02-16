@@ -1980,6 +1980,11 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
               "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
             },
             "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+            "adminOrganizationData": Object {
+              "ahjo:02100": Object {
+                "id": "ahjoID",
+              },
+            },
             "emails": Array [
               Object {
                 "value": "foo@foo.com",
@@ -1991,6 +1996,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
             "organization": "ahjo:02100",
             "provider": "helsinki",
             "token": "sometoken",
+            "userType": "admin",
             "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
           }
         }
@@ -2016,6 +2022,44 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
             <Component />
           </FormattedMessage>
         </Button>
+        <Connect(EventActionButton)
+          action="create-admin-draft"
+          confirmAction={false}
+          customAction={[Function]}
+          event={Object {}}
+          eventIsPublished={false}
+          intl={
+            Object {
+              "formatMessage": [MockFunction] {
+                "calls": Array [
+                  Array [
+                    Object {
+                      "id": "create-events",
+                    },
+                  ],
+                  Array [
+                    Object {
+                      "id": "create-events",
+                    },
+                  ],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            }
+          }
+          runAfterAction={[Function]}
+          subEvents={Array []}
+          superEvent={Object {}}
+        />
         <Connect(EventActionButton)
           action="update"
           confirmAction={false}
@@ -2052,6 +2096,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
           }
           runAfterAction={[Function]}
           subEvents={Array []}
+          superEvent={Object {}}
         />
       </div>
     </div>
@@ -4039,6 +4084,11 @@ exports[`Editor Snapshot should render view correctly when editing existing even
               "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
             },
             "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+            "adminOrganizationData": Object {
+              "ahjo:02100": Object {
+                "id": "ahjoID",
+              },
+            },
             "emails": Array [
               Object {
                 "value": "foo@foo.com",
@@ -4050,6 +4100,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
             "organization": "ahjo:02100",
             "provider": "helsinki",
             "token": "sometoken",
+            "userType": "admin",
             "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
           }
         }
@@ -5407,6 +5458,11 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
               "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
             },
             "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+            "adminOrganizationData": Object {
+              "ahjo:02100": Object {
+                "id": "ahjoID",
+              },
+            },
             "emails": Array [
               Object {
                 "value": "foo@foo.com",
@@ -5418,6 +5474,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
             "organization": "ahjo:02100",
             "provider": "helsinki",
             "token": "sometoken",
+            "userType": "admin",
             "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
           }
         }
@@ -5443,6 +5500,44 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
             <Component />
           </FormattedMessage>
         </Button>
+        <Connect(EventActionButton)
+          action="create-admin-draft"
+          confirmAction={false}
+          customAction={[Function]}
+          event={Object {}}
+          eventIsPublished={false}
+          intl={
+            Object {
+              "formatMessage": [MockFunction] {
+                "calls": Array [
+                  Array [
+                    Object {
+                      "id": "create-events",
+                    },
+                  ],
+                  Array [
+                    Object {
+                      "id": "create-events",
+                    },
+                  ],
+                ],
+                "results": Array [
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                  Object {
+                    "type": "return",
+                    "value": undefined,
+                  },
+                ],
+              },
+            }
+          }
+          runAfterAction={[Function]}
+          subEvents={Array []}
+          superEvent={Object {}}
+        />
         <Connect(EventActionButton)
           action="update"
           confirmAction={false}
@@ -5479,6 +5574,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
           }
           runAfterAction={[Function]}
           subEvents={Array []}
+          superEvent={Object {}}
         />
       </div>
     </div>

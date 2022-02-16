@@ -38,7 +38,18 @@ const {intl} = intlProvider.getChildContext();
 const mockEvent = mockUserEvents[0];
 const {SUPER_EVENT_TYPE_RECURRING, SUPER_EVENT_TYPE_UMBRELLA, VALIDATION_RULES, USER_TYPE} = CONSTANTS
 const dispatch = jest.fn()
-jest.mock('../../actions/editor');
+
+jest.mock('../../actions/editor', () => {
+    const actualStuff = jest.requireActual('../../actions/editor');
+    return {
+        __esModule: true,
+        ...actualStuff,
+        setData: jest.fn().mockImplementation((values) => {return values}),
+        clearValue: jest.fn().mockImplementation((values) => { return values}),
+        setEventData: jest.fn().mockImplementation((val ,key) => { return {val, key}}),
+    }
+});
+
 
 describe('FormField', () => {
     const defaultProps = {
@@ -124,14 +135,19 @@ describe('FormField', () => {
                 clearValue.mockClear()
                 wrapper = getWrapper()
                 instance = wrapper.instance()
+                dispatch.mockClear();
             })
 
             test('when toggleEventType is recurring', () => {
                 instance.toggleEventType({target: {value: 'single'}})
                 clearValue.mockClear()
                 expect(wrapper.state().selectEventType).toBe('')
+                setEventData.mockClear();
                 instance.toggleEventType({target: {value: 'recurring'}})
+                expect(wrapper.state().selectEventType).toBe('recurring') // FAIL
                 expect(clearValue).toHaveBeenCalledWith(['start_time', 'end_time'])
+                expect(setEventData).toHaveBeenNthCalledWith(1, {'0':{'start_time' : undefined}}, 0);
+                expect(setEventData).toHaveBeenNthCalledWith(2, {'1':{'start_time' : undefined}}, 1);
             })
             test('when toggleEventType is single', () => {
                 const expectedValue = {sub_events: {}}
@@ -205,45 +221,31 @@ describe('FormField', () => {
             const instance = getWrapper().instance()
             const events = {0: {start_time: undefined}, 1: {start_time: undefined}}
             const localeType = 'event'
-            const eventOne = <NewEvent
-                length={1}
-                key={0}
-                eventKey="0"
-                event={events[0]}
-                errors={{}}
-                setInitialFocus={true}
-                subErrors={instance.props.editor.validationErrors}
-                localeType='event'
-            />
-            const eventTwo = <NewEvent
-                length={2}
-                key={1}
-                eventKey="1"
-                event={events[1]}
-                errors={{}}
-                setInitialFocus={false}
-                subErrors={instance.props.editor.validationErrors}
-                localeType='event'
-            />
+
+            function getEvent(key = 0, focus = false) {
+                return (
+                    <NewEvent
+                        length={key + 1}
+                        key={key}
+                        eventKey={key.toString()}
+                        event={events[key]}
+                        errors={{}}
+                        setInitialFocus={focus}
+                        localeType='event'
+                    />
+                )
+            }
             test('returns correct array of NewEvent components', () => {
                 const fields = instance.generateNewEventFields(events, localeType)
-                expect(fields).toStrictEqual([eventOne, eventTwo])
+                const expectedFields = [getEvent(0, false), getEvent(1, true)];
+                expect(fields).toStrictEqual(expectedFields);
             })
 
             test('returns correct array of NewEvent components when createdRecurringEvents is true', () => {
                 instance.state.createdRecurringEvents = true
                 const fields = instance.generateNewEventFields(events, localeType)
-                const eventOneNoFocus = <NewEvent
-                    length={1}
-                    key={0}
-                    eventKey="0"
-                    event={events[0]}
-                    errors={{}}
-                    setInitialFocus={false}
-                    subErrors={instance.props.editor.validationErrors}
-                    localeType='event'
-                />
-                expect(fields).toStrictEqual([eventOneNoFocus, eventTwo])
+                const expectedFields = [getEvent(0, false), getEvent(1, false)]
+                expect(fields).toStrictEqual(expectedFields);
             })
         })
     })
@@ -633,10 +635,12 @@ describe('FormField', () => {
             describe('OrganizationSelector', () => {
                 const wrapper = getWrapper()
                 const instance = wrapper.instance();
+                const publisherOptions = Object.keys(defaultProps.user.adminOrganizationData)
+                    .map(id => ({label: defaultProps.user.adminOrganizationData[id].name, value: id}))
                 const organization = wrapper.find(OrganizationSelector)
                 test('correct props for OrganizationSelector', () => {
                     expect(organization.prop('formType')).toBe(defaultProps.action)
-                    expect(organization.prop('options')).toEqual(defaultProps.options)
+                    expect(organization.prop('options')).toEqual(publisherOptions)
                     expect(organization.prop('selectedOption')).toEqual(defaultProps.selectedOption)
                     expect(organization.prop('onChange')).toBe(instance.handleOrganizationChange)
                 })

@@ -13,7 +13,7 @@ import {getButtonLabel} from '../../utils/helpers';
 import {Link} from 'react-router-dom';
 import classNames from 'classnames';
 
-const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE} = constants;
+const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA} = constants;
 
 class EventActionButton extends React.Component {
     constructor(props) {
@@ -130,9 +130,9 @@ class EventActionButton extends React.Component {
                     <FormattedMessage id={buttonLabel}>{txt => txt}</FormattedMessage>
                 </Button>
                 {(disabled && explanationId) &&
-                    <UncontrolledTooltip placement="bottom" target={idPrefix + action} innerClassName='tooltip-disabled' hideArrow>
-                        <FormattedMessage id={explanationId}>{txt => txt}</FormattedMessage>
-                    </UncontrolledTooltip>
+                <UncontrolledTooltip placement="bottom" target={idPrefix + action} innerClassName='tooltip-disabled' hideArrow>
+                    <FormattedMessage id={explanationId}>{txt => txt}</FormattedMessage>
+                </UncontrolledTooltip>
                 }
             </Fragment>
         )
@@ -161,6 +161,7 @@ class EventActionButton extends React.Component {
             action,
             customButtonLabel,
             event,
+            superEvent,
             eventIsPublished,
             loading,
         } = this.props;
@@ -171,14 +172,16 @@ class EventActionButton extends React.Component {
         const validationDisable = Object.keys(validationErrors).length > 0
         const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT;
         const isPostponed = get(event, 'event_status') === EVENT_STATUS.POSTPONED;
-        const {editable, explanationId} = checkEventEditability(user, event, action, editor);
+        const isUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
+        const disableSubEventDeletion = superEvent !== null && Object.keys(superEvent).length > 0 && get(superEvent, 'sub_events', []).length <= 2
+        const {editable, explanationId} = checkEventEditability(user, event, action, editor, superEvent);
         const showTermsCheckbox = isRegularUser && this.isSaveButton(action) && !isDraft;
         let disabled = !editable || validationDisable || loading || (showTermsCheckbox && !this.state.agreedToTerms);
 
 
         const buttonLabel = customButtonLabel || getButtonLabel(action, isRegularUser,  isDraft, eventIsPublished, formHasSubEvents);
 
-        if (action === 'postpone' && isPostponed) {
+        if ((action === 'postpone' && isPostponed) || (action === 'delete' && !isUmbrella && disableSubEventDeletion)) {
             disabled = true;
         }
 
@@ -194,6 +197,7 @@ class EventActionButton extends React.Component {
 
 EventActionButton.defaultProps = {
     event: {},
+    superEvent: {},
     subEvents: [],
     idPrefix: 'default-',
 }
@@ -212,6 +216,7 @@ EventActionButton.propTypes = {
     loading: PropTypes.bool,
     runAfterAction: PropTypes.func,
     subEvents: PropTypes.array,
+    superEvent: PropTypes.object,
     idPrefix: PropTypes.string,
 }
 

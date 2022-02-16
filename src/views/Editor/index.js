@@ -210,7 +210,7 @@ export class EditorPage extends React.Component {
      * @returns {*}
      */
     getActionButton = (action, customAction, confirm = true, customButtonLabel) => {
-        const {event, subEvents} = this.state
+        const {event, subEvents, superEvent} = this.state
         const eventIsPublished = this.eventIsPublished()
         const loading = this.state.loading || this.props.editor.loading
         const {intl} = this.props;
@@ -225,6 +225,7 @@ export class EditorPage extends React.Component {
             loading={loading}
             runAfterAction={this.handleConfirmedAction}
             subEvents={subEvents}
+            superEvent={superEvent}
             intl={intl}
         />
     }

@@ -23,6 +23,12 @@ export const mockUser = {
     },
     token: 'sometoken',
     organization: 'ahjo:02100',
+    userType: 'admin',
+    adminOrganizationData: {
+        'ahjo:02100': {
+            id: 'ahjoID',
+        },
+    },
 };
 
 export const mockUserEvents = [

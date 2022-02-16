@@ -401,6 +401,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "no-links-to-events": "Ei kytköksiä.",
       "no-validation-errors": "Lomake täytetty oikein!",
       "no-value": "-kenttää ei ole täytetty.",
+      "not-enough-sub-events": "Sarjalla tulee olla vähintään 2 sisältöä",
       "or": "tai",
       "organization-images": "Organisaation kuvat",
       "organization-missing-heading": "Tervetuloa käyttämään Linked Eventsiä, ",

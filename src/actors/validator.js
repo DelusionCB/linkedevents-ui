@@ -6,6 +6,54 @@ import constants from 'src/constants'
 
 let wasErrors = false
 
+/**
+ * Locates the notification element, scrolls document to notification element
+ * and finally calls findElement with notification element.
+ */
+export function actionFunc() {
+    const top = (window.scrollY || window.pageYOffset);
+    // The first element with classname .validation-notification
+    const notificationElement = document.querySelector('.validation-notification');
+    // This scrolls the document so that the focused input is in the middle of the screen.
+    window.scrollTo(
+        0,
+        top +
+        notificationElement.getBoundingClientRect().top -
+        (window.innerHeight / 2)
+    );
+    // Call findElement function that locates the correct element to focus.
+    findElement(notificationElement);
+}
+
+/**
+ * Locates the correct element to focus.
+ * @example
+ * if notificationElement is also interactive -> move focus to it
+ * if notificationElements previous sibling is interactive -> move focus
+ * else find first interactive element in parentElement.children -> move focus
+ * @param {Element|HTMLElement} notificationElement
+ */
+export function findElement(notificationElement){
+    // Tag names of interactive elements.
+    const INTERACTIVE_ELEMENTS = ['BUTTON','INPUT','TEXTAREA'];
+    if(INTERACTIVE_ELEMENTS.includes(notificationElement.tagName)) {
+        // if notificationElement is also the interactive element.
+        notificationElement.focus();
+    } else if(
+        notificationElement.previousElementSibling &&
+        INTERACTIVE_ELEMENTS.includes(notificationElement.previousElementSibling.tagName)
+    ) {
+        // if the element immediately prior to notificationElement in parent's children list is focusable.
+        notificationElement.previousElementSibling.focus();
+    } else {
+        // Array created from parentElement.children HTMLCollection.
+        const children = Array.from(notificationElement.parentElement.children);
+        // first element that has a tag that is focusable.
+        const target = children.find(element => INTERACTIVE_ELEMENTS.includes(element.tagName));
+        if(target) {target.focus();}
+    }
+}
+
 export default (store) => {
 
     const {editor, router, userLocale: {locale}} = store.getState()
@@ -15,25 +63,10 @@ export default (store) => {
 
     if(errorCount > 0 && wasErrors === false) {
         wasErrors = true
-
         let action = {
             labelId: 'validation-error-goto-error',
-            fn: () => {
-                let top = (window.scrollY || window.pageYOffset);
-                // This scrolls the document so that the focused input is in the middle of the screen.
-                window.scrollTo(
-                    0,
-                    top +
-                    document.getElementsByClassName('validation-notification')[0].parentElement.getBoundingClientRect().top -
-                    (window.innerHeight / 2)
-                );
-                let popovers = document.getElementsByClassName('validation-notification')[0].parentElement.children[1].focus();
-                if(popovers) {
-                    window.scrollTo(0, top + popovers.getBoundingClientRect().top - 16);
-                }
-            },
-        }
-
+            fn: actionFunc,
+        };
         dispatch(setFlashMsg('validation-error', 'error', {sticky: true, action: action}))
     }
 

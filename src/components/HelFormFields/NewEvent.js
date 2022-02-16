@@ -5,22 +5,10 @@ import CustomDateTime from '../CustomFormFields/Dateinputs/CustomDateTime';
 import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl';
-import ValidationNotification from '../ValidationNotification';
-const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocus, subErrors, length, localeType}) => {
-    /**
-     * If eventKey is 0 -> return all errors, for other keys filter out the max sub count error
-     * @returns {string[]|undefined}
-     */
-    const getValidationErrors = () => {
-        if (eventKey === '0') {
-            return subErrors['sub_length']
-        } else {
-            return subErrors['sub_length'] ?  subErrors['sub_length'].filter(error => error !== 'isMoreThanSixtyFive') : undefined
-        }
-    };
-    const containerRef = useRef(null);
+
+const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocus, length, localeType}) => {
     return (
-        <div className="new-sub-event row" ref={containerRef}>
+        <div className="new-sub-event row">
             <div className="col-auto">
                 <FormattedMessage id="event-sub-count" values={{count: length}}>{txt => <h4>{txt}</h4>}</FormattedMessage>
             </div>
@@ -52,14 +40,9 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
                 onClick={() => deleteSubEvent(eventKey)}
                 aria-label={intl.formatMessage({id: `event-delete-recurring`})}
             >
-                <span id="sub-event-del-icon" className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                <span id="sub-event-del-icon" className="glyphicon glyphicon-trash" aria-hidden="true"/>
             </button>
-            <div className="w-100"></div>
-            <ValidationNotification
-                className='validation-notification' 
-                anchor={containerRef.current}
-                validationErrors={getValidationErrors()}
-            />
+            <div className="w-100"/>
         </div>
     )
 
@@ -76,7 +59,6 @@ NewEvent.propTypes = {
     deleteSubEvent: PropTypes.func,
     intl: PropTypes.object,
     setInitialFocus: PropTypes.bool,
-    subErrors: PropTypes.object,
     length: PropTypes.number,
     localeType: PropTypes.string,
 }
