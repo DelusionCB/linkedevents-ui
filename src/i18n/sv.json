@@ -532,10 +532,12 @@
     "table-events-per-page": "Innehåll per sida",
 
     "draft-cancel": "Evenemangutkast kan inte ångras.",
+    "draft-invalid-postpone": "Utkast kan inte senareläggas.",
     "draft-publish-subevent": "Evenemang i serien kan inte publiceras.",
     "event-validation-errors": "Innehållets information är felaktigt, korrigera felen före publicering.",
     "event-validation-no-errors": "Innehållets information innehåller inga fel.",
     "event-in-the-past": "Gångna evenemang kan inte redigeras.",
+    "event-invalid-postpone": "Innehåll has redan senarelagts.",
     "event-canceled": "Inställda evenemang kan inte redigeras.",
     "user-no-rights-copy": "Logga in för att kopiera det här evenemanget",
     "user-no-rights-edit": "Du har inte rättigheter att redigera detta evenemang.",
@@ -543,6 +545,7 @@
     "return-without-saving": "Återvänd utan att göra förändringar",
     "return-to-events": "Återvänd till evenemangen",
     "not-enough-sub-events": "Serie måste innehålla åtminstone 2 innehåll",
+    "series-invalid-postpone": "Serie kan inte senareläggas.",
 
     "format-select-count": " ({count} evenemang)",
     "upload-image-from-url": "Eller mata in adressen (URL) av en extern bild",

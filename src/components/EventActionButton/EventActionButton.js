@@ -120,7 +120,7 @@ class EventActionButton extends React.Component {
                 }
                 <Button
                     aria-disabled={disabled}
-                    aria-label={ariaLabelText ? ariaLabelText : undefined}
+                    aria-label={ariaLabelText}
                     id={idPrefix + action}
                     color={color}
                     className={classNames(`editor-${action}-button`,{'disabled': disabled})}
@@ -167,23 +167,17 @@ class EventActionButton extends React.Component {
         } = this.props;
 
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR;
+        const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
         const formHasSubEvents = get(editor, ['values', 'sub_events'], []).length > 0;
         const validationErrors = get(editor, ['validationErrors'], {})
         const validationDisable = Object.keys(validationErrors).length > 0
         const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT;
-        const isPostponed = get(event, 'event_status') === EVENT_STATUS.POSTPONED;
-        const isUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
-        const disableSubEventDeletion = superEvent !== null && Object.keys(superEvent).length > 0 && get(superEvent, 'sub_events', []).length <= 2
         const {editable, explanationId} = checkEventEditability(user, event, action, editor, superEvent);
-        const showTermsCheckbox = isRegularUser && this.isSaveButton(action) && !isDraft;
+        const showTermsCheckbox = (isRegularUser || isPublicUser) && this.isSaveButton(action) && !isDraft;
         let disabled = !editable || validationDisable || loading || (showTermsCheckbox && !this.state.agreedToTerms);
 
 
         const buttonLabel = customButtonLabel || getButtonLabel(action, isRegularUser,  isDraft, eventIsPublished, formHasSubEvents);
-
-        if ((action === 'postpone' && isPostponed) || (action === 'delete' && !isUmbrella && disableSubEventDeletion)) {
-            disabled = true;
-        }
 
         return (
             <Fragment>

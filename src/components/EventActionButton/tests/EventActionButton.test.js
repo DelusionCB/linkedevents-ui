@@ -9,7 +9,7 @@ import fiMessages from 'src/i18n/fi.json';
 import {UnconnectedEventActionButton} from '../EventActionButton'
 import constants from '../../../constants';
 
-const {PUBLICATION_STATUS, USER_TYPE} = constants;
+const {PUBLICATION_STATUS, USER_TYPE, EVENT_STATUS} = constants;
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
@@ -139,10 +139,9 @@ describe('EventActionButton', () => {
             })
         })
 
-        describe('disabled control', () => {
-            const user = {userType: USER_TYPE.ADMIN}
-            const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
-            const action = 'delete'
+        describe('actions & disabled control', () => {
+            const admin = {userType: USER_TYPE.ADMIN}
+            const regular = {userType: USER_TYPE.REGULAR}
             function getEvents(count = 0, type = constants.SUPER_EVENT_TYPE_RECURRING) {
                 const sub_events = [];
                 for(let i = 0; i < count; i++) {
@@ -153,22 +152,146 @@ describe('EventActionButton', () => {
                     super_event_type: type,
                 }
             }
+            describe('sub_event limitations & action === delete', () => {
+                const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
+                const action = 'delete'
 
-            test('is disabled when action is delete & superEvent only has 2 subs', () => {
-                const wrapper = getWrapper({user, event, action, superEvent: getEvents(2)})
-                const button = wrapper.find(Button)
-                expect(button.prop('aria-disabled')).toBe(true)
+                test('is disabled when action is delete & superEvent only has 2 subs', () => {
+                    const wrapper = getWrapper({user: admin, event, action, superEvent: getEvents(2)})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'delete-events'})}. ${intl.formatMessage({id: 'not-enough-sub-events'})}`)
+                })
+                test('is not disabled when action is delete & superEvent has more than 2 subs', () => {
+                    const wrapper = getWrapper({user: admin, event, action, superEvent: getEvents(3)})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(false)
+                })
+                test('is not disabled when super event is umbrella', () => {
+                    const wrapper = getWrapper({user: admin, event, action, superEvent: getEvents(2, constants.SUPER_EVENT_TYPE_UMBRELLA)})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(false)
+                })
             })
-            test('is not disabled when action is delete & superEvent has more than 2 subs', () => {
-                const wrapper = getWrapper({user, event, action, superEvent: getEvents(3)})
-                const button = wrapper.find(Button)
-                expect(button.prop('aria-disabled')).toBe(false)
+            describe('action === update', () => {
+                const event = {publication_status: PUBLICATION_STATUS.DRAFT, super_event: {
+                    '@id': 'https://test-api.test/v1/event/985484/',
+                }}
+                const action = 'update'
+                test('is draft, sub_event & regular user', () => {
+                    const wrapper = getWrapper({user: admin, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'event-action-save-new'})}. ${intl.formatMessage({id: 'draft-publish-subevent'})}`)
+                })
             })
-            test('is not disabled when super event is umbrella', () => {
-                const wrapper = getWrapper({user, event, action, superEvent: getEvents(2, constants.SUPER_EVENT_TYPE_UMBRELLA)})
-                const button = wrapper.find(Button)
-                expect(button.prop('aria-disabled')).toBe(false)
+            describe('action === postpone', () => {
+                const event = [
+                    {event: {super_event_type: constants.SUPER_EVENT_TYPE_RECURRING}, message: 'series-invalid-postpone'},
+                    {event: {publication_status: PUBLICATION_STATUS.DRAFT}, message: 'draft-invalid-postpone'},
+                    {event: {event_status: EVENT_STATUS.POSTPONED}, message: 'event-invalid-postpone'},
+                ]
+                const action = 'postpone'
+                test.each(event) (
+                    'if %o, aria-disabled should be true',
+                    ({event, message}) => {
+                        const wrapper = getWrapper({user: admin, event: event, action})
+                        const button = wrapper.find(Button)
+                        expect(button.prop('aria-disabled')).toBe(true)
+                        expect(button.prop('aria-label')).toBe(
+                            `${intl.formatMessage({id: 'postpone-events'})}. ${intl.formatMessage({id: message})}`)
+                    }
+                )
+            })
+            describe('action === delete', () => {
+                const action = 'delete'
+                test('regular user & is published', () => {
+                    const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
+                    const wrapper = getWrapper({user: regular, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'delete-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                })
+                test('regular user & is umbrella', () => {
+                    const event = {super_event_type: constants.SUPER_EVENT_TYPE_UMBRELLA}
+                    const wrapper = getWrapper({user: regular, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'delete-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                })
+            })
+            describe('action === cancel', () => {
+                const action = 'cancel'
+                test('is draft', () => {
+                    const event = {publication_status: PUBLICATION_STATUS.DRAFT}
+                    const wrapper = getWrapper({user: admin, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'cancel-events'})}. ${intl.formatMessage({id: 'draft-cancel'})}`)
+                })
+                test('is regular user & published event', () => {
+                    const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
+                    const wrapper = getWrapper({user: regular, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'cancel-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                })
+            })
+            describe('action === edit || update', () => {
+                const action = 'edit' || 'update'
+                test('regular and umbrella', () => {
+                    const event = {super_event_type: constants.SUPER_EVENT_TYPE_UMBRELLA}
+                    const wrapper = getWrapper({user: regular, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'edit-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                })
+                test('regular and published event', () => {
+                    const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
+
+                    const wrapper = getWrapper({user: regular, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'edit-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                })
+            })
+            describe('action === add', () => {
+                const action = 'add'
+                test('is owner, regular user & published', () => {
+                    const event = {is_owner: true, publication_status: PUBLICATION_STATUS.PUBLIC}
+                    const wrapper = getWrapper({user: regular, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'add-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                })
+                test('sub_event limit reached & is series', () => {
+                    function generateSubs(count = 0) {
+                        const sub_events = [];
+                        for(let i = 0; i < count; i++) {
+                            sub_events.push({test: `random value ${i}`});
+                        }
+                        return {
+                            sub_events,
+                        }
+                    }
+                    const event = {super_event_type: constants.SUPER_EVENT_TYPE_RECURRING, ...generateSubs(65)}
+                    const wrapper = getWrapper({user: admin, event, action})
+                    const button = wrapper.find(Button)
+                    expect(button.prop('aria-disabled')).toBe(true)
+                    expect(button.prop('aria-label')).toBe(
+                        `${intl.formatMessage({id: 'add-events'})}. ${intl.formatMessage({id: 'validation-isMoreThanSixtyFive'})}`)
+                })
             })
         })
     })
 })
+

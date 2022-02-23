@@ -56,13 +56,17 @@ export const userMayEdit = (user, event) => {
     return userMayEdit
 }
 
-export const userCanDoAction = (user, event, action, editor) => {
+export const userCanDoAction = (user, event, action, editor, superEvent) => {
     const isUmbrellaEvent = get(event, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
     const isPublic = get(event, 'publication_status') === PUBLICATION_STATUS.PUBLIC
     const isSeries = get(event, 'super_event_type') === SUPER_EVENT_TYPE_RECURRING
+    const isPostponed = get(event, 'event_status') === EVENT_STATUS.POSTPONED;
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
+    const isUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
+    const disableSubEventDeletion = superEvent !== null && Object.keys(superEvent).length > 0 && get(superEvent, 'sub_events', []).length <= 2
+    const subEventLimitReached = get(event, 'sub_events', []).length >= 65
     const eventOwner = get(event, 'is_owner')
     const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
     const {keywordSets} = editor
@@ -80,22 +84,24 @@ export const userCanDoAction = (user, event, action, editor) => {
 
         return !hasValidationErrors
     }
-    if (action === 'update' && isDraft && isSubEvent && !isRegularUser) {
-        return false
+    if (action === 'update') {
+        return !(isDraft && isSubEvent && !isRegularUser)
     }
-    if (action === 'postpone' && isSeries) {
-        return false
+    if (action === 'postpone') {
+        return !(isSeries || isPostponed || isDraft)
+    }
+    if (action === 'delete') {
+        return !((!isUmbrella && disableSubEventDeletion) || (isRegularUser && (isUmbrellaEvent || isPublic)))
     }
     if (action === 'cancel') {
         return !(isDraft || (isRegularUser && isPublic))
     }
-    if (action === 'edit' || action === 'update' || action === 'delete') {
+    if (action === 'edit' || action === 'update') {
         return !(isRegularUser && (isUmbrellaEvent || isPublic))
     }
     if (action === 'add') {
-        return !(isRegularUser && eventOwner && (isPublic)) 
+        return !(isRegularUser && eventOwner && isPublic || (subEventLimitReached && isSeries))
     }
-
     return true
 }
 
@@ -126,17 +132,30 @@ export const checkEventEditability = (user, event, action, editor, superEvent) =
     }
 
     const userMayEdit = module.exports.userMayEdit(user, event)
-    const userCanDoAction = module.exports.userCanDoAction(user, event, action, editor)
+    const userCanDoAction = module.exports.userCanDoAction(user, event, action, editor, superEvent)
     const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
+    const isPostponed = get(event, 'event_status') === EVENT_STATUS.POSTPONED;
     const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
     const isUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
+    const isSeries = get(event, 'super_event_type') === SUPER_EVENT_TYPE_RECURRING
     const disableSubEventDeletion = superEvent !== null  && Object.keys(superEvent).length > 0 && get(superEvent, 'sub_events', []).length <= 2
+    const subEventLimitReached = get(event, 'sub_events', []).length >= 65
 
     const getExplanationId = () => {
+        if (action === 'postpone') {
+            if (isDraft) {
+                return 'draft-invalid-postpone'
+            }
+            if (isPostponed) {
+                return 'event-invalid-postpone'
+            }
+            if (isSeries) {
+                return 'series-invalid-postpone'
+            }
+        }
         if (isDraft && action === 'cancel') {
             return 'draft-cancel'
         }
-
         if (!userCanDoAction && (action === 'publish' || action === 'update') && isSubEvent) {
             return 'draft-publish-subevent'
         }
@@ -146,11 +165,14 @@ export const checkEventEditability = (user, event, action, editor, superEvent) =
         if (userMayEdit && action === 'update') {
             return 'event-validation-errors'
         }
+        if (userMayEdit && subEventLimitReached && isSeries && action === 'add') {
+            return 'validation-isMoreThanSixtyFive'
+        }
+        if (userMayEdit && disableSubEventDeletion && !isUmbrella && action === 'delete') {
+            return 'not-enough-sub-events'
+        }
         if (!userMayEdit || !userCanDoAction) {
             return 'user-no-rights-edit'
-        }
-        if (userMayEdit && action === 'delete' && disableSubEventDeletion && !isUmbrella) {
-            return 'not-enough-sub-events'
         }
     }
 

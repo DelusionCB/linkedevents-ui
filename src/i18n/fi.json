@@ -516,10 +516,12 @@
     "table-events-checkbox-all": "Valitse kaikki sisältö jossa ei ole validaatiovirheitä poistaaksesi tai julkaistaksesi",
 
     "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
+    "draft-invalid-postpone": "Luonnoksia ei voi lykätä.",
     "draft-publish-subevent": "Sarjan alatapahtumia ei voi julkaista.",
     "event-validation-errors": "Sisällön tiedoissa on puutteita. Korjaa puutteet ennen julkaisua.",
     "event-validation-no-errors": "Sisällön tiedoissa ei ole puutteita.",
     "event-in-the-past": "Menneisyydessä olevia tapahtumia ei voi muokata.",
+    "event-invalid-postpone": "Sisältö on jo lykätty",
     "event-canceled": "Peruttuja tapahtumia ei voi muokata.",
     "user-no-rights-copy": "Kirjaudu sisään kopioidaksesi tämä tapahtuma",
     "user-no-rights-edit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
@@ -527,6 +529,7 @@
     "return-without-saving": "Palaa tekemättä muutoksia",
     "return-to-events": "Palaa takaisin tapahtumiin",
     "not-enough-sub-events": "Sarjalla tulee olla vähintään 2 sisältöä",
+    "series-invalid-postpone": "Sarjaa ei voi lykätä.",
 
     "format-select-count": " ({count} tapahtumaa)",
 

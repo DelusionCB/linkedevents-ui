@@ -518,10 +518,12 @@
     "table-events-checkbox-all": "Choose all the contents with no validation errors for deletion or publication",
 
     "draft-cancel": "Event drafts can't be cancelled.",
+    "draft-invalid-postpone": "Drafts can't be postponed.",
     "draft-publish-subevent": "A subevent of a series cannot be published.",
     "event-validation-errors": "Content data contains errors, correct the erraneous data before publishing..",
     "event-validation-no-errors": "Content data contains no errors.",
     "event-in-the-past": "Past events can't be edited.",
+    "event-invalid-postpone": "Content is already postponed",
     "event-canceled": "Cancelled events can't be edited.",
     "user-no-rights-copy": "Login to copy this event",
     "user-no-rights-edit": "You have insufficient rights to edit this event.",
@@ -529,6 +531,7 @@
     "return-without-saving": "Return without changes",
     "return-to-events": "Return to events",
     "not-enough-sub-events": "Series needs to contain atleast 2 contents",
+    "series-invalid-postpone": "Series can't be postponed.",
 
     "format-select-count": " ({count} events)",
     "upload-image-from-url": "Upload image from URL",
