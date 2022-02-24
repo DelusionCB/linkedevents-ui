@@ -662,5 +662,33 @@
     "event-is-virtualandhaslocation": "Evenemanget är både virtuellt och fysiskt",
 
     "price-placeholder": "T.ex 4,99",
-    "price-info-placeholder": "T.ex Vuxna"
+    "price-info-placeholder": "T.ex Vuxna",
+
+    "select-menu-choose": "Använd pil up och ner för att välja",
+    "select-menu-disabled": ", tryck Enter för att välja den fokuserade alternativet",
+    "select-menu-exit": ", tryck Esc för att stänga menyn",
+    "select-menu-tab": ", tryck Tabb för att välja alternativet och stänga menyn.",
+    "select-menu-tab-keyword": ", tryck Tabb för att välja alternativet och stänga menyn. Under menyn öppnas ett fönster var du kan välja specifika ämnesord enligt det ord som valdes.",
+    "select-input-isfocused": "är fokuserad",
+    "select-input-search": ", skriv för att förfina sökresultatet",
+    "select-input-open": ", tryck pil-ner för att öppna menyn, ",
+    "select-input-isMulti": " tryck pil-vänster för att fokusera till det valda värden",
+    "select-value-isMulti": "Använd pil vänster och höger för ändra fokus mella värden, tryck backstegstangenten för att ta bort det fokuserade värdet",
+    "select-deselect-value": "alternativ {label}  avmarkerad.",
+    "select-clear": "Alla alternativ har tömts.",
+    "select-input-focus": "alternativ/alternativen {labels}, markerad",
+    "select-option-disabled": "alternativ {label} är inaktiv. Välj ett annat alternativ.",
+    "select-option-selected": "alternativ {label}, markerad.",
+    "select-length": "{index} av {length}",
+    "select-disabled": " inaktiverad",
+    "select-selected": "markerad",
+    "select-focused": "fokuserad {inaktiverad}",
+    "select-menu-option": "Alternativ {label} {status}, {number}",
+    "select-value-selectValue": "Värde {label} fokuserad, {number}.",
+    "select-results": "{results} för sökterm {input}",
+    "select-reader": "Hittades {count} resultat",
+
+
+    "editor-show-broader-concepts": "Visa överordnade begrepp för ämnesordet '{value}'.",
+    "editor-show-narrower-concepts": "Visa underordnade begrepp för ämnesordet '{value}'."
 }

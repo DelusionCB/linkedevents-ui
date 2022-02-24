@@ -6,40 +6,54 @@
         overflow-y: scroll;
         border: 1px solid black;
         padding-top: 10px;
-        .keywordItemParent {
-            display: flex;
-            align-items: flex-start;
-            label:first-letter {
-                text-transform: capitalize;
+        label:last-child {
+            text-transform: capitalize;
+            margin-bottom: 0.75rem;
+        }
+        ul {
+            list-style: none;
+        }
+        .keyword-listing {
+            padding-inline-start: 0;
+            > li.keyword-option {
+                margin-left: 38px;
             }
         }
-        .keywordItemChild {
-            display: flex;
-            align-items: flex-start;
-            margin-left: 25px;
-            label:first-letter {
-                text-transform: capitalize;
-            }
-        }
-        .keywordItemOption {
-            font-weight: bold;
-            display: flex;
-            align-items: flex-start;
-            margin-left: 50px;
-            label:first-letter {
-                    text-transform: capitalize;
-            }
-        }
-        .keywordButton {
-            background-color: transparent;
-            width: 50px;
-            border: 0;
-        }
-        .notPaddedUl {
-            padding-inline-start: 0px;
-        }
-        .paddedUl {
+        .keyword-listing-nested {
             padding-inline-start: 20px;
         }
+        .keyword-parent {
+            .parent-wrapper {
+                display: flex;
+                align-items: flex-start;
+            }
+        }
+        .keyword-child {
+            display: flex;
+            align-items: flex-start;
+            font-weight: normal;
+        }
+        .keyword-option {
+            font-weight: bold;
+            margin-left: 40px;
+            .keyword-listing-nested {
+                padding-inline-start: 0;
+                .keyword-child {
+                    button.keyword-toggle-button {
+                        margin-left: -10px;
+                    }
+                }
+            }
+        }
+        .keyword-toggle-button {
+            background-color: transparent;
+            width: 38px;
+            border: 0;
+            span.glyphicon {
+                padding: 1px 0 0 !important;
+                margin: 0 !important;
+            }
+        }
+
     }
 }

@@ -692,7 +692,11 @@
     "select-input-search": ", kirjoita tarkentaaksesi hakutuloksia",
     "select-input-isfocused": "on kohdistettu",
     "select-menu-tab": ", paina tabulaattoria valitaksesi vaihtoehto ja sulkeaksesi valikon",
+    "select-menu-tab-keyword": ", paina tabulaattoria valitaksesi vaihtoehdon ja sulkeaksesi valikon. Valikon alapuolelle avautuu ontologia, josta voit valita tarkat avainsanat valitun vaihtoehdon perusteella.",
     "select-menu-exit": ", paina Esc näppäintä sulkeaksesi valikon",
     "select-menu-disabled": ", paina Enter näppäintä valitaksesi tällä hetkellä kohdistettu vaihtoehto",
-    "select-menu-choose": "Käytä ylös ja alas nuolinäppäimiä selataksesi vaihtoehtoja"
+    "select-menu-choose": "Käytä ylös ja alas nuolinäppäimiä selataksesi vaihtoehtoja",
+
+    "editor-show-broader-concepts": "Näytä asiasanan '{value}' yläkäsitteet.",
+    "editor-show-narrower-concepts": "Näytä asiasanan '{value}' alakäsitteet."
 }

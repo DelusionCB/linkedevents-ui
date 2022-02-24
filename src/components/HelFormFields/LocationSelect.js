@@ -73,7 +73,7 @@ const LocationSelect = ({
                 id: value.value,
                 '@id': value['@id'],
                 position: value.position,
-            }})   
+            }})
         }
         if (setDirtyState) {
             setDirtyState()
@@ -220,6 +220,7 @@ const LocationSelect = ({
                 {legend}{required ? '*' : ''}
             </label>
             <AsyncSelect
+                classNamePrefix='location-search'
                 isClearable={isClearable}
                 isMulti={isMultiselect}
                 value={getDefaultValue()}
@@ -233,7 +234,7 @@ const LocationSelect = ({
                 ref={selectInputRef}
                 styles={{control: invalidStyles}}
                 isDisabled={disabled}
-                ariaLiveMessages={ariaOverrides(intl, placeholderId)}
+                ariaLiveMessages={ariaOverrides(intl, placeholderId, resource)}
                 screenReaderStatus={screenReaderOverride}
             />
             <ValidationNotification

@@ -179,17 +179,19 @@ $actionBtnHeight: 60px;
     .language-selection .custom-control.custom-checkbox .custom-control-input:checked ~ .custom-control-label.disabled::before {
         background-color: var(--hobbylight-color);
     }
-    .css-1kivnd9-control, .css-f0z5ko-control {
+    .keyword-search__control--menu-is-open,
+    .location-search__control--menu-is-open{
+        box-shadow: 0 0 0 1px var(--hobby-color);
+    }
+    .keyword-search__control, .location-search__control {
         &:focus,
         &:active,
         &:hover {
             border-color: var(--hobby-color);
         }
     }
-    .css-f0z5ko-control::before {
-        background-color: var(--hobby-color);
-    }
-    .css-1kivnd9-control::before {
+    .keyword-search__control::before,
+    .location-search__control::before {
         background-color: var(--hobby-color);
     }
     .btn-secondary, .btn-secondary:disabled, .image-picker--preview {

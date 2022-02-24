@@ -1,26 +1,25 @@
 
-export const ariaOverrides = (intl, placeholderId) => {
+export const ariaOverrides = (intl, placeholderId, resource) => {
     return {
         guidance: ({isSearchable, isMulti, isDisabled, tabSelectsValue, context}) => {
             switch (context) {
                 case 'menu':
                     return `${intl.formatMessage({id: 'select-menu-choose'})} ${
-                        isDisabled
-                            ? ''
-                            : intl.formatMessage({id: 'select-menu-disabled'})
+                        !isDisabled && intl.formatMessage({id: 'select-menu-disabled'})
                     } ${intl.formatMessage({id: 'select-menu-exit'})} ${
-                        tabSelectsValue
-                            ? intl.formatMessage({id: 'select-menu-tab'})
-                            : ''
+                        tabSelectsValue && resource === 'keyword' ?
+                            intl.formatMessage({id: 'select-menu-tab-keyword'})
+                            :
+                            intl.formatMessage({id: 'select-menu-tab'})
                     }.`;
                 case 'input':
                     return `${intl.formatMessage({id: placeholderId})} ${intl.formatMessage({id: 'select-input-isfocused'})} ${
-                        isSearchable ? intl.formatMessage({id: 'select-input-search'}) : ''
+                        isSearchable && intl.formatMessage({id: 'select-input-search'})
                     } ${intl.formatMessage({id: 'select-input-open'})} ${
-                        isMulti ? intl.formatMessage({id: 'select-input-isMulti'}) : ''
+                        isMulti && intl.formatMessage({id: 'select-input-isMulti'})
                     }`;
                 case 'value':
-                    return isMulti ? intl.formatMessage({id: 'select-value-isMulti'}) : '';
+                    return isMulti && intl.formatMessage({id: 'select-value-isMulti'});
                 default:
                     return '';
             }
@@ -60,7 +59,7 @@ export const ariaOverrides = (intl, placeholderId) => {
         },
 
         onFilter: ({inputValue, resultsMessage}) => {
-            return inputValue ? intl.formatMessage({id: 'select-results'}, {results: resultsMessage, input: inputValue}) : ''
+            return inputValue && intl.formatMessage({id: 'select-results'}, {results: resultsMessage, input: inputValue})
         },
     }
 }

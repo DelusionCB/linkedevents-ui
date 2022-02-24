@@ -172,11 +172,11 @@ class KeywordSearch extends React.Component {
     screenReaderOverride = (obj) => {
         return  this.props.intl.formatMessage(...screenReaderOverrideValue(obj))
     }
-    
+
     render() {
         const {legend, required, intl, disabled, placeholderId, isClearable,
             optionalWrapperAttributes, currentLocale, customOnChangeHandler, keywordData,
-            deleteValue} = this.props;
+            deleteValue, resource} = this.props;
 
         return (
             <div>
@@ -185,6 +185,7 @@ class KeywordSearch extends React.Component {
                         {legend}{required ? '*' : ''}
                     </label>
                     <AsyncSelect
+                        classNamePrefix='keyword-search'
                         isClearable={isClearable}
                         value={this.getDefaultValue()}
                         loadOptions={this.getOptions}
@@ -197,7 +198,7 @@ class KeywordSearch extends React.Component {
                         ref={this.selectInputRef}
                         isDisabled={disabled}
                         styles={{control: this.selectStyles}}
-                        ariaLiveMessages={ariaOverrides(intl, placeholderId)}
+                        ariaLiveMessages={ariaOverrides(intl, placeholderId, resource)}
                         screenReaderStatus={this.screenReaderOverride}
 
                     />

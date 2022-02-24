@@ -666,6 +666,7 @@
     "select-menu-disabled": ", press Enter to select the currently focused option",
     "select-menu-exit": ", press Escape to exit the menu",
     "select-menu-tab": ", press Tab to select the option and exit the menu",
+    "select-menu-tab-keyword": ", press Tab to select the option and exit the menu. An ontology opens below the menu, where you can select exact keywords based on the selected option.",
     "select-input-isfocused": "is focused",
     "select-input-search": ", type to refine list",
     "select-input-open": ", press Down to open the menu, ",
@@ -683,5 +684,8 @@
     "select-menu-option": "option {label} {status}, {number}",
     "select-value-selectValue": "Value {label} focused, {number}.",
     "select-results": "{results} for search term {input}",
-    "select-reader": "{count} {count plural, one {result} other {results}} available"
+    "select-reader": "{count} {count plural, one {result} other {results}} available",
+
+    "editor-show-broader-concepts": "Show broader concepts for keyword '{value}'.",
+    "editor-show-narrower-concepts": "Show narrower concepts for keyword '{value}'."
 }
