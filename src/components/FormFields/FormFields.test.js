@@ -255,12 +255,30 @@ describe('FormField', () => {
         describe('components', () => {
 
             describe('FormattedMessage', () => {
-                test('amount of formattedmessages', () => {
+                test('Correct amount of formattedMessages rendered', () => {
                     const wrapper = getWrapper()
                     const messages = wrapper.find(FormattedMessage)
                     expect(messages).toHaveLength(15)
                 })
+                const expectedMessages = [
+                    {message: 'create-events', index: 0}, {message: 'editor-tip-required', index: 1}, {message: 'event-editor-tip-location-multi', index: 2},
+                    {message: 'event-editor-tip-location-internet', index: 3}, {message: 'event-editor-tip-location-not-found', index: 4},
+                    {message: 'event-location-button', index: 5}, {message: 'editor-tip-event-umbrella-selection', index: 6},
+                    {message: 'editor-tip-event-umbrella-selection1', index: 7}, {message: 'editor-tip-event-time-start', index: 8},
+                    {message: 'editor-tip-event-time-start-end', index: 9}, {message: 'editor-tip-event-time-type', index: 10},
+                    {message: 'editor-tip-event-time-end', index: 11}, {message: 'event-type-single', index: 12},
+                    {message: 'event-type-recurring', index: 13}, {message: 'editor-tip-eventtype-disable', index: 14},
+                ]
+                test.each(expectedMessages) (
+                    'FormattedMessage %# has correct props',
+                    ({message, index}) => {
+                        const wrapper = getWrapper()
+                        const formatted = wrapper.find(FormattedMessage).at(index)
+                        expect(formatted.prop('id')).toEqual(message)
+                    }
+                )
             })
+
             describe('SideField', () => {
                 const wrapper = getWrapper()
                 const Sidefields = wrapper.find(SideField)

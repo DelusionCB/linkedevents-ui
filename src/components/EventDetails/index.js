@@ -480,7 +480,7 @@ const EventDetails = (props) => {
             }
             {props.isPreview && subsExists && (
                 <Fragment>
-                    <SubEventListing locale={intl.locale} label='event-subEvent-fields-header' subLabel="event-series" noSubTimes='event-series-time' value={values['sub_events']} />
+                    <SubEventListing locale={intl.locale} label={`${localeType}-subEvent-fields-header`} subLabel="event-series" noSubTimes='event-series-time' value={values['sub_events']} />
                 </Fragment>)
             }
             <FormHeader>

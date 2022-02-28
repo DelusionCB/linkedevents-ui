@@ -23,6 +23,7 @@ const defaultProps = {
     validationErrors: [],
     formType: '',
     isOpen: false,
+    localeType: 'event',
     intl,
 }; 
 

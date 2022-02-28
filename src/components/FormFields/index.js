@@ -533,8 +533,8 @@ class FormFields extends React.Component {
                             <FormHeader messageID='event-umbrella-header'/>
                             <div className="row umbrella-row">
                                 <SideField id='editor-tip-umbrella'>
-                                    <p><FormattedMessage id="editor-tip-umbrella-selection"/></p>
-                                    <p><FormattedMessage id="editor-tip-umbrella-selection1"/></p>
+                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection1`}>{txt => <p>{txt}</p>}</FormattedMessage>
                                 </SideField>
                                 <div className="col-sm-6">
                                     <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent} disabled={userDoesNotExist}/>
@@ -545,10 +545,10 @@ class FormFields extends React.Component {
                         <FormHeader messageID={`${currentEventType}-datetime-form-header`}/>
                         <div className='row date-row'>
                             <SideField id={`${currentEventType}-editor-tip-times`}>
-                                <p><FormattedMessage id="editor-tip-time-start"/></p>
-                                <p><FormattedMessage id="editor-tip-time-start-end"/></p>
-                                <p><FormattedMessage id="editor-tip-time-type"/></p>
-                                <p><FormattedMessage id="editor-tip-time-end"/></p>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start-end`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-type`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-end`}>{txt => <p>{txt}</p>}</FormattedMessage>
                             </SideField>
                             <div className='col-sm-6'>
                                 <div className='row radio-row'>
@@ -572,7 +572,7 @@ class FormFields extends React.Component {
                                             }
                                         />
                                         <label className='custom-control-label' htmlFor='single'>
-                                            <FormattedMessage id='event-type-single'/>
+                                            <FormattedMessage id={`${currentEventType}-type-single`}/>
                                         </label>
                                     </div>
                                     <div className='custom-control custom-radio'>
@@ -595,7 +595,7 @@ class FormFields extends React.Component {
                                             }
                                         />
                                         <label className='custom-control-label' htmlFor='recurring'>
-                                            <FormattedMessage id='event-type-recurring'/>
+                                            <FormattedMessage id={`${currentEventType}-type-recurring`}/>
                                         </label>
                                     </div>
                                     { !['update', 'add'].includes(formType) && (subTimeDisable || values.start_time !== undefined) ?

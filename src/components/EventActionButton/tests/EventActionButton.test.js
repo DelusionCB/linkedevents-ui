@@ -98,7 +98,7 @@ describe('EventActionButton', () => {
     describe('Button', () => {
         test('is rendered', () => {
             const button = getWrapper().find(Button)
-            const expectedAriaLabeltext = 'Julkaise tapahtuma. Sinulla ei ole oikeuksia muokata tätä tapahtumaa.'
+            const expectedAriaLabeltext = 'Julkaise sisältö. Sinulla ei ole oikeuksia muokata tätä tapahtumaa.'
             expect(button).toHaveLength(1)
             expect(button.prop('aria-disabled')).toBe(true)
             expect(button.prop('aria-label')).toBe(expectedAriaLabeltext)

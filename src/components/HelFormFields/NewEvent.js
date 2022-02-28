@@ -10,7 +10,7 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
     return (
         <div className="new-sub-event row">
             <div className="col-auto">
-                <FormattedMessage id="event-sub-count" values={{count: length}}>{txt => <h4>{txt}</h4>}</FormattedMessage>
+                <FormattedMessage id={`${localeType}-sub-count`} values={{count: length}}>{txt => <h4>{txt}</h4>}</FormattedMessage>
             </div>
             <div className="new-sub-event--inputs col-12 order-last">
                 <CustomDateTime

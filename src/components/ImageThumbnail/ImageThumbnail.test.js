@@ -47,7 +47,7 @@ describe('ImageThumbnail', () => {
                     const instance = wrapper.instance();
                     const backGround = {'backgroundImage': 'url(www.google.com)'}
                     expect(element).toHaveLength(1);
-                    expect(element.prop('aria-label')).toBe('Valitse tapahtuman kuvaksi');
+                    expect(element.prop('aria-label')).toBe('Valitse kuvaksi');
                     expect(element.prop('className')).toBe('thumbnail');
                     expect(element.prop('style')).toEqual(backGround);
                     expect(element.prop('onClick')).toBe(instance.selectThis);
