@@ -453,7 +453,6 @@ class FormFields extends React.Component {
                                         setDirtyState={this.props.setDirtyState}
                                         forceApplyToStore
                                         type='url'
-                                        required={values.is_virtualevent}
                                         disabled={userDoesNotExist || !values.is_virtualevent}
                                     />
                                 </div>

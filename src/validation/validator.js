@@ -191,16 +191,12 @@ const validateLocation = (values, validations) => {
 // Check that virtualevent_url is url indeed
 const validateVirtualURL = (values, validations) => {
     const errors = []
-    // Validation rule used for virtual events url
-    const validationError = VALIDATION_RULES.IS_URL
     if (values['is_virtualevent'] && values['virtualevent_url']) {
         validations.forEach((val) => {
             if (!validationFn[val](values, values['virtualevent_url'])) {
                 errors.push(val)
             }
         })
-    } else if (values['is_virtualevent'] && !values['virtualevent_url']) {
-        errors.push(validationError)
     }
     return errors
 }
