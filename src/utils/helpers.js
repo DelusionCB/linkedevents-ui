@@ -1,10 +1,11 @@
 import './helpers.scss'
-import {isArray, isNil, isNull, set, some, get, keys} from 'lodash';
+import {get, isArray, isNil, isNull, keys, some} from 'lodash';
 import constants from '../constants'
 import {FormattedMessage} from 'react-intl'
 import React from 'react'
 import moment from 'moment'
 import Badge from 'react-bootstrap/Badge'
+import sanitizeHtml from 'sanitize-html';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT, EVENT_TYPE} = constants
 
@@ -25,6 +26,21 @@ export const getCharacterLimitByRule = (ruleName) => {
         return CHARACTER_LIMIT.LONG_STRING
     }
     return null
+}
+
+export const sanitizeString = (string) => {
+    return sanitizeHtml(string, {
+        allowedTags: [
+            'a', 'abbr', 'acronym', 'b',
+            'blockquote', 'code', 'em', 'i',
+            'li', 'ol', 'strong', 'ul',
+            'p', 'div', 'br'],
+        disallowedTagsMode: 'discard',
+        allowedAttributes: {
+            'a': [ 'href' ],
+        },
+        allowedIframeHostnames: ['www.youtube.com'],
+    })
 }
 
 /**
@@ -77,37 +93,41 @@ export const emptyField = (object, field) => {
  * Nullifies multi language fields based on selected languages
  * @param   {object}    formValues          form containing the multi language field that will be nullified
  * @param   {array}     contentLanguages    selected languages
- * @return  {boolean}                       nullified multi language fields for unselected languages
+ * @return  {Object}                       nullified multi language fields for unselected languages
  */
 export const nullifyMultiLanguageValues = (formValues, contentLanguages) => {
     const multiLanguageFields = ['name', 'description', 'short_description', 'provider', 'location_extra_info', 'info_url', 'offers']
 
-    const nullifyField = value => Object.keys(value)
-        .reduce((acc, key) => set(acc, key, contentLanguages.includes(key) ? value[key] : null), {})
-
-    const multiLanguageValues = {}
-
-    for (const field of multiLanguageFields) {
-        const fieldValue = formValues[field];
-        // some multi-language fields might not have a value
-        if (isNil(fieldValue)) {
-            continue
-        }
-        if (field === 'offers') {
-            multiLanguageValues[field] = []
-            // nullify multi-language fields for every offer
-            fieldValue.forEach((offer, index) => {
-                multiLanguageValues[field].push(offer)
-                Object.keys(offer)
-                    // filter out the is_free key
-                    .filter(key => !['is_free','payment_methods'].includes(key))
-                    .forEach(key => multiLanguageValues[field][index][key] = !isNil(offer[key]) ? nullifyField(offer[key]) : null)
-            })
-            continue
-        }
-        multiLanguageValues[field] = nullifyField(fieldValue)
+    const nullifyAndSanitizeField = value => {
+        return Object.keys(value).reduce((acc, curr) => {
+            if (contentLanguages.includes(curr)) {
+                if (typeof value[curr] === 'string' && value[curr].length === 0) {
+                    acc[curr] = null
+                } else {
+                    acc[curr] = sanitizeString(value[curr])
+                }
+            } else {
+                acc[curr] = null
+            }
+            return acc;
+        }, {})
     }
-    return multiLanguageValues
+
+    return multiLanguageFields.reduce((multiLanguageValues, field) => {
+        if (!isNil(formValues[field])) {
+            if (field === 'offers') {
+                multiLanguageValues[field] = formValues[field].reduce((offers, offer, index) => {
+                    offers.push(offer);
+                    Object.keys(offer).filter(key => !['is_free', 'payment_methods'].includes(key))
+                        .forEach(key => offers[index][key] = !isNil(offer[key]) ? nullifyAndSanitizeField(offer[key]) : null)
+                    return offers
+                }, [])
+            } else {
+                multiLanguageValues[field] = nullifyAndSanitizeField(formValues[field])
+            }
+        }
+        return multiLanguageValues;
+    }, {})
 }
 
 /**

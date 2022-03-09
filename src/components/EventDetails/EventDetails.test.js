@@ -60,7 +60,7 @@ describe('removeScriptElements', () => {
     });
     test('replaces a potentially malicious script element from a string with an empty string', () => {
         const value = 'This <script>alert("is potentially");</script> malicious';
-        const expectedValue = 'This alert("is potentially"); malicious';
+        const expectedValue = 'This  malicious';
         expect(removeScriptElements(value)).toBe(expectedValue);
     });
     test('returns value if value is not a string', () => {

@@ -8,13 +8,12 @@ import {
     FormattedMessage,
     intlShape,
 } from 'react-intl'
-
 import {mapKeywordSetToForm} from '../../utils/apiDataMapping'
 import {getStringWithLocale, getEventLanguageType} from '../../utils/locale'
 import LinksToEvents from '../LinksToEvents/LinksToEvents'
 import {Badge} from 'reactstrap';
 import constants from '../../constants';
-import {getCurrentTypeSet} from '../../utils/helpers';
+import {getCurrentTypeSet, sanitizeString} from '../../utils/helpers';
 
 const {EVENT_TYPE} = constants
 
@@ -29,8 +28,9 @@ const {EVENT_TYPE} = constants
  */
 export const removeScriptElements = (value) => {
     if (typeof value !== 'string') { return value;}
-    return value.replace(/(<script[a-zA-Z\s="\d]*\/*>)|([&;]lt;script[a-zA-Z\s="&]*)[amp]*[&;]gt;|(<\/script[a-zA-Z\s="]*)>/gi, '');
+    return sanitizeString(value)
 }
+
 
 const NoValue = (props) => {
     let header = props.labelKey ? (<span ><FormattedMessage id={props.labelKey}/>&nbsp;</span>) : null
