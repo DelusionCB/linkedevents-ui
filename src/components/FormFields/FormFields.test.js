@@ -112,6 +112,8 @@ describe('FormField', () => {
                 enrolment_url: {},
                 maximum_attendee_capacity: {},
                 minimum_attendee_capacity: {},
+                audience_min_age: {},
+                audience_max_age: {},
             },
             contentLanguages: [
             ],
@@ -405,20 +407,54 @@ describe('FormField', () => {
             })
             describe('HelTextField', () => {
                 const wrapper = getWrapper()
-                const helfields = wrapper.find(HelTextField)
+                const textFieldElements = wrapper.find(HelTextField)
                 test('amount of heltextfields', () => {
-                    expect(helfields).toHaveLength(6)
+                    expect(textFieldElements).toHaveLength(9)
                 })
-                test('default props for HelTextFields', () => {
-                    const types = ['url', 'number', 'number', 'url', 'url', 'url']
-                    helfields.forEach((element, index) => {
-                        expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
-                        expect(element.prop('forceApplyToStore')).toBe(true)
-                        expect(element.prop('type')).toBe(types[index])
-                    })
+                const expectedTextFields = [
+                    {index: 0,type: 'url', id: 'event-location-virtual-url', name: 'virtualevent_url', hasValidation: true},
+                    {index: 1, type: 'number', id: 'audience_min_age', name: 'audience_min_age', hasValidation: false},
+                    {index: 2, type: 'number', id: 'audience_max_age', name: 'audience_max_age', hasValidation: false},
+                    {index: 3, type: 'url', id: 'enrolment_url', name: 'enrolment_url', hasValidation: true},
+                    {index: 4, type: 'number', id: 'minimum_attendee_capacity', name: 'minimum_attendee_capacity', hasValidation: true},
+                    {index: 5, type: 'number', id: 'maximum_attendee_capacity', name: 'maximum_attendee_capacity', hasValidation: true},
+                    {index: 6, type: 'url', id: 'extlink_facebook', name: 'extlink_facebook', label: 'Facebook', hasValidation: true},
+                    {index: 7, type: 'url', id: 'extlink_twitter', name: 'extlink_twitter', label: 'Twitter', hasValidation: true},
+                    {index: 8, type: 'url', id: 'extlink_instagram', name: 'extlink_instagram', label: 'Instagram', hasValidation: true},
+                ];
+                test.each(expectedTextFields)('correct props for HelTextField at index %#', (
+                    {index, type, id, name, label, hasValidation}
+                ) => {
+                    const element = textFieldElements.at(index);
+                    expect(element.prop('id')).toBe(id);
+                    expect(element.prop('type')).toBe(type);
+                    const fixedID = id.replace(/_/gi,'-');
+                    // for some reason only virtualevent_url textfield uses the intl.formatMessage to get the correct label
+                    const expectedMessage = index !== 0 ? <FormattedMessage id={fixedID}/> : defaultProps.intl.formatMessage({id: fixedID});
+
+                    // virtualevent_url HelTextField specific tests
+                    if (index === 0) {
+                        expect(element.prop('label')).toBe(expectedMessage);
+                        expect(element.prop('name')).toBe(name);
+                    } else if ([6,7,8].includes(index)) {
+                        // facebook/twitter/instagram HelTextField specific tests
+                        expect(element.prop('label')).toBe(label);
+                        expect(element.prop('name')).toBe(id);
+                    }
+                    else {
+                        expect(element.prop('label')).toEqual(expectedMessage);
+                        expect(element.prop('name')).toBe(id);
+                    }
+                    expect(element.prop('validationErrors')).toBe(defaultProps.editor.validationErrors[name])
+
+                    expect(element.prop('defaultValue')).toBe(defaultProps.editor.values[name])
+                    if (hasValidation) {
+                        const correctValidations = type === 'url' ? VALIDATION_RULES.IS_URL : VALIDATION_RULES.IS_INT;
+                        expect(element.prop('validations')).toEqual([correctValidations])
+                    }
                 })
                 test('correct props for virtualevent_url field', () => {
-                    const virtualHelText = helfields.at(0)
+                    const virtualHelText = textFieldElements.at(0)
                     expect(virtualHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(virtualHelText.prop('id')).toBe('event-location-virtual-url')
                     expect(virtualHelText.prop('name')).toBe('virtualevent_url')
@@ -428,23 +464,23 @@ describe('FormField', () => {
                     expect(virtualHelText.prop('disabled')).toBe(true)
                 })
                 test('correct props for enrolment min age field', () => {
-                    const enrolmentHelText = helfields.at(1)
+                    const enrolmentHelText = textFieldElements.at(1)
                     expect(enrolmentHelText.prop('id')).toBe('audience_min_age')
                     expect(enrolmentHelText.prop('name')).toBe('audience_min_age')
                     expect(enrolmentHelText.prop('label')).toEqual(<FormattedMessage id="audience-min-age"/>)
-                    expect(enrolmentHelText.prop('validationErrors')).toBe(undefined)
+                    expect(enrolmentHelText.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.audience_min_age)
                     expect(enrolmentHelText.prop('defaultValue')).toBe(defaultProps.editor.values.audience_min_age)
                 })
                 test('correct props for enrolment max age field', () => {
-                    const enrolmentHelText = helfields.at(2)
+                    const enrolmentHelText = textFieldElements.at(2)
                     expect(enrolmentHelText.prop('id')).toBe('audience_max_age')
                     expect(enrolmentHelText.prop('name')).toBe('audience_max_age')
                     expect(enrolmentHelText.prop('label')).toEqual(<FormattedMessage id="audience-max-age"/>)
-                    expect(enrolmentHelText.prop('validationErrors')).toBe(undefined)
+                    expect(enrolmentHelText.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.audience_max_age)
                     expect(enrolmentHelText.prop('defaultValue')).toBe(defaultProps.editor.values.audience_max_age)
                 })
                 test('correct props for event facebook field', () => {
-                    const faceHelText = helfields.at(3)
+                    const faceHelText = textFieldElements.at(6)
                     expect(faceHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(faceHelText.prop('id')).toBe('extlink_facebook')
                     expect(faceHelText.prop('name')).toBe('extlink_facebook')
@@ -454,7 +490,7 @@ describe('FormField', () => {
                     expect(faceHelText.prop('disabled')).toBe(false)
                 })
                 test('correct props for event twitter field', () => {
-                    const twitterHelText = helfields.at(4)
+                    const twitterHelText = textFieldElements.at(7)
                     expect(twitterHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(twitterHelText.prop('id')).toBe('extlink_twitter')
                     expect(twitterHelText.prop('name')).toBe('extlink_twitter')
@@ -464,7 +500,7 @@ describe('FormField', () => {
                     expect(twitterHelText.prop('disabled')).toBe(false)
                 })
                 test('correct props for event instagram field', () => {
-                    const instaHelText = helfields.at(5)
+                    const instaHelText = textFieldElements.at(8)
                     expect(instaHelText.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                     expect(instaHelText.prop('id')).toBe('extlink_instagram')
                     expect(instaHelText.prop('name')).toBe('extlink_instagram')
@@ -500,7 +536,6 @@ describe('FormField', () => {
                         datetime.forEach((element)=> {
                             expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                             expect(element.prop('disabled')).toBe(false)
-                            expect(element.prop('required')).toBe(true)
                         })
                     })
                     test('enrolment_start_time', () => {
@@ -687,19 +722,46 @@ describe('FormField', () => {
             })
             describe('CustomDateTime', () => {
                 const wrapper = getWrapper()
-                const datetime = wrapper.find(CustomDateTime)
-                test('amount of CustonDateTimes', () => {
-                    expect(datetime).toHaveLength(2)
+                const dateTimeElements = wrapper.find(CustomDateTime)
+                test('amount of CustomDateTimes', () => {
+                    expect(dateTimeElements).toHaveLength(4)
                 })
+                const expectedCustomComponents = [
+                    {index: 0, id: 'start_time', labelD: 'event-starting-datelabel', required: true, minDate: false},
+                    {index: 1, id: 'end_time', labelD: 'event-ending-datelabel', required: true, minDate: true},
+                    {index: 2, id: 'enrolment_start_time', labelD: 'enrolment-start-time', required: false, minDate: false},
+                    {index: 3, id: 'enrolment_end_time', labelD: 'enrolment-end-time', required: false, minDate: true},
+                ];
+                test.each(expectedCustomComponents)('correct props for CustomDateTime at index %#', (
+                    {index, id, labelD, required, minDate}
+                ) => {
+                    const correctLabelTime = id.includes('end_time') ? 'event-ending-timelabel' : 'event-starting-timelabel';
+                    const element = dateTimeElements.at(index);
+                    expect(element.prop('id')).toBe(id);
+                    expect(element.prop('name')).toBe(id);
+                    expect(element.prop('labelDate')).toEqual(<FormattedMessage id={labelD} />);
+                    expect(element.prop('labelTime')).toEqual(<FormattedMessage id={correctLabelTime} />);
+                    expect(element.prop('disabled')).toBe(false);
+                    expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState);
+                    expect(element.prop('defaultValue')).toBe(defaultProps.editor.values[id]);
+                    expect(element.prop('validationErrors')).toBe(defaultProps.editor.validationErrors[id]);
+                    if (minDate){
+                        expect(element.prop('minDate')).toBeUndefined();
+                    } else {
+                        expect(element.prop('maxDate')).toBeUndefined();
+                    }
+                    if (required){
+                        expect(element.prop('required')).toBe(required);
+                    }
+                });
                 test('default props for CustomDateTime', () => {
-                    datetime.forEach((element)=> {
+                    dateTimeElements.forEach((element)=> {
                         expect(element.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                         expect(element.prop('disabled')).toBe(false)
-                        expect(element.prop('required')).toBe(true)
                     })
                 })
                 test('correct props for starting time CustomDateTime', () => {
-                    const startdatetime = datetime.at(0)
+                    const startdatetime = dateTimeElements.at(0)
                     expect(startdatetime.prop('id')).toBe('start_time')
                     expect(startdatetime.prop('name')).toBe('start_time')
                     expect(startdatetime.prop('labelDate')).toEqual(<FormattedMessage  id="event-starting-datelabel" />)
@@ -709,7 +771,7 @@ describe('FormField', () => {
                     expect(startdatetime.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.start_time)
                 })
                 test('correct props for ending time CustomDateTime', () => {
-                    const endingdatetime = datetime.at(1)
+                    const endingdatetime = dateTimeElements.at(1)
                     expect(endingdatetime.prop('id')).toBe('end_time')
                     expect(endingdatetime.prop('disablePast')).toBe(true)
                     expect(endingdatetime.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.end_time)
@@ -807,7 +869,7 @@ describe('FormField', () => {
                 const instance = wrapper.instance();
                 const collapse = wrapper.find(Collapse)
                 test('correct amount of Collapses', () => {
-                    expect(collapse).toHaveLength(6)
+                    expect(collapse).toHaveLength(7)
                 })
                 test('correct states for Collapses', () => {
                     expect(collapse.at(0).prop('isOpen')).toBe(instance.state.headerLocationDate)
@@ -823,7 +885,7 @@ describe('FormField', () => {
                 const instance = wrapper.instance();
                 const buttons = wrapper.find(CollapseButton)
                 test('amount of collapse buttons', () => {
-                    expect(buttons).toHaveLength(6)
+                    expect(buttons).toHaveLength(7)
                 })
                 test('default props for collapse Buttons', () => {
                     buttons.forEach((button) => {
@@ -835,8 +897,9 @@ describe('FormField', () => {
                     expect(buttons.at(1).prop('id')).toBe('headerImage')
                     expect(buttons.at(2).prop('id')).toBe('headerCategories')
                     expect(buttons.at(3).prop('id')).toBe('headerPrices')
-                    expect(buttons.at(4).prop('id')).toBe('headerSocials')
-                    expect(buttons.at(5).prop('id')).toBe('headerInlanguage')
+                    expect(buttons.at(4).prop('id')).toBe('headerCourses')
+                    expect(buttons.at(5).prop('id')).toBe('headerSocials')
+                    expect(buttons.at(6).prop('id')).toBe('headerInlanguage')
                 })
             })
             describe('event type radios', () => {

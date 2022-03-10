@@ -170,7 +170,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "event-has-umbrella": "Liittyy kattotapahtumaan",
       "event-has-umbrella-select-tip": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "event-headline": "Otsikko",
-      "event-hobby-form-header": "Syötä ilmoittautumistiedot*",
+      "event-hobby-form-header": "Syötä ilmoittautumistiedot",
       "event-image-modal-image-license-explanation-only": "Käyttö rajattu tapahtuman yhteyteen: kuvaa saa käyttää ja jakaa vain tämän tapahtumatiedon yhteydessä.",
       "event-image-modal-license-restricted": "Käyttö rajattu tapahtuman yhteyteen.",
       "event-image-title": "Tapahtuman kuva*",

@@ -531,27 +531,27 @@ const EventDetails = (props) => {
 
             <TextValue labelKey="audience-min-age" value={values['audience_min_age']}/>
             <TextValue labelKey="audience-max-age" value={values['audience_max_age']}/>
-            {values['type_id'] !== EVENT_TYPE.GENERAL &&
-                <React.Fragment>
-                    <FormHeader>
-                        {intl.formatMessage({id: 'enrolment-header'})}
-                    </FormHeader>
 
-                    <TextValue labelKey="enrolment-url" value={values['enrolment_url']}/>
 
-                    <FormHeader>
-                        {intl.formatMessage({id: 'enrolment-time'})}
-                    </FormHeader>
-                    <DateTime locale={intl.locale} value={values['enrolment_start_time']} labelKey="enrolment-start-time"/>
-                    <DateTime locale={intl.locale} value={values['enrolment_end_time']} labelKey="enrolment-end-time"/>
+            <FormHeader>
+                {intl.formatMessage({id: 'enrolment-header'})}
+            </FormHeader>
 
-                    <FormHeader>
-                        {intl.formatMessage({id: 'attendee-capacity'})}
-                    </FormHeader>
-                    <TextValue labelKey="minimum-attendee-capacity" value={values['minimum_attendee_capacity']}/>
-                    <TextValue labelKey="maximum-attendee-capacity" value={values['maximum_attendee_capacity']}/>
-                </React.Fragment>
-            }
+            <TextValue labelKey="enrolment-url" value={values['enrolment_url']}/>
+
+            <FormHeader>
+                {intl.formatMessage({id: 'enrolment-time'})}
+            </FormHeader>
+            <DateTime locale={intl.locale} value={values['enrolment_start_time']} labelKey="enrolment-start-time"/>
+            <DateTime locale={intl.locale} value={values['enrolment_end_time']} labelKey="enrolment-end-time"/>
+
+            <FormHeader>
+                {intl.formatMessage({id: 'attendee-capacity'})}
+            </FormHeader>
+            <TextValue labelKey="minimum-attendee-capacity" value={values['minimum_attendee_capacity']}/>
+            <TextValue labelKey="maximum-attendee-capacity" value={values['maximum_attendee_capacity']}/>
+
+
             {!props.disableSuperEventLinks &&
     <React.Fragment>
         <FormHeader>

@@ -259,7 +259,7 @@
     "event-location-button-tooltip": "No location selected",
     "event-location-map-error-missing-coordinates": "Selected location has no coordinates.",
 
-    "event-hobby-form-header": "Enter registration information*",
+    "event-hobby-form-header": "Enter registration information",
 
     "event-price-fields-header": "Event price",
     "event-price-header": "Enter price details",

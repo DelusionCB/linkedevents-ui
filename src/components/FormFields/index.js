@@ -769,7 +769,6 @@ class FormFields extends React.Component {
                                     forceApplyToStore
                                     type='number'
                                     min={0}
-                                    required={values.type_id !== CONSTANTS.EVENT_TYPE.GENERAL}
                                 />
 
                                 <HelTextField
@@ -817,12 +816,10 @@ class FormFields extends React.Component {
                         </div>
                     </Collapse>
                 </div>
-                {values['type_id'] !== CONSTANTS.EVENT_TYPE.GENERAL &&
                 <div>
                     <h2>
                         <CollapseButton
                             id='headerCourses'
-                            isRequired={values['type_id'] !== CONSTANTS.EVENT_TYPE.GENERAL}
                             isOpen={this.state.headerCourses}
                             targetCollapseNameId='event-hobby-form-header'
                             toggleHeader={this.toggleHeader}
@@ -846,7 +843,6 @@ class FormFields extends React.Component {
                                     type='url'
                                     placeholder='https://...'
                                     disabled={userDoesNotExist}
-                                    required={values.type_id !== CONSTANTS.EVENT_TYPE.GENERAL}
                                 />
                             </div>
                         </div>
@@ -863,7 +859,6 @@ class FormFields extends React.Component {
                                     maxDate={values['enrolment_end_time'] ? moment(values['enrolment_end_time']) : undefined}
                                     disabled={formType === 'update' && isSuperEvent}
                                     validationErrors={validationErrors['enrolment_start_time']}
-                                    required={values['type_id'] !== 1}
                                 />
                                 <CustomDateTime
                                     id="enrolment_end_time"
@@ -876,7 +871,6 @@ class FormFields extends React.Component {
                                     labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                                     setDirtyState={this.props.setDirtyState}
                                     minDate={values['enrolment_start_time'] ? moment(values['enrolment_start_time']) : undefined}
-                                    required={values['type_id'] !== 1}
                                 />
                             </div>
                         </div>
@@ -916,7 +910,7 @@ class FormFields extends React.Component {
                         </div>
                     </Collapse>
                 </div>
-                }
+
                 <div>
                     <h2>
                         <CollapseButton

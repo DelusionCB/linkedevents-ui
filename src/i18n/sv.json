@@ -236,7 +236,7 @@
     "event-social-header": "Ange evenemangets kanaler",
     "hobby-social-header": "Ange hobbyns kanaler",
 
-    "event-hobby-form-header": "Mata in anmälningsinformationen*",
+    "event-hobby-form-header": "Mata in anmälningsinformationen",
     "event-price-header": "Mata in prisinformation",
     "event-price-count": "Prisinformation {count}",
     "event-add-price":  "Lägg till en ny prisinformation",
