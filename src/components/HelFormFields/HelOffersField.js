@@ -1,13 +1,13 @@
 import './HelOffersField.scss';
 import PropTypes from 'prop-types';
-import React, {Fragment} from 'react';
+import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import HelCheckbox from './HelCheckbox';
 import NewOffer from './NewOffer';
 import {Button} from 'reactstrap';
 import constants from '../../constants';
-import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js';
+import SelectorRadio from './Selectors/SelectorRadio';
+import {addOffer, setFreeOffers} from 'src/actions/editor.js';
 
 const {GENERATE_LIMIT} = constants;
 class HelOffersField extends React.Component {
@@ -18,47 +18,39 @@ class HelOffersField extends React.Component {
 
     constructor(props) {
         super(props);
-        let isFreeEvent = true;
-        if (this.props.defaultValue && this.props.defaultValue.length > 0) {
-            isFreeEvent = false; //we have length in defaultvalue array so we have prices -> not a free event.
-        }
         this.state = {
-            values: this.props.defaultValue,
-            isFree: isFreeEvent,
+            // defaultValue exists and has length > 0 -> isFree: false
+            isFree: !(this.props.defaultValue && this.props.defaultValue.length > 0),
         };
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.defaultValue && this.props.defaultValue !== this.state.values) {
-            this.setState({values: this.props.defaultValue});
+        const {defaultValue: currentValue} = this.props;
+
+        // defaultValue was previously falsy and is now truthy.
+        if (prevProps.defaultValue !== currentValue && currentValue && this.state.isFree) {
+            this.setState({isFree: false});
         }
-        if (this.props.defaultValue && this.props.defaultValue[0] && this.props.defaultValue[0].is_free !== this.state.isFree ) {
-            this.setState({isFree: this.props.defaultValue[0].is_free});
-        }
-        if (prevProps.defaultValue !== 0 && this.props.defaultValue == 0) {
-            this.context.dispatch(setFreeOffers(!this.state.isFree));
-            this.setState({values: undefined, isFree: !this.state.isFree});
+        // defaultValue was previously truthy and is now falsy.
+        if (prevProps.defaultValue && !currentValue) {
+            this.setState({isFree: true});
         }
     }
 
-    setIsFree(e, value) {
-        if (!this.props.defaultValue || !this.props.defaultValue.length) {
+    togglePricing = () => {
+        if (this.state.isFree) {
             this.addNewOffer();
-            this.context.dispatch(setOfferData({0: {is_free: !this.state.isFree}}, 0));
         } else {
-            this.context.dispatch(setFreeOffers(!this.state.isFree));
+            this.context.dispatch(setFreeOffers());
         }
-        this.setState({isFree: !this.state.isFree});
     }
 
-    addNewOffer() {
-        const obj = {
-            is_free: this.state.isFree,
-        };
-        this.context.dispatch(addOffer(obj));
+    addNewOffer = () => {
+        this.context.dispatch(addOffer({is_free: false}));
     }
 
-    generateOffers(offers) {
+    generateOffers() {
+        const offers = this.props.defaultValue;
         const newOffers = [];
         let keys;
         let firstKey;
@@ -66,7 +58,6 @@ class HelOffersField extends React.Component {
             keys = Object.keys(offers);
             firstKey = keys.length > 1 ? keys[keys.length - 1] : keys[0];
         }
-
         for (const key in offers) {
             if (offers.hasOwnProperty(key) && !this.state.isFree) {
                 newOffers.push(
@@ -88,34 +79,50 @@ class HelOffersField extends React.Component {
         return newOffers;
     }
 
-    render() {
-        const {values} = this.state;
+    getToggleRadios() {
+        const {isFree} = this.state;
         const {disabled} = this.props;
-        const offerDetails = this.generateOffers(this.props.defaultValue);
+        return (
+            <div className='row price-toggle'>
+                <SelectorRadio
+                    checked={isFree}
+                    disabled={disabled}
+                    handleCheck={this.togglePricing}
+                    messageID='is-free'
+                    value='is_free'
+                />
+                <SelectorRadio
+                    checked={!isFree}
+                    disabled={disabled}
+                    handleCheck={this.togglePricing}
+                    messageID='is-not-free'
+                    value='is_not_free'
+                />
+            </div>
+        )
+    }
+
+    render() {
+        const {disabled, defaultValue} = this.props;
         //Change OFFER_LENGTH in constants to change maximum length of prices users can add, currently limited to 20
-        const isOverLimit = values && values.length >= GENERATE_LIMIT.OFFER_LENGTH;
+        const isOverLimit = defaultValue && defaultValue.length >= GENERATE_LIMIT.OFFER_LENGTH;
         const disabledButton = disabled || isOverLimit || this.state.isFree;
 
         return (
-            <Fragment>
-                <HelCheckbox
-                    fieldID='is-free-checkbox'
-                    defaultChecked={this.state.isFree}
-                    disabled={disabled}
-                    ref='is_free'
-                    label={<FormattedMessage id='is-free' />}
-                    onChange={(e, v) => this.setIsFree(e, v)}
-                />
+            <React.Fragment>
+                {this.getToggleRadios()}
                 <div className="offers">
-                    { offerDetails }
+                    { defaultValue && this.generateOffers() }
                 </div>
                 {!this.state.isFree &&
                     <Button
-                        size='lg'block
+                        size='lg'
+                        block
                         variant="contained"
                         disabled={disabledButton}
-                        onClick={() => this.addNewOffer()}
-                    ><span aria-hidden className="glyphicon glyphicon-plus"></span>
+                        onClick={this.addNewOffer}
+                    >
+                        <span aria-hidden className="glyphicon glyphicon-plus" />
                         <FormattedMessage id="event-add-price" />
                     </Button>
                 }
@@ -124,15 +131,15 @@ class HelOffersField extends React.Component {
                         <FormattedMessage id='event-add-price-limit' values={{count: GENERATE_LIMIT.OFFER_LENGTH}} />
                     </p>
                 }
-            </Fragment>
+            </React.Fragment>
         );
     }
 }
 
 HelOffersField.propTypes = {
-    defaultValue: PropTypes.array,
+    defaultValue: PropTypes.arrayOf(PropTypes.object),
     validationErrors: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    languages: PropTypes.array,
+    languages: PropTypes.arrayOf(PropTypes.string),
     disabled: PropTypes.bool,
     editor: PropTypes.object,
 };

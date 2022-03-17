@@ -80,12 +80,13 @@ function mapUIDataToAPIFormat(values) {
     }
 
     // Price data
-    if (values.offers === undefined) {
-        obj.offers = []
-    }
+    // Redundant/unnecessary offers e.g. offers that are free, aren't added to the final object.
     if(values.offers && values.offers.length && !values.offers[0].is_free) {
         obj.offers = values.offers
-    } else {
+    }
+
+    // For some reason the backend requires published events to contain an offer even when they're free.
+    if (!obj.offers && obj.publication_status === PUBLICATION_STATUS.PUBLIC) {
         obj.offers = [{is_free: true}]
     }
 
@@ -184,7 +185,8 @@ function mapAPIDataToUIFormat(values) {
     obj.is_virtualevent = values.is_virtualevent
     obj.virtualevent_url = values.virtualevent_url
 
-    if(values.offers) {
+    // Price data
+    if (values.offers && values.offers.length && !values.offers[0].is_free) {
         obj.offers = values.offers
     }
 
@@ -222,7 +224,7 @@ function mapAPIDataToUIFormat(values) {
     if(values.end_time) {
         obj.end_time = values.end_time
     }
-    
+
     if(values.images) {
         obj.image = values.images[0]
     }

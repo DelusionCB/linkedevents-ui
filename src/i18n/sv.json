@@ -282,6 +282,7 @@
 
     "event-price-fields-header": "Prisuppgifter",
     "is-free": "Avgiftsfri",
+    "is-not-free": "Avgiftsbelagd",
     "event-is-free": "Evenemanget är avgiftsfritt",
     "event-price": "Pris",
     "event-price-info": "Beskrivning av prisuppgifterna",

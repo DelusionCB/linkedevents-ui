@@ -104,8 +104,8 @@ describe('actions/editor', () => {
 
     describe('setFreeOffers', () => {
         test('return object with correct type & isFree', () => {
-            const expectedResult  = {type: EDITOR_SET_FREE_OFFERS, isFree: true}
-            expect(setFreeOffers(true)).toEqual(expectedResult);
+            const expectedResult  = {type: EDITOR_SET_FREE_OFFERS}
+            expect(setFreeOffers()).toEqual(expectedResult);
         });
     });
 

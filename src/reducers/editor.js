@@ -68,10 +68,10 @@ function update(state = initialState, action) {
         } else {
             newValues = Object.assign({}, state.values, action.values)
         }
-    
+
         // Local storage saving disabled for now
         // localStorage.setItem('EDITOR_VALUES', JSON.stringify(newValues))
-    
+
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors, check if they are fixed
         if (_.keys(state.validationErrors).length > 0) {
@@ -138,7 +138,7 @@ function update(state = initialState, action) {
                 },
             },
         })
-        
+
         let validationErrors = Object.assign({}, state.validationErrors)
         // If there are validation errors in sub_events, check if they are fixed
         if (state.validationErrors.sub_events) {
@@ -207,38 +207,30 @@ function update(state = initialState, action) {
         const index = parseInt(action.offerKey)
         const offers = JSON.parse(JSON.stringify(state.values.offers))
         offers.splice(index, 1)
+        /**
+         * If offers.length is falsy(zero in this case) -> last offer was deleted -> unset offers,
+         * otherwise set updated offers.
+         */
+        const updateValues = offers.length ? {offers: {$set: offers}} : {$unset: ['offers']};
+
         return updater(state, {
             values: {
-                offers: {
-                    $set: offers,
-                },
+                ...updateValues,
             },
         });
     }
 
     if (action.type === constants.EDITOR_SET_FREE_OFFERS) {
-        const offers = JSON.parse(JSON.stringify(state.values.offers))
-        for (const offer of offers) {
-            offer.is_free = action.isFree
-        }
-
-        if (action.isFree === true) {
-            // Event is free so we can clear the offers key from state store
-            // this prevents validation errors on possibly already entered offer fields
-            return updater(state, {
-                values: {
-                    $unset: ['offers'],
-                },
-            })
-        }
-
+        // Event is free so we can clear the offers key from state store
+        // this prevents validation errors on possibly already entered offer fields
         return updater(state, {
             values: {
-                offers: {
-                    $set: offers,
-                },
+                $unset: ['offers'],
             },
         })
+
+
+
     }
 
     if (action.type === constants.EDITOR_SETLANGUAGES) {

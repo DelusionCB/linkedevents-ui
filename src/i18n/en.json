@@ -264,6 +264,7 @@
     "event-price-fields-header": "Event price",
     "event-price-header": "Enter price details",
     "is-free": "Free",
+    "is-not-free": "Paid",
     "event-is-free": "The event is free",
     "event-price": "Price",
     "event-price-info": "Price information",

@@ -98,10 +98,9 @@ export function clearValue(values) {
         values,
     }
 }
-export function setFreeOffers(isFree) {
+export function setFreeOffers() {
     return {
         type: constants.EDITOR_SET_FREE_OFFERS,
-        isFree,
     }
 }
 export function setLanguages(languages) {
