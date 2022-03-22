@@ -85,9 +85,14 @@ function mapUIDataToAPIFormat(values) {
         obj.offers = values.offers
     }
 
-    // For some reason the backend requires published events to contain an offer even when they're free.
-    if (!obj.offers && obj.publication_status === PUBLICATION_STATUS.PUBLIC) {
-        obj.offers = [{is_free: true}]
+    // The backend requires the offers key to have some kind of value.
+    if (!obj.offers) {
+        // Draft events must at least contain an empty array.
+        obj.offers = [];
+        if (obj.publication_status === PUBLICATION_STATUS.PUBLIC) {
+            // Published events must contain the following offer even if the event is free.
+            obj.offers.push({is_free: true});
+        }
     }
 
     // Keywords, audience, languages
