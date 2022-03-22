@@ -21,10 +21,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
 
 if(process.env.NODE_ENV !== 'development') {
-    app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
-    app.get('*', function (req, res) {
-        res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
-    });
+    const distPath = path.resolve(__dirname, '..', 'dist');
+    app.use(express.static(distPath));
+    app.use('*', express.static(distPath));
 } else {
     const indexTemplate = require('./renderIndexTemplate');
     const compiler = webpack(config)
@@ -37,12 +36,14 @@ if(process.env.NODE_ENV !== 'development') {
         },
     }));
     app.use(webpackHotMiddleware(compiler));
-    
     app.get('*', (req, res) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html')   
-        res.end(indexTemplate)
-    })
+        res.send(indexTemplate);
+    });
 }
-console.log('Starting server at port', settings.port);
-app.listen(settings.port);
+console.log(`Starting ${process.env.NODE_ENV} server...`);
+app.listen(settings.port, () => {
+    console.log(`${process.env.NODE_ENV} server running on port ${settings.port}.`)
+}).on('error', (e) => {
+    console.error(e);
+    throw new Error(e.code);
+});
