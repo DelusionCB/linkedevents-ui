@@ -701,5 +701,12 @@
     "select-reader": "{count} {count plural, one {result} other {results}} available",
 
     "editor-show-broader-concepts": "Show broader concepts for keyword '{value}'.",
-    "editor-show-narrower-concepts": "Show narrower concepts for keyword '{value}'."
+    "editor-show-narrower-concepts": "Show narrower concepts for keyword '{value}'.",
+
+    "confirm-language-remove": "Confirm change of publishing language",
+    "remove-language": "Delete language",
+
+    "fi-language-remove": "Notice! All content for language 'finnish' will be cleared.",
+    "sv-language-remove": "Notice! All content for language 'swedish' will be cleared.",
+    "en-language-remove": "Notice! All content for language 'english' will be cleared."
 }

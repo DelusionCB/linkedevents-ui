@@ -228,12 +228,29 @@ describe('reducers/editor', () => {
         });
 
         describe('EDITOR_SETLANGUAGES', () => {
-            test('returns state with contentLanguages set', () => {
-                const nextState = update(
+            test('returns state with contentLanguages set cleares languages not in content', () => {
+                const langState = update(
                     INITIAL_STATE,
-                    {type: EDITOR_SETLANGUAGES, languages: mockLanguages}
+                    {type: EDITOR_SETLANGUAGES, languages: ['fi','sv']}
+                )
+                const firstState = update(
+                    langState,
+                    {type: EDITOR_SETDATA, values: {name: {sv: 'test', fi: 'test'},
+                        short_description: {sv: 'testdesc', fi: 'testdesc'}},
+                    contentLanguages: ['fi', 'sv']}
                 );
-                const expectedState = getProps(INITIAL_STATE, {contentLanguages: mockLanguages});
+                const nextState = update(
+                    firstState,
+                    {type: EDITOR_SETLANGUAGES, languages: ['fi']}
+                );
+                const expectedState = getProps(nextState,{
+                    values: {
+                        name: {fi: 'test'},
+                        short_description: {fi: 'testdesc'},
+                        sub_events: {},
+                    },
+                    contentLanguages: ['fi'],
+                });
                 expect(nextState).toEqual(expectedState);
             });
         });

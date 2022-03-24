@@ -118,14 +118,11 @@ class TypeSelector extends React.Component {
         const {value} = event.target
         const {editor:{values}} = this.props;
 
-        let checkValues = [values.keywords, values.enrolment_url, values.enrolment_start_time,
-            values.enrolment_end_time, values.minimum_attendee_capacity,
-            values.maximum_attendee_capacity]
+        let checkValues = [values.keywords]
         // Falsy values are filtered
         checkValues = checkValues.filter(val => val);
         // Keys used for clearing values from editor.values
-        const clearValueKeys = ['keywords' ,'enrolment_url', 'enrolment_start_time',
-            'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity']
+        const clearValueKeys = 'keywords'
 
         const content = {}
         const valuesToClear = []
@@ -134,8 +131,8 @@ class TypeSelector extends React.Component {
             content.type_id = EVENT_TYPE.GENERAL;
             content.type = value;
             // If checkValues has length more than 0, push keys to clear and strings for modal
-            if (checkValues.length > 0) {
-                valuesToClear.push(...clearValueKeys);
+            if (checkValues.includes(values.keywords)) {
+                valuesToClear.push(clearValueKeys);
                 additionalMsg = <FormattedMessage id='event-type-switch' />
             }
         }
@@ -150,7 +147,7 @@ class TypeSelector extends React.Component {
             content.type = value
             // If checkValues includes values.keywords, push keys[0] to clear and strings for modal
             if (checkValues.includes(values.keywords)) {
-                valuesToClear.push(clearValueKeys[0])
+                valuesToClear.push(clearValueKeys)
                 additionalMsg = <FormattedMessage id='hobby-type-switch' />
 
             }

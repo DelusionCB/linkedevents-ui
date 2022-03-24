@@ -87,8 +87,7 @@ describe('TypeSelector', () => {
                 dispatch.mockClear()
             });
 
-            const clearValueKeys = ['keywords' ,'enrolment_url', 'enrolment_start_time',
-                'enrolment_end_time', 'minimum_attendee_capacity', 'maximum_attendee_capacity']
+            const clearValueKeys = ['keywords']
 
             const confirmationCall = [
                 {action: (e) => {

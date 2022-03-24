@@ -713,5 +713,12 @@
     "select-menu-choose": "Käytä ylös ja alas nuolinäppäimiä selataksesi vaihtoehtoja",
 
     "editor-show-broader-concepts": "Näytä asiasanan '{value}' yläkäsitteet.",
-    "editor-show-narrower-concepts": "Näytä asiasanan '{value}' alakäsitteet."
+    "editor-show-narrower-concepts": "Näytä asiasanan '{value}' alakäsitteet.",
+
+    "confirm-language-remove": "Vahvista julkaisukielen muutos",
+    "remove-language": "Poista kieli",
+
+    "fi-language-remove": "Huom! Kaikki kielelle 'suomi' lisätyt tiedot tyhjennetään.",
+    "sv-language-remove": "Huom! Kaikki kielelle 'ruotsi' lisätyt tiedot tyhjennetään.",
+    "en-language-remove": "Huom! Kaikki kielelle 'englanti' lisätyt tiedot tyhjennetään."
 }

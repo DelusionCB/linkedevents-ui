@@ -6,6 +6,7 @@ import {mapAPIDataToUIFormat} from 'src/utils/formDataMapping.js'
 import getContentLanguages from 'src/utils/language'
 
 import {doValidations} from 'src/validation/validator.js'
+import {deleteUnselectedLangKeys} from '../utils/helpers';
 
 let editorValues = {
     sub_events: {},
@@ -228,14 +229,22 @@ function update(state = initialState, action) {
                 $unset: ['offers'],
             },
         })
-
-
-
     }
 
     if (action.type === constants.EDITOR_SETLANGUAGES) {
-        return Object.assign({}, state, {
-            contentLanguages: action.languages,
+        const currentLanguages = state.contentLanguages
+        // contains languages are no longer selected.
+        const unselectedLanguages = currentLanguages.filter((lang) => !action.languages.includes(lang))
+        const updatedState = {contentLanguages: {$set: action.languages}};
+        if (unselectedLanguages.length) {
+            // delete unselected language fields from values & set to state
+            const newValues = deleteUnselectedLangKeys(state.values, unselectedLanguages);
+            updatedState.values = {
+                $set: newValues,
+            };
+        }
+        return updater(state, {
+            ...updatedState,
         });
     }
 

@@ -704,5 +704,12 @@
 
 
     "editor-show-broader-concepts": "Visa överordnade begrepp för ämnesordet '{value}'.",
-    "editor-show-narrower-concepts": "Visa underordnade begrepp för ämnesordet '{value}'."
+    "editor-show-narrower-concepts": "Visa underordnade begrepp för ämnesordet '{value}'.",
+
+    "confirm-language-remove": "Bekräfta ändring av publiceringsspråk",
+    "remove-language": "Ändra språk",
+
+    "fi-language-remove": "OBS! All inmatad data för språket 'finska' raderas.",
+    "sv-language-remove": "OBS! All inmatad data för språket 'svenska' raderas.",
+    "en-language-remove": "OBS! All inmatad data för språket 'engelska' raderas."
 }

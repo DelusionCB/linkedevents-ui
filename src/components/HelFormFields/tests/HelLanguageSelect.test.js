@@ -3,6 +3,8 @@ import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 import {UnconnectedLanguageSelect} from '../HelLanguageSelect';
 
+import {confirmAction} from '../../../actions/app';
+const dispatch = jest.fn()
 const defaultProps = {
     options: [
         {value: 'fi', label: 'FI'},
@@ -11,8 +13,16 @@ const defaultProps = {
     ],
     onChange: () => {},
     setLanguages: () => {},
-    checked: ['fi'],
+    checked: ['fi', 'en'],
     disabled: false,
+    confirmAction: jest.fn(),
+    editor: {
+        values: {
+            name: {fi: 'test', en: 'test'},
+            description: {fi: 'test', en: 'test'},
+            sub_events: {},
+        },
+    },
 };
 
 describe('HelLanguageSelect', () => {
