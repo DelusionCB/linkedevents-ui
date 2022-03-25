@@ -33,6 +33,7 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
                     defaultValue={event.end_time}
                     eventKey={eventKey}
                     validationErrors={errors['end_time']}
+                    required={true}
                 />
             </div>
             <button
