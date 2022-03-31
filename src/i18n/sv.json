@@ -514,6 +514,8 @@
 
     "editor-tip-location": "Anvisningen om att välja plats",
 
+    "editor-tip-offers-sidefield": "Anvisning om prisuppgifter",
+    "editor-tip-offers-payment-method": "OBS! Den första prisinformationens betalningsmetoder ärvs av alla andra prisinformation om de inte har betalningsmetoder då evenemanget sparas.",
     "editor-headerbutton-collapse": "Klicka för att stänga sektionen",
     "editor-headerbutton-expand": "Klicka för att utöka sektionen",
     "editor-expand-required": "Detta sektion krävs",

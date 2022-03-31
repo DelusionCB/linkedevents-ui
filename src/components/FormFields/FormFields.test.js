@@ -257,26 +257,28 @@ describe('FormField', () => {
         describe('components', () => {
 
             describe('FormattedMessage', () => {
-                test('Correct amount of formattedMessages rendered', () => {
+                test('Correct amount of FormattedMessage components rendered', () => {
                     const wrapper = getWrapper()
                     const messages = wrapper.find(FormattedMessage)
-                    expect(messages).toHaveLength(15)
+                    expect(messages).toHaveLength(16)
                 })
                 const expectedMessages = [
-                    {message: 'create-events', index: 0}, {message: 'editor-tip-required', index: 1}, {message: 'event-editor-tip-location-multi', index: 2},
-                    {message: 'event-editor-tip-location-internet', index: 3}, {message: 'event-editor-tip-location-not-found', index: 4},
-                    {message: 'event-location-button', index: 5}, {message: 'editor-tip-event-umbrella-selection', index: 6},
-                    {message: 'editor-tip-event-umbrella-selection1', index: 7}, {message: 'editor-tip-event-time-start', index: 8},
-                    {message: 'editor-tip-event-time-start-end', index: 9}, {message: 'editor-tip-event-time-type', index: 10},
-                    {message: 'editor-tip-event-time-end', index: 11}, {message: 'event-type-single', index: 12},
-                    {message: 'event-type-recurring', index: 13}, {message: 'editor-tip-eventtype-disable', index: 14},
+                    'create-events', 'editor-tip-required',
+                    'event-editor-tip-location-multi', 'event-editor-tip-location-internet',
+                    'event-editor-tip-location-not-found', 'event-location-button',
+                    'editor-tip-event-umbrella-selection', 'editor-tip-event-umbrella-selection1',
+                    'editor-tip-event-time-start', 'editor-tip-event-time-start-end',
+                    'editor-tip-event-time-type', 'editor-tip-event-time-end',
+                    'event-type-single', 'event-type-recurring',
+                    'editor-tip-eventtype-disable', 'editor-tip-offers-payment-method',
                 ]
                 test.each(expectedMessages) (
-                    'FormattedMessage %# has correct props',
-                    ({message, index}) => {
+                    'FormattedMessage id: "%s" exists and has correct props',
+                    (message) => {
                         const wrapper = getWrapper()
-                        const formatted = wrapper.find(FormattedMessage).at(index)
-                        expect(formatted.prop('id')).toEqual(message)
+                        const element = wrapper.findWhere((FormattedMessage) => FormattedMessage.prop('id') === message );
+                        expect(element).toHaveLength(1);
+                        expect(element.prop('id')).toBe(message);
                     }
                 )
             })
@@ -284,20 +286,19 @@ describe('FormField', () => {
             describe('SideField', () => {
                 const wrapper = getWrapper()
                 const Sidefields = wrapper.find(SideField)
-                test('amount of sidefields', () => {
-                    expect(Sidefields).toHaveLength(3)
+                test('amount of SideField components is 4', () => {
+                    expect(Sidefields).toHaveLength(4)
                 })
-                test('correct props', () => {
-                    const ids = ['editor-tip-location', 'editor-tip-umbrella', 'event-editor-tip-times']
-                    Sidefields.forEach((element, index) => {
-                        expect(element.prop('id')).toEqual(ids[index])
-                    })
+                test.each([
+                    'editor-tip-location','editor-tip-umbrella',
+                    'event-editor-tip-times', 'editor-tip-offers-sidefield',
+                ])('SideField with id: "%s" exists and has at least 1 FormattedMessage as a child.', (type) => {
+                    const element = wrapper.findWhere((SideField) => SideField.prop('id') === type);
+                    expect(element).toHaveLength(1);
+                    expect(element.prop('id')).toBe(type);
+                    expect(element.find(FormattedMessage).length).toBeGreaterThan(0);
                 })
-                test('sidefields childrens has formattedmesssages', () => {
-                    Sidefields.forEach((element) => {
-                        expect(element.find(FormattedMessage))
-                    })
-                })
+
                 test('first sidefield with correct amount of children',() => {
                     const fields = Sidefields.at(0).children();
                     expect(fields.find(FormattedMessage).length).toEqual(3)
@@ -313,7 +314,7 @@ describe('FormField', () => {
                 const wrapper = getWrapper()
                 const instance = wrapper.instance();
                 const multifields = wrapper.find(MultiLanguageField)
-                test('amount of multilanguagefields', () => {
+                test('correct amount of MultiLanguageField components', () => {
                     expect(multifields).toHaveLength(6)
                 })
                 test('default props for multilanguagefields', () => {

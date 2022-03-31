@@ -292,6 +292,8 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "editor-tip-hobby-umbrella-selection1": "Liittyy kattoteemaan = Esim. Kivakesä kulmilla -ohjelmaan kuuluva Tanssipaja Lausteella.",
       "editor-tip-keyword-sidefield": "Sisällön ohjeet",
       "editor-tip-location": "Paikan valinnan ohjeet",
+      "editor-tip-offers-payment-method": "HUOM! Ensimmäisen hintatiedon maksutavat periytyvät muihin hintatietoihin lomakkeen tallennuksen yhteydessä jos niillä ei ole maksutapoja.",
+      "editor-tip-offers-sidefield": "Hintatietojen ohjeet",
       "editor-tip-required": "Tähdellä (*) merkityt kentät ovat pakollisia.",
       "editor-tip-umbrella": "Kattotapahtuman ohjeet",
       "editor-tip-umbrella-sub-event": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",

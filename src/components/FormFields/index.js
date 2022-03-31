@@ -799,7 +799,12 @@ class FormFields extends React.Component {
                     </h2>
                     <Collapse isOpen={this.state.headerPrices}>
                         <FormHeader messageID='event-price-fields-header'/>
-                        <div className="row offers-row">
+                        <div className={classNames('row offers-row', {'has-offers': values['offers']})}>
+                            {values['offers'] &&
+                                <SideField id='editor-tip-offers-sidefield'>
+                                    <FormattedMessage id='editor-tip-offers-payment-method'>{txt => <p>{txt}</p>}</FormattedMessage>
+                                </SideField>
+                            }
                             <div className="col-sm-6">
                                 <HelOffersField
                                     editor={editor}

@@ -495,6 +495,9 @@
     "editor-tip-keyword-sidefield": "Sisällön ohjeet",
     "editor-tip-category-sidefield": "Asiasanojen ohjeet",
 
+    "editor-tip-offers-sidefield": "Hintatietojen ohjeet",
+    "editor-tip-offers-payment-method": "HUOM! Ensimmäisen hintatiedon maksutavat periytyvät muihin hintatietoihin lomakkeen tallennuksen yhteydessä jos niillä ei ole maksutapoja.",
+
     "editor-headerbutton-collapse": "Klikkaa sulkeaksesi osio",
     "editor-headerbutton-expand": "Klikkaa laajentaaksesi osio",
     "editor-expand-required": "Tämä osio on pakollinen",

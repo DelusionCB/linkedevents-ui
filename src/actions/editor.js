@@ -23,7 +23,7 @@ const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_RECURRING, EVENT_CREATION, SUB_EVENT
 
 /**
  * Set editor form data
- * @param {obj} values  new form values
+ * @param {Object} values  new form values
  */
 export function setData(values) {
     return {
@@ -111,7 +111,7 @@ export function setLanguages(languages) {
 }
 /**
  * Returns object with key '@id' and value that is the full url to the event
- * @param {object} event
+ * @param {object} data event
  * @returns {{'@id': string}}
  */
 function setRecurringRoot(data) {
@@ -121,7 +121,7 @@ function setRecurringRoot(data) {
 }
 /**
  * Replace all editor values
- * @param  {obj} formData     New form values to replace all existing values
+ * @param  {Object} formData     New form values to replace all existing values
  * @param {boolean} [recurring=true] Determines are we adding new event to existing recurring
  */
 export function replaceData(formData, recurring = false) {
@@ -162,7 +162,7 @@ export const clearData = () =>  ({type: constants.EDITOR_CLEARDATA})
 
 /**
  * Set validation errors for editor (shown with validation notifications)
- * @param {obj} errors
+ * @param {Object} errors
  */
 export function setValidationErrors(errors) {
     return {
@@ -239,16 +239,16 @@ const formatDescription = (formValues) => {
 
 /**
  * Prepares and validates the form values
- * @param formValues        Form data
- * @param contentLanguages  Form languages
- * @param user              User data
- * @param updateExisting    Whether we're updating an existing event
- * @param publicationStatus Publication status
- * @param dispatch
- * @param keywordSets       Keyword sets that are passed to the validator, so that we can validate against them
+ * @param {Object} formValues Form data
+ * @param {string[]} contentLanguages Form languages
+ * @param {Object} user User data
+ * @param {boolean} updateExisting Whether we're updating an existing event
+ * @param {string} publicationStatus Publication status
+ * @param {function} dispatch
+ * @param {Object[]} keywordSets Keyword sets that are passed to the validator, so that we can validate against them
  * @returns {{}|*}
  */
-const prepareFormValues = (
+export const prepareFormValues = (
     formValues,
     contentLanguages,
     user,
@@ -270,6 +270,20 @@ const prepareFormValues = (
 
     if(formValues.sub_events) {
         recurring = keys(formValues.sub_events).length > 0
+    }
+    /**
+     * First offer has payment methods -> remaining offers get same payment method as the first
+     * if they don't have payment methods.
+     */
+    if (get(formValues,'offers[0].payment_methods[0]')) {
+        // If any other offer doesn't have payment methods -> use payment methods from the first.
+        formValues.offers = formValues.offers.reduce((acc, curr) => {
+            if (!get(curr, 'payment_methods[0]')) {
+                curr.payment_methods = acc[0].payment_methods;
+            }
+            acc.push(curr);
+            return acc;
+        }, [])
     }
 
     // nullify language fields that are not included in contentLanguages as they should not be posted
