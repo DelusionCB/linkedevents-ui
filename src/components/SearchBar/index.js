@@ -1,23 +1,12 @@
 import './index.scss';
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import CustomDatePicker from '../CustomFormFields/Dateinputs/CustomDatePicker'
 import {Button, Form, FormGroup} from 'reactstrap';
 import HelCheckbox from '../HelFormFields/HelCheckbox';
-
-const handleKeyPress = (event, startDate, endDate, onFormSubmit, setSearchQuery) => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        const searchQuery = event.target.value;
-
-        onFormSubmit(searchQuery, startDate, endDate);
-        setSearchQuery(searchQuery);
-    }
-};
-
 
 const SearchBar = ({intl, onFormSubmit}) => {
     const [startDate, setStartDate] = useState(moment().startOf('day'));
@@ -45,6 +34,13 @@ const SearchBar = ({intl, onFormSubmit}) => {
         }
     };
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        onFormSubmit(searchQuery,contextType, startDate, endDate);
+    };
+
+    const handleQueryChange = (event) => setSearchQuery(event.target.value);
+
     return (
         <div className='search-bar'>
             <div className='search-bar--dates'>
@@ -57,7 +53,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     maxDate={endDate ? endDate : undefined}
                     type="date"
                 />
-                <CustomDatePicker 
+                <CustomDatePicker
                     id="endTime"
                     name="endTime"
                     label="search-date-label-end"
@@ -91,7 +87,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                                 /> */}
             </div>
             <div className='search-bar--input event-input'>
-                <Form>                   
+                <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <label htmlFor='search'>{intl.formatMessage({id: 'event-name-or-place'})}</label>
                         <input
@@ -99,10 +95,9 @@ const SearchBar = ({intl, onFormSubmit}) => {
                             id='search'
                             className='event-search-bar'
                             type='text'
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyPress={(e) =>
-                                handleKeyPress(e, startDate, endDate, onFormSubmit, setSearchQuery)
-                            }
+                            onChange={handleQueryChange}
+                            onBlur={handleQueryChange}
+                            value={searchQuery}
                         />
                     </FormGroup>
                 </Form>

@@ -25,12 +25,12 @@ describe('SearchBar', () => {
     }
 
 
-    describe('components', () => {
-        test('div search-bar', () => {
+    describe('renders', () => {
+        test('main wrapper div.search-bar', () => {
             const div = getWrapper().find('div.search-bar')
             expect(div).toHaveLength(1)
         })
-        test('div search-bar', () => {
+        test('wrapper div.search-bar', () => {
             const div = getWrapper().find('div.search-bar--dates')
             expect(div).toHaveLength(1)
         })
@@ -41,7 +41,7 @@ describe('SearchBar', () => {
                 expect(datePickers).toHaveLength(2)
             })
 
-            test('start time', () => {
+            test('for selecting start time with correct default props', () => {
                 const datePicker = getWrapper().find(CustomDatePicker).first()
                 expect(datePicker.prop('id')).toBe('startTime')
                 expect(datePicker.prop('name')).toBe('startTime')
@@ -52,7 +52,7 @@ describe('SearchBar', () => {
                 expect(datePicker.prop('type')).toBe('date')
             })
 
-            test('end time', () => {
+            test('for selecting end time with correct default props', () => {
                 const datePicker = getWrapper().find(CustomDatePicker).last()
                 expect(datePicker.prop('id')).toBe('endTime')
                 expect(datePicker.prop('name')).toBe('endTime')
@@ -64,7 +64,7 @@ describe('SearchBar', () => {
             })
         })
 
-        test('div search-bar--input', () => {
+        test('wrapper div.search-bar--input', () => {
             const div = getWrapper().find('div.search-bar--input')
             expect(div).toHaveLength(1)
             expect(div.prop('className')).toBe('search-bar--input event-input')
@@ -89,7 +89,8 @@ describe('SearchBar', () => {
             expect(input.prop('className')).toBe('event-search-bar')
             expect(input.prop('type')).toBe('text')
             expect(input.prop('onChange')).toBeDefined()
-            expect(input.prop('onKeyPress')).toBeDefined()
+            expect(input.prop('onBlur')).toBeDefined()
+            expect(input.prop('value')).toBe('');
         })
 
         test('Button', () => {
@@ -144,5 +145,31 @@ describe('SearchBar', () => {
                 expect(wrapper.find(HelCheckbox).at(1).prop('defaultChecked')).toBe(true)
             })
         })
-    })
+        describe('handleQueryChange', () => {
+            test.each(['blur','change'])('is called on input event on%s', (inputEvent) => {
+                const wrapper = getWrapper();
+                const expectedValue = `${inputEvent} was called with this value.`;
+                wrapper.find('input').simulate(inputEvent, {target:{value:expectedValue}});
+                expect(wrapper.find('input').prop('value')).toBe(expectedValue);
+            });
+        });
+        describe('handleSubmit', () => {
+            test('is called on Form submit', () => {
+                const mockFormSubmit = jest.fn();
+                const mockEvent = {preventDefault: jest.fn()};
+                const expectedValues = [
+                    'search text',
+                    ['eventgeneral', 'eventhobbies'],
+                    moment().startOf('day'),
+                    null,
+                ];
+                const wrapper = getWrapper({onFormSubmit: mockFormSubmit});
+                wrapper.find('input').simulate('change', {target:{value:expectedValues[0]}});
+                wrapper.find(Form).simulate('submit', mockEvent);
+                expect(mockFormSubmit).toHaveBeenCalledTimes(1);
+                expect(mockFormSubmit).toHaveBeenCalledWith(...expectedValues);
+                expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
 })
