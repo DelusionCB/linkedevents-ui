@@ -1,25 +1,31 @@
 import constants from '../constants'
 import {USER_EXPIRED} from 'redux-oidc'
+import updater from 'immutability-helper';
 
-
-const initialState = null
+const initialState = {
+    isFetchingUser: false,
+    data: null,
+}
 
 function update(state = initialState, action) {
     switch(action.type) {
-        // Login
+        // Successfully completed login and received userdata.
         case constants.RECEIVE_USERDATA:
             if(action.payload && action.payload.id) {
-                // TODO: get from payload
-                return Object.assign({}, action.payload);
+                return updater(state, {
+                    isFetchingUser:{$set: false},
+                    data: {$set: action.payload},
+                })
             }
-
-            else {
-                return state
-            }
-        // Logout
-        case constants.CLEAR_USERDATA:
+            return state
+        // Set boolean displaying if userdata is currently being fetched.
+        case constants.FETCHING_USERDATA:
+            return updater(state, {
+                isFetchingUser: {$set: action.payload},
+            })
+        case constants.CLEAR_USERDATA: // Logout
         case USER_EXPIRED: // if oidc login expires, user data should be cleared
-            return null
+            return initialState
         default:
             return state
     }

@@ -335,7 +335,7 @@ export const executeSendRequest = (
 
     // get needed information from the state
     const {keywordSets, contentLanguages} = getState().editor
-    const user = getState().user
+    const user = getState().user.data
 
     // check publication status to decide whether to allow the request to happen
     publicationStatus = publicationStatus || formValues.publication_status
@@ -556,7 +556,7 @@ export function setEditorAuthFlashMsg () {
         const isEditorRoute = ['/event/update/', '/event/create/'].some(path => pathName.includes(path))
 
         if (isEditorRoute) {
-            isNil(user)
+            isNil(user.data)
                 ? dispatch(setFlashMsg('editor-authorization-required', 'error', {sticky: true}))
                 : dispatch(clearFlashMsg())
         }

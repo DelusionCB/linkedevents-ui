@@ -44,23 +44,31 @@ class EventPage extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchEventData()
+        // oidc isn't currently loading a user.
+        if (!this.props.auth.isLoadingUser) {
+            this.fetchEventData()
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
         const {event} = this.state
+        const {auth, isFetchingUser, user, match} = this.props;
 
         const publisherId = get(event, 'publisher')
         const oldPublisherId = get(prevState, ['event', 'publisher'])
-        const eventId = get(this.props.match, ['params', 'eventId'])
+        const eventId = get(match, ['params', 'eventId'])
         const oldEventId = get(prevProps, ['match', 'params', 'eventId'])
 
-        if (eventId !== oldEventId) {
+        if (eventId !== oldEventId && !isFetchingUser) {
             this.fetchEventData()
         }
 
         // refresh event data when user changes to handle data behind permissions
-        if (prevProps.user !== this.props.user){
+        if (prevProps.isFetchingUser && !isFetchingUser && prevProps.user !== user){
+            this.fetchEventData()
+        }
+        // previously oidc was loading the user but is no longer loading, no oidc user exists, and we aren't fetching one from the backend.
+        if (prevProps.auth.isLoadingUser && !auth.isLoadingUser && !auth.user && !isFetchingUser) {
             this.fetchEventData()
         }
 
@@ -182,6 +190,9 @@ class EventPage extends React.Component {
         const cancelEventButton = this.getActionButton('cancel',idPrefix)
         const deleteEventButton = this.getActionButton('delete', idPrefix)
 
+        if (loading) {
+            return <div />
+        }
         return <div className="event-actions">
             <div className="cancel-delete-btn">
                 {postponeEventButton}
@@ -310,13 +321,15 @@ class EventPage extends React.Component {
                     <div className="published-information">
                         {publishedText}
                     </div>
-                    <EventDetails
-                        values={formattedEvent}
-                        superEvent={superEvent}
-                        rawData={event}
-                        publisher={publisher}
-                        editor={editor}
-                    />
+                    {!loading &&
+                        <EventDetails
+                            values={formattedEvent}
+                            superEvent={superEvent}
+                            rawData={event}
+                            publisher={publisher}
+                            editor={editor}
+                        />
+                    }
                 </div>
                 <div className='event-action-buttons'>
                     {this.getEventActions('bottom')}
@@ -340,12 +353,16 @@ EventPage.propTypes = {
     routerPush: PropTypes.func,
     confirm: PropTypes.func,
     userLocale: PropTypes.object,
+    auth: PropTypes.object,
+    isFetchingUser: PropTypes.bool,
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
     editor: state.editor,
     userLocale: state.userLocale,
+    auth: state.auth,
+    isFetchingUser: state.user.isFetchingUser,
 })
 
 const mapDispatchToProps = (dispatch) => ({

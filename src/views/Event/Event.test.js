@@ -4,11 +4,14 @@ import {shallow} from 'enzyme';
 import {IntlProvider} from 'react-intl';
 import {Helmet} from 'react-helmet';
 import Badge from 'react-bootstrap/Badge';
+import Spinner from 'react-bootstrap/Spinner'
 import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
 import constants from 'src/constants'
 import {getStringWithLocale} from '../../utils/locale.js';
 import CONSTANTS from '../../constants'
+import EventDetails from '../../components/EventDetails';
+import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -24,8 +27,15 @@ const defaultProps = {
     userLocale: {
         locale: 'fi',
     },
+    auth: {
+        isLoadingUser: false,
+        user: null,
+    },
+    user: null,
+    isFetchingUser: false,
     setFlashMsg: () => {},
     routerPush: () => {},
+    editor: {},
 };
 
 const {
@@ -40,45 +50,63 @@ describe('EventPage', () => {
         return shallow(<UnconnectedEventPage {...defaultProps} {...props} />, {context: {intl}});
     }
 
-    describe('functions', () => {
-        describe('componentDidUpdate', () => {
-            const wrapper = getWrapper()
-            const instance = wrapper.instance()
-            const fetchDataSpy = jest.spyOn(instance, 'fetchEventData')
-
-            afterEach(() => { fetchDataSpy.mockClear() })
-            afterAll(() => { fetchDataSpy.mockRestore() })
-
-            test('fetchEventData is called when user prop changes', () => {
-                wrapper.setProps({user: {id: '123abc'}})
-                wrapper.setProps({user: {id: '567fgh'}})
-                wrapper.setProps({user: null})
-                expect(fetchDataSpy).toHaveBeenCalledTimes(3)
-            })
-
-            test('fetchEventData is not called when user prop does not change', () => {
-                const user = {user: {id: '123abc'}}
-                wrapper.setProps({user})
-                expect(fetchDataSpy).toHaveBeenCalledTimes(1)
-                fetchDataSpy.mockClear()
-                wrapper.setProps({user})
-                expect(fetchDataSpy).toHaveBeenCalledTimes(0)
+    describe('lifecycle methods', () => {
+        describe('componentDidMount', () => {
+            test('calls fetchEventData if auth.isLoadingUser is false', () => {
+                const wrapper = getWrapper({auth: {isLoadingUser: false}});
+                const instance = wrapper.instance();
+                const fetchDataSpy = jest.spyOn(instance, 'fetchEventData');
+                instance.componentDidMount();
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1);
             });
-            test('fetchEventData is not called again when eventId does not change', () => {
-                const eventOne = {match: {params: {eventId: 'system:one'}}}
-                wrapper.setProps(eventOne)
-                expect(fetchDataSpy).toHaveBeenCalledTimes(1)
-                fetchDataSpy.mockClear()
-                wrapper.setProps(eventOne)
-                expect(fetchDataSpy).toHaveBeenCalledTimes(0)
-            })
-            test('fetchEventData is called again when eventId changes', () => {
-                const eventTwo = {match: {params: {eventId: 'system:two'}}}
-                wrapper.setProps(eventTwo)
-                expect(fetchDataSpy).toHaveBeenCalledTimes(1)
-            })
+            test('does not call fetchEventData if auth.isLoadingUser is true', () => {
+                const wrapper = getWrapper({auth: {isLoadingUser: true}});
+                const instance = wrapper.instance();
+                const fetchDataSpy = jest.spyOn(instance, 'fetchEventData');
+                instance.componentDidMount();
+                expect(fetchDataSpy).toHaveBeenCalledTimes(0);
+            });
         });
+        describe('componentDidUpdate', () => {
+            const wrapper = getWrapper();
+            const instance = wrapper.instance();
+            const fetchDataSpy = jest.spyOn(instance, 'fetchEventData');
 
+            afterEach(() => { fetchDataSpy.mockClear() });
+            afterAll(() => { fetchDataSpy.mockRestore() });
+
+            test('fetchEventData is called if prevProps.isFetchingUser && !isFetchingUser and user is not the same as previously', () => {
+                wrapper.setProps({isFetchingUser: true});
+                expect(fetchDataSpy).toHaveBeenCalledTimes(0);
+                wrapper.setProps({isFetchingUser: false, user: {id: 'userid'}});
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1);
+            })
+
+            test('fetchEventData is called if prevProps.auth.isLoadingUser && !auth.isLoadingUser && !auth.user && !isFetchingUser', () => {
+                // oidc was loading the user but is no longer doing it, no oidc user exists, and we aren't fetching one from the backend.
+                wrapper.setProps({auth: {isLoadingUser: true, user: null}});
+                expect(fetchDataSpy).toHaveBeenCalledTimes(0);
+                wrapper.setProps({auth: {isLoadingUser: false, user: null}, isFetchingUser: false});
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1);
+            })
+
+            test('fetchEventData is not called again when eventId does not change', () => {
+                const eventOne = {match: {params: {eventId: 'system:one'}}};
+                wrapper.setProps(eventOne);
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1);
+                fetchDataSpy.mockClear();
+                wrapper.setProps(eventOne);
+                expect(fetchDataSpy).toHaveBeenCalledTimes(0);
+            })
+            test('fetchEventData is called when eventId changes and not fetchingUser', () => {
+                const eventTwo = {match: {params: {eventId: 'system:two'}}};
+                wrapper.setProps(eventTwo);
+                expect(fetchDataSpy).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
+
+    describe('methods', () => {
         describe('handleConfirmedAction', () => {
             const setFlashMsg = jest.fn()
             const EVENT_CREATION = CONSTANTS.EVENT_CREATION
@@ -86,7 +114,7 @@ describe('EventPage', () => {
             afterEach(() => {
                 setFlashMsg.mockClear()
             })
-            
+
             test('calls setFlashMsg with correct params when action is delete', () => {
                 const instance = getWrapper({setFlashMsg}).instance()
                 const action = 'delete'
@@ -119,6 +147,17 @@ describe('EventPage', () => {
                 expect(setFlashMsg).toHaveBeenCalledWith(EVENT_CREATION.UPDATE_SUCCESS, 'success', {sticky: false})
             })
         })
+        describe('getEventActions', () => {
+            test('returns empty div if state.loading is true', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                wrapper.setState({loading: true});
+                const returnValues = instance.getEventActions('test');
+                const shallowValues = shallow(returnValues);
+                expect(shallowValues.find('div')).toHaveLength(1);
+                expect(shallowValues.find('div').children()).toHaveLength(0);
+            });
+        });
     });
     describe('render', () => {
         describe('Helmet', () => {
@@ -215,6 +254,51 @@ describe('EventPage', () => {
                     expect(element.prop('className')).toBe(`${expectedClassNames[index]} `);
                     expect(element.prop('variant')).toBe(expectedClassNames[index]);
                 });
+            });
+        });
+        describe('EventDetails', () => {
+            test('is rendered with correct props if loading is false', () => {
+                const wrapper = getWrapper();
+                const expectedProps = {
+                    values: mapAPIDataToUIFormat(wrapper.state('event')),
+                    superEvent: wrapper.state('superEvent'),
+                    rawData: wrapper.state('event'),
+                    publisher: wrapper.state('publisher'),
+                    editor: defaultProps.editor,
+                };
+                wrapper.setState({loading: false});
+                const elements = wrapper.find(EventDetails);
+                expect(elements).toHaveLength(1);
+                expect(elements.prop('values')).toEqual(expectedProps.values);
+                expect(elements.prop('superEvent')).toEqual(expectedProps.superEvent);
+                expect(elements.prop('rawData')).toEqual(expectedProps.rawData);
+                expect(elements.prop('publisher')).toEqual(expectedProps.publisher);
+                expect(elements.prop('editor')).toEqual(expectedProps.editor);
+            });
+            test('is not rendered is loading is true', () => {
+                const wrapper = getWrapper();
+                wrapper.setState({loading: true});
+                const elements = wrapper.find(EventDetails);
+                expect(elements).toHaveLength(0);
+            });
+        });
+        describe('Spinner', () => {
+            test('is rendered with correct props if loading is true', () => {
+                const wrapper = getWrapper();
+                const headerText = wrapper.find('h1');
+                const element = headerText.find(Spinner);
+                expect(element).toHaveLength(1);
+                expect(element.prop('animation')).toBe('border');
+                expect(element.prop('role')).toBe('status');
+                const srOnlyElement = element.find('span');
+                expect(srOnlyElement.prop('className')).toBe('sr-only');
+            });
+            test('is not rendered and is replaced with event name when loading is false', () => {
+                const wrapper = getWrapper();
+                wrapper.setState({loading: false, event:{name:{fi:'event name'}}});
+                const headerText = wrapper.find('h1');
+                expect(headerText.find(Spinner)).toHaveLength(0);
+                expect(headerText.text()).toBe('event name');
             });
         });
     });

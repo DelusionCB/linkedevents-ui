@@ -22,7 +22,7 @@ import {get} from 'lodash';
 import moment from 'moment';
 import * as momentTimezone from 'moment-timezone';
 import userManager from '../../utils/userManager';
-import {saveLocaleToLocalStorage} from '../../utils/locale';   
+import {saveLocaleToLocalStorage} from '../../utils/locale';
 
 const {USER_TYPE, APPLICATION_SUPPORT_TRANSLATION} = constants;
 
@@ -230,7 +230,7 @@ HeaderBar.contextTypes = {
     intl: PropTypes.object,
 }
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
     userLocale: state.userLocale,
     auth: state.auth,
 });

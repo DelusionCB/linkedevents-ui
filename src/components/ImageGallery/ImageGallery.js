@@ -122,7 +122,7 @@ ImageGallery.propTypes = {
 
 const mapStateToProps = (state) => ({
     images: state.images,
-    user: state.user,
+    user: state.user.data,
     editor: state.editor,
 });
 export {ImageGallery as UnconnectedImageGallery}

@@ -420,7 +420,7 @@ export class EditorPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     editor: state.editor,
-    user: state.user,
+    user: state.user.data,
 })
 
 const mapDispatchToProps = (dispatch) => ({

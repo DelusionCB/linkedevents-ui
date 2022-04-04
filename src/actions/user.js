@@ -4,7 +4,7 @@ import {setEditorAuthFlashMsg} from './editor'
 import client from '../api/client'
 import {getAdminOrganizations, getRegularOrganizations, getPublicOrganizations} from '../utils/user'
 
-const {RECEIVE_USERDATA, CLEAR_USERDATA, USER_TYPE} = constants
+const {RECEIVE_USERDATA, CLEAR_USERDATA, USER_TYPE, FETCHING_USERDATA} = constants
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -18,6 +18,18 @@ export function receiveUserData(data) {
 export function clearUserData() {
     return {
         type: CLEAR_USERDATA,
+    }
+}
+
+/**
+ * Set user.isFetching boolean
+ * @param {boolean} data
+ * @returns {{payload: boolean, type: string}}
+ */
+export function loadingUser(data) {
+    return {
+        type: FETCHING_USERDATA,
+        payload: data,
     }
 }
 
@@ -36,6 +48,7 @@ const getUserType = (permissions) => {
 // Handles getting user data from backend api with given id.
 export const fetchUser = (id) => async (dispatch) => {
     try {
+        dispatch(loadingUser(true))
         // try to get user data from user endpoint
         const userResponse = await client.get(`user/${id}`)
         const userData = userResponse.data
@@ -67,7 +80,7 @@ export const fetchUser = (id) => async (dispatch) => {
             permissions,
             userType: getUserType(permissions),
         }
-        
+
         const adminOrganizations = await Promise.all(getAdminOrganizations(mergedUser))
         const regularOrganizations = await Promise.all(getRegularOrganizations(mergedUser))
         const publicOrganizations = await Promise.all(getPublicOrganizations(mergedUser))
@@ -84,10 +97,11 @@ export const fetchUser = (id) => async (dispatch) => {
         mergedUser.organizationsWithRegularUsers = adminOrganizations
             .filter(organization => get(organization, ['data', 'has_regular_users'], false))
             .map(organization => organization.data.id)
-        
+
         dispatch(receiveUserData(mergedUser))
         dispatch(setEditorAuthFlashMsg())
     } catch (e) {
+        dispatch(loadingUser(false))
         throw Error(e)
     }
 }

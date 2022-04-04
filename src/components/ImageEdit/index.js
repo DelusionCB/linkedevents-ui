@@ -592,7 +592,7 @@ ImageEdit.contextTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
     editor: state.editor,
     images: state.images,
 });

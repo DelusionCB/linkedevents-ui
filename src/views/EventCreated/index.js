@@ -87,13 +87,13 @@ EventCreated.propTypes = {
 const mapStateToProps = (state) => ({
     events: state.events,
     routing: state.routing,
-    user: state.user,
+    user: state.user.data,
 })
 
 const mapDispatchToProps = (dispatch) => ({
     setFlashMsg: (id, status) => dispatch(setFlashMsgAction(id, status)),
     routerPush: (url) => dispatch(push(url)),
-    
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCreated)

@@ -35,6 +35,7 @@ const constants = {
     SELECT_IMAGE_BY_ID: 'SELECT_IMAGE_BY_ID',
     RECEIVE_IMAGES_ERROR: 'RECEIVE_IMAGES_ERROR',
 
+    FETCHING_USERDATA: 'FETCHING_USERDATA',
     RECEIVE_USERDATA: 'RECEIVE_USERDATA',
     CLEAR_USERDATA: 'CLEAR_USERDATA',
 
@@ -81,7 +82,7 @@ const constants = {
         EVENT: 'event',
         HOBBY: 'hobby',
     },
-    
+
     // Local storage keys
     EDITOR_VALUES: 'EDITOR_VALUES',
 

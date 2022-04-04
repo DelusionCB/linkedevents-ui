@@ -56,19 +56,19 @@ export class Moderation extends React.Component {
     }
 
     componentDidMount() {
-        const {user} = this.props
+        const {user, auth} = this.props
 
-        if (!isNull(user) && hasOrganizationWithRegularUsers(user)) {
+        if (!auth.isLoadingUser && !isNull(user) && hasOrganizationWithRegularUsers(user)) {
             this.fetchTableData(['draft', 'published'])
         }
     }
 
     componentDidUpdate(prevProps) {
-        const {user, routerPush} = this.props
+        const {user, routerPush, auth, isFetchingUser} = this.props
         const oldUser = prevProps.user
 
-        // redirect to home if user logged out
-        if (isNull(user) && oldUser !== user) {
+        // redirect to home if user logged out or is not in the middle of logging in.
+        if (isNull(user) && !isFetchingUser && !auth.isLoadingUser && !auth.user) {
             routerPush('/')
         }
         // fetch data if user logged in
@@ -485,6 +485,7 @@ export class Moderation extends React.Component {
 }
 
 Moderation.propTypes = {
+    auth: PropTypes.object,
     user: PropTypes.object,
     confirm: PropTypes.func,
     routerPush: PropTypes.func,
@@ -492,6 +493,7 @@ Moderation.propTypes = {
     intl: PropTypes.object,
     draftData: TABLE_DATA_SHAPE,
     publishedData: TABLE_DATA_SHAPE,
+    isFetchingUser: PropTypes.bool,
 }
 
 Moderation.contextTypes = {
@@ -499,7 +501,9 @@ Moderation.contextTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
+    auth: state.auth,
+    isFetchingUser: state.user.isFetchingUser,
 })
 
 const mapDispatchToProps = (dispatch) => ({

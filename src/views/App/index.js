@@ -115,7 +115,7 @@ App.propTypes = {
 const mapStateToProps = (state) => ({
     editor: state.editor,
     app: state.app,
-    user: state.user,
+    user: state.user.data,
     auth: state.auth,
 })
 

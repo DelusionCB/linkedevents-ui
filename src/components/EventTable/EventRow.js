@@ -313,7 +313,7 @@ EventRow.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
 })
 
 export default injectIntl(connect(mapStateToProps)(EventRow))

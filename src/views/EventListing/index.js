@@ -238,7 +238,7 @@ export class EventListing extends React.Component {
 
     /**
      * Toggles whether events based on language should be shown
-     * @param event 
+     * @param event
      */
     toggleEventLanguages = (event) => {
         const contentLanguage = event.target.value === 'all' ? '' : event.target.value;
@@ -310,7 +310,7 @@ export class EventListing extends React.Component {
         }
         return queryParams
     }
-    
+
     handleLoginClick = () => {
         userManager.signinRedirect({
             data: {
@@ -357,7 +357,7 @@ export class EventListing extends React.Component {
             <div className="container">
                 <Helmet title={pageTitle} />
                 {header}
-                {isPublicUser 
+                {isPublicUser
                     ?
                     <p>
                         <FormattedMessage id="events-management-description-public-user"/>
@@ -500,7 +500,7 @@ EventListing.contextTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
 })
 
 export default connect(mapStateToProps)(EventListing);

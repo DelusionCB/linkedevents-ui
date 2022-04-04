@@ -40,7 +40,7 @@ class HomePage extends React.Component {
      */
     fetchTableData = async () => {
         const queryParams = this.getDefaultEventQueryParams()
-        
+
         const response = await fetchEvents(queryParams)
 
         this.setState({events: response.data.data})
@@ -166,7 +166,7 @@ class HomePage extends React.Component {
                         </div>
                     </div>
                 </div>
-            
+
             );
         }
 }
@@ -182,7 +182,7 @@ HomePage.contextTypes = {
     intl: PropTypes.object,
 }
 const mapStateToProps = (state) => ({
-    user: state.user,
+    user: state.user.data,
     locale: state.userLocale.locale,
 })
 
