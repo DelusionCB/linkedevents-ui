@@ -248,3 +248,18 @@ a#CybotCookiebotDialogPoweredbyCybot {
 img#CybotCookiebotDialogPoweredbyImage {
     max-height: initial;
 }
+
+.visually-hidden {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+// Spinner that is displayed as fallback when dynamically loading a route.
+main {
+    div.loading-view-spinner {
+        text-align: center;
+    }
+}

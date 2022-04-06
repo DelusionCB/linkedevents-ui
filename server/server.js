@@ -7,7 +7,7 @@ import cookieSession from 'cookie-session'
 
 import getSettings from './getSettings'
 import express from 'express'
-
+import compression from 'compression'
 import webpack from 'webpack'
 import webpackMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
@@ -19,6 +19,8 @@ const app = express()
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({name: 's', secret: settings.sessionSecret, maxAge: 86400 * 1000}));
+// Apply compression to all responses
+app.use(compression());
 
 if(process.env.NODE_ENV !== 'development') {
     const distPath = path.resolve(__dirname, '..', 'dist');

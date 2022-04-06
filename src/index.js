@@ -1,25 +1,29 @@
-import React from 'react'
+import React, {Suspense, lazy} from 'react'
 import ReactDOM from 'react-dom'
 import {Route, Switch} from 'react-router'
 import {withRouter, Redirect} from 'react-router-dom'
 import {Provider, connect} from 'react-redux'
 import {ConnectedRouter} from 'connected-react-router'
 import {isIE, isLegacyEdge} from 'react-device-detect'
+import Spinner from 'react-bootstrap/Spinner'
 
 // Views
 import App from './views/App'
-import Editor from './views/Editor'
-import Search from './views/Search'
-import Help from './views/Help'
-import Terms from './views/Terms/Terms'
-import Event from './views/Event'
-import EventCreated from './views/EventCreated'
-import EventListingPage from './views/EventListing'
-import ModerationPage from './views/Moderation/Moderation'
-import Accessibility from './views/Accessibility'
 import BrowserWarning from './views/Browser-Warning/BrowserWarning'
-import HomePage from './views/HomePage/HomePage'
-import PageNotFound from './views/PageNotFound';
+
+
+// Route views are dynamically imported, the 'then' methods don't do anything and only exist to suppress a warning.
+const HomePage = lazy(() => import('./views/HomePage/HomePage').then(({default: Page}) => ({default: Page})));
+const PageNotFound = lazy(() => import('./views/PageNotFound').then(({default: Page}) => ({default: Page})));
+const Editor = lazy(() => import('./views/Editor').then(({default: Page}) => ({default: Page})));
+const Search = lazy(() => import('./views/Search').then(({default: Page}) => ({default: Page})));
+const Help = lazy(() => import('./views/Help').then(({default: Page}) => ({default: Page})));
+const Terms = lazy(() => import('./views/Terms/Terms').then(({default: Page}) => ({default: Page})));
+const Event = lazy(() => import('./views/Event').then(({default: Page}) => ({default: Page})));
+const EventCreated = lazy(() => import('./views/EventCreated').then(({default: Page}) => ({default: Page})));
+const EventListingPage = lazy(() => import('./views/EventListing').then(({default: Page}) => ({default: Page})));
+const ModerationPage = lazy(() => import('./views/Moderation/Moderation').then(({default: Page}) => ({default: Page})));
+const Accessibility = lazy(() => import('./views/Accessibility').then(({default: Page}) => ({default: Page})));
 
 // Actors
 import Validator from './actors/validator'
@@ -62,23 +66,29 @@ if (window.location.pathname === '/silent-renew') {
                     <IntlProviderWrapper>
                         <ConnectedRouter history={history}>
                             <LayoutContainer>
-                                <Switch>
-                                    <Route exact path="/" component={HomePage}/>
-                                    <Route exact path="/listing" component={EventListingPage}/>
-                                    <Route exact path="/event/:eventId" component={Event}/>
-                                    <Route exact path="/event/:action/:eventId" component={Editor}/>
-                                    <Route exact path="/event/:eventId/recurring/:action" component={Editor}/>
-                                    <Route exact path="/event/done/:action/:eventId" component={EventCreated}/>
-                                    <Route exact path="/search" component={Search}/>
-                                    <Route exact path="/help" component={Help}/>
-                                    <Route exact path="/terms" component={Terms}/>
-                                    <Route exact path="/moderation" component={ModerationPage}/>
-                                    <Route exact path="/accessibility" component={Accessibility}/>
-                                    <Route exact path="/callback" component={LoginCallback}/>
-                                    <Route exact path="/callback/logout" component={LogoutCallback}/>
-                                    <Route exact path="/404" component={PageNotFound} />
-                                    <Redirect from="*" to="/404" />
-                                </Switch>
+                                <Suspense fallback={
+                                    <div className='loading-view-spinner'>
+                                        <Spinner animation="border" role="status" />
+                                    </div>
+                                }>
+                                    <Switch>
+                                        <Route exact path="/" component={props => <HomePage {...props}/>}/>
+                                        <Route exact path="/listing" component={props => <EventListingPage {...props} />}/>
+                                        <Route exact path="/event/:eventId" component={props => <Event {...props} />}/>
+                                        <Route exact path="/event/:action/:eventId" component={props => <Editor {...props} />}/>
+                                        <Route exact path="/event/:eventId/recurring/:action" component={props => <Editor {...props} />}/>
+                                        <Route exact path="/event/done/:action/:eventId" component={props => <EventCreated {...props} />}/>
+                                        <Route exact path="/search" component={props => <Search {...props} />}/>
+                                        <Route exact path="/help" component={props => <Help {...props} />}/>
+                                        <Route exact path="/terms" component={props => <Terms {...props} />}/>
+                                        <Route exact path="/moderation" component={props => <ModerationPage {...props} />}/>
+                                        <Route exact path="/accessibility" component={props => <Accessibility {...props} />}/>
+                                        <Route exact path="/callback" component={LoginCallback}/>
+                                        <Route exact path="/callback/logout" component={LogoutCallback}/>
+                                        <Route exact path="/404" component={props => <PageNotFound {...props} />}/>
+                                        <Redirect from="*" to="/404" />
+                                    </Switch>
+                                </Suspense>
                             </LayoutContainer>
                         </ConnectedRouter>
                     </IntlProviderWrapper>
