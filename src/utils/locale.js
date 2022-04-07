@@ -38,6 +38,9 @@ export function getEventLanguageType(value) {
         case constants.EVENT_TYPE.GENERAL: {
             return constants.LOCALE_TYPE.EVENT
         }
+        case constants.EVENT_TYPE.COURSE: {
+            return constants.LOCALE_TYPE.COURSE
+        }
         default: {
             return constants.LOCALE_TYPE.EVENT
         }

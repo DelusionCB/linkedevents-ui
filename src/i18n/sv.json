@@ -35,13 +35,13 @@
     "confirm-update": "Bekräfta sparandet av innehållet",
     "confirm-update-draft": "Bekräfta sparandet av utkastet",
     "confirm-delete": "Bekräfta radering av innehållet",
-    "confirm-delete-draft": "Bekräfta raderandet av utkastet",
+    "confirm-delete-draft": "Bekräfta raderande av utkastet",
     "confirm-cancel": "Bekräfta annullering av innehållet",
     "confirm-cancel-extra": "Obs! Denna funktion annullerar innehållet.",
     "confirm-publish": "Bekräfta publiceringen av innehållet",
     "confirm-publish-draft": "Bekräfta publiceringen av utkastet",
     "confirm-postpone": "Bekräfta senareläggningen av innehållet",
-    "confirm-postpone-draft": "Bekräfta uppskjutningen av evenemangutkastet",
+    "confirm-postpone-draft": "Bekräfta uppskjutningen av evenemangsutkastet",
     "delete": "Radera",
     "confirm": "Utför",
     "draft": "Utkast",
@@ -97,6 +97,7 @@
 
     "event-description-fields-header": "Beskrivning av evenemanget",
     "hobby-description-fields-header": "Beskrivning av hobbyn",
+    "course-description-fields-header": "Beskrivning av utbildning",
 
     "event-add-newInfo": "Fyll i evenemangsinformationen",
     "event-name-descriptions": "Skriv en klar rubrik och klara beskrivningar",
@@ -108,15 +109,19 @@
 
     "event-info-url": "Evenemangets websida (URL)",
     "hobby-info-url": "Hobbyns websida (URL)",
+    "course-info-url": "Utbildningens websida (URL)",
 
-    "event-provider": "Evenemangets arrangör eller kontaktuppgifter",
-    "hobby-provider": "Hobbyns arrangör eller kontaktuppgifter",
+    "event-provider": "Evenemangets arrangör",
+    "hobby-provider": "Hobbyns arrangör",
+    "course-provider": "Utbildningens arrangör",
 
     "event-provider-input": "Evenemangets arrangör eller kontaktuppgifter. Obs! Informationen är offentlig.",
     "hobby-provider-input": "Hobbyns arrangör eller kontaktuppgifter. Obs! informationen är offentlig.",
+    "course-provider-input": "Utbildningens arrangör eller kontaktuppgifter. Obs! informationen är offentlig.",
 
     "event-publisher": "Publiceraren av evenemanget",
     "hobby-publisher": "Publiceraren av hobbyn",
+    "course-publisher": "Publiceraren av utbildningen",
 
     "event-publisher-info": "Publicerare: {publisher}",
     "event-isvirtual": "Händelsen är virtuell",
@@ -127,7 +132,7 @@
     "events-management-tip": "Filtreringsinställningar",
     "events-management-description": "Bläddra i och redigera det publicerade innehållet från din organisation.",
     "events-management-description-regular-user": "Bläddra i och redigera dina utkast och bläddra i dina publicerade evenemang. Publicerade evenemang kan inte redigeras.",
-    "events-management-description-public-user": "Blädra och redigera dina publicerade evenemang.",
+    "events-management-description-public-user": "Bläddra och redigera dina publicerade evenemang.",
     "events-management-no-results": "Ingen redigerbar evenemang hittades.",
 
     "language-label.fi": "Innehåll finns på finska",
@@ -145,10 +150,11 @@
     "filter-event-sv-mobile": "SV",
     "filter-event-en-mobile": "EN",
 
-    "event-page-default-title": "Innehålssida",
+    "event-page-default-title": "Innehållssida",
 
     "event-image-title": "Evenemangets bild*",
     "hobby-image-title": "Hobbyns bild*",
+    "course-image-title": "Utbildningens bild*",
 
     "event-image-title-modal": "Bildbanken",
 
@@ -178,6 +184,7 @@
 
     "event-no-image": "Evenemanget har ingen bild",
     "hobby-no-image": "Hobbyn har ingen bild",
+    "course-no-image": "Utbildningen har ingen bild",
 
     "search-images": "Sök efter bildnamn, ALT-text eller fotografens namn",
     "search-images-text": "Sök",
@@ -188,55 +195,75 @@
 
     "event-datetime-form-header": "Välj evenemangets repetition",
     "hobby-datetime-form-header": "Välj hobbys repetition",
+    "course-datetime-form-header": "Välj utbildningens repetition",
 
-    "event-subEvent-fields-header": "Evenemagsserie",
+    "event-subEvent-fields-header": "Evenemangsserie",
     "hobby-subEvent-fields-header": "Återkommande hobby",
+    "course-subEvent-fields-header": "Utbildningsserie",
 
     "event-datetime-form-header2": "Ange tider",
 
     "event-datetime-fields-header": "Evenemangets tidpunkter",
     "hobby-datetime-fields-header": "Hobbyns tidpunkter",
+    "course-datetime-fields-header": "Utbildningens tidpunkter",
 
-    "event-starting": "Evenemanget inleds",
-    "hobby-starting": "Hobbyn inleds",
+    "event-starting": "Evenemanget börjar",
+    "hobby-starting": "Hobbyn börjar",
+    "course-starting": "Utbildningen börjar",
 
-    "event-starting-datetime": "Evenemanget inleds (dd.mm.åååå tt.mm)",
-    "event-starting-datelabel": "Evenemanget inleds (dd.mm.åååå)",
-    "hobby-starting-datetime": "Hobbyn inleds (dd.mm.åååå tt.mm)",
-    "hobby-starting-datelabel": "Hobbyn inleds (dd.mm.åååå)",
+    "event-starting-datetime": "Evenemanget börjar (dd.mm.åååå tt.mm)",
+    "event-starting-datelabel": "Evenemanget börjar (dd.mm.åååå)",
+    "hobby-starting-datetime": "Hobbyn börjar (dd.mm.åååå tt.mm)",
+    "hobby-starting-datelabel": "Hobbyn börjar (dd.mm.åååå)",
+    "course-starting-datetime": "Utbildningen börjar (dd.mm.åååå tt.mm)",
+    "course-starting-datelabel": "Utbildningen börjar (dd.mm.åååå",
 
     "event-starting-timelabel": "Starttid (tt.mm)",
 
     "event-ending": "Evenemanget avslutas",
     "hobby-ending": "Hobbyn avslutas",
+    "course-ending": "Utbildningen avslutas",
 
     "event-ending-datetime": "Evenemanget avslutas (dd.mm.åååå tt.mm)",
     "event-ending-datelabel": "Evenemanget avslutas (dd.mm.åååå)",
     "hobby-ending-datetime": "Hobbyn avslutas (dd.mm.åååå tt.mm)",
     "hobby-ending-datelabel": "Hobbyn avslutas (dd.mm.åååå)",
+    "course-ending-datetime": "Utbildningen avslutas (dd.mm.åååå tt.mm)",
+    "course-ending-datelabel": "Utbildningen avslutas (dd.mm.åååå)",
 
     "event-ending-timelabel": "Sluttid (tt.mm)",
     "event-add-new-occasion": "Lägg till en ny tidpunkt",
 
     "event-add-recurring": "Regelbundet återkommande evenemang",
     "hobby-add-recurring": "Regelbundet återkommande hobby",
+    "course-add-recurring": "Regelbundet återkommande utbildning",
 
     "event-type-single": "Enskilt evenemang",
     "event-type-recurring": "Återkommande evenemang",
-    "hobby-type-single": "Hobbytillfälle",
+    "event-sub-count": "Händelse {count}",
+
+    "hobby-type-single": "Enskilt hobbytillfälle",
     "hobby-type-recurring": "Återkommande",
-    "hobby-sub-count": "Handelse {count}",
+    "hobby-sub-count": "Händelse {count}",
+
+    "course-type-single": "Enskilt utbildningstillfälle",
+    "course-type-recurring": "Återkommande",
+    "course-sub-count": "Händelse {count}",
+
     "event-delete-recurring": "Ta bort föregående tidpunkt",
     "event-series": "Händelse {count}: {start} - {end}",
-    "event-series-time": "Tapahtuma {count}: Fyll i både start- och sluttid",
-    "event-sub-count": "Händelse {count}",
+    "event-series-time": "Händelse {count}: Fyll i både start- och sluttid",
     "event-add-recurring-limit": "Det kan förekomma högst {count} stycken tillfälle, du matar in {subEventcount} stycken.",
     "event-add-recurring-error": "Minska på mängden tillfällen. Det kan förekomma högst {count} stycken tillfällen, du matar in {subEventcount} stycken.",
 
     "event-social-header": "Ange evenemangets kanaler",
     "hobby-social-header": "Ange hobbyns kanaler",
+    "course-social-header": "Ange utbildningens kanaler",
 
-    "event-hobby-form-header": "Mata in anmälningsinformationen",
+    "event-form-header": "Mata in anmälningsinformationen",
+    "hobby-form-header": "Mata in anmälningsinformationen",
+    "course-form-header": "Mata in ansökningsinformation",
+
     "event-price-header": "Mata in prisinformation",
     "event-price-count": "Prisinformation {count}",
     "event-add-price":  "Lägg till en ny prisinformation",
@@ -253,6 +280,9 @@
 
     "repetition-begin": "Återkomsten inleds (dd.mm.åååå)",
     "repetition-end": "Återkomsten avslutas (dd.mm.åååå)",
+    "repetition-start-time": "Inledningstid (tt.mm)",
+    "repetition-end-time": "Avslutningstid (tt.mm)",
+
     "repetition-interval-label": "Repetitionsintervall",
     "repeated": "Repeteras med",
     "repetition-interval": " veckas mellanrum.",
@@ -264,6 +294,7 @@
 
     "event-location-fields-header": "Evenemangsplats",
     "hobby-location-fields-header": "Hobbyplats",
+    "course-location-fields-header": "Utbildningsplats",
 
     "event-location": "Platsens namn eller adress",
     "event-location-form-header": "Välj plats",
@@ -273,6 +304,9 @@
 
     "hobby-location-virtual": "Virtuell hobby",
     "hobby-location-virtual-url": "Länk till virtuell hobby",
+
+    "course-location-virtual": "Virtuell utbildning",
+    "course-location-virtual-url": "Länk till virtuell utbildning",
 
     "event-location-id": "Platsens ID",
     "event-location-additional-info": "Platsens tilläggsuppgifter",
@@ -293,6 +327,8 @@
     "event-video-url": "Video som hör ihop med evenemanget (URL)",
     "hobby-video": "Video som hör ihop med hobbyn",
     "hobby-video-url": "Video som hör ihop med hobbyn (URL)",
+    "course-video": "Video som hör ihop med utbildningen",
+    "course-video-url": "Video som hör ihop med utbildningen (URL)",
 
     "event-video-name": "Video namn",
     "event-video-alt_text": "Videons alt-text",
@@ -300,6 +336,7 @@
 
     "event-social-media-fields-header": "Evenemangskanaler",
     "hobby-social-media-fields-header": "Hobbyns kanaler",
+    "course-social-media-fields-header": "Utbildningens kanaler",
 
     "facebook-url": "Facebook (URL)",
     "twitter-url": "Twitter (URL)",
@@ -309,14 +346,15 @@
 
     "event-categorization": "Kategorisering av evenemanget",
     "hobby-categorization": "Kategorisering av hobbyn",
+    "course-categorization": "Kategorisering av utbildningen",
 
     "event-keywords": "Sök och välj ämnesord",
     "event-keywords-search": "Börja skriva ämnesord",
     "event-keywords-delete": "Radera ämnesord",
 
     "event-is-independent": "Enskilt evenemang",
-
-    "hobby is independent": "Enskild hobby",
+    "hobby-is-independent": "Enskild hobby",
+    "course-is-independent": "Enskild utbildning",
 
     "event-umbrella-header": "Är ditt evenemang relaterat till andra evenemang?",
     "event-umbrella": "Paraplyevenemang",
@@ -330,16 +368,30 @@
     "event-languages-header": "Välj språk som används på evenemanget",
     "hobby-languages-header2": "Språk som hobbyn ordnas på",
     "hobby-languages-header": "Välj språk som används i hobbyn",
+    "course-languages-header2": "Språk som utbildningen ordnas på",
+    "course-languages-header": "Välj språk som används på utbildningen",
 
     "audience-age-restrictions": "Åldersbegränsningar",
     "audience-min-age": "Nedre åldersgränsen",
     "audience-max-age": "Övre åldersgränsen",
 
-    "enrolment-time": "Anmälningstiden",
-    "enrolment-start-time": "Anmälan inleds (dd.mm.åååå)",
-    "enrolment-end-time": "Anmälan avslutas (dd.mm.åååå)",
-    "enrolment-url": "Länk till anmälning",
-    "enrolment-header": "Anmälningsinformation",
+    "event-enrolment-time": "Anmälningstiden",
+    "event-enrolment-start-time": "Anmälan inleds (dd.mm.åååå)",
+    "event-enrolment-end-time": "Anmälan avslutas (dd.mm.åååå)",
+    "event-enrolment-url": "Länk till anmälning",
+    "event-enrolment-header": "Anmälningsinformation",
+
+    "hobby-enrolment-time": "Anmälningstiden",
+    "hobby-enrolment-start-time": "Anmälan inleds (dd.mm.åååå)",
+    "hobby-enrolment-end-time": "Anmälan avslutas (dd.mm.åååå)",
+    "hobby-enrolment-url": "Länk till anmälning",
+    "hobby-enrolment-header": "Anmälningsinformation",
+
+    "course-enrolment-time": "Ansökningstid",
+    "course-enrolment-start-time": "Ansökningstiden börjar (dd.mm.åååå)",
+    "course-enrolment-end-time": "Ansökningstiden slutar (dd.mm.åååå)",
+    "course-enrolment-url": "Länk till ansökan",
+    "course-enrolment-header": "Ansökningsinformation",
 
     "attendee-capacity": "Deltagarantalet",
     "minimum-attendee-capacity": "Deltagarnas minimiantal",
@@ -403,9 +455,9 @@
     "event-creation-publish-success": "Innehållet publicerades framgångsrikt!",
 
     "table-events-checkbox": "Välj {name} för att publicera eller radera",
-    "table-events-checkbox-invalid": "Korrigera validationsfelen av innehållet {name} innan du kan välja",
-    "table-events-checkbox-error": " Korrigera validationsfelen av innehållet {name} innan du kan välja",
-    "table-events-checkbox-all": "Välj alla innehåll, som inte har validationsfel, för att radera eller publicera",
+    "table-events-checkbox-invalid": "Korrigera valideringsfelen av innehållet {name} innan du kan välja",
+    "table-events-checkbox-error": " Korrigera valideringsfelen av innehållet {name} innan du kan välja",
+    "table-events-checkbox-all": "Välj alla innehåll, som inte har valideringsfel, för att radera eller publicera",
 
     "image-creation-success":  "Bilden skapades framgångsrikt!",
     "image-creation-error": "Fel när bilden skapades.",
@@ -417,8 +469,8 @@
 
     "confirm-type-switch": "Bekräfta ändring av innehållets typ",
     "switch-type": "Ändra typ",
-    "hobby-type-switch": "OBS! När innehållets typ ändras från evenemang till hobby så raderas följande data: evenemangets kategori och ämnesord.",
-    "event-type-switch": "OBS! När innehållets typ ändras från hobby till evenemang så raderas följande data: hobbyns kategori, ämnesord och anmälningsinformation.",
+
+    "type-switch": "OBS! När innehållets typ ändras, så raderas följande data: kategori och ämnesord.",
 
     "search-minimum-length": "Ange minst tre tecken",
     "search-results-count": "Antalet sökresultat är {count}",
@@ -433,11 +485,15 @@
 
     "event-target-groups-header": "Välj endast om evenemanget är riktat för en viss målgrupp",
     "hobby-target-groups-header": "Välj endast om hobbyn är riktad för en viss målgrupp",
+    "course-target-groups-header": "Välj endast om utbildningen är riktad för en viss målgrupp",
 
     "additional-keywords": "Ämnesord",
     "main-categories": "Huvudkategorier",
+
     "hobby-categories-header-type": "Välj åtminstone en kategori",
     "event-categories-header-type": "Välj minst en av varje kategori",
+    "course-categories-header-type": "Välj åtminstone en kategori",
+
     "categories-header-content": "Innehåll*",
     "event-categories-type": "Innehållets typ*",
     "event-categories-extra": "Ytterligare kategorier",
@@ -462,30 +518,38 @@
 
     "editor-delete-warning": "Obs! Denna funktion raderar innehållet slutgiltigt. Du kan även vid behov annullera eller senarelägga evenemanget, hobbyn eller utbildningen.",
     "editor-delete-extra-warning": "Följande innehållet raderas:",
-    "editor-delete-draft-warning": "VARNING: Denna funktion raderar evenemanget slutgiltigt. Du kan också vid behov be att skaparen av evenemangförslaget redigerar sin annons.",
+    "editor-delete-draft-warning": "VARNING: Denna funktion raderar evenemanget slutgiltigt. Du kan också vid behov be att skaparen av evenemangsförslaget redigerar sin annons.",
     "editor-delete-draft-extra-warning": "Följande evenemang stryks:",
 
     "editor-sentinel-alert": "Du kan granska blanketten men du har inte rättigheter att publicera eller redigera evenemangen. Du har inte loggat in eller din inloggning har föråldrats.",
     "editor-authorization-required": "Logga in först om du vill publicera ett evenemang.",
 
-    "editor-tip-event-time-start": "Välj mellan enskilt eller återkommande evenemang.",
-    "editor-tip-event-time-start-end": "Ett återkommande evenemang består av flera evenemang, det måste innehålla åtminstone 2 ända upp till 65 evenemang.",
+    "editor-tip-event-time-start": "Välj mellan en enskild eller återkommande evenemang.",
+    "editor-tip-event-time-start-end": "En evenemang serie består av flera evenemangstillfällen, det måste innehålla mellan 2 och 65 evenemang.",
     "editor-tip-event-time-type": "Lägg till en ny tidpunkt: Lägg till återkommande evenemang till en serie.",
     "editor-tip-event-time-end": "Ett regelbundet återkommande evenemang: Lägg till regelbundet återkommande tider som upprepas t.ex varje vecka (bl.a. en teaterföreställning som upprepas likadan flera gånger).",
 
-    "editor-tip-hobby-time-start": "Välj en enskild eller en återkommande hobby.",
-    "editor-tip-hobby-time-start-end": "En återkommande hobby består av flera hobbytillfällen, det måste innehålla åtminstone 2 ända upp till 65 tillfällen.",
-    "editor-tip-hobby-time-type": "Lägg till en ny tidpunkt = Lägg till ett tillfälle till en återkommande hobby.",
-    "editor-tip-hobby-time-end": "En regelbundet återkommande hobby = Lägg till regelbundet återkommande tider som upprepas t.ex. varje vecka.",
+    "editor-tip-hobby-time-start": "Välj mellan en enskild eller en återkommande hobby.",
+    "editor-tip-hobby-time-start-end": "En hobby serie består av flera hobbytillfällen, det måste innehålla mellan 2 och 65 tillfällen.",
+    "editor-tip-hobby-time-type": "Lägg till en ny tidpunkt: Lägg till ett tillfälle till en återkommande hobby.",
+    "editor-tip-hobby-time-end": "En regelbundet återkommande hobby: Lägg till regelbundet återkommande tider som upprepas t.ex. varje vecka.",
+
+    "editor-tip-course-time-start": "Välj mellan en enskild eller en återkommande utbildning.",
+    "editor-tip-course-time-start-end": "En utbildnings serie består av flera utbildningstillfällen, det måste innehålla mellan 2 och 65 tillfällen.",
+    "editor-tip-course-time-type": "Lägg till en ny tidpunkt: Lägg till enskilda utbildningstillfällen till utbildnings serien.",
+    "editor-tip-course-time-end": "En regelbundet återkommande utbildning: Lägg till regelbundet återkommande tider som upprepas t.ex. varje vecka.",
 
     "event-editor-tip-location-multi": "Evenemanget kan vara virtuellt, fysiskt eller båda.",
     "event-editor-tip-location-internet": "Om evenemanget ordnas på distans över internet, välj då Virtuellt evenemang som evenemangsplats, samt mata in en URL. Du kan ange ytterligare information för att hitta evenemangsplatsen, till exempel konferensrummets namn eller instruktioner för att hitta ingången.",
-    "event-editor-tip-location-not-found": "Om en exakt evenemangsplats inte finns på listan, välj då närmaste gatuaddress och skriv platsens namn eller ankomst instruktioner i fältet för tilläggsuppgifter.",
+    "event-editor-tip-location-not-found": "Om en exakt evenemangsplats inte finns på listan, välj då närmaste gatuadress och skriv platsens namn eller ankomst instruktioner i fältet för tilläggsuppgifter.",
 
     "hobby-editor-tip-location-multi": "Hobbyn ordnas vanligen fysiskt på plats.",
     "hobby-editor-tip-location-internet": "Om hobbyn ordnas på distans över internet, välj då Virtuell hobby som hobbyplats, samt mata in en URL. För hobbyn som ordnas fysiskt på plats så kan du ange ytterligare information för att hitta hobbyplatsen, till exempel instruktioner för att hitta ingången eller gymnastiksalens namn / nummer.",
     "hobby-editor-tip-location-not-found": "Om en exakt hobbyplats inte finns på listan, välj då närmaste gatuadress och skriv platsens namn eller ankomstinstruktioner i fältet för tilläggsuppgifter.",
 
+    "course-editor-tip-location-multi": "Undervisningen kan hållas som distansundervisning, fysiskt på plats eller både och.",
+    "course-editor-tip-location-internet": "Om utbildningen hålls på distans på Internet, välj Distansträning som plats och ange URL. I klassrumsundervisningen kan du ge ytterligare information för att hitta en plats, till exempel namnet på klassrummet eller vägbeskrivning till entrén.",
+    "course-editor-tip-location-not-found": "Utbildning: Om den exakta träningsplatsen inte kan hittas i listan, välj närmaste gatuadress som plats och ange ortens namn eller andra detaljerade instruktioner i fältet för ytterligare information.",
 
     "editor-tip-umbrella-sub-event": "Om du vill tillägga detta evenemang som en del av ett paraplyevenemang, gör det",
     "editor-tip-umbrella-sub-event-link": "seriens samlande evenemang",
@@ -493,24 +557,29 @@
     "editor-tip-event-umbrella-selection": "Paraplyevenemang: evenemanget är en samling flera evenemang. T.ex Konstens natt.",
     "editor-tip-event-umbrella-selection1": "Del av ett paraplyevenemang: evenemanget är en del av ett större evenemang. T.ex Författarträff under Konstens natt.",
     "editor-tip-hobby-umbrella-selection": "Hobbyer är vanligen självständiga helheter. Paraplyevenemang = Evenemanget är en samling flera hobbyer. T.ex. Sommarskoj i knutarna.",
-    "editor-tip-hobby-umbrella-selection1": "Del av ett paraplyevenemang = Hobbyn är en del av en större helhet. T.ex. Dansworkshop i Laustis, som hör till Sommarskoj i knutarna -programmet.",
+    "editor-tip-hobby-umbrella-selection1": "Del av ett paraplyevenemang: Hobbyn är en del av en större helhet. T.ex. Dansworkshop i Laustis, som hör till Sommarskoj i knutarna -programmet.",
+    "editor-tip-course-umbrella-selection": "Utbildning är vanligtvis en självständig enhet. Utbildningens paraplytema samlar flera utbildningar relaterade till detta tema.",
+    "editor-tip-course-umbrella-selection1": "Relaterat till temat takutbildning: Utbildningen är en del av ett större tema.",
 
     "editor-tip-required": "Obligatoriska fält är utmärkta med en asterisk (*).",
     "editor-tip-eventtype-disable": "Radera tiderna om du vill byta evenemangets repetition.",
 
-    "event-editor-tip-keywords": "Valitse tapahtuman sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka, mutta tarvittaessa voit valita useampia luokkia. Valitse myös tapahtuman järjestämistapaa kuvaava luokka.",
-    "hobby-editor-tip-keywords": "Valitse harrastuksen sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka.",
-    "event-editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat tapahtumaa mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). Usein kuvailuun riittää 1-5 asiasanaa.",
-    "hobby-editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat harrastusta mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). Usein kuvailuun riittää 1-5 asiasanaa.",
+    "event-editor-tip-keywords": "Välj kategori som övrigt beskriver evenemangets innehåll. Vanligtvis så räcker det med en kategori men vid behov så kan flera kategorier också väljas. Välj också innehållets typ som beskriver hur evenemanget ordnas.",
+    "hobby-editor-tip-keywords": "Välj en kategori som beskriver innehållet i hobby på generell nivå. Vanligtvis så räcker det med en kategori.",
+    "course-editor-tip-keywords": "Välj en kategori som beskriver innehållet i utbildningen på generell nivå. Vanligtvis så räcker det med en kategori.",
 
-    "editor-tip-keyword-sidefield": "Sisällön ohjeet",
-    "editor-tip-category-sidefield": "Asiasanojen ohjeet",
+    "event-editor-tip-keyword-selection": "Välj ämnesord som beskriver evenemanget så exakt som möjligt(t.ex. barnmusik istället för musik). 1-5 ämnesord brukar räcka till för att beskriva evenemang.",
+    "hobby-editor-tip-keyword-selection": "Välj ämnesord som beskriver hobbyn så exakt som möjligt(t.ex. barnmusik istället för musik). 1-5 ämnesord brukar räcka till för att beskriva hobbyn.",
+    "course-editor-tip-keyword-selection": "Välj ämnesord som beskriver utbildningen så exakt som möjligt (t.ex. barnmusik istället för musik). 1–5 ämnesord brukar räcka till för att beskriva hobbyn.",
+
+    "editor-tip-keyword-sidefield": "Anvisning för val av kategori",
+    "editor-tip-category-sidefield": "Anvisning för val av ämnesord",
 
     "editor-tip-umbrella": "Anvisningen om ett paraplyevenemang",
 
     "event-editor-tip-times": "Anvisningen om evenemangets repetition",
-
     "hobby-editor-tip-times": "Anvisningen om hobbys repetition",
+    "course-editor-tip-times": "Anvisningen om utbildningens repetition",
 
     "editor-tip-location": "Anvisningen om att välja plats",
 
@@ -542,11 +611,11 @@
     "moderation-page-tip": "Moderations instruktioner",
     "moderation-page-draft-heading": "Väntar på godkännande",
     "moderation-page-published-heading": "Publicerade evenemang",
-    "moderation-page-published-description": "Om du publicerade ett evenemangförslag under ett färdigt paraplyevenemang, visas det inte i denna vy.",
+    "moderation-page-published-description": "Om du publicerade ett evenemangsförslag under ett färdigt paraplyevenemang, visas det inte i denna vy.",
 
     "table-events-per-page": "Innehåll per sida",
 
-    "draft-cancel": "Evenemangutkast kan inte ångras.",
+    "draft-cancel": "Evenemangsutkast kan inte ångras.",
     "draft-invalid-postpone": "Utkast kan inte senareläggas.",
     "draft-publish-subevent": "Evenemang i serien kan inte publiceras.",
     "event-validation-errors": "Innehållets information är felaktigt, korrigera felen före publicering.",
@@ -571,6 +640,7 @@
 
     "event-uploaded-image-alt-decoration": "Bilden är dekorativ. Välj när bilden inte innehåller relevant information om evenemanget.",
     "hobby-uploaded-image-alt-decoration": "Bilden är dekorativ. Välj när bilden inte innehåller relevant information om hobbyn.",
+    "course-uploaded-image-alt-decoration": "Bilden är dekorativ. Välj när bilden inte innehåller relevant information om utbildningen.",
 
     "uploaded-image-button-delete": "Ta bort bilden",
 
@@ -580,6 +650,7 @@
 
     "event-image-modal-license-restricted": "Användningen begränsad till anknytning med evenemanget.",
     "hobby-image-modal-license-restricted": "Användningen begränsad till anknytning med hobbyn.",
+    "course-image-modal-license-restricted": "Användningen begränsad till anknytning med utbildningen.",
 
     "image-modal-image-license": "Licens",
     "image-page": "Sidan {n}",
@@ -588,6 +659,7 @@
 
     "event-image-modal-image-license-explanation-only": "Användningen begränsad till anknytning med evenemanget: bildens användning är begränsat till detta evenemang.",
     "hobby-image-modal-image-license-explanation-only": "Användningen begränsad till anknytning med hobbyn: bildens användning är begränsat till denna hobby.",
+    "course-image-modal-image-license-explanation-only": "Användningen begränsad till anknytning med utbildningen: bildens användning är begränsat till denna utbildning.",
 
     "image-modal-image-license-explanation-cc-by": "CC BY 4.0: bilden får delas och bearbetas fritt så länge som upphovspersonen anges. Välj alltid om bilden har denna licens. (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>mer information om CC BY 4.0. Öppnas i en ny flik</a>).",
     "image-modal-view-terms-paragraph-text": "Innan du tillägger en ny bild, bekanta dig med <a href='/help#images' target='_blank' rel='noopener noreferrer'>villkoren och rekommendationer för tilläggandet av bilder (öppnas i en ny flik).</a>",
@@ -629,6 +701,7 @@
 
     "event-preview": "Evenemangets uppgifter",
     "hobby-preview": "Hobbyns uppgifter",
+    "course-preview": "Utbildningens uppgifter",
 
     "preview-event-button": "Förhandsvisning",
 
@@ -641,8 +714,11 @@
     "table-pagination-previous-page": "Föregående sida",
 
     "close-report-modal": "Stäng rapporteringsdialogen",
+
     "event-close-recurring-modal": "Stäng dialogrutan för återkommande händelser",
     "hobby-close-recurring-modal": "Stäng dialogrutan för återkommande hobbyer",
+    "course-close-recurring-modal": "Stäng dialogrutan för återkommande utbildningar",
+
     "close-preview-modal": "Stäng förhandsvisning",
     "close-image-gallery-modal": "Stäng bildgalleridialogen",
     "close-image-edit-modal": "Stäng dialogrutan Lägg till / redigera bild",
@@ -656,6 +732,8 @@
     "event-list-hide": "Dölj evenemang",
     "hobby-list-show": "Visa hobbyer",
     "hobby-list-hide": "Dölj hobbyer",
+    "course-list-show": "Visa utbildningar",
+    "course-list-hide": "Dölj utbildningar",
 
     "eventItem-location": "Plats:",
     "eventItem-date": "Datum:",
@@ -663,8 +741,8 @@
     "eventItem-description": "Kort beskrivning:",
 
     "homepage-welcome": "Välkommen till Linked-service",
-    "homepage-introduction-one": "Välkommen att lägga in era evenemang, hobbyn eller skolningar till den öppna Linked Events databasen. Linked Events är en öppen evenemangsdatabas samt gränssnit som erbjuder evenemangs informationen som öppen data i maskinläsbar format för olika applikationer.",
-    "homepage-introduction-two": "<strong>Linked Events är inte en visuell kalendar i sig själv.</strong> <a href='https://kalenteri.turku.fi/sv/events/calendar' target='_blank' rel='noopener noreferrer'>se Åbo stads kalender. (Öppnar i ett nytt fönster)</a>",
+    "homepage-introduction-one": "Välkommen att lägga in era evenemang, hobbyn eller skolningar till den öppna Linked Events databasen. Linked Events är en öppen evenemangsdatabas samt gränssnitt som erbjuder evenemangs informationen som öppen data i maskinläsbar format för olika applikationer.",
+    "homepage-introduction-two": "<strong>Linked Events är inte en visuell kalender i sig själv.</strong> <a href='https://kalenteri.turku.fi/sv/events/calendar' target='_blank' rel='noopener noreferrer'>se Åbo stads kalender. (Öppnar i ett nytt fönster)</a>",
     "homepage-introduction-three": "Åbo stads Linked Events är avsedd för alla evenemang, hobbyn och utbildningsinnehåll i Egentliga Finland, inte bara stadens egna.",
     "homepage-introduction-four": "Linked Events är baserad på öppen källkod (under MIT-lisens).",
     "homepage-for-publishers": "För arrangören",

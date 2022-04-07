@@ -30,18 +30,15 @@ class TypeSelector extends React.Component {
     handleMount = () => {
         const {event:{type_id},editor:{values}} = this.props
         const editedEventTypeIsEvent = type_id === EVENT_TYPE.GENERAL
-        //const editedEventTypeIsCourse = type_id === 'Course'
+        const editedEventTypeIsCourse = type_id === EVENT_TYPE.COURSE
         const editedEventTypeIsHobby = type_id === EVENT_TYPE.HOBBIES
         let type = ''
         if (editedEventTypeIsEvent) {
             type = 'event'
         }
-        /*
-        This section should be enabled when there is support for courses
         if (editedEventTypeIsCourse) {
             type = 'courses'
         }
-         */
         if (editedEventTypeIsHobby) {
             type = 'hobby'
         }
@@ -65,7 +62,7 @@ class TypeSelector extends React.Component {
         const creatingNewSubEvent = get(router, ['location', 'pathname'], '').includes('/recurring/add/')
         const superEventIsNotNull = get(event, 'super_event_type') !== null
         const editedEventTypeIsEvent = get(event, 'type_id') === EVENT_TYPE.GENERAL
-        //const editedEventTypeIsCourse = get(event, 'type_id') === EVENT_TYPE.COURSE
+        const editedEventTypeIsCourse = get(event, 'type_id') === EVENT_TYPE.COURSE
         const editedEventTypeIsHobby = get(event, 'type_id') === EVENT_TYPE.HOBBIES
 
         // update the isCreateView according to whether we're creating a new event or updating an existing one
@@ -84,13 +81,12 @@ class TypeSelector extends React.Component {
         ) {
             stateToSet.type = 'event'
         }
-        /*
-        This section should be enabled when there is support for courses
-        if (!updatedIsCreateView
-            && editedEventTypeIsCourse) {
+        if ((!updatedIsCreateView
+            && editedEventTypeIsCourse) || (updatedIsCreateView && values.type_id === EVENT_TYPE.COURSE) ||
+            (creatingNewSubEvent && values.type_id === EVENT_TYPE.COURSE)
+        ) {
             stateToSet.type = 'courses'
         }
-         */
         if ((!updatedIsCreateView
             && editedEventTypeIsHobby) || (updatedIsCreateView && values.type_id === EVENT_TYPE.HOBBIES) ||
             (creatingNewSubEvent && values.type_id === EVENT_TYPE.HOBBIES)
@@ -126,30 +122,29 @@ class TypeSelector extends React.Component {
 
         const content = {}
         const valuesToClear = []
-        let additionalMsg
         if (value === 'event') {
             content.type_id = EVENT_TYPE.GENERAL;
             content.type = value;
             // If checkValues has length more than 0, push keys to clear and strings for modal
             if (checkValues.includes(values.keywords)) {
                 valuesToClear.push(clearValueKeys);
-                additionalMsg = <FormattedMessage id='event-type-switch' />
             }
         }
-        /*
+
         else if (value === 'courses') {
-        typeId.type_id = EVENT_TYPE.COURSES
-        states.type = value
+            content.type_id = EVENT_TYPE.COURSE
+            content.type = value
+            if (checkValues.includes(values.keywords)) {
+                valuesToClear.push(clearValueKeys);
+            }
         }
-         */
+
         else if (value === 'hobby') {
             content.type_id = EVENT_TYPE.HOBBIES
             content.type = value
             // If checkValues includes values.keywords, push keys[0] to clear and strings for modal
             if (checkValues.includes(values.keywords)) {
                 valuesToClear.push(clearValueKeys)
-                additionalMsg = <FormattedMessage id='hobby-type-switch' />
-
             }
         }
         // If valuesToClear has length over 0, push confirmActionProps & values for action
@@ -160,7 +155,7 @@ class TypeSelector extends React.Component {
                     this.context.dispatch(clearValue(valuesToClear));
                     this.setState({type: content.type});
                 },
-                additionalMsg: additionalMsg,
+                additionalMsg: <FormattedMessage id='type-switch' />,
                 additionalMarkup: ' ',
             }));
             // Else proceed with dispatching data & setting state
@@ -195,6 +190,7 @@ class TypeSelector extends React.Component {
                     <div className='custom-control-radio'>
                         {this.getSelectors('event')}
                         {this.getSelectors('hobby')}
+                        {this.getSelectors('courses')}
                     </div>
                 </div>
             </div>

@@ -280,11 +280,10 @@ export class EditorPage extends React.Component {
     getTypeTheme() {
         const {editor: {values: {type_id}}} = this.props;
         switch (type_id) {
-            /*
+
             case constants.EVENT_TYPE.COURSE: {
-                return 'coursesUI'
+                return 'courseUI'
             }
-             */
             case constants.EVENT_TYPE.HOBBIES: {
                 return 'hobbyUI'
             }

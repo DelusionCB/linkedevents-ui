@@ -9,6 +9,22 @@ import {getStringWithLocale} from './locale'
 const {PUBLICATION_STATUS, EVENT_STATUS} = constants
 
 export class EventQueryParams {
+    /**
+     * TODO: add following query params
+     * - in_language
+     * - starts_after
+     * - starts_before
+     * - ends_after
+     * - ends_before
+     * - audience_min_age
+     * - audience_min_age_lt
+     * - audience_min_age_gt
+     * - audience_max_age
+     * - audience_max_age_lt
+     * - audience_max_age_gt
+     * - suitable_for
+     */
+
     admin_user = null
     created_by = null
     end = null

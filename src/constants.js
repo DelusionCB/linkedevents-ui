@@ -81,6 +81,7 @@ const constants = {
     LOCALE_TYPE: {
         EVENT: 'event',
         HOBBY: 'hobby',
+        COURSE: 'course',
     },
 
     // Local storage keys
@@ -185,6 +186,12 @@ const constants = {
         GENERAL: 'General',
         COURSE: 'Course',
         HOBBIES: 'Hobbies',
+    },
+    
+    EVENT_TYPE_PARAM: {
+        EVENT: 'eventgeneral',
+        HOBBY: 'eventhobbies',
+        COURSE: 'eventcourse',
     },
 
     TABLE_COLUMNS: TABLE_COLUMNS,

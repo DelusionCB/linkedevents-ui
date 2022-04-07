@@ -102,6 +102,7 @@
 
     "event-description-fields-header": "Event description",
     "hobby-description-fields-header": "Hobby description",
+    "course-description-fields-header": "Education description",
 
     "event-headline": "Title",
     "event-short-description": "Short description, lead",
@@ -109,15 +110,19 @@
 
     "event-info-url": "Website (URL)",
     "hobby-info-url": "Website (URL)",
+    "course-info-url": "Website (URL)",
 
     "event-provider": "Event organizer",
     "hobby-provider": "Hobby organizer",
+    "course-provider": "Education organizer",
 
     "event-provider-input": "Event organizer or contact details. Notice! The information is public.",
     "hobby-provider-input": "Hobby organizer or contact details. Notice! The information is public.",
+    "course-provider-input": "Education organizer or contact details. Notice! The information is public.",
 
     "event-publisher": "Event publisher",
     "hobby-publisher": "Publisher of the hobby",
+    "course-publisher": "Publisher of the education",
 
     "event-publisher-info": "Publisher: {publisher}",
     "event-isvirtual": "Event is virtual",
@@ -149,6 +154,7 @@
 
     "event-image-title": "Event image*",
     "hobby-image-title": "Hobby image*",
+    "course-image-title": "Education image*",
 
     "event-image-title-modal": "Image bank",
 
@@ -170,57 +176,76 @@
 
     "event-no-image": "NO IMAGE",
     "hobby-no-image": "NO IMAGE",
+    "course-no-image": "NO IMAGE",
 
     "search-images": "Search by image name, alt-text or photographer's name",
     "search-images-text": "Search",
     "search-image-result": "{count} images in the image bank on {page} pages",
 
     "event-datetime-form-header": "Choose event recurrence",
-
     "hobby-datetime-form-header": "Choose hobby recurrence",
+    "course-datetime-form-header": "Choose education recurrence",
 
     "event-datetime-form-header2": "Set times",
 
     "event-datetime-fields-header": "Event times",
     "hobby-datetime-fields-header": "Hobby times",
-
+    "course-datetime-fields-header": "Education times",
 
     "event-starting": "Event starts",
     "hobby-starting": "Hobby starts",
+    "course-starting": "Education starts",
 
     "event-starting-datetime": "Event starts (dd.mm.yyyy hh.mm)",
     "event-starting-datelabel": "Event starts (dd.mm.yyyy)",
     "hobby-starting-datetime": "Hobby starts (dd.mm.yyyy hh.mm)",
     "hobby-starting-datelabel": "Hobby starts (dd.mm.yyyy)",
+    "course-starting-datetime": "Education starts (dd.mm.yyyy hh.mm)",
+    "course-starting-datelabel": "Education starts (dd.mm.yyyy)",
 
     "event-starting-timelabel": "Starting time (hh.mm)",
 
     "event-ending": "Event ends",
     "hobby-ending": "Hobby ends",
+    "course-ending": "Education ends",
 
     "event-ending-datetime": "Event ends (dd.mm.yyyy hh.mm)",
     "event-ending-datelabel": "Event ends (dd.mm.yyyy)",
     "hobby-ending-datetime": "Hobby ends (dd.mm.yyyy hh.mm)",
     "hobby-ending-datelabel": "Hobby ends (dd.mm.yyyy)",
+    "course-ending-datetime": "Education ends (dd.mm.yyyy hh.mm)",
+    "course-ending-datelabel": "Education ends (dd.mm.yyyy)",
 
     "event-ending-timelabel": "Ending time (hh.mm)",
     "event-add-new-occasion": "Add new occasion",
 
     "event-add-recurring": "Regularly recurring event",
     "hobby-add-recurring": "Regularly recurring hobby",
+    "course-add-recurring": "Regularly recurring education",
 
     "event-add-recurring-limit": "The maximum amount of recurring times is {count}, you are adding {subEventcount} times.",
     "event-add-recurring-error": "Reduce the number of recurring times, the maximum amount of recurring times is {count} and you are adding {subEventcount} times.",
+
     "event-type-single": "Single event",
     "event-type-recurring": "Serial event",
+    "event-sub-count": "Event {count}",
+
     "hobby-type-single": "One time hobby",
     "hobby-type-recurring": "Series",
     "hobby-sub-count": "Occurance {count}",
+
+    "course-type-single": "One time education",
+    "course-type-recurring": "Series",
+    "course-sub-count": "Occurance {count}",
+
     "event-delete-recurring": "Remove previous event time",
     "event-series": "Event {count}: {start} - {end}",
     "event-series-time": "Event {count}: Please fill in both the start and end time",
-    "event-sub-count": "Event {count}",
-    "event-subEvent-fields-header": "Hobby series",
+
+    "event-subEvent-fields-header": "Event series",
+    "hobby-subEvent-fields-header": "Hobby series",
+    "course-subEvent-fields-header": "Education series",
+
     "event-price-count": "Price information {count}",
     "event-add-price": "Add new price",
     "event-add-price-limit": "Price information can be up to {count} pieces.",
@@ -236,14 +261,17 @@
 
     "repetition-begin": "Repetition begins (dd.mm.yyyy)",
     "repetition-end": "Repetition ends (dd.mm.yyyy)",
+    "repetition-start-time": "Start time (hh.mm)",
+    "repetition-end-time": "End time (hh.mm)",
+
     "repetition-interval-label": "Repeat interval",
     "repeated": "Repeated at",
     "repetition-interval": " week intervals.",
 
-    "repetition-start-time": "Start time (hh.mm)",
-    "repetition-end-time": "End time (hh.mm)",
-
     "event-location-fields-header": "Venue",
+    "hobby-location-fields-header": "Venue",
+    "course-location-fields-header": "Venue",
+
     "event-location": "Name or address of venue",
     "event-location-form-header": "Select location",
 
@@ -253,13 +281,18 @@
     "hobby-location-virtual": "Virtual hobby",
     "hobby-location-virtual-url": "Link to a virtual hobby",
 
+    "course-location-virtual": "Remotely",
+    "course-location-virtual-url": "Link to a virtual education",
+
     "event-location-id": "Location ID",
     "event-location-additional-info": "Additional information",
     "event-location-button": "Show location on map",
     "event-location-button-tooltip": "No location selected",
     "event-location-map-error-missing-coordinates": "Selected location has no coordinates.",
 
-    "event-hobby-form-header": "Enter registration information",
+    "event-form-header": "Enter registration information",
+    "hobby-form-header": "Enter registration information",
+    "course-form-header": "Enter application period information",
 
     "event-price-fields-header": "Event price",
     "event-price-header": "Enter price details",
@@ -275,6 +308,8 @@
     "event-video-url": "Video connected to the event (URL)",
     "hobby-video": "Video connected to the hobby",
     "hobby-video-url": "Video connected to the hobby (URL)",
+    "course-video": "Video connected to the education",
+    "course-video-url": "Video connected to the education (URL)",
 
     "event-video-name": "Video name",
     "event-video-alt_text": "Videos alt-text",
@@ -282,9 +317,11 @@
 
     "event-social-header": "Enter the event's channels",
     "hobby-social-header": "Enter the hobby's channels",
+    "course-social-header": "Enter the education’s channels",
 
     "event-social-media-fields-header": "Event channels",
     "hobby-social-media-fields-header": "Hobby channels",
+    "course-social-media-fields-header": "Education channels",
 
     "facebook-url": "Facebook (URL)",
     "twitter-url": "Twitter (URL)",
@@ -292,22 +329,26 @@
 
     "event-categorization-form": "Set categories",
     "event-category-form-header": "Specify categories and target groups*",
+
     "hobby-categories-header-type": "Select at least one category",
     "event-categories-header-type": "Select at least one from each category",
+    "course-categories-header-type": "Select at least one category",
+
     "categories-header-content": "Content*",
     "event-categories-type": "Type of event*",
     "event-categories-extra": "Additional categories",
 
     "event-categorization": "Categorization",
     "hobby-categorization": "Categorization",
+    "course-categorization": "Categorization",
 
     "event-keywords": "Search and select keywords",
     "event-keywords-search": "Start typing a keyword",
     "event-keywords-delete": "Delete keyword",
 
     "event-is-independent": "Independent event",
-
     "hobby-is-independent": "Independent hobby",
+    "course-is-independent": "Independent education",
 
     "event-umbrella-header": "Is your event related to other events?",
     "event-umbrella": "Umbrella events",
@@ -321,16 +362,30 @@
     "event-languages-header": "Select the languages used in the event",
     "hobby-languages-header2": "Languages the hobby will be hosted in",
     "hobby-languages-header": "Select the languages used in the hobby",
+    "course-languages-header2": "Languages the education will be hosted in",
+    "course-languages-header": "Select the languages used in the education",
 
     "audience-age-restrictions": "Age restrictions",
     "audience-min-age": "Minimum age",
     "audience-max-age": "Maximum age",
 
-    "enrolment-time": "Enrolment time",
-    "enrolment-start-time": "Enrolment starts (dd.mm.yyyy)",
-    "enrolment-end-time": "Enrolment ends (dd.mm.yyyy)",
-    "enrolment-url": "Link to enrolment",
-    "enrolment-header": "Enrolment information",
+    "event-enrolment-time": "Enrolment time",
+    "event-enrolment-start-time": "Enrolment starts (dd.mm.yyyy)",
+    "event-enrolment-end-time": "Enrolment ends (dd.mm.yyyy)",
+    "event-enrolment-url": "Link to enrolment",
+    "event-enrolment-header": "Enrolment information",
+
+    "hobby-enrolment-time": "Enrolment time",
+    "hobby-enrolment-start-time": "Enrolment starts (dd.mm.yyyy)",
+    "hobby-enrolment-end-time": "Enrolment ends (dd.mm.yyyy)",
+    "hobby-enrolment-url": "Link to enrolment",
+    "hobby-enrolment-header": "Enrolment information",
+
+    "course-enrolment-time": "Application period",
+    "course-enrolment-start-time": "Application period starts (dd.mm.yyyy)",
+    "course-enrolment-end-time": "Application period ends (dd.mm.yyyy)",
+    "course-enrolment-url": "Link to application",
+    "course-enrolment-header": "Application information",
 
     "attendee-capacity": "Attendee capacity",
     "minimum-attendee-capacity": "Minimum number of attendees",
@@ -403,8 +458,8 @@
 
     "confirm-type-switch": "Confirm the change of content type",
     "switch-type": "Change type",
-    "hobby-type-switch": "Notice! When changing the content type from event to hobby, following information will be cleared: event category and keywords.",
-    "event-type-switch": "Notice! When changing the content type from hobby to event, following information will be cleared: hobby category, keywords, and registration information.",
+
+    "type-switch": "Tapahtuma: Notice! When changing the content type, following information will be cleared: category and keywords.",
 
     "search-minimum-length": "Enter at least 3 characters",
     "search-no-results": "No results",
@@ -420,6 +475,7 @@
 
     "event-target-groups-header": "Select only if the event targets a specific target group",
     "hobby-target-groups-header": "Select only when the hobby targets a specific target group",
+    "course-target-groups-header": "Select only when the education targets a specific target group",
 
     "additional-keywords": "Other keywords",
     "main-categories": "Main categories",
@@ -450,7 +506,7 @@
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
     "editor-authorization-required": "You must be logged in to create or edit events.",
 
-    "editor-tip-event-time-start": "Choose whether your event single event or a serial event.",
+    "editor-tip-event-time-start": "Choose whether your event is a single event or a serial event.",
     "editor-tip-event-time-start-end": "A serial event consists of multiple sub-events, it may contain at least 2 and up to 65 sub-events.",
     "editor-tip-event-time-type": "Add new occasion: add sub-events to a serial event.",
     "editor-tip-event-time-end": "Regularly recurring event: Add regularly recurring events, e.g. a weekly.",
@@ -460,6 +516,11 @@
     "editor-tip-hobby-time-type": "Add new occasion: Add occurance to a hobby series.",
     "editor-tip-hobby-time-end": "Regularly recurring hobby: Add regularly, eg. weekly, recurring hobby.",
 
+    "editor-tip-course-time-start": "Choose whether the education is a single function or an education series.",
+    "editor-tip-course-time-start-end": "A education series consists of multiple occurances, it may contain at least 2 and up to 65.",
+    "editor-tip-course-time-type": "Add new occasion: add occurrence to an education series.",
+    "editor-tip-course-time-end": "Regularly recurring education: add regularly, eg. weekly, recurring education.",
+
     "event-editor-tip-location-multi": "The event can be virtual, physical or both.",
     "event-editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instruction to find an entrance.",
     "event-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
@@ -468,30 +529,39 @@
     "hobby-editor-tip-location-internet": "If the hobby is virtual on the Internet, select Virtual hobby as the location and enter a URL. For onsite hobbies, you can enter details about the exact location, for example the instructions to find the entrance or the name / number of the sports hall.",
     "hobby-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
 
+    "course-editor-tip-location-multi": "Teaching can be provided remotely, face-to-face, or both",
+    "course-editor-tip-location-internet": "If the teaching is arranged remotely, select Remotely as the location, and enter a URL. For face-to-face teaching you can enter details about the exact location, for example the instructions to find the entrance or the name / number of the classroom.",
+    "course-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
+
     "editor-tip-umbrella-sub-event": "If you wish to add this event under an umbrella event, you may do so from the associated ",
     "editor-tip-umbrella-sub-event-link": "top level event",
 
     "editor-tip-event-umbrella-selection": "Umbrella event: the event brings together several other events. For example, Night of the Arts or Movie Day.",
-    "editor-tip-event-umbrella-selection1": "Part of an umbrella event = The event is a part of a larger event. For example, Meet with the Writer on Night of the Arts",
-    "editor-tip-hobby-umbrella-selection": "Hobbies are usually independent. Hobby theme = Theme brings together several hobbies, that belong to the same theme. For example “Kivakesä kulmilla”.",
-    "editor-tip-hobby-umbrella-selection1": "Part of a hobby theme = The hobby is a part of a larger theme.",
+    "editor-tip-event-umbrella-selection1": "Part of an umbrella event: The event is a part of a larger event. For example, Meet with the Writer on Night of the Arts",
+    "editor-tip-hobby-umbrella-selection": "Hobbies are usually independent. Hobby theme: Theme brings together several hobbies, that belong to the same theme. For example “Kivakesä kulmilla”.",
+    "editor-tip-hobby-umbrella-selection1": "Related to the roof them: The hobby is a part of a larger theme.",
+    "editor-tip-course-umbrella-selection": "Education is usually an independent entity. The umbrella theme of the training brings together several trainings related to this theme.",
+    "editor-tip-course-umbrella-selection1": "Related to the roof theme: The education is a part of a larger theme.",
 
     "editor-tip-eventtype-disable": "Delete the added times, if you would like to change the event recurrence.",
     "editor-tip-required": "Fields marked with an asterisk (*) are mandatory.",
 
-    "event-editor-tip-keywords": "Valitse tapahtuman sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka, mutta tarvittaessa voit valita useampia luokkia. Valitse myös tapahtuman järjestämistapaa kuvaava luokka.",
-    "hobby-editor-tip-keywords": "Valitse harrastuksen sisältöä yleisellä tasolla kuvaava luokka. Useimmiten kuvaukseen riittää yksi luokka.",
-    "event-editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat tapahtumaa mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). Usein kuvailuun riittää 1-5 asiasanaa.",
-    "hobby-editor-tip-keyword-selection": "Valitse asiasanoja, jotka kuvaavat harrastusta mahdollisimman tarkasti (esimerkiksi musiikin sijaan lastenmusiikki). Usein kuvailuun riittää 1-5 asiasanaa.",
+    "event-editor-tip-keywords": "Select a category to describe the content of the event at a general level. Usually one category is enough, but you can select more than one when necessary. Also choose the type of event to describe how the event is organized.",
+    "hobby-editor-tip-keywords": "Select a category to describe the content of the hobby at a general level. Usually, one category is enough.",
+    "course-editor-tip-keywords": "Select a category to describe the content of the education at a general level. Usually, one category is enough.",
 
-    "editor-tip-keyword-sidefield": "Sisällön ohjeet",
-    "editor-tip-category-sidefield": "Asiasanojen ohjeet",
+    "event-editor-tip-keyword-selection": "Choose keywords to describe the event as accurately as possible (for example, children's music instead of music). Usually 1-5 keywords are enough.",
+    "hobby-editor-tip-keyword-selection": "Choose keywords to describe the hobby as accurately as possible (for example, children's music instead of music). Usually 1-5 keywords are enough.",
+    "course-editor-tip-keyword-selection": "Choose keywords to describe the education as accurately as possible (for example, children's music instead of music). Usually, 1-5 keywords are enough.",
+
+    "editor-tip-keyword-sidefield": "Instructions for selecting categories",
+    "editor-tip-category-sidefield": "Instructions for selecting keywords",
 
     "editor-tip-umbrella": "Instructions for an umbrella event",
 
     "event-editor-tip-times": "Instructions for choosing event recurrence",
-
     "hobby-editor-tip-times": "Instructions for choosing hobby recurrence",
+    "course-editor-tip-times": "Instructions for choosing education recurrence",
 
     "editor-tip-location": "Instructions for selecting a location",
 
@@ -505,7 +575,7 @@
     "play-date-label": "Recurring days",
     "linked-courses": "Linked Courses",
     "create-courses": "Add a new course",
-    "courses": "Course",
+    "courses": "Education",
     "hobby": "Hobby",
     "event": "Event",
     "edit-courses": "Edit the course",
@@ -558,6 +628,7 @@
 
     "event-uploaded-image-alt-decoration": "The picture is decorative. Choose when the image does not convey any relevant information about the event.",
     "hobby-uploaded-image-alt-decoration": "The picture is decorative. Choose when the image does not convey any relevant information about the hobby.",
+    "course-uploaded-image-alt-decoration": "The picture is decorative. Choose when the image does not convey any relevant information about the education.",
 
     "upload-new-image": "Add image",
 
@@ -572,6 +643,7 @@
 
     "event-image-modal-license-restricted": "Image may be used only for this event.",
     "hobby-image-modal-license-restricted": "Image may be used only for this hobby.",
+    "course-image-modal-license-restricted": "Image may be used only for this education.",
 
     "image-modal-image-license": "Image licence",
     "image-page": "Page {n}",
@@ -580,6 +652,7 @@
 
     "event-image-modal-image-license-explanation-only": "Image may be used only for this event: image use is limited to this event.",
     "hobby-image-modal-image-license-explanation-only": "Image may be used only for this hobby = Image use is limited to this hobby.",
+    "course-image-modal-image-license-explanation-only": "Image may be used only for this education: Image use is limited to this education.",
 
     "image-modal-image-license-explanation-cc-by": "CC BY 4.0: image is free to share and use, as long as a link to license is provided (<a href='https://creativecommons.org/licenses/by/4.0/' target='_blank' rel='noopener noreferrer'>additional information about CC BY 4.0. Opens in a new browser tab</a>).",
     "image-modal-view-terms-paragraph-text": "Prior to uploading a new image, get to know the <a href='/help#images' target='_blank' rel='noopener noreferrer'>image terms and recommendations (opens in a new browser tab).</a>",
@@ -604,6 +677,7 @@
 
     "event-preview": "Event information",
     "hobby-preview": "Hobby information",
+    "course-preview": "Education information",
 
     "preview-event-button": "Preview",
 
@@ -629,8 +703,11 @@
     "table-pagination-previous-page": "Previous page",
 
     "close-report-modal": "Close the reporting dialog",
+
     "event-close-recurring-modal": "Close the recurring event dialog",
     "hobby-close-recurring-modal": "Close the recurring hobby dialog",
+    "course-close-recurring-modal": "Close the recurring education dialog",
+
     "close-preview-modal": "Close the preview dialog",
     "close-image-gallery-modal": "Close the image gallery dialog",
     "close-image-edit-modal": "Close the Add / Edit Image dialog",
@@ -656,6 +733,8 @@
     "event-list-hide": "Hide events",
     "hobby-list-show": "Show hobbies",
     "hobby-list-hide": "Hide hobbies",
+    "course-list-show": "Show educations",
+    "course-list-hide": "Hide educations",
 
     "event-is-virtualandhaslocation": "This event is both virtual and physical",
     "homepage-welcome": "Welcome to Linked Services",

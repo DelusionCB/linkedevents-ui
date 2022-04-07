@@ -64,7 +64,15 @@ export const textLimitValidator = (value, limit) => {
  * @returns {string} keywordSet
  */
 export const getCurrentTypeSet = (values) => {
-    return values === EVENT_TYPE.GENERAL ? 'turku:topic_content' : 'turku:hobbytopics';
+    switch(values){
+        case EVENT_TYPE.HOBBIES:
+            return 'turku:hobbytopics'
+        case EVENT_TYPE.COURSE:
+            return 'turku:coursetopics'
+        case EVENT_TYPE.GENERAL:
+        default:
+            return 'turku:topic_content'
+    }
 }
 
 // set a property of an object to empty value based on its type

@@ -534,16 +534,16 @@ const EventDetails = (props) => {
 
 
             <FormHeader>
-                {intl.formatMessage({id: 'enrolment-header'})}
+                {intl.formatMessage({id: `${localeType}-enrolment-header`})}
             </FormHeader>
 
-            <TextValue labelKey="enrolment-url" value={values['enrolment_url']}/>
+            <TextValue labelKey={`${localeType}-enrolment-url`} value={values['enrolment_url']}/>
 
             <FormHeader>
-                {intl.formatMessage({id: 'enrolment-time'})}
+                {intl.formatMessage({id: `${localeType}-enrolment-time`})}
             </FormHeader>
-            <DateTime locale={intl.locale} value={values['enrolment_start_time']} labelKey="enrolment-start-time"/>
-            <DateTime locale={intl.locale} value={values['enrolment_end_time']} labelKey="enrolment-end-time"/>
+            <DateTime locale={intl.locale} value={values['enrolment_start_time']} labelKey={`${localeType}-enrolment-start-time`}/>
+            <DateTime locale={intl.locale} value={values['enrolment_end_time']} labelKey={`${localeType}-enrolment-end-time`}/>
 
             <FormHeader>
                 {intl.formatMessage({id: 'attendee-capacity'})}

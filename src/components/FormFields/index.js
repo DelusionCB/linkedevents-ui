@@ -444,8 +444,8 @@ class FormFields extends React.Component {
                                     />
                                     <HelTextField
                                         validations={[VALIDATION_RULES.IS_URL]}
-                                        id='event-location-virtual-url'
-                                        ref="event-location-virtual-url"
+                                        id={`${currentEventType}-location-virtual-url`}
+                                        ref={`${currentEventType}-location-virtual-url`}
                                         name="virtualevent_url"
                                         label={this.context.intl.formatMessage({id: `${currentEventType}-location-virtual-url`})}
                                         validationErrors={validationErrors['virtualevent_url']}
@@ -826,7 +826,7 @@ class FormFields extends React.Component {
                         <CollapseButton
                             id='headerCourses'
                             isOpen={this.state.headerCourses}
-                            targetCollapseNameId='event-hobby-form-header'
+                            targetCollapseNameId={`${currentEventType}-form-header`}
                             toggleHeader={this.toggleHeader}
                             validationErrorList={[validationErrors['enrolment_url'],validationErrors['enrolment_start_time'], validationErrors['enrolment_end_time'],
                                 validationErrors['minimum_attendee_capacity'], validationErrors['maximum_attendee_capacity']]}
@@ -837,10 +837,10 @@ class FormFields extends React.Component {
                             <div className='col-xs-12 col-sm-6'>
                                 <HelTextField
                                     validations={[VALIDATION_RULES.IS_URL]}
-                                    id='enrolment_url'
-                                    ref="enrolment_url"
+                                    id={`${currentEventType}-enrolment-url`}
+                                    ref={`${currentEventType}-enrolment-url`}
                                     name="enrolment_url"
-                                    label={<FormattedMessage id='enrolment-url' />}
+                                    label={<FormattedMessage id={`${currentEventType}-enrolment-url`} />}
                                     validationErrors={validationErrors['enrolment_url']}
                                     defaultValue={values['enrolment_url']}
                                     setDirtyState={this.props.setDirtyState}
@@ -851,14 +851,14 @@ class FormFields extends React.Component {
                                 />
                             </div>
                         </div>
-                        <FormHeader messageID='enrolment-time'/>
+                        <FormHeader messageID={`${currentEventType}-enrolment-time`}/>
                         <div className="row courses-row">
                             <div className='col-xs-12 col-sm-6'>
                                 <CustomDateTime
-                                    id="enrolment_start_time"
+                                    id={`${currentEventType}-enrolment-start-time`}
                                     name="enrolment_start_time"
-                                    labelDate={<FormattedMessage  id="enrolment-start-time" />}
-                                    labelTime={<FormattedMessage  id="event-starting-timelabel" />}
+                                    labelDate={<FormattedMessage id={`${currentEventType}-enrolment-start-time`} />}
+                                    labelTime={<FormattedMessage id="event-starting-timelabel" />}
                                     defaultValue={values['enrolment_start_time']}
                                     setDirtyState={this.props.setDirtyState}
                                     maxDate={values['enrolment_end_time'] ? moment(values['enrolment_end_time']) : undefined}
@@ -866,13 +866,13 @@ class FormFields extends React.Component {
                                     validationErrors={validationErrors['enrolment_start_time']}
                                 />
                                 <CustomDateTime
-                                    id="enrolment_end_time"
+                                    id={`${currentEventType}-enrolment-end-time`}
                                     disablePast
                                     disabled={formType === 'update' && isSuperEvent}
                                     validationErrors={validationErrors['enrolment_end_time']}
                                     defaultValue={values['enrolment_end_time']}
                                     name="enrolment_end_time"
-                                    labelDate={<FormattedMessage  id="enrolment-end-time" />}
+                                    labelDate={<FormattedMessage  id={`${currentEventType}-enrolment-end-time`} />}
                                     labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                                     setDirtyState={this.props.setDirtyState}
                                     minDate={values['enrolment_start_time'] ? moment(values['enrolment_start_time']) : undefined}

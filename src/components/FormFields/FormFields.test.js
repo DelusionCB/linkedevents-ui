@@ -416,7 +416,7 @@ describe('FormField', () => {
                     {index: 0,type: 'url', id: 'event-location-virtual-url', name: 'virtualevent_url', hasValidation: true},
                     {index: 1, type: 'number', id: 'audience_min_age', name: 'audience_min_age', hasValidation: false},
                     {index: 2, type: 'number', id: 'audience_max_age', name: 'audience_max_age', hasValidation: false},
-                    {index: 3, type: 'url', id: 'enrolment_url', name: 'enrolment_url', hasValidation: true},
+                    {index: 3, type: 'url', id: 'event-enrolment-url', name: 'enrolment_url', hasValidation: true},
                     {index: 4, type: 'number', id: 'minimum_attendee_capacity', name: 'minimum_attendee_capacity', hasValidation: true},
                     {index: 5, type: 'number', id: 'maximum_attendee_capacity', name: 'maximum_attendee_capacity', hasValidation: true},
                     {index: 6, type: 'url', id: 'extlink_facebook', name: 'extlink_facebook', label: 'Facebook', hasValidation: true},
@@ -440,11 +440,11 @@ describe('FormField', () => {
                     } else if ([6,7,8].includes(index)) {
                         // facebook/twitter/instagram HelTextField specific tests
                         expect(element.prop('label')).toBe(label);
-                        expect(element.prop('name')).toBe(id);
+                        expect(element.prop('name')).toBe(name);
                     }
                     else {
                         expect(element.prop('label')).toEqual(expectedMessage);
-                        expect(element.prop('name')).toBe(id);
+                        expect(element.prop('name')).toBe(name);
                     }
                     expect(element.prop('validationErrors')).toBe(defaultProps.editor.validationErrors[name])
 
@@ -541,22 +541,22 @@ describe('FormField', () => {
                     })
                     test('enrolment_start_time', () => {
                         const enrolmentStart = wrapper.find(CustomDateTime).at(2)
-                        expect(enrolmentStart.prop('id')).toBe('enrolment_start_time')
+                        expect(enrolmentStart.prop('id')).toBe('hobby-enrolment-start-time')
                         expect(enrolmentStart.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.enrolment_start_time)
                         expect(enrolmentStart.prop('defaultValue')).toBe(defaultProps.editor.values.enrolment_start_time)
                         expect(enrolmentStart.prop('name')).toBe('enrolment_start_time')
-                        expect(enrolmentStart.prop('labelDate')).toEqual(<FormattedMessage  id="enrolment-start-time" />)
+                        expect(enrolmentStart.prop('labelDate')).toEqual(<FormattedMessage  id="hobby-enrolment-start-time" />)
                         expect(enrolmentStart.prop('labelTime')).toEqual(<FormattedMessage  id="event-starting-timelabel" />)
                         expect(enrolmentStart.prop('maxDate')).toBe()
                     })
                     test('enrolment_end_time', () => {
                         const enrolmentEnd = wrapper.find(CustomDateTime).at(3)
-                        expect(enrolmentEnd.prop('id')).toBe('enrolment_end_time')
+                        expect(enrolmentEnd.prop('id')).toBe('hobby-enrolment-end-time')
                         expect(enrolmentEnd.prop('disablePast')).toBe(true)
                         expect(enrolmentEnd.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.enrolment_end_time)
                         expect(enrolmentEnd.prop('defaultValue')).toBe(defaultProps.editor.values.enrolment_end_time)
                         expect(enrolmentEnd.prop('name')).toBe('enrolment_end_time')
-                        expect(enrolmentEnd.prop('labelDate')).toEqual(<FormattedMessage  id="enrolment-end-time" />)
+                        expect(enrolmentEnd.prop('labelDate')).toEqual(<FormattedMessage  id="hobby-enrolment-end-time" />)
                         expect(enrolmentEnd.prop('labelTime')).toEqual(<FormattedMessage  id="event-ending-timelabel" />)
                         expect(enrolmentEnd.prop('minDate')).toBe()
                     })
@@ -564,10 +564,10 @@ describe('FormField', () => {
                 describe('heltextfields', () => {
                     test('enrolment_url', () => {
                         const enrolmentUrl = wrapper.find(HelTextField).at(3)
-                        expect(enrolmentUrl.prop('id')).toBe('enrolment_url')
+                        expect(enrolmentUrl.prop('id')).toBe('hobby-enrolment-url')
                         expect(enrolmentUrl.prop('validations')).toEqual([VALIDATION_RULES.IS_URL])
                         expect(enrolmentUrl.prop('name')).toBe('enrolment_url')
-                        expect(enrolmentUrl.prop('label')).toEqual(<FormattedMessage id="enrolment-url"/>)
+                        expect(enrolmentUrl.prop('label')).toEqual(<FormattedMessage id="hobby-enrolment-url"/>)
                         expect(enrolmentUrl.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.enrolment_url)
                         expect(enrolmentUrl.prop('defaultValue')).toBe(defaultProps.editor.values.enrolment_url)
                     })
@@ -728,18 +728,18 @@ describe('FormField', () => {
                     expect(dateTimeElements).toHaveLength(4)
                 })
                 const expectedCustomComponents = [
-                    {index: 0, id: 'start_time', labelD: 'event-starting-datelabel', required: true, minDate: false},
-                    {index: 1, id: 'end_time', labelD: 'event-ending-datelabel', required: true, minDate: true},
-                    {index: 2, id: 'enrolment_start_time', labelD: 'enrolment-start-time', required: false, minDate: false},
-                    {index: 3, id: 'enrolment_end_time', labelD: 'enrolment-end-time', required: false, minDate: true},
+                    {index: 0, id: 'start_time', name: 'start_time', labelD: 'event-starting-datelabel', required: true, minDate: false},
+                    {index: 1, id: 'end_time', name: 'end_time', labelD: 'event-ending-datelabel', required: true, minDate: true},
+                    {index: 2, id: 'event-enrolment-start-time', name: 'enrolment_start_time', labelD: 'event-enrolment-start-time', required: false, minDate: false},
+                    {index: 3, id: 'event-enrolment-end-time', name: 'enrolment_end_time', labelD: 'event-enrolment-end-time', required: false, minDate: true},
                 ];
                 test.each(expectedCustomComponents)('correct props for CustomDateTime at index %#', (
-                    {index, id, labelD, required, minDate}
+                    {index, id, name, labelD, required, minDate}
                 ) => {
-                    const correctLabelTime = id.includes('end_time') ? 'event-ending-timelabel' : 'event-starting-timelabel';
+                    const correctLabelTime = name.includes('end_time') ? 'event-ending-timelabel' : 'event-starting-timelabel';
                     const element = dateTimeElements.at(index);
                     expect(element.prop('id')).toBe(id);
-                    expect(element.prop('name')).toBe(id);
+                    expect(element.prop('name')).toBe(name);
                     expect(element.prop('labelDate')).toEqual(<FormattedMessage id={labelD} />);
                     expect(element.prop('labelTime')).toEqual(<FormattedMessage id={correctLabelTime} />);
                     expect(element.prop('disabled')).toBe(false);

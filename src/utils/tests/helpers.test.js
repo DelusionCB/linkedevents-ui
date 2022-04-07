@@ -79,6 +79,7 @@ describe('utils/helpers', () => {
         const value = [
             {value: EVENT_TYPE.GENERAL, topic: 'turku:topic_content'},
             {value: EVENT_TYPE.HOBBIES, topic: 'turku:hobbytopics'},
+            {value: EVENT_TYPE.COURSE, topic: 'turku:coursetopics'},
         ]
         test.each(value) (
             'return correct string for keywordset based on event type %o',

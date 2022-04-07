@@ -16,7 +16,7 @@ import CollapseButton from '../../components/FormFields/CollapseButton/CollapseB
 import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
 import HelCheckbox from '../../components/HelFormFields/HelCheckbox';
 
-const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
+const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS, EVENT_TYPE_PARAM} = constants
 
 
 export class EventListing extends React.Component {
@@ -25,7 +25,7 @@ export class EventListing extends React.Component {
         this.state = {
             showCreatedByUser: false,
             showContentLanguage: '',
-            showEventType: ['eventgeneral', 'eventhobbies'],
+            showEventType: [EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE],
             showListingTips: false,
             tableData: {
                 events: [],
@@ -402,25 +402,25 @@ export class EventListing extends React.Component {
                                 <div className='col-sm-12'>
                                     <HelCheckbox
                                         label={<FormattedMessage id='event'/>}
-                                        fieldID='eventgeneral'
-                                        defaultChecked={this.checkEventTypes('eventgeneral')}
+                                        fieldID={EVENT_TYPE_PARAM.EVENT}
+                                        defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.EVENT)}
                                         onChange={this.toggleEventTypes}
-                                        disabled={this.disableEventTypes('eventgeneral')}
+                                        disabled={this.disableEventTypes(EVENT_TYPE_PARAM.EVENT)}
                                     />
                                     <HelCheckbox
                                         label={<FormattedMessage id='hobby'/>}
-                                        fieldID='eventhobbies'
-                                        defaultChecked={this.checkEventTypes('eventhobbies')}
+                                        fieldID={EVENT_TYPE_PARAM.HOBBY}
+                                        defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.HOBBY)}
                                         onChange={this.toggleEventTypes}
-                                        disabled={this.disableEventTypes('eventhobbies')}
+                                        disabled={this.disableEventTypes(EVENT_TYPE_PARAM.HOBBY)}
                                     />
-                                    {/*
-                                <HelCheckbox
-                                    label={<FormattedMessage id='course'/>}
-                                    fieldID='course'
-                                    //checked={showEventType.includes('eventcourse')}
-                                    onChange={(e, v) => this.toggleEventTypes(e, 'eventcourse')}
-                                /> */}
+                                    <HelCheckbox
+                                        label={<FormattedMessage id='courses'/>}
+                                        fieldID={EVENT_TYPE_PARAM.COURSE}
+                                        defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.COURSE)}
+                                        onChange={this.toggleEventTypes}
+                                        disabled={this.disableEventTypes(EVENT_TYPE_PARAM.COURSE)}
+                                    /> 
                                 </div>
                                 <div className='row'>
                                     <FormattedMessage id='filter-event-languages'/>

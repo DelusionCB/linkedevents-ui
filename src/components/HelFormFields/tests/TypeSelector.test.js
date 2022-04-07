@@ -55,11 +55,11 @@ describe('TypeSelector', () => {
                     const wrapper = getWrapper()
                     const instance = wrapper.instance();
                     const radioElements = wrapper.find(SelectorRadio)
-                    const elementIds = ['event', 'hobby']
-                    const elementValues = ['event', 'hobby']
+                    const elementIds = ['event', 'hobby', 'courses']
+                    const elementValues = ['event', 'hobby', 'courses']
                     const {type} = instance.state;
-                    const elementStates = [type === 'event', type === 'hobby']
-                    expect(radioElements).toHaveLength(2)
+                    const elementStates = [type === 'event', type === 'hobby', type === 'courses']
+                    expect(radioElements).toHaveLength(3)
                     radioElements.forEach((radio, index) => {
                         expect(radio.prop('handleCheck')).toBe(instance.handleTypeChange);
                         expect(radio.prop('messageID')).toBe(elementIds[index]);
@@ -94,7 +94,7 @@ describe('TypeSelector', () => {
                     setData({type_id: 'event'})
                     clearValue(clearValueKeys)
                     wrapper.instance().setState({type: 'event'})
-                },'additionalMsg': <FormattedMessage id='event-type-switch'/>,
+                },'additionalMsg': <FormattedMessage id='type-switch'/>,
                 'additionalMarkup': ' '}]
 
             const event = (string) => ({target: {value: string}});
@@ -106,7 +106,14 @@ describe('TypeSelector', () => {
                 expect(dispatch.mock.calls.length).toBe(1);
                 expect(dispatch.mock.calls[0][0]).toEqual(setData(expectedData));
             })
-
+            test('courses', () => {
+                const expectedData = {type_id: constants.EVENT_TYPE.COURSE}
+                expect(wrapper.state('type')).toBe('event');
+                wrapper.instance().handleTypeChange(event('courses'));
+                expect(wrapper.state('type')).toBe('courses');
+                expect(dispatch.mock.calls.length).toBe(1);
+                expect(dispatch.mock.calls[0][0]).toEqual(setData(expectedData));
+            })
             test('event', () => {
                 const expectedData = {type_id: constants.EVENT_TYPE.GENERAL}
                 wrapper.instance().setState({type: 'hobby'})

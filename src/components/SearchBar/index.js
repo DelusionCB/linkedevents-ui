@@ -7,12 +7,15 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import CustomDatePicker from '../CustomFormFields/Dateinputs/CustomDatePicker'
 import {Button, Form, FormGroup} from 'reactstrap';
 import HelCheckbox from '../HelFormFields/HelCheckbox';
+import constants from '../../constants';
+
+const {EVENT_TYPE_PARAM} = constants
 
 const SearchBar = ({intl, onFormSubmit}) => {
     const [startDate, setStartDate] = useState(moment().startOf('day'));
     const [endDate, setEndDate] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [contextType, setContextType] = useState(['eventgeneral', 'eventhobbies'])
+    const [contextType, setContextType] = useState([EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE])
 
     const disableEventTypes = (type) => {
         return contextType.includes(type) && contextType.length === 1;
@@ -66,25 +69,25 @@ const SearchBar = ({intl, onFormSubmit}) => {
             <div className='col-sm-12'>
                 <HelCheckbox
                     label={<FormattedMessage id='event'/>}
-                    fieldID='eventgeneral'
-                    defaultChecked={checkEventTypes('eventgeneral')}
+                    fieldID={EVENT_TYPE_PARAM.EVENT}
+                    defaultChecked={checkEventTypes(EVENT_TYPE_PARAM.EVENT)}
                     onChange={(e) => toggleEventTypes(e)}
-                    disabled={disableEventTypes('eventgeneral')}
+                    disabled={disableEventTypes(EVENT_TYPE_PARAM.EVENT)}
                 />
                 <HelCheckbox
                     label={<FormattedMessage id='hobby'/>}
-                    fieldID='eventhobbies'
-                    defaultChecked={checkEventTypes('eventhobbies')}
+                    fieldID={EVENT_TYPE_PARAM.HOBBY}
+                    defaultChecked={checkEventTypes(EVENT_TYPE_PARAM.HOBBY)}
                     onChange={(e) => toggleEventTypes(e)}
-                    disabled={disableEventTypes('eventhobbies')}
+                    disabled={disableEventTypes(EVENT_TYPE_PARAM.HOBBY)}
                 />
-                {/*
-                                <HelCheckbox
-                                    label={<FormattedMessage id='course'/>}
-                                    fieldID='course'
-                                    //checked={showEventType.includes('eventcourse')}
-                                    onChange={(e, v) => this.toggleEventTypes(e, 'eventcourse')}
-                                /> */}
+                <HelCheckbox
+                    label={<FormattedMessage id='courses'/>}
+                    fieldID={EVENT_TYPE_PARAM.COURSE}
+                    defaultChecked={checkEventTypes(EVENT_TYPE_PARAM.COURSE)}
+                    onChange={(e) => toggleEventTypes(e)}
+                    disabled={disableEventTypes(EVENT_TYPE_PARAM.COURSE)}
+                />
             </div>
             <div className='search-bar--input event-input'>
                 <Form onSubmit={handleSubmit}>

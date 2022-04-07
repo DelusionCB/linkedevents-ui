@@ -9,6 +9,9 @@ import fiMessages from 'src/i18n/fi.json';
 import {SearchBarWithoutIntl} from '../index'
 import CustomDatePicker from '../../CustomFormFields/Dateinputs/CustomDatePicker'
 import {HelCheckbox} from '../../HelFormFields';
+import constants from '../../../constants';
+
+const {EVENT_TYPE_PARAM} = constants
 
 describe('SearchBar', () => {
     const testMessages = mapValues(fiMessages, (value, key) => value);
@@ -107,14 +110,14 @@ describe('SearchBar', () => {
             test('correct props', () => {
                 const wrapper = getWrapper();
                 const checkBox = wrapper.find(HelCheckbox)
-                const intlIDs = ['event', 'hobby']
-                const elementIds = ['eventgeneral', 'eventhobbies']
+                const intlIDs = ['event', 'hobby', 'courses']
+                const elementIds = [EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE]
 
                 //contextType is state that contains values under as default
                 //States cannot be tested in functional components with Jest, that's why predefined array
-                const contextType = ['eventgeneral', 'eventhobbies'];
+                const contextType = [EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE];
 
-                expect(checkBox).toHaveLength(2)
+                expect(checkBox).toHaveLength(3)
                 checkBox.forEach((box, index) => {
                     expect(box.prop('label')).toEqual(<FormattedMessage id={intlIDs[index]} />)
                     expect(box.prop('fieldID')).toBe(elementIds[index]);
@@ -138,11 +141,13 @@ describe('SearchBar', () => {
             test('checked changes booleans', () => {
                 const wrapper = getWrapper();
                 const checkBox = wrapper.find(HelCheckbox)
-                checkBox.at(0).simulate('change', {target: {id: 'eventgeneral'}});
+                checkBox.at(0).simulate('change', {target: {id: EVENT_TYPE_PARAM.EVENT}});
                 expect(wrapper.find(HelCheckbox).at(0).prop('disabled')).toBe(false)
                 expect(wrapper.find(HelCheckbox).at(0).prop('defaultChecked')).toBe(false)
-                expect(wrapper.find(HelCheckbox).at(1).prop('disabled')).toBe(true)
+                expect(wrapper.find(HelCheckbox).at(1).prop('disabled')).toBe(false)
                 expect(wrapper.find(HelCheckbox).at(1).prop('defaultChecked')).toBe(true)
+                expect(wrapper.find(HelCheckbox).at(2).prop('disabled')).toBe(false)
+                expect(wrapper.find(HelCheckbox).at(2).prop('defaultChecked')).toBe(true)
             })
         })
         describe('handleQueryChange', () => {
@@ -159,7 +164,7 @@ describe('SearchBar', () => {
                 const mockEvent = {preventDefault: jest.fn()};
                 const expectedValues = [
                     'search text',
-                    ['eventgeneral', 'eventhobbies'],
+                    [EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE],
                     moment().startOf('day'),
                     null,
                 ];

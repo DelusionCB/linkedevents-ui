@@ -70,6 +70,8 @@ import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadi
 import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
 import {HelCheckbox} from '../../components/HelFormFields';
 
+import constants from '../../constants';
+const {EVENT_TYPE_PARAM} = constants
 const mockStore = configureStore([thunk]);
 const initialStore = {
     user: {
@@ -171,10 +173,10 @@ describe('EventListing', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
                 const checkBox = wrapper.find('.row').at(2).find(HelCheckbox)
-                const intlIDs = ['event', 'hobby']
-                const elementIds = ['eventgeneral', 'eventhobbies']
+                const intlIDs = ['event', 'hobby', 'courses']
+                const elementIds = [EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE]
 
-                expect(checkBox).toHaveLength(2)
+                expect(checkBox).toHaveLength(3)
                 checkBox.forEach((box, index) => {
                     expect(box.prop('label')).toEqual(<FormattedMessage id={intlIDs[index]} />)
                     expect(box.prop('fieldID')).toBe(elementIds[index]);
@@ -353,7 +355,7 @@ describe('EventListing', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
                 const checkTypes = jest.spyOn(instance, 'checkEventTypes')
-                instance.toggleEventTypes(event('eventgeneral'))
+                instance.toggleEventTypes(event(EVENT_TYPE_PARAM.EVENT))
                 expect(checkTypes).toHaveBeenCalled()
             })
         })
@@ -363,26 +365,26 @@ describe('EventListing', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
                 const disableTypes = jest.spyOn(instance, 'disableEventTypes')
-                instance.toggleEventTypes(event('eventgeneral'))
+                instance.toggleEventTypes(event(EVENT_TYPE_PARAM.EVENT))
                 expect(disableTypes).toHaveBeenCalled()
             })
         })
         describe('toggleEventTypes', () => {
             const event = (id) => ({target: {id: id}});
-            test('remove eventgeneral from state', () => {
+            test('remove EVENT_TYPE_PARAM.EVENT from state', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
-                expect(wrapper.state('showEventType')).toEqual(['eventgeneral', 'eventhobbies'])
-                instance.toggleEventTypes(event('eventgeneral'))
-                expect(wrapper.state('showEventType')).toEqual(['eventhobbies'])
+                expect(wrapper.state('showEventType')).toEqual([EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE])
+                instance.toggleEventTypes(event(EVENT_TYPE_PARAM.EVENT))
+                expect(wrapper.state('showEventType')).toEqual([EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE])
             })
-            test('add eventgeneral to state', () => {
+            test('add EVENT_TYPE_PARAM.EVENT to state', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
-                wrapper.setState({showEventType: ['eventhobbies']})
-                expect(wrapper.state('showEventType')).toEqual(['eventhobbies'])
-                instance.toggleEventTypes(event('eventgeneral'))
-                expect(wrapper.state('showEventType')).toEqual(['eventhobbies', 'eventgeneral'])
+                wrapper.setState({showEventType: [EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE]})
+                expect(wrapper.state('showEventType')).toEqual([EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE])
+                instance.toggleEventTypes(event(EVENT_TYPE_PARAM.EVENT))
+                expect(wrapper.state('showEventType')).toEqual([EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE, EVENT_TYPE_PARAM.EVENT])
             })
         })
     });

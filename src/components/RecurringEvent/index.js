@@ -455,7 +455,7 @@ class RecurringEvent extends React.Component {
                                 name="recurringStartTime"
                                 label={
                                     <span ref={this.startTimeRef}>
-                                        <FormattedMessage  id={`${localeType}-repetition-start-time`} />
+                                        <FormattedMessage  id='repetition-start-time' />
                                     </span>
                                 }
                                 defaultValue={this.state.recurringStartTime}
@@ -472,7 +472,7 @@ class RecurringEvent extends React.Component {
                                 type={'time'}
                                 id="recurringEndTime"
                                 name="recurringEndTime"
-                                label={<FormattedMessage  id={`${localeType}-repetition-end-time`} />}
+                                label={<FormattedMessage  id='repetition-end-time' />}
                                 defaultValue={this.state.recurringEndTime}
                                 onChange={(value) => this.onTimeChange('recurringEndTime', value)}
                             />
