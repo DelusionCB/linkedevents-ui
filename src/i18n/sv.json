@@ -34,6 +34,7 @@
     "confirm-action-header": "Bekräfta aktiviteten",
     "confirm-update": "Bekräfta sparandet av innehållet",
     "confirm-update-draft": "Bekräfta sparandet av utkastet",
+    "confirm-update-draft-draft": "Bekräfta uppgifternas updatering",
     "confirm-delete": "Bekräfta radering av innehållet",
     "confirm-delete-draft": "Bekräfta raderande av utkastet",
     "confirm-cancel": "Bekräfta annullering av innehållet",
@@ -42,6 +43,7 @@
     "confirm-publish-draft": "Bekräfta publiceringen av utkastet",
     "confirm-postpone": "Bekräfta senareläggningen av innehållet",
     "confirm-postpone-draft": "Bekräfta uppskjutningen av evenemangsutkastet",
+    "update-draft-events": "Spara ändringar",
     "delete": "Radera",
     "confirm": "Utför",
     "draft": "Utkast",
@@ -505,9 +507,9 @@
     "editor-update-extra-warning": "Uppgifterna sparas i följande evenemang:",
 
     "editor-update-draft-warning": "Uppgifterna sparas i alla evenemang i denna serie. Förändringarna gjorda i dessa evenemang förloras. Är du säker att du vill fortsätta?",
-    "editor-update-draft-draft-warning": "Uppgifterna sparas i alla evenemang i denna serie. Förändringarna gjorda i dessa evenemang förloras. Är du säker att du vill fortsätta?",
+    "editor-update-draft-draft-warning": "Uppgifterna sparas till varje innehåll i serien. Om innehållen i serien innehåller förändringar så försvinner dom. Är du säker på att du vill fortsätta?",
     "editor-update-draft-extra-warning": "Uppgifterna sparas i följande evenemang:",
-    "editor-update-draft-draft-extra-warning": "Uppgifterna sparas i följande evenemang:",
+    "editor-update-draft-draft-extra-warning": "Uppgifterna sparas till följande innehåll:",
 
     "editor-cancel-warning": "Du minns väl att istället för att annullera kan du arrangera evenemanget, hobbyn eller utbildningen på distans i nätet. Välj då på redigeringsblanketten virtuellt evenemang som plats för evenemanget. Du kan också senarelägga evenemanget, hobbyn eller utbildningen eller radera evenemanget som du matade in i misstag.",
     "editor-cancel-extra-warning": "Följande evenemang annulleras:",
@@ -791,5 +793,8 @@
 
     "fi-language-remove": "OBS! All inmatad data för språket 'finska' raderas.",
     "sv-language-remove": "OBS! All inmatad data för språket 'svenska' raderas.",
-    "en-language-remove": "OBS! All inmatad data för språket 'engelska' raderas."
+    "en-language-remove": "OBS! All inmatad data för språket 'engelska' raderas.",
+
+    "mailto-subject": "Linked events körfel rapport",
+    "mailto-body": "Det uppstod fel i linked events. Beskrivning av felet nedanför:%0A-%0A-%0A-%0A-%0A%0AAnvisning för rapportering av felet:%0A- Vad höll man på med innan felet%0A- Vilken tid uppstod felet%0A- Vilken funktionalitet orsakade felet%0A- Vilken webbläsare och maskin användes"
 }

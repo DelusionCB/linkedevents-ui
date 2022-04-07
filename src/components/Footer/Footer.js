@@ -9,6 +9,15 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 class Footer extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    /**
+     * TODO: Enable when Sentry is activated & ready to be used
+     */
+    /*
+    class Footer extends React.Component {
+        constructor(props) {
+        super(props);
         this.state = {
             reporting: false,
         };
@@ -17,7 +26,7 @@ class Footer extends React.Component {
         this.serializeState = this.serializeState.bind(this);
     }
     
-    showReportForm() {
+        showReportForm() {
         this.setState({reporting: true});
     }
     closeReportForm() {
@@ -29,8 +38,12 @@ class Footer extends React.Component {
         report(window.ARG, reportmsg, appSettings.commit_hash);
         window.setTimeout(() => alert(this.props.intl.formatMessage({id: `reportmodal-sent`})), 100);
     }
+*/
+
 
     render(){
+        const mailSubject = this.props.intl.formatMessage({id:'mailto-subject'})
+        const mailBody = this.props.intl.formatMessage({id:'mailto-body'})
         return (
             <footer className='main-footer'>
                 <div className='footer-logo'></div>
@@ -38,6 +51,7 @@ class Footer extends React.Component {
                     <Link to='/accessibility' aria-label={this.props.intl.formatMessage({id:'footer-accessibility'})}>
                         <FormattedMessage id='footer-accessibility' />
                     </Link>
+                    {/*
                     <DebugReporterModal
                         showModal={this.state.reporting}
                         close={this.closeReportForm}
@@ -50,6 +64,21 @@ class Footer extends React.Component {
                         role='link'>
                         <FormattedMessage id='reportmodal-button'>{txt =>txt}</FormattedMessage>
                     </button>
+                    */}
+                    <FormattedMessage id='reportmodal-button'>{txt => (
+                        <div>
+                            <a
+                                href={`mailto:sovellustuki@turku.fi
+                                ?subject=${mailSubject}
+                                &body=${mailBody}
+                                `}
+                                rel='noopener noreferrer'
+                                target='_blank'>
+                                {txt}
+                            </a>
+                        </div>
+                    )}
+                    </FormattedMessage>
                     <div><FormattedMessage id={'footer-city'} /></div>
                     <div><FormattedMessage id={'footer-city1'} /></div>
                     <div><FormattedMessage id={'footer-city2'} /></div>

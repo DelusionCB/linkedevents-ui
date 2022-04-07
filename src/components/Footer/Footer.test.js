@@ -12,8 +12,6 @@ const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
     intl,
-    showReportForm: false,
-    closeReportForm: false,
 };
 
 describe('Footer', () => {
@@ -33,25 +31,13 @@ describe('Footer', () => {
             expect(wrapper.prop('aria-label')).toBe(intl.formatMessage({id: 'footer-accessibility'}));
         });
 
-        test('Correct props for button', () => {
-            const wrapper = getWrapper();
-            const instance = wrapper.instance();
-            const button = wrapper.find('button');
-            expect(button).toHaveLength(1);
-            expect(button.prop('aria-label')).toBe(intl.formatMessage({id: 'reportmodal-button'}));
-            expect(button.prop('onClick')).toBe(instance.showReportForm);
-        });
-
-        test('Toggle show report forms state', () => {
-            const wrapper = getWrapper();
-            const button = wrapper.find('button');
-            expect(wrapper.state('reporting')).toBe(false);
-            button.simulate('click');
-            expect(wrapper.state('reporting')).toBe(true);
+        test('correct number', () => {
+            const wrapper = getWrapper().find('a');
+            expect(wrapper).toHaveLength(1);
         });
 
         test('Correct <a> element prop', () => {
-            const wrapper = getWrapper().find('a');
+            const wrapper = getWrapper().find('a').at(0);
             expect(wrapper.prop('href')).toBe(intl.formatMessage({id: 'footer-link'}));
         });
     });

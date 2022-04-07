@@ -34,6 +34,7 @@
     "confirm-action-header": "Confirm",
     "confirm-update": "Save content",
     "confirm-update-draft": "Save draft",
+    "confirm-update-draft-draft": "Confirm saving the changes to drafts",
     "confirm-delete": "Confirm deleting the content",
     "confirm-delete-draft": "Delete draft",
     "confirm-cancel": "Confirm cancelling the content",
@@ -42,6 +43,7 @@
     "confirm-publish-draft": "Publish draft",
     "confirm-postpone": "Confirm postponing the content",
     "confirm-postpone-draft": "Postpone draft",
+    "update-draft-events": "Save changes",
     "delete": "Delete",
     "confirm": "Confirm",
     "draft": "Draft",
@@ -487,9 +489,9 @@
     "editor-update-extra-warning": "The changes will affect the following events:",
 
     "editor-update-draft-warning": "The changes will affect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
-    "editor-update-draft-draft-warning": "The changes will affect all the events in the series. Any previous changes to the selected events will be lost. Are you sure you want to continue?",
+    "editor-update-draft-draft-warning": "The changes will affect all the contents in the series. Any previous changes to the selected contents will be lost. Are you sure you want to continue?",
     "editor-update-draft-extra-warning": "The changes will affect the following events:",
-    "editor-update-draft-draft-extra-warning": "The changes will affect the following events:",
+    "editor-update-draft-draft-extra-warning": "The changes will affect the following contents:",
 
     "editor-cancel-warning": "Instead of cancelling you may also organize the event, hobby or education online on the Internet. In that case, edit the event and pick the location Internet in the location menu. You may also postpone the event, hobby or education or delete the mistakenly entered contents.",
     "editor-cancel-extra-warning": "The following events will be cancelled:",
@@ -789,5 +791,8 @@
 
     "fi-language-remove": "Notice! All content for language 'finnish' will be cleared.",
     "sv-language-remove": "Notice! All content for language 'swedish' will be cleared.",
-    "en-language-remove": "Notice! All content for language 'english' will be cleared."
+    "en-language-remove": "Notice! All content for language 'english' will be cleared.",
+
+    "mailto-subject": "Linked events error report",
+    "mailto-body": "Reporting an error that occurred in Linked events. Description of the error below:%0A-%0A-%0A-%0A-%0A%0AInstructions on reporting an error:%0A- What was being done before the error occurred%0A- What time did the error occur%0A- What functionality caused the error%0A- What browser and device was used"
 }

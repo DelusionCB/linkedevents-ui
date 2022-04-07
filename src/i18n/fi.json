@@ -34,6 +34,7 @@
     "confirm-action-header": "Varmista toiminto",
     "confirm-update": "Varmista sisällön tallentaminen",
     "confirm-update-draft": "Varmista luonnoksen tallentaminen",
+    "confirm-update-draft-draft": "Varmista luonnosten tallentaminen",
     "confirm-delete": "Varmista sisällön poistaminen",
     "confirm-delete-draft": "Varmista luonnoksen poistaminen",
     "confirm-cancel": "Varmista sisällön peruminen",
@@ -42,6 +43,7 @@
     "confirm-publish-draft": "Varmista luonnoksen julkaiseminen",
     "confirm-postpone": "Varmista sisällön lykkääminen",
     "confirm-postpone-draft": "Varmista luonnoksen lykkääminen",
+    "update-draft-events": "Tallenna muutokset",
     "delete": "Poista",
     "confirm": "Suorita",
     "draft": "Luonnos",
@@ -483,9 +485,9 @@
     "editor-update-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
 
     "editor-update-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
-    "editor-update-draft-draft-warning": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+    "editor-update-draft-draft-warning": "Tiedot tallennetaan jokaiseen sisältöön tässä sarjassa. Näihin sisältöihin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
     "editor-update-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
-    "editor-update-draft-draft-extra-warning": "Tiedot tallennetaan seuraaviin tapahtumiin:",
+    "editor-update-draft-draft-extra-warning": "Tiedot tallennetaan seuraaviin sisältöihin:",
 
     "editor-cancel-warning": "Muistathan, että perumisen sijaan voit myös järjestää tapahtuman, harrastuksen tai koulutuksen etänä internetissä. Valitse tällöin muokkauslomakkeella tapahtumapaikaksi Virtuaalitapahtuma. Voit myös siirtää tapahtuman, harrastuksen tai koulutuksen myöhempään ajankohtaan tai poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
     "editor-cancel-extra-warning": "Seuraavat tapahtumat peruutetaan:",
@@ -796,5 +798,8 @@
 
     "fi-language-remove": "Huom! Kaikki kielelle 'suomi' lisätyt tiedot tyhjennetään.",
     "sv-language-remove": "Huom! Kaikki kielelle 'ruotsi' lisätyt tiedot tyhjennetään.",
-    "en-language-remove": "Huom! Kaikki kielelle 'englanti' lisätyt tiedot tyhjennetään."
+    "en-language-remove": "Huom! Kaikki kielelle 'englanti' lisätyt tiedot tyhjennetään.",
+
+    "mailto-subject": "Linked events virhetilanneraportti",
+    "mailto-body": "Raportoin linked events järjestelmän virhetilanteesta. Alla virheen kuvaus:%0A-%0A-%0A-%0A-%0A%0AOhjeita virhetilanteen raportointiin:%0A- Mitä olit tekemässä ennen kuin virhetilanne syntyi%0A- Mihin kellonaikaan virhetilanne ilmeni%0A- Mikä toiminnallisuus aiheutti virheen%0A- Millä selaimella ja laitteella virhetilanne syntyi"
 }
