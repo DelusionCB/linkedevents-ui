@@ -99,16 +99,21 @@ export const fetchEvents = async (queryParams) => {
 
 /**
  * Publishes given events
- * @param eventData  Event data
+ * @param {object []} eventData  Array consisting of event objects.
  * @returns {Promise}
  */
 export const publishEvents = async (eventData) => {
-    const updatedEventData = eventData
-        .map(event => ({
-            ...event,
-            date_published: moment().utc().format(),
-            publication_status: PUBLICATION_STATUS.PUBLIC,
-        }))
+    const updatedEventData = eventData.reduce((acc, curr) => {
+        const updatedEvent = {...curr};
+        if (updatedEvent.offers && updatedEvent.offers.length === 0) {
+            // Published free events must contain the following object as an offer.
+            updatedEvent.offers = [{is_free: true}];
+        }
+        updatedEvent.date_published = moment().utc().format();
+        updatedEvent.publication_status = PUBLICATION_STATUS.PUBLIC;
+        acc.push(updatedEvent);
+        return acc;
+    }, []);
 
     try {
         return await client.put('event', updatedEventData)
