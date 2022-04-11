@@ -88,7 +88,7 @@ export const userCanDoAction = (user, event, action, editor, superEvent) => {
         return !(isDraft && isSubEvent && !isRegularUser)
     }
     if (action === 'postpone') {
-        return !(isSeries || isPostponed || isDraft)
+        return !(isSeries || isPostponed || isDraft || isSubEvent)
     }
     if (action === 'delete') {
         return !((!isUmbrella && disableSubEventDeletion) || (isRegularUser && (isUmbrellaEvent || isPublic)))
@@ -151,6 +151,9 @@ export const checkEventEditability = (user, event, action, editor, superEvent) =
             }
             if (isSeries) {
                 return 'series-invalid-postpone'
+            }
+            if (isSubEvent) {
+                return 'subevent-invalid-postpone'
             }
         }
         if (isDraft && action === 'cancel') {

@@ -616,6 +616,7 @@
     "return-to-events": "Palaa takaisin tapahtumiin",
     "not-enough-sub-events": "Sarjalla tulee olla vähintään 2 sisältöä",
     "series-invalid-postpone": "Sarjaa ei voi lykätä.",
+    "subevent-invalid-postpone": "Sarjan sisältöä ei voi lykätä",
 
     "format-select-count": " ({count} tapahtumaa)",
 

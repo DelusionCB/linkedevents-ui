@@ -574,6 +574,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "sub-event-of-umbrella": "Tällä sisällöllä on kattotapahtuma: ",
       "sub-events-for-series": "Sarjan alatapahtumat:",
       "sub-events-for-umbrella": "Kattotapahtuman alatapahtumat:",
+      "subevent-invalid-postpone": "Sarjan sisältöä ei voi lykätä",
       "submit": "Lähetä",
       "sunday": "sunnuntai",
       "super-event-of-series": "Tämä on sarjan ylätapahtuma.",

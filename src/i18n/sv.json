@@ -632,6 +632,7 @@
     "return-to-events": "Återvänd till evenemangen",
     "not-enough-sub-events": "Serie måste innehålla åtminstone 2 innehåll",
     "series-invalid-postpone": "Serie kan inte senareläggas.",
+    "subevent-invalid-postpone": "Series innehåll kan inte uppskjutas",
 
     "format-select-count": " ({count} evenemang)",
     "upload-image-from-url": "Eller mata in adressen (URL) av en extern bild",
