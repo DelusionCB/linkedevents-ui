@@ -48,7 +48,7 @@ NoValue.propTypes = {
 
 const CheckedValue = ({label}) => (
     <div className="custom-control">
-        <Badge className='badge-primary'>{label}</Badge>
+        <Badge color='primary'>{label}</Badge>
     </div>
 )
 CheckedValue.propTypes = {

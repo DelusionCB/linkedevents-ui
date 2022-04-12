@@ -81,6 +81,7 @@ h1 {
     padding: 10px;
 }
 
+// Global Badge styles
 .badge {
     border-radius: 16px;
     margin-right: 4px;
@@ -96,6 +97,20 @@ h1 {
 
     &-warning {
         background-color: #ffc61e;
+    }
+
+    &-primary {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-left: 5px;
+        margin-top: 0.2rem;
+        margin-bottom: 0.2rem;
+        text-align: center;
+        font-size: 100%;
+        background-color: #0072c6;
+        &::first-letter {
+            text-transform: capitalize;
+        }
     }
 }
 
