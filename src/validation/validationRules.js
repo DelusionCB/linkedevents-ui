@@ -1,7 +1,7 @@
 
 import moment from 'moment'
 import {includes, every, isNull} from 'lodash';
-import CONSTANT from '../constants'
+import constants from '../constants'
 import {getCurrentTypeSet, textLimitValidator} from '../utils/helpers'
 import {mapKeywordSetToForm} from '../utils/apiDataMapping'
 /**
@@ -56,7 +56,7 @@ var validations = {
     },
     /* eslint-disable */
     /*
-    Validation for Emails is not used in Linked Events, theefore this function should not be enabled until it has usage.
+    Validation for Emails is not used in Linked Events, therefore this function should not be enabled until it has usage.
     isEmail: function isEmail(values, value) {
         return validations.matchRegexp(values, value, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i);
     },
@@ -70,15 +70,15 @@ var validations = {
                 let finnishUrlValidationPassed = true
                 let englishUrlValidationPassed = true
                 let swedishUrlValidationPassed = true
-                if (value[key]) {
-                    if (value[key].fi) {
-                        finnishUrlValidationPassed = _isUrl(values, value[key].fi)
+                if (value) {
+                    if (value.fi) {
+                        finnishUrlValidationPassed = _isUrl(values, value.fi)
                     }
-                    if (value[key].en) {
-                        englishUrlValidationPassed = _isUrl(values, value[key].en)
+                    if (value.en) {
+                        englishUrlValidationPassed = _isUrl(values, value.en)
                     }
-                    if (value[key].sv) {
-                        swedishUrlValidationPassed = _isUrl(values, value[key].sv)
+                    if (value.sv) {
+                        swedishUrlValidationPassed = _isUrl(values, value.sv)
                     }
                 }
                 return finnishUrlValidationPassed && englishUrlValidationPassed && swedishUrlValidationPassed
@@ -111,8 +111,8 @@ var validations = {
     isInt: function isInt(values, value) {
         return validations.matchRegexp(values, value, /^(?:[-+]?(?:0|[1-9]\d*))$/);
     },
-    isFloat: function isFloat(values, value) {
-        return validations.matchRegexp(values, value, /^(?:[-+]?(?:\d+))?(?:\.\d*)?(?:[eE][\+\-]?(?:\d+))?$/);
+    isAtLeastZero: function isAtLeastZero(values, value) {
+        return Number.parseFloat(value) && value >= 0
     },
     isWords: function isWords(values, value) {
         return validations.matchRegexp(values, value, /^[A-Z\s]+$/i);
@@ -144,6 +144,30 @@ var validations = {
         // Emtpy string needs to match, to allow empty *or* valid date.
         // Required (non-empty) fields are validated separately.
         return !value | moment(value, moment.ISO_8601, true).isValid()
+    },
+    isLessThanMaxAge: function isLessThanMaxAge(values, value) {
+        if (!values.audience_max_age || !value) {
+            return true
+        }
+        return value <= Number.parseInt(values.audience_max_age)
+    },
+    isMoreThanMinAge: function isMoreThanMinAge(values, value) {
+        if (!values.audience_min_age || !value) {
+            return true
+        }
+        return value >= Number.parseInt(values.audience_min_age)
+    },
+    isMoreThanMinimumCapacity: function isMoreThanMinimumCapacity(values, value) {
+        if (!values.minimum_attendee_capacity || !value) {
+            return true
+        }
+        return value >= Number.parseInt(values.minimum_attendee_capacity)
+    },
+    isLessThanMaximumCapacity: function isLessThanMaximumCapacity(values, value) {
+        if (!values.maximum_attendee_capacity || !value) {
+            return true
+        }
+        return value <= Number.parseInt(values.maximum_attendee_capacity)
     },
     afterStartTime: function afterStartTime(values, value) {
         if (!values.start_time || !value) return true
@@ -183,7 +207,7 @@ var validations = {
         return true
     },
     requiredForCourses: function requiredForCourses(values, value){
-        if (values['type_id'] === CONSTANT.EVENT_TYPE.GENERAL) {
+        if (values['type_id'] === constants.EVENT_TYPE.GENERAL) {
             return true;
         }
         return this.required(values, value);
@@ -195,7 +219,7 @@ var validations = {
         return false
     },
     requiredStringForCourses: function requiredStringForCourses(values, value){
-        if (values['type_id'] === CONSTANT.EVENT_TYPE.GENERAL) {
+        if (values['type_id'] === constants.EVENT_TYPE.GENERAL) {
             return true;
         }
         return this.requiredString(values, value);
@@ -247,13 +271,13 @@ var validations = {
             .some(item => value.find(_item => _item.value.includes(item)))
     },
     shortString: function shortString(values, value) {
-        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.SHORT_STRING)
+        return textLimitValidator(value, constants.CHARACTER_LIMIT.SHORT_STRING)
     },
     mediumString: function mediumString(values, value) {
-        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.MEDIUM_STRING)
+        return textLimitValidator(value, constants.CHARACTER_LIMIT.MEDIUM_STRING)
     },
     longString: function longString(values, value) {
-        return textLimitValidator(value, CONSTANT.CHARACTER_LIMIT.LONG_STRING)
+        return textLimitValidator(value, constants.CHARACTER_LIMIT.LONG_STRING)
     },
     requiredInContentLanguages: function requiredInContentLanguages(values, value) {
         if (typeof value !== 'object') {
@@ -277,6 +301,18 @@ var validations = {
         }
         return false
     },
+    isPositiveInt: function isPositiveInt(values, value) {
+        if (!value) {
+            return true
+        }
+        return value >= 0
+    },
+    isLessThanMaxAgeLimit: function isLessThanMaxAgeLimit(values, value) {
+        if (!value) {
+            return true
+        }
+        return value <= constants.MAX_AGE_LIMIT
+    },
     isMoreThanOne: function isMoreThanOne(values, value) {
         return value > 0 ? true : false
     },
@@ -285,6 +321,9 @@ var validations = {
     },
     isMoreThanSixtyFive: function isMoreThanSixtyFive(values, value) {
         return Object.keys(value).length <= 65
+    },
+    isMoreThanSix: function isMoreThanSix(values, value) {
+        return value.length >= 6
     },
     daysWithinInterval: function daysWithinInterval(values, value) {
         if (!(value < 6)) { return true }
@@ -323,28 +362,18 @@ var validations = {
             return true;
         }
     },
-    hasPrice: function hasPrice(values, value, key) {
-        if (value.is_free !== undefined && !value.is_free) {
-            const validateLanguages = (value) => {
-                let hasFinnish = true;
-                let hasEnglish = true;
-                let hasSwedish = true;
-                let hasLanguage = false
-                if (value.fi) {
-                    hasLanguage = true
-                    hasFinnish = !!value.fi.length
-                }
-                if (value.en) {
-                    hasLanguage = true
-                    hasEnglish = !!value.en.length
-                }
-                if (value.sv) {
-                    hasLanguage = true
-                    hasSwedish = !!value.sv.length
-                }
-                return hasLanguage && hasFinnish && hasEnglish && hasSwedish
-            }
-            return value[key] && validateLanguages(value[key])
+    hasValidPrice: function hasValidPrice(values, value) {
+        if (values.price !== null) {
+            return Object.keys(value).every(
+                key => this.isAtLeastZero(values, value[key])
+            )
+        } else {
+            return true
+        }
+    },
+    hasPrice: function hasPrice(values, value) {
+        if (values.is_free !== undefined && !values.is_free) {
+            return Object.keys(value).every(key => value[key] && !!value[key].length);
         } else {
             return true
         }

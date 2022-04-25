@@ -50,6 +50,7 @@ class HelOffersField extends React.Component {
     }
 
     generateOffers() {
+        const {validationErrors} = this.props;
         const offers = this.props.defaultValue;
         const newOffers = [];
         let keys;
@@ -67,7 +68,7 @@ class HelOffersField extends React.Component {
                         length={newOffers.length + 1}
                         offerKey={key}
                         defaultValue={this.props.defaultValue[key]}
-                        validationErrors={this.props.validationErrors}
+                        validationErrors={validationErrors}
                         languages={this.props.languages}
                         isFree={this.state.isFree}
                         setInitialFocus={key === firstKey}

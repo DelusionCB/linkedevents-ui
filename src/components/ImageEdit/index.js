@@ -304,7 +304,7 @@ class ImageEdit extends React.Component {
                         multiLine
                         required={true}
                         defaultValue={this.state.image.altText}
-                        validations={[VALIDATION_RULES.MEDIUM_STRING]}
+                        validations={[VALIDATION_RULES.MEDIUM_STRING, VALIDATION_RULES.IS_MORE_THAN_SIX]}
                         label='alt-text'
                         languages={this.props.editor.contentLanguages}
                         maxLength={this.state.validation.altTextMaxLength}

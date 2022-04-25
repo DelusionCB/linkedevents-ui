@@ -430,7 +430,7 @@ describe('ImageEdit', () => {
 
                 // first MultiLanguageField - altText
                 expect(elements.at(0).prop('id')).toBe('alt-text');
-                expect(elements.at(0).prop('validations')).toEqual([VALIDATION_RULES.MEDIUM_STRING]);
+                expect(elements.at(0).prop('validations')).toEqual([VALIDATION_RULES.MEDIUM_STRING, VALIDATION_RULES.IS_MORE_THAN_SIX]);
                 expect(elements.at(0).prop('label')).toBe('alt-text');
                 expect(elements.at(0).prop('maxLength')).toEqual(CHARACTER_LIMIT.MEDIUM_STRING);
                 expect(elements.at(0).prop('defaultValue')).toEqual({fi: 'finnish alt-text'});

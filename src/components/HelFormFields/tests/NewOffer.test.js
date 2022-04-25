@@ -45,9 +45,13 @@ const defaultProps = {
     offerKey: '0',
     setInitialFocus: true,
     validationErrors: {
-        offer_description: {},
-        price: {},
-        offer_info_url: {},
+        offers: [
+            {
+                description: {},
+                price: {},
+                info_url: {},
+            },
+        ],
     },
     intl,
 }
@@ -93,9 +97,9 @@ describe('NewOffer', () => {
                 const requiredFields = [true, undefined, undefined]
                 const multilines = [undefined, true, undefined]
                 const classNames = ['price-field', undefined, undefined]
-                const validationErrors = [defaultProps.validationErrors.price,
-                    defaultProps.validationErrors.offer_description,
-                    defaultProps.validationErrors.offer_info_url]
+                const validationErrors = [defaultProps.validationErrors.offers[0].price,
+                    defaultProps.validationErrors.offers[0].description,
+                    defaultProps.validationErrors.offers[0].info_url]
                 const validations = [undefined, undefined, [VALIDATION_RULES.IS_URL]]
                 const placeHolders = ['Esim. 4,99', 'Esim. Aikuiset', 'https://...']
                 const intialFocus = [defaultProps.setInitialFocus, undefined, undefined]

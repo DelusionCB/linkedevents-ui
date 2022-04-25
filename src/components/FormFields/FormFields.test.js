@@ -357,7 +357,7 @@ describe('FormField', () => {
                     expect(longMulti.prop('type')).toBe('textarea')
                     expect(longMulti.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.description)
                     expect(longMulti.prop('validations')).toEqual([VALIDATION_RULES.LONG_STRING])
-                    expect(longMulti.prop('defaultValue')).toEqual(instance.trimmedDescription())
+                    expect(longMulti.prop('defaultValue')).toEqual(defaultProps.editor.values.description)
                 })
                 test('correct props for event provider', () => {
                     const providerMulti = multifields.at(3)
@@ -450,8 +450,8 @@ describe('FormField', () => {
 
                     expect(element.prop('defaultValue')).toBe(defaultProps.editor.values[name])
                     if (hasValidation) {
-                        const correctValidations = type === 'url' ? VALIDATION_RULES.IS_URL : VALIDATION_RULES.IS_INT;
-                        expect(element.prop('validations')).toEqual([correctValidations])
+                        const correctValidations = type === 'url' ? [VALIDATION_RULES.IS_URL] : [VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT];
+                        expect(element.prop('validations')).toEqual(correctValidations)
                     }
                 })
                 test('correct props for virtualevent_url field', () => {
@@ -574,7 +574,7 @@ describe('FormField', () => {
                     test('minimum_attendee_capacity', () => {
                         const minimumAttendee = wrapper.find(HelTextField).at(4)
                         expect(minimumAttendee.prop('id')).toBe('minimum_attendee_capacity')
-                        expect(minimumAttendee.prop('validations')).toEqual([VALIDATION_RULES.IS_INT])
+                        expect(minimumAttendee.prop('validations')).toEqual([VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT])
                         expect(minimumAttendee.prop('name')).toBe('minimum_attendee_capacity')
                         expect(minimumAttendee.prop('label')).toEqual(<FormattedMessage id="minimum-attendee-capacity"/>)
                         expect(minimumAttendee.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.minimum_attendee_capacity)
@@ -583,7 +583,7 @@ describe('FormField', () => {
                     test('maximum_attendee_capacity', () => {
                         const maximumAttendee = wrapper.find(HelTextField).at(5)
                         expect(maximumAttendee.prop('id')).toBe('maximum_attendee_capacity')
-                        expect(maximumAttendee.prop('validations')).toEqual([VALIDATION_RULES.IS_INT])
+                        expect(maximumAttendee.prop('validations')).toEqual([VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT])
                         expect(maximumAttendee.prop('name')).toBe('maximum_attendee_capacity')
                         expect(maximumAttendee.prop('label')).toEqual(<FormattedMessage id="maximum-attendee-capacity"/>)
                         expect(maximumAttendee.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.maximum_attendee_capacity)

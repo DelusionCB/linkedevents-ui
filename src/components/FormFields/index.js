@@ -190,7 +190,6 @@ class FormFields extends React.Component {
         const {validationErrors} = this.props.editor;
         const {createdRecurringEvents} = this.state
         const subEventErrors = {...validationErrors.sub_events} || {}
-
         let newEvents = []
         const keys = Object.keys(events)
         // Focus moved to last if new events are added to a recurring event.
@@ -213,16 +212,6 @@ class FormFields extends React.Component {
         }
 
         return newEvents
-    }
-
-    trimmedDescription() {
-        let descriptions = Object.assign({}, this.props.editor.values['description'])
-        for (const lang in descriptions) {
-            if (descriptions[lang] !== null) {
-                descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/&amp;/g, '&')
-            }
-        }
-        return descriptions
     }
 
     /**
@@ -353,6 +342,7 @@ class FormFields extends React.Component {
                             languages={this.props.editor.contentLanguages}
                             setDirtyState={this.props.setDirtyState}
                             disabled={userDoesNotExist}
+                            forceApplyToStore
                         />
 
                         <MultiLanguageField
@@ -377,12 +367,13 @@ class FormFields extends React.Component {
                             ref="description"
                             name="description"
                             validationErrors={validationErrors['description']}
-                            defaultValue={this.trimmedDescription()}
+                            defaultValue={values['description']}
                             languages={this.props.editor.contentLanguages}
                             validations={[VALIDATION_RULES.LONG_STRING]}
                             setDirtyState={this.props.setDirtyState}
                             type='textarea'
                             disabled={userDoesNotExist}
+                            forceApplyToStore
                         />
                         <OrganizationSelector
                             formType={formType}
@@ -764,10 +755,12 @@ class FormFields extends React.Component {
                                     name="audience_min_age"
                                     label={<FormattedMessage id="audience-min-age"/>}
                                     validationErrors={validationErrors['audience_min_age']}
+                                    validations={[VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT, VALIDATION_RULES.IS_LESS_THAN_MAX_AGE_LIMIT]}
                                     defaultValue={values['audience_min_age']}
                                     setDirtyState={this.props.setDirtyState}
                                     forceApplyToStore
                                     type='number'
+                                    max={150}
                                     min={0}
                                 />
 
@@ -777,10 +770,12 @@ class FormFields extends React.Component {
                                     name="audience_max_age"
                                     label={<FormattedMessage id="audience-max-age"/>}
                                     validationErrors={validationErrors['audience_max_age']}
+                                    validations={[VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT, VALIDATION_RULES.IS_LESS_THAN_MAX_AGE_LIMIT]}
                                     defaultValue={values['audience_max_age']}
                                     setDirtyState={this.props.setDirtyState}
                                     forceApplyToStore
                                     type='number'
+                                    max={150}
                                     min={0}
                                 />
                             </div>
@@ -889,7 +884,7 @@ class FormFields extends React.Component {
                                     name="minimum_attendee_capacity"
                                     label={<FormattedMessage id="minimum-attendee-capacity"/>}
                                     validationErrors={validationErrors['minimum_attendee_capacity']}
-                                    validations={[VALIDATION_RULES.IS_INT]}
+                                    validations={[VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT]}
                                     defaultValue={values['minimum_attendee_capacity']}
                                     setDirtyState={this.props.setDirtyState}
                                     forceApplyToStore
@@ -903,7 +898,7 @@ class FormFields extends React.Component {
                                     name="maximum_attendee_capacity"
                                     label={<FormattedMessage id="maximum-attendee-capacity"/>}
                                     validationErrors={validationErrors['maximum_attendee_capacity']}
-                                    validations={[VALIDATION_RULES.IS_INT]}
+                                    validations={[VALIDATION_RULES.IS_INT, VALIDATION_RULES.IS_POSITIVE_INT]}
                                     defaultValue={values['maximum_attendee_capacity']}
                                     setDirtyState={this.props.setDirtyState}
                                     forceApplyToStore

@@ -422,6 +422,14 @@
     "validation-hasPrice": "Price missing",
     "validation-requiredVideoField": "This field is required",
     "validation-requiredImage": "Image is required for content publishing",
+    "validation-isLessThanMaxAge": "Minimum age must be less than maximum age",
+    "validation-isMoreThanMinAge": "Maximum age must be more than minimum age",
+    "validation-isLessThanMaximumCapacity": "Minimum attendee must be less than maximum attendees",
+    "validation-isMoreThanMinimumCapacity": "Maximum attendees must be more than minimum attendees",
+    "validation-isPositiveInt": "Number must be positive",
+    "validation-isLessThanMaxAgeLimit": "Limit for age restrictions is 150",
+    "validation-hasValidPrice": "Price is invalid. Check format (Example 4.50).",
+    "validation-isMoreThanSix": "The alt text in the image must be at least 6 characters long",
 
     "server-error": "Server error.",
     "validation-error": "There are errors on the form. Please check the form.",
@@ -782,7 +790,7 @@
     "select-menu-option": "option {label} {status}, {number}",
     "select-value-selectValue": "Value {label} focused, {number}.",
     "select-results": "{results} for search term {input}",
-    "select-reader": "{count} {count plural, one {result} other {results}} available",
+    "select-reader": "{count} {count, plural, one {result} other {results}} available",
 
     "editor-show-broader-concepts": "Show broader concepts for keyword '{value}'.",
     "editor-show-narrower-concepts": "Show narrower concepts for keyword '{value}'.",

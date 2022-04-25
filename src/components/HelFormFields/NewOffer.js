@@ -118,9 +118,8 @@ class NewOffer extends React.Component {
 
 
     render() {
-        const {offerKey, defaultValue, isFree, languages, intl, length, disabled} = this.props
+        const {offerKey, defaultValue, isFree, languages, intl, length, disabled, validationErrors} = this.props
         const {VALIDATION_RULES} = CONSTANTS
-
         return (
             <div key={offerKey} className="new-offer row">
                 <div className="col-auto">
@@ -138,7 +137,7 @@ class NewOffer extends React.Component {
                         label="event-price"
                         languages={languages}
                         onBlur={e => this.onBlur(e)}
-                        validationErrors={this.props.validationErrors['price']}
+                        validationErrors={get(validationErrors,['offers', offerKey, 'price'], undefined)}
                         index={this.props.offerKey}
                         setInitialFocus={this.props.setInitialFocus}
                         required={true}
@@ -155,7 +154,7 @@ class NewOffer extends React.Component {
                         languages={languages}
                         multiLine={true}
                         onBlur={e => this.onBlur(e)}
-                        validationErrors={this.props.validationErrors['offer_description']}
+                        validationErrors={get(validationErrors,['offers', offerKey, 'description'], undefined)}
                         index={this.props.offerKey}
                         placeholder={intl.formatMessage({id: 'price-info-placeholder'})}
                         type='text'
@@ -170,7 +169,7 @@ class NewOffer extends React.Component {
                         languages={languages}
                         onBlur={e => this.onBlur(e)}
                         validations={[VALIDATION_RULES.IS_URL]}
-                        validationErrors={this.props.validationErrors['offer_info_url']}
+                        validationErrors={get(validationErrors,['offers', offerKey, 'info_url'], undefined)}
                         index={this.props.offerKey}
                         placeholder='https://...'
                         type='url'

@@ -138,11 +138,17 @@ const constants = {
         IS_DATE: 'isDate',
         IS_TIME: 'isTime',
         IS_INT: 'isInt',
+        IS_AT_LEAST_ZERO: 'isAtLeastZero',
         LONG_STRING:'longString',
         MEDIUM_STRING: 'mediumString',
         SHORT_STRING: 'shortString',
         HAS_PRICE: 'hasPrice',
+        HAS_VALID_PRICE: 'hasValidPrice',
         REQUIRE_MULTI: 'requiredMulti',
+        IS_MORE_THAN_MIN_AGE: 'isMoreThanMinAge',
+        IS_LESS_THAN_MAX_AGE: 'isLessThanMaxAge',
+        IS_LESS_THAN_MAX_CAPACITY: 'isLessThanMaximumCapacity',
+        IS_MORE_THAN_MIN_CAPACITY: 'isMoreThanMinimumCapacity',
         AFTER_START_TIME: 'afterStartTime',
         AFTER_ENROLMENT_START_TIME: 'afterEnrolmentStartTime',
         IN_THE_FUTURE: 'inTheFuture',
@@ -157,12 +163,15 @@ const constants = {
         AT_LEAST_ONE: 'atLeastOne',
         AT_LEAST_ONE_MAIN_CATEGORY: 'atLeastOneMainCategory',
         AT_LEAST_ONE_SECONDARY_CATEGORY: 'atLeastOneSecondaryCategory',
+        IS_POSITIVE_INT: 'isPositiveInt',
         IS_MORE_THAN_ONE: 'isMoreThanOne',
         AT_LEAST_ONE_IS_TRUE: 'atLeastOneIsTrue',
         DEFAULT_END_IN_FUTURE: 'defaultEndInTheFuture',
         REQUIRED_VIDEO_FIELD: 'requiredVideoField',
+        IS_LESS_THAN_MAX_AGE_LIMIT: 'isLessThanMaxAgeLimit',
         IS_MORE_THAN_TWO: 'isMoreThanTwo',
         IS_MORE_THAN_SIXTYFIVE: 'isMoreThanSixtyFive',
+        IS_MORE_THAN_SIX: 'isMoreThanSix',
     },
 
     CHARACTER_LIMIT: {
@@ -170,6 +179,8 @@ const constants = {
         MEDIUM_STRING: 320,
         LONG_STRING: 5000,
     },
+
+    MAX_AGE_LIMIT: 150,
 
     GENERATE_LIMIT: {
         OFFER_LENGTH: 20,
