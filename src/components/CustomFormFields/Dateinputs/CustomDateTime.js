@@ -38,7 +38,7 @@ class CustomDateTime extends React.Component {
 
         this.firstInput = React.createRef()
     }
-    
+
     static contextTypes = {
         intl: PropTypes.object,
     }
@@ -70,7 +70,7 @@ class CustomDateTime extends React.Component {
             this.handleDataUpdate(this.state.dateInputValue, convertedValue)
         }
     }
-       
+
     handleDataUpdate(date, time){
         const {setData, setDirtyState, updateSubEvent, eventKey, name} = this.props;
         let formattedDatetime = undefined
@@ -94,7 +94,7 @@ class CustomDateTime extends React.Component {
         const updatedState = {
             showValidationError: false,
         };
-        
+
         if(!moment(date, getDateFormat('date-time'), true).isValid()){
             updatedState.validationErrorText = <FormattedMessage id="invalid-date-time-format" />;
             updatedState.showValidationError = true;
@@ -129,18 +129,24 @@ class CustomDateTime extends React.Component {
 
     componentDidUpdate(prevProps) {
         // Update validation if min or max date changes and dateInputValue and timeInputValue are not empty
-        const {minDate, maxDate} = this.props
+        const {minDate, maxDate, defaultValue, location} = this.props
         const {dateInputValue, timeInputValue} = this.state
         if (minDate !== prevProps.minDate || maxDate !== prevProps.maxDate) {
             if(dateInputValue && timeInputValue) {
-                const datetimeString = `${this.state.dateInputValue} ${this.state.timeInputValue}`
+                const datetimeString = `${dateInputValue} ${timeInputValue}`
                 this.updateValidationState(moment(datetimeString, getDateFormat('date-time'), true), minDate)
             }
         }
-        if (prevProps.defaultValue !== this.props.defaultValue) {
+        if (prevProps.defaultValue !== defaultValue) {
             this.setState({
-                dateInputValue: this.props.defaultValue ? convertDateToLocaleString(this.props.defaultValue, 'date') : dateInputValue,
-                timeInputValue: this.props.defaultValue ? convertDateToLocaleString(this.props.defaultValue, 'time') : timeInputValue,
+                dateInputValue: defaultValue ? convertDateToLocaleString(defaultValue, 'date') : dateInputValue,
+                timeInputValue: defaultValue ? convertDateToLocaleString(defaultValue, 'time') : timeInputValue,
+            })
+        }
+        if (prevProps.location.pathname.includes('/event/update') && location.pathname.includes('/event/create/new')) {
+            this.setState({
+                dateInputValue: '',
+                timeInputValue: '',
             })
         }
     }
@@ -204,7 +210,7 @@ class CustomDateTime extends React.Component {
                             <ValidationNotification
                                 anchor={this.containerRef}
                                 validationErrors={dateInputValue ? undefined : validationErrors}
-                                className='validation-dateTime' 
+                                className='validation-dateTime'
                             />
                         </div>
                     </FormGroup>
@@ -253,12 +259,12 @@ class CustomDateTime extends React.Component {
                             <ValidationNotification
                                 anchor={this.containerRef}
                                 validationErrors={timeInputValue ? undefined : validationErrors}
-                                className='validation-dateTime' 
+                                className='validation-dateTime'
                             />
                         </div>
                     </FormGroup>
                 </div>
-                {showValidationError && 
+                {showValidationError &&
                         <p id={inputErrorId} role="alert" className="date-input-error">{validationErrorText}</p>}
             </div>
         )
@@ -286,15 +292,19 @@ CustomDateTime.propTypes = {
     updateSubEvent: PropTypes.func,
     eventKey: PropTypes.string,
     intl: PropTypes.object,
+    location: PropTypes.object,
     validationErrors: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,
     ]),
 };
 
+const mapStateToProps = (state) => ({
+    location: state.router.location,
+})
 const mapDispatchToProps = (dispatch) => ({
     setData: (value) => dispatch(setDataAction(value)),
     updateSubEvent: (value, property, eventKey) => dispatch(updateSubEventAction(value, property, eventKey)),
 })
 export {CustomDateTime as UnconnectedCustomDateTime}
-export default connect(null, mapDispatchToProps)(CustomDateTime)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDateTime)

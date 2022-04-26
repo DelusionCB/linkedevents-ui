@@ -34,6 +34,7 @@ const defaultProps = {
     getDateFormat: () => {},
     required: true,
     setInitialFocus: false,
+    location: window.location,
 }
 const typeFieldId = ['-date-field', '-time-field']
 
@@ -313,7 +314,7 @@ describe('functions', () => {
 
     describe('handleInputBlur', () => {
         const instance = getWrapper().instance()
-        
+
         test('sets state.showValidationError to false when dateInputValue and timeInputValue are empty', () => {
             instance.state.showValidationError = true
             instance.state.dateInputValue = ''
@@ -321,7 +322,7 @@ describe('functions', () => {
             instance.handleInputBlur()
             expect(instance.state.showValidationError).toBe(false)
         })
-		
+
         test('doesnt set state.showValidationError to false when dateInputValue or timeInputValue is not empty', () => {
             instance.state.showValidationError = true
             instance.state.dateInputValue = '12'
@@ -404,7 +405,7 @@ describe('functions', () => {
             expect(instance.state.validationErrorText).toEqual(<FormattedMessage id="validation-afterStartTimeAndInFuture" />)
             expect(instance.state.showValidationError).toBe(true);
         })
-            
+
         test('sets correct state and if date is valid, and not before minDate', () => {
             const date = moment('2020-03-23')
             const minDate = moment('2020-03-22')
@@ -444,7 +445,7 @@ describe('functions', () => {
         beforeEach(() => {
             spy.mockClear()
         })
-            
+
         test('calls updateValidationState if state.dateInputValue and state.timeInputValue are defined', () => {
             const wrapper = shallow(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
             const instance = wrapper.instance()

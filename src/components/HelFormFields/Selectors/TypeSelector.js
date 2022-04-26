@@ -12,10 +12,13 @@ const {
 } = constants
 
 class TypeSelector extends React.Component {
-
-    state = {
-        isCreateView: false,
-        type: '',
+    constructor(props) {
+        super(props);
+        const {event, editor} = this.props;
+        this.state = {
+            isCreateView: false,
+            type: event.type_id || editor.values.type_id || EVENT_TYPE.GENERAL,
+        };
     }
 
     componentDidMount() {
@@ -23,79 +26,46 @@ class TypeSelector extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.handleUpdate(prevState)
+        const {type, isCreateView} = this.state;
+        const {editor} = this.props;
+
+        if (prevProps.editor.values.type_id !== editor.values.type_id && editor.values.type_id !== type) {
+            const newType = editor.values.type_id || EVENT_TYPE.GENERAL;
+            this.setState({type: newType});
+
+        }else if (prevProps.editor.values && !editor.values.type_id && !isCreateView) {
+            this.setState({isCreateView: true});
+            this.context.dispatch(setData({type_id: EVENT_TYPE.GENERAL}))
+        }
     }
 
 
     handleMount = () => {
-        const {event:{type_id},editor:{values}} = this.props
-        const editedEventTypeIsEvent = type_id === EVENT_TYPE.GENERAL
-        const editedEventTypeIsCourse = type_id === EVENT_TYPE.COURSE
-        const editedEventTypeIsHobby = type_id === EVENT_TYPE.HOBBIES
-        let type = ''
-        if (editedEventTypeIsEvent) {
-            type = 'event'
-        }
-        if (editedEventTypeIsCourse) {
-            type = 'courses'
-        }
-        if (editedEventTypeIsHobby) {
-            type = 'hobby'
-        }
-        this.setState({type: type})
-    }
+        const {event:{type_id},editor:{values}} = this.props;
+        const {router} = this.context.store.getState();
+        // a brand event with no data sets this to true -> dispatches the initial type.
+        let dispatchInitialType = false;
 
-    /**
-     * Handles the updating of the state based on changes.
-     * @param prevState Previous state
-     */
-    handleUpdate = (prevState = {}) => {
-        const {type, isCreateView} = this.state
-        const {router} = this.context.store.getState()
-        const {editor:{values}, event} = this.props
-
-        // object containing the updated states
-        let stateToSet = {}
-
-        // whether we are creating a new event. used to help determine the radio disabled state
-        const updatedIsCreateView = get(router, ['location' ,'pathname'], '').includes('/event/create/new')
-        const creatingNewSubEvent = get(router, ['location', 'pathname'], '').includes('/recurring/add/')
-        const superEventIsNotNull = get(event, 'super_event_type') !== null
-        const editedEventTypeIsEvent = get(event, 'type_id') === EVENT_TYPE.GENERAL
-        const editedEventTypeIsCourse = get(event, 'type_id') === EVENT_TYPE.COURSE
-        const editedEventTypeIsHobby = get(event, 'type_id') === EVENT_TYPE.HOBBIES
-
-        // update the isCreateView according to whether we're creating a new event or updating an existing one
-        if (updatedIsCreateView !== isCreateView) {
-            stateToSet.isCreateView = updatedIsCreateView
+        const newState = {};
+        if (type_id) {
+            newState.type = type_id
+            newState.isCreateView = false;
+        } else {
+            const updatedIsCreateView = get(router, ['location' ,'pathname'], '').includes('/event/create/new')
+            // creating a new event
+            if (updatedIsCreateView) {
+                newState.isCreateView = true;
+                // editor contains values? -> set editor.values.type_id to state.
+                if (values.type_id) {newState.type = values.type_id;}
+                else {dispatchInitialType = true;}
+            }
         }
 
-        if(updatedIsCreateView && superEventIsNotNull && !values.type_id && type === '') {
-            stateToSet.type = 'event'
+        if(Object.keys(newState).length > 0) {
+            this.setState(newState)
+        }
+        if (dispatchInitialType) {
             this.context.dispatch(setData({type_id: EVENT_TYPE.GENERAL}))
-        }
-
-        if ((!updatedIsCreateView
-            && editedEventTypeIsEvent) || (updatedIsCreateView && values.type_id === EVENT_TYPE.GENERAL) ||
-            (creatingNewSubEvent && values.type_id === EVENT_TYPE.GENERAL)
-        ) {
-            stateToSet.type = 'event'
-        }
-        if ((!updatedIsCreateView
-            && editedEventTypeIsCourse) || (updatedIsCreateView && values.type_id === EVENT_TYPE.COURSE) ||
-            (creatingNewSubEvent && values.type_id === EVENT_TYPE.COURSE)
-        ) {
-            stateToSet.type = 'courses'
-        }
-        if ((!updatedIsCreateView
-            && editedEventTypeIsHobby) || (updatedIsCreateView && values.type_id === EVENT_TYPE.HOBBIES) ||
-            (creatingNewSubEvent && values.type_id === EVENT_TYPE.HOBBIES)
-        ) {
-            stateToSet.type = 'hobby'
-        }
-
-        if (Object.keys(stateToSet).length > 0 && type === '') {
-            this.setState({...prevState,...stateToSet})
         }
     }
 
@@ -108,11 +78,12 @@ class TypeSelector extends React.Component {
      * 'hobby'
      * if value === 'hobby', set typeId.type_id to constants.EVENT_TYPE.HOBBIES & set states.type to {@param event.target.value}
      *
-     * @param event Event
+     * @param {Object} event Event
      */
     handleTypeChange = event => {
         const {value} = event.target
         const {editor:{values}} = this.props;
+        const {dispatch} = this.context;
 
         let checkValues = [values.keywords]
         // Falsy values are filtered
@@ -120,61 +91,54 @@ class TypeSelector extends React.Component {
         // Keys used for clearing values from editor.values
         const clearValueKeys = 'keywords'
 
-        const content = {}
         const valuesToClear = []
-        if (value === 'event') {
-            content.type_id = EVENT_TYPE.GENERAL;
-            content.type = value;
-            // If checkValues has length more than 0, push keys to clear and strings for modal
+        if (value === EVENT_TYPE.GENERAL) {
+            // This can be expanded to include more values that should be cleared.
             if (checkValues.includes(values.keywords)) {
                 valuesToClear.push(clearValueKeys);
             }
         }
 
-        else if (value === 'courses') {
-            content.type_id = EVENT_TYPE.COURSE
-            content.type = value
+        else if (value === EVENT_TYPE.COURSE) {
+            // This can be expanded to include more values that should be cleared.
             if (checkValues.includes(values.keywords)) {
                 valuesToClear.push(clearValueKeys);
             }
         }
 
-        else if (value === 'hobby') {
-            content.type_id = EVENT_TYPE.HOBBIES
-            content.type = value
-            // If checkValues includes values.keywords, push keys[0] to clear and strings for modal
+        else if (value === EVENT_TYPE.HOBBIES) {
+            // This can be expanded to include more values that should be cleared.
             if (checkValues.includes(values.keywords)) {
                 valuesToClear.push(clearValueKeys)
             }
         }
         // If valuesToClear has length over 0, push confirmActionProps & values for action
         if (valuesToClear.length > 0) {
-            this.context.dispatch(confirmAction('confirm-type-switch', 'warning', 'switch-type', {
+            dispatch(confirmAction('confirm-type-switch', 'warning', 'switch-type', {
                 action: (e) => {
-                    this.context.dispatch(setData({type_id: content.type_id}));
-                    this.context.dispatch(clearValue(valuesToClear));
-                    this.setState({type: content.type});
+                    dispatch(setData({type_id: value}));
+                    dispatch(clearValue(valuesToClear));
                 },
                 additionalMsg: <FormattedMessage id='type-switch' />,
                 additionalMarkup: ' ',
             }));
-            // Else proceed with dispatching data & setting state
         } else {
-            this.context.dispatch(setData({type_id: content.type_id}));
-            this.setState({type: content.type});
+            dispatch(setData({type_id: value}));
         }
     }
 
-    getSelectors = (value = '') => {
+    getSelectors = (messageID = '', value) => {
         const {type, isCreateView} = this.state
-        const {disabled} = this.props;
+        const {disabled, event} = this.props;
+        // check if value is same as state.type or value is same as props.event.type_id
+        const isChecked = value === type || value === get(event, 'type_id')
         return (
             <SelectorRadio
-                ariaLabel={this.context.intl.formatMessage({id: value})}
+                ariaLabel={this.context.intl.formatMessage({id: messageID})}
                 value={value}
-                checked={type === value}
+                checked={isChecked}
                 handleCheck={this.handleTypeChange}
-                messageID={value}
+                messageID={messageID}
                 disabled={disabled || !isCreateView}
                 name='TypeGroup'
             >
@@ -188,9 +152,9 @@ class TypeSelector extends React.Component {
             <div className="type-row row">
                 <div className="col-sm-6">
                     <div className='custom-control-radio'>
-                        {this.getSelectors('event')}
-                        {this.getSelectors('hobby')}
-                        {this.getSelectors('courses')}
+                        {this.getSelectors('event', EVENT_TYPE.GENERAL)}
+                        {this.getSelectors('hobby',EVENT_TYPE.HOBBIES)}
+                        {this.getSelectors('courses',EVENT_TYPE.COURSE)}
                     </div>
                 </div>
             </div>
