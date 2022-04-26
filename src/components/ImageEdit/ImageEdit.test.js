@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 
 
 import {UnconnectedImageEdit} from './index';
@@ -7,7 +7,7 @@ import {IntlProvider} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 import {HelTextField, MultiLanguageField} from '../HelFormFields';
-import {Input, Button} from 'reactstrap';
+import {Button, Input} from 'reactstrap';
 import constants from 'src/constants';
 import {mockEditorNewEvent} from '__mocks__/mockData';
 
@@ -49,7 +49,7 @@ describe('ImageEdit', () => {
     }
 
     function longString(length) {
-        let str;
+        let str = '';
         for (let i = 0; i < length; i++) {
             str += 'A';
         }
@@ -78,41 +78,68 @@ describe('ImageEdit', () => {
                 expect(wrapper.state('license')).toBe('event_only');
             });
         });
+        describe('clearPictures', () => {
+            test('sets state imageFile and thumbnailUrl values to null', () => {
+                const wrapper = getWrapper();
+                wrapper.setState({
+                    imageFile: defaultImageFile,
+                    thumbnailUrl: defaultProps.thumbnailUrl,
+                });
+                expect(wrapper.state('imageFile')).toBeTruthy();
+                expect(wrapper.state('thumbnailUrl')).toBeTruthy();
+                wrapper.instance().clearPictures();
+                expect(wrapper.state('imageFile')).toBe(null);
+                expect(wrapper.state('thumbnailUrl')).toBe(null);
+            });
+        });
+        describe('setAltDecoration', () => {
+            test('sets correct boolean value to state.hideAltText based on target.checked', () => {
+                const wrapper = getWrapper();
+                expect(wrapper.state('hideAltText')).toBe(false);
+                wrapper.instance().setAltDecoration({target:{checked: true}});
+                expect(wrapper.state('hideAltText')).toBe(true);
+                wrapper.instance().setAltDecoration({target:{checked: false}});
+                expect(wrapper.state('hideAltText')).toBe(false);
+            });
+        });
 
         describe('handlers', () => {
             describe('handleChange', () => {
-                test('sets value to state.image according to event.target.id', () => {
-                    const wrapper = getWrapper()
+                test.each(['alt-text','name','photographer']
+                )('sets correct value to state.image when called with target.id: %s', (value) => {
+                    const wrapper = getWrapper();
+                    // key that is used in the state object.
+                    let stateKey = value;
+                    let initVal = {};
+                    let expectedVal = {fi: `${value}-finnish`, sv: `${value}-swedish`};
+                    if (value === 'alt-text') {stateKey = 'altText';}
+                    if (value === 'photographer') {
+                        initVal = '';
+                        expectedVal = 'Photographer Phil';
+                        stateKey = 'photographerName';
+                    }
+                    expect(wrapper.state('image')[stateKey]).toEqual(initVal);
+                    wrapper.instance().handleChange({target:{id:value}}, expectedVal);
+                    expect(wrapper.state('image')[stateKey]).toEqual(expectedVal);
 
-                    // altText
-                    expect(wrapper.state('image')['altText']).toEqual({});
-                    wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
-                    expect(wrapper.state('image')['altText']).toEqual({fi:'finnishAlt'});
-
-                    //name
-                    expect(wrapper.state('image')['name']).toEqual({});
-                    wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName', sv:'swedishName'});
-                    expect(wrapper.state('image')['name']).toEqual({fi:'finnishName', sv:'swedishName'});
-
-                    // photographerName
-                    expect(wrapper.state('image')['photographerName']).toEqual('');
-                    wrapper.instance().handleChange({target:{id:'photographer'}}, 'Photographer Phil');
-                    expect(wrapper.state('image')['photographerName']).toEqual('Photographer Phil');
                 });
             });
 
             describe('handleLicenseChange', () => {
-                test('if target.name=license_type, sets value to state.license', () => {
+                test.each(['cc_by','event_only']
+                )('set correct state.license when value is %s', (value) => {
                     const wrapper = getWrapper();
-                    // event_only by default
-                    expect(wrapper.state('license')).toEqual('event_only');
-
-                    wrapper.instance().handleLicenseChange({target:{name: 'license_type', value:'cc_by'}});
-                    expect(wrapper.state('license')).toEqual('cc_by');
-
-                    wrapper.instance().handleLicenseChange({target:{name: 'license_type', value:'event_only'}});
-                    expect(wrapper.state('license')).toEqual('event_only');
-                });
+                    if (value === 'event_only') {
+                        // default is event_only so we first change to cc_by and then change it back.
+                        wrapper.instance().handleLicenseChange({target:{name: 'license_type', value:'cc_by'}});
+                        expect(wrapper.state('license')).toEqual('cc_by');
+                        wrapper.instance().handleLicenseChange({target:{name: 'license_type', value:value}});
+                        expect(wrapper.state('license')).toEqual(value);
+                    } else {
+                        wrapper.instance().handleLicenseChange({target:{name: 'license_type', value:value}});
+                        expect(wrapper.state('license')).toEqual(value);
+                    }
+                })
 
                 test('if target.name=permission, toggles state.imagePermission boolean', () => {
                     const wrapper = getWrapper();
@@ -128,13 +155,38 @@ describe('ImageEdit', () => {
             });
 
             describe('handleImagePost', () => {
-
-                let defaultImageBlob = new Blob([longString(100)], {type:'image/jpeg'});
-                defaultImageBlob.name = 'testfile.jpg';
+                const defaultBlob = new Blob([JSON.stringify(defaultImageFile)], {type: 'image/jpeg'});
+                // let defaultImageBlob = new Blob([JSON.stringify(defaultImageFile)], {type:'image/jpeg'});
+                const imageFile = new File([defaultBlob], 'testfile', {
+                    type: 'image/jpeg',
+                });
 
                 const postImage = jest.fn();
                 const close = jest.fn();
-                const imageFile = defaultImageBlob;
+                const expectedImageName = imageFile.name.split('.')[0];
+
+                const testImageReader = new FileReader();
+                let defaultImage;
+                testImageReader.onload = (event) => {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvasElement = document.createElement('canvas');
+                        canvasElement.width = img.width;
+                        canvasElement.height = img.height;
+
+                        const ctx = canvasElement.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+                        ctx.canvas.toBlob((blob) => {
+                            const canvasReader = new FileReader();
+                            canvasReader.onload = () => {
+                                defaultImage = canvasReader.result;
+                            };
+                            canvasReader.readAsDataURL(blob);
+                        }, 'image/webp', 0.80);
+                    }
+                }
+                testImageReader.readAsDataURL(imageFile);
 
                 afterEach(() => {
                     postImage.mockReset();
@@ -143,12 +195,12 @@ describe('ImageEdit', () => {
 
                 test('calls postImage with correct props when !updateExisting', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
-                    wrapper.setState({imageFile: imageFile});
-                    jest.spyOn(wrapper.instance(),'imageToBase64');
+
+                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage});
                     wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
-                    const expectedImage = await wrapper.instance().imageToBase64(defaultImageBlob);
+                    const expectedImage = defaultImage;
                     await wrapper.instance().handleImagePost();
 
                     const imageToPost = {
@@ -158,13 +210,12 @@ describe('ImageEdit', () => {
                         name: {
                             fi: 'finnishName',
                         },
-                        file_name: 'testfile',
+                        file_name: expectedImageName,
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
                     };
 
-                    expect(wrapper.instance().imageToBase64).toHaveBeenCalled();
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
                     expect(close).toHaveBeenCalled();
 
@@ -172,12 +223,11 @@ describe('ImageEdit', () => {
 
                 test('expect states to be default after postImage', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
-                    wrapper.setState({imageFile: imageFile});
-                    jest.spyOn(wrapper.instance(),'imageToBase64');
+                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage});
                     wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
-                    const expectedImage = await wrapper.instance().imageToBase64(defaultImageBlob);
+                    const expectedImage = defaultImage
                     await wrapper.instance().handleImagePost();
 
                     const imageToPost = {
@@ -187,13 +237,12 @@ describe('ImageEdit', () => {
                         name: {
                             fi: 'finnishName',
                         },
-                        file_name: 'testfile',
+                        file_name: expectedImageName,
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
                     };
 
-                    expect(wrapper.instance().imageToBase64).toHaveBeenCalled();
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
 
                     expect(wrapper.state('imageFile')).toBe(null);
@@ -208,7 +257,6 @@ describe('ImageEdit', () => {
                     expect(wrapper.state('hideAltText')).toBe(false);
 
                     expect(close).toHaveBeenCalled();
-
                 });
 
                 test('calls postImage with correct props when updateExisting', async () => {
@@ -234,18 +282,16 @@ describe('ImageEdit', () => {
 
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser, 1337);
                     expect(close).toHaveBeenCalled();
-
                 });
                 test('calls postImage with correct alt_text when hideAltText-state is true', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
-                    wrapper.setState({imageFile: imageFile});
+                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage});
                     const checked = (bool) => ({target: {checked: bool}});
-                    jest.spyOn(wrapper.instance(),'imageToBase64');
                     wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
                     wrapper.instance().setAltDecoration(checked(true))
-                    const expectedImage = await wrapper.instance().imageToBase64(defaultImageBlob);
+                    const expectedImage = defaultImage
                     await wrapper.instance().handleImagePost();
 
                     const imageToPost = {
@@ -255,39 +301,37 @@ describe('ImageEdit', () => {
                         name: {
                             fi: 'finnishName',
                         },
-                        file_name: 'testfile',
+                        file_name: expectedImageName,
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
                     };
 
-                    expect(wrapper.instance().imageToBase64).toHaveBeenCalled();
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
                     expect(close).toHaveBeenCalled();
-
                 });
             });
         });
 
         describe('validateFileSize', () => {
+            let wrapper;
+            let instance;
+            beforeEach(() => {
+                wrapper = getWrapper();
+                instance = wrapper.instance();
+            })
             test('if fileSize is over max size', () => {
-                const wrapper = getWrapper();
-                const instance = wrapper.instance();
                 instance.validateFileSizes({size: 2019 * 2020});
                 expect(wrapper.state('fileSizeError')).toBe(true)
             });
 
             test('fileSize is less than max size and fileSizeError is false', () => {
-                const wrapper = getWrapper();
-                const instance = wrapper.instance();
                 const returnValue = instance.validateFileSizes({size: 999 * 999});
                 expect(wrapper.state('fileSizeError')).toBe(false);
                 expect(returnValue).toBe(true);
             });
 
             test('fileSize is less than max size and fileSizeError is true', () => {
-                const wrapper = getWrapper();
-                const instance = wrapper.instance();
                 let returnValue = instance.validateFileSizes({size: 2999 * 2999});
                 expect(wrapper.state('fileSizeError')).toBe(true);
                 expect(returnValue).toBe(false);
@@ -299,8 +343,6 @@ describe('ImageEdit', () => {
 
         describe('getIsReadyToSubmit', () => {
             let wrapper;
-
-
 
             beforeEach(() => {
                 wrapper = getWrapper();
@@ -387,39 +429,40 @@ describe('ImageEdit', () => {
             });
         });
         describe('getCheckedValue', () => {
-            test('returns correct obj based on if prop === state.license', () => {
+            const licenseOptions = ['cc_by', 'event_only'];
+            test.each(licenseOptions
+            )('returns correct obj when state.license === %s', (value) => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
-                expect(instance.getCheckedValue('event_only')).toEqual({checked: true});
-                instance.handleLicenseChange({target:{name:'license_type', value:'cc_by'}});
-                expect(instance.getCheckedValue('cc_by')).toEqual({checked: true});
-                instance.handleLicenseChange({target:{name:'license_type', value:'event_only'}});
-                expect(instance.getCheckedValue('event_only')).toEqual({checked: true});
-            });
+                const otherValue = value === licenseOptions[0] ? licenseOptions[1] : licenseOptions[0];
+                // other value is set to state, so we can test both true/false for each value.
+                wrapper.setState({license: otherValue});
+
+                expect(instance.getCheckedValue(value)).toEqual({checked: false});
+                instance.handleLicenseChange({target:{name:'license_type', value:value}});
+                expect(instance.getCheckedValue(value)).toEqual({checked: true});
+            })
         });
         describe('getLicense', () => {
-            test('license inputs have checked param based on state.license', () => {
-                const licenseTypes = ['event_only','cc_by'];
-
-                licenseTypes.forEach((license, index) => {
-                    const wrapper = getWrapper();
-                    const instance = wrapper.instance();
-                    instance.handleLicenseChange({target:{name:'license_type', value: license}});
-                    const localWrapper = shallow(instance.getLicense());
-                    const elements = localWrapper.find('input').filterWhere(element => element.prop('name') === 'license_type');
-                    expect(elements).toHaveLength(2);
-                    expect(elements.at(0).prop('id')).toBe(licenseTypes[0])
-                    expect(elements.at(0).prop('checked')).toBe(wrapper.state('license') === licenseTypes[0]);
-                    expect(elements.at(1).prop('id')).toBe(licenseTypes[1])
-                    expect(elements.at(1).prop('checked')).toBe(wrapper.state('license') === licenseTypes[1]);
-                })
+            const licenseTypes = ['event_only','cc_by'];
+            test.each(
+                licenseTypes
+            )('inputs have correct checked params when state.license === %s', (value) => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                instance.handleLicenseChange({target:{name:'license_type', value: value}});
+                const localWrapper = shallow(instance.getLicense());
+                const elements = localWrapper.find('input').filterWhere(element => element.prop('name') === 'license_type');
+                expect(elements).toHaveLength(2);
+                expect(elements.at(0).prop('id')).toBe(licenseTypes[0])
+                expect(elements.at(0).prop('checked')).toBe(wrapper.state('license') === licenseTypes[0]);
+                expect(elements.at(1).prop('id')).toBe(licenseTypes[1])
+                expect(elements.at(1).prop('checked')).toBe(wrapper.state('license') === licenseTypes[1]);
             });
-
         });
     });
 
     describe('render', () => {
-
         describe('contains input -', () => {
             test('two MultiLanguageField with correct parameters', () => {
                 const wrapper = getWrapper();

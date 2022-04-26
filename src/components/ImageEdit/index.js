@@ -1,34 +1,51 @@
 import './index.scss';
 import React from 'react';
 import PropTypes from 'prop-types';
-import {injectIntl, FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedHTMLMessage, FormattedMessage, injectIntl} from 'react-intl';
 import {connect} from 'react-redux';
 import {HelTextField, MultiLanguageField} from '../HelFormFields';
 import {postImage as postImageAction} from 'src/actions/userImages';
 import constants from 'src/constants';
-import {Button, Modal, ModalHeader, ModalBody, Input, InputGroupAddon, InputGroup} from 'reactstrap';
+import {Button, Input, InputGroup, InputGroupAddon, Modal, ModalBody, ModalHeader} from 'reactstrap';
 import update from 'immutability-helper';
 import {getStringWithLocale} from 'src/utils/locale';
 import validationFn from 'src/validation/validationRules'
 import classNames from 'classnames'
+import {browserVersion, isFirefox, isSafari} from 'react-device-detect';
 
 const {CHARACTER_LIMIT, VALIDATION_RULES} = constants;
+
+const INITIAL_STATE = {
+    image: {
+        name: {},
+        altText: {},
+        photographerName: '',
+    },
+    license: 'event_only',
+    imagePermission: false,
+    edit: false,
+    imageFile: null,
+    thumbnailUrl: null,
+    urlError: false,
+    fileSizeError: false,
+    hideAltText: false,
+};
 
 class ImageEdit extends React.Component {
     constructor(props) {
         super(props);
         this.hiddenFileInput = React.createRef();
         this.state = {
-            image: {
-                name: {},
-                altText: {},
-                photographerName: '',
-            },
             validation: {
                 altTextMinLength: 6,
                 photographerMaxLength: CHARACTER_LIMIT.SHORT_STRING,
                 nameMaxLength: CHARACTER_LIMIT.SHORT_STRING,
                 altTextMaxLength: CHARACTER_LIMIT.MEDIUM_STRING,
+            },
+            image: {
+                name: {},
+                altText: {},
+                photographerName: '',
             },
             license: 'event_only',
             imagePermission: false,
@@ -50,37 +67,81 @@ class ImageEdit extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.updateExisting) {
+        const {
+            altText,
+            defaultName,
+            defaultPhotographerName,
+            license,
+            updateExisting,
+        } = this.props;
+        if (updateExisting) {
             this.setState(
                 {
                     image:
                         {
-                            name:this.props.defaultName || {},
-                            altText: this.props.altText || {},
-                            photographerName: this.props.defaultPhotographerName || '',
+                            name: defaultName || {},
+                            altText: altText || {},
+                            photographerName: defaultPhotographerName || '',
                         },
-                    license: this.props.license,
+                    license: license,
                 });
         }
     }
 
 
-    handleUpload(event) {
-        const file = event.target.files[0];
+    handleUpload(e) {
+        const file = e.target.files[0];
         if (file && !this.validateFileSizes(file)) {
             return;
         }
-        const data = new FormData();
+        const fileReader = new FileReader();
+        fileReader.addEventListener('load', (event) => {
+            // New img element is created with the uploaded image.
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.onload = () => {
+                // Canvas element is created with content from the new img.
+                const canvasElement = document.createElement('canvas');
+                canvasElement.width = img.width;
+                canvasElement.height = img.height;
 
-        data.append('image', file);
+                const ctx = canvasElement.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+                ctx.canvas.toBlob((blob) => {
+                    const isLegacyFF = isFirefox && Number.parseInt(browserVersion, 10) < 96;
+                    let finalBlob = blob;
+                    // FF versions < 96 & Safari don't support toBlob type image/webp so a temporary webp file is created and used.
+                    if (isLegacyFF || isSafari) {
+                        finalBlob = new File([blob], 'file', {
+                            type: 'image/webp',
+                            lastModified: Date.now(),
+                        });
+                    }
 
-        if (file && (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')) {
-            this.setState({
-                edit: true,
-                imageFile: file,
-                thumbnailUrl: window.URL.createObjectURL(file),
-            });
-        }
+                    const canvasReader = new FileReader();
+                    canvasReader.onload = () => {
+                        this.setState({
+                            edit: true,
+                            imageFile: file,
+                            thumbnailUrl: canvasReader.result,
+                        });
+                    };
+
+                    /**
+                     * New webp image is only used if the original file wasn't already webp
+                     * and if the new webp file is smaller than the original file.
+                     */
+                    if (file.type !== 'image/webp' && file.size > finalBlob.size) {
+                        canvasReader.readAsDataURL(finalBlob);
+                    } else {
+                        canvasReader.readAsDataURL(file);
+                    }
+
+
+                }, 'image/webp', 0.80);
+            };
+        }, false);
+        fileReader.readAsDataURL(file);
     }
 
     validateFileSizes = (file) => {
@@ -92,40 +153,38 @@ class ImageEdit extends React.Component {
             this.setState({
                 fileSizeError: true,
             });
-
             return false;
-        } else {
-            if (this.state.fileSizeError) {
-                this.setState({
-                    fileSizeError: false,
-                });
-            }
-
-            return true;
         }
+        if (this.state.fileSizeError) {
+            this.setState({
+                fileSizeError: false,
+            });
+        }
+        return true;
+
     };
 
     handleInputBlur() {
         const myData = document.getElementById('upload-external')
         const formData = new FormData(myData);
-        const MyData = formData.get('externalUrl');
-        const url = MyData
+        const url = formData.get('externalUrl')
         if (!validationFn['isUrl'](undefined, url, undefined)) {
-            this.setState({urlError: true,
-            })
+            this.setState({urlError: true});
             return false
-        } else {
-            return true
         }
+        if (this.state.urlError) {
+            this.setState({urlError: false});
+        }
+        return true
+
     }
 
     handleExternalImageSave = () => {
         event.preventDefault();
-        const foo = document.getElementById('upload-external')
-        const formData = new FormData(foo);
-        console.log(formData.get('externalUrl'));
-        const bar = formData.get('externalUrl');
-        this.setState({thumbnailUrl: bar, imageFile: null});
+        const externalElement = document.getElementById('upload-external')
+        const formData = new FormData(externalElement);
+        const externalUrlValue = formData.get('externalUrl');
+        this.setState({thumbnailUrl: externalUrlValue, imageFile: null});
     }
 
     clickHiddenUpload() {
@@ -136,10 +195,10 @@ class ImageEdit extends React.Component {
      * Clears both picture states if user decides to use different picture
      */
     clearPictures() {
-        this.setState(({
+        this.setState({
             imageFile: null,
             thumbnailUrl: null,
-        }))
+        })
     }
 
     /**
@@ -157,87 +216,71 @@ class ImageEdit extends React.Component {
      * @param e
      */
     handleLicenseChange(e) {
-
         if(e.target.name === 'license_type') {
             if (e.target.value === 'cc_by' || e.target.value === 'event_only') {
-                this.setState({license: `${e.target.value}`});
+                this.setState({license: e.target.value});
             }
         }
         if (e.target.name === 'permission') {
             this.setState({imagePermission: !this.state.imagePermission})
         }
-
     }
 
-    /**
-     * Reads imageFile and returns image's data as a base64 encoded string.
-     * @param imageFile
-     * @returns {Promise<unknown>}
-     */
-    imageToBase64(imageFile) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(imageFile);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        })
-    }
 
     /**
      * Modifies/finalizes the object that is then dispatched to the server,
-     * when !updateExisting the imageFile is encoded to a base64 string and added to the object that is dispatched,
+     * when !updateExisting the encoded base64 string that the thumbnail also uses is added to the object that is dispatched.
      * @returns {Promise<void>}
      */
     async handleImagePost() {
-        const langs = this.props.editor.contentLanguages;
-        const decorationAlts = langs.reduce((acc,curr)  => {
-            acc[curr] = this.context.intl.formatMessage({id: `description-alt.${curr}`});
-            return acc;
-        },  {});
+        const {
+            hideAltText,
+            image,
+            imageFile: stateImageFile,
+            license,
+            thumbnailUrl,
+        } = this.state;
+        const {
+            close,
+            editor: {contentLanguages},
+            id,
+            imageFile,
+            postImage,
+            updateExisting,
+            user,
+        } = this.props;
+
         let imageToPost = {
-            name: this.state.image['name'],
-            alt_text: this.state.image['altText'],
-            photographer_name: this.state.image['photographerName'],
-            license: this.state.license,
+            name: image['name'],
+            alt_text: image['altText'],
+            photographer_name: image['photographerName'],
+            license: license,
         };
-        if (this.state.hideAltText) {
+        if (hideAltText) {
+            const decorationAlts = contentLanguages.reduce((acc,curr)  => {
+                acc[curr] = this.context.intl.formatMessage({id: `description-alt.${curr}`});
+                return acc;
+            },  {});
+            // default image alt texts are set.
             imageToPost = update(imageToPost, {
                 alt_text:{$set: decorationAlts},
             });
         }
-        if (!this.props.updateExisting) {
-            if (this.props.imageFile || this.state.imageFile) {
-                let image64 = await this.imageToBase64(this.state.imageFile);
+        if (!updateExisting) {
+            if (imageFile || stateImageFile) {
                 imageToPost = update(imageToPost,{
-                    image:{$set: image64},
-                    file_name:{$set: this.state.imageFile.name.split('.')[0]},
+                    image:{$set: thumbnailUrl},
+                    file_name:{$set: stateImageFile.name.split('.')[0]},
                 });
             } else {
                 imageToPost = update(imageToPost,{
-                    url:{$set: this.state.thumbnailUrl},
+                    url:{$set: thumbnailUrl},
                 });
             }
-            this.props.postImage(imageToPost, this.props.user, null);
         }
-        else {
-            this.props.postImage(imageToPost,this.props.user, this.props.id);
-        }
-        this.setState({
-            image: {
-                name: {},
-                altText: {},
-                photographerName: '',
-            },
-            license: 'event_only',
-            imagePermission: false,
-            edit: false,
-            imageFile: null,
-            thumbnailUrl: null,
-            urlError: false,
-            fileSizeError: false,
-            hideAltText: false,
-        })
-        this.props.close();
+        postImage(imageToPost, user, updateExisting ? id : null);
+        this.setState(INITIAL_STATE);
+        close();
     }
 
     /**
@@ -255,31 +298,25 @@ class ImageEdit extends React.Component {
         const {id} = event.target;
         let localImage = this.state.image;
         if (id.includes('alt-text')) {
-
             localImage = update(localImage, {
                 'altText': {
                     $set: value,
                 },
             });
-            this.setState({image: localImage})
         }
-
         else if (id.includes('name')) {
-
             localImage = update(localImage, {
                 'name': {
                     $set: value,
                 },
             });
-            this.setState({image: localImage})
         }
         else if (id.includes('photographer')) {
             localImage['photographerName'] = update(localImage['photographerName'], {
                 $set: value,
             })
-            this.setState({image: localImage});
         }
-
+        this.setState({image: localImage});
     }
 
     getCloseButton() {
@@ -296,18 +333,20 @@ class ImageEdit extends React.Component {
     }
 
     getFields() {
+        const {hideAltText, image, validation} = this.state;
+        const {editor: {contentLanguages}} = this.props;
         return (
             <React.Fragment>
-                {!this.state.hideAltText &&
+                {!hideAltText &&
                     <MultiLanguageField
                         id='alt-text'
                         multiLine
                         required={true}
-                        defaultValue={this.state.image.altText}
+                        defaultValue={image.altText}
                         validations={[VALIDATION_RULES.MEDIUM_STRING, VALIDATION_RULES.IS_MORE_THAN_SIX]}
                         label='alt-text'
-                        languages={this.props.editor.contentLanguages}
-                        maxLength={this.state.validation.altTextMaxLength}
+                        languages={contentLanguages}
+                        maxLength={validation.altTextMaxLength}
                         onChange={this.handleChange}
                         onBlur={this.handleChange}
                         type='text'
@@ -317,10 +356,10 @@ class ImageEdit extends React.Component {
                     id='name'
                     multiLine
                     required={true}
-                    defaultValue={this.state.image.name}
+                    defaultValue={image.name}
                     validations={[VALIDATION_RULES.SHORT_STRING]}
                     label='image-caption-limit-for-min-and-max'
-                    languages={this.props.editor.contentLanguages}
+                    languages={contentLanguages}
                     onChange={this.handleChange}
                     onBlur={this.handleChange}
                     type='text'
@@ -331,10 +370,10 @@ class ImageEdit extends React.Component {
                     id='photographer'
                     name='photographerName'
                     required={true}
-                    defaultValue={this.state.image.photographerName}
+                    defaultValue={image.photographerName}
                     label={this.context.intl.formatMessage({id: 'photographer'})}
                     validations={[VALIDATION_RULES.SHORT_STRING]}
-                    maxLength={this.state.validation.photographerMaxLength}
+                    maxLength={validation.photographerMaxLength}
                     onChange={this.handleChange}
                     type='text'
                 />
@@ -431,8 +470,7 @@ class ImageEdit extends React.Component {
 
     render() {
         const {open, close, uiMode, localeType} = this.props;
-        const {thumbnailUrl} = this.state;
-        const thumb = this.state.thumbnailUrl || this.props.thumbnailUrl;
+        const thumbnailUrl = this.state.thumbnailUrl || this.props.thumbnailUrl;
         const errorMessage = this.state.urlError ? 'validation-isUrl' : 'uploaded-image-size-error';
         return (
             <React.Fragment>
@@ -468,6 +506,7 @@ class ImageEdit extends React.Component {
                                                 name='file_upload'
                                                 type='file'
                                                 ref={this.hiddenFileInput}
+                                                accept='image/png, image/jpeg, image/webp'
                                                 aria-hidden
                                             />
                                             <Button
@@ -489,7 +528,6 @@ class ImageEdit extends React.Component {
                                                         </InputGroupAddon>
                                                         <Input
                                                             className='file-upload--external-input'
-                                                            onChange={this.handleExternalImage}
                                                             name='externalUrl'
                                                             onBlur={this.handleInputBlur}
                                                             type='url'
@@ -511,7 +549,7 @@ class ImageEdit extends React.Component {
                                                     <FormattedMessage id='upload-image-from-url-button' />
                                                 </Button>
                                                 <div className='image'>
-                                                    <img className="col-sm-6 image-edit-dialog--image" src={thumb} alt={getStringWithLocale(this.state.image,'altText')} />
+                                                    <img className="col-sm-6 image-edit-dialog--image" src={thumbnailUrl} alt={getStringWithLocale(this.state.image,'altText')} />
                                                 </div>
                                                 <div className='tools'>
                                                     <Button
