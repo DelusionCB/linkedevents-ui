@@ -125,13 +125,13 @@ describe('components/Header/index', () => {
                 test('render 4 NavLinks when user is not admin', () => {
                     const element = getWrapper();
                     const navLinks = element.find(NavLink);
-                    expect(navLinks).toHaveLength(4);
+                    expect(navLinks).toHaveLength(6);
                 });
 
                 test('render 5 NavLinks when user is admin', () => {
                     const element = getWrapper({user: userAdmin});
                     const navLinks = element.find(NavLink);
-                    expect(navLinks).toHaveLength(5);
+                    expect(navLinks).toHaveLength(7);
                 });
 
                 test('when user is admin, one of the NavLinks is to moderation', () => {
@@ -146,18 +146,40 @@ describe('components/Header/index', () => {
                     expect(navLinks.at(1).prop('strict')).toBe(false);
                     expect(navLinks.at(2).prop('exact')).toBe(true);
                     expect(navLinks.at(3).prop('strict')).toBe(false);
+                    expect(navLinks.at(4).prop('strict')).toBe(false);
+                    expect(navLinks.at(5).prop('strict')).toBe(false);
                     element.setProps({location:{pathname:'/search'}});
                     navLinks = element.find(NavLink);
                     expect(navLinks.at(0).prop('strict')).toBe(false);
                     expect(navLinks.at(1).prop('strict')).toBe(true);
                     expect(navLinks.at(2).prop('strict')).toBe(false);
                     expect(navLinks.at(3).prop('strict')).toBe(false);
+                    expect(navLinks.at(4).prop('strict')).toBe(false);
+                    expect(navLinks.at(5).prop('strict')).toBe(false);
                     element.setProps({location:{pathname:'/help'}});
                     navLinks = element.find(NavLink);
                     expect(navLinks.at(0).prop('strict')).toBe(false);
                     expect(navLinks.at(1).prop('strict')).toBe(false);
                     expect(navLinks.at(2).prop('strict')).toBe(false);
                     expect(navLinks.at(3).prop('strict')).toBe(true);
+                    expect(navLinks.at(4).prop('strict')).toBe(false);
+                    expect(navLinks.at(5).prop('strict')).toBe(false);
+                    element.setProps({location:{pathname:'/terms'}});
+                    navLinks = element.find(NavLink);
+                    expect(navLinks.at(0).prop('strict')).toBe(false);
+                    expect(navLinks.at(1).prop('strict')).toBe(false);
+                    expect(navLinks.at(2).prop('strict')).toBe(false);
+                    expect(navLinks.at(3).prop('strict')).toBe(false);
+                    expect(navLinks.at(4).prop('strict')).toBe(true);
+                    expect(navLinks.at(5).prop('strict')).toBe(false);
+                    element.setProps({location:{pathname:'/instructions'}});
+                    navLinks = element.find(NavLink);
+                    expect(navLinks.at(0).prop('strict')).toBe(false);
+                    expect(navLinks.at(1).prop('strict')).toBe(false);
+                    expect(navLinks.at(2).prop('strict')).toBe(false);
+                    expect(navLinks.at(3).prop('strict')).toBe(false);
+                    expect(navLinks.at(4).prop('strict')).toBe(false);
+                    expect(navLinks.at(5).prop('strict')).toBe(true);
                 });
             });
         });

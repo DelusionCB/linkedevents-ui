@@ -19,6 +19,7 @@ const Editor = lazy(() => import('./views/Editor').then(({default: Page}) => ({d
 const Search = lazy(() => import('./views/Search').then(({default: Page}) => ({default: Page})));
 const Help = lazy(() => import('./views/Help').then(({default: Page}) => ({default: Page})));
 const Terms = lazy(() => import('./views/Terms/Terms').then(({default: Page}) => ({default: Page})));
+const Instructions = lazy(() => import ('./views/Instructions').then(({default: Page}) => ({default: Page})))
 const Event = lazy(() => import('./views/Event').then(({default: Page}) => ({default: Page})));
 const EventCreated = lazy(() => import('./views/EventCreated').then(({default: Page}) => ({default: Page})));
 const EventListingPage = lazy(() => import('./views/EventListing').then(({default: Page}) => ({default: Page})));
@@ -81,6 +82,7 @@ if (window.location.pathname === '/silent-renew') {
                                         <Route exact path="/search" component={props => <Search {...props} />}/>
                                         <Route exact path="/help" component={props => <Help {...props} />}/>
                                         <Route exact path="/terms" component={props => <Terms {...props} />}/>
+                                        <Route exact path="/instructions" component={props => <Instructions {...props}/>}/>
                                         <Route exact path="/moderation" component={props => <ModerationPage {...props} />}/>
                                         <Route exact path="/accessibility" component={props => <Accessibility {...props} />}/>
                                         <Route exact path="/callback" component={LoginCallback}/>

@@ -92,7 +92,7 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publicImages =
 
             try {
                 dispatch({type: constants.REQUEST_IMAGES_AND_META});
-                response = await makeFilteredImageRequest(user, pageSize, pageNumber, filterString);
+                response = await makeFilteredImageRequest(user.data, pageSize, pageNumber, filterString);
                 dispatch(receiveUserImagesAndMeta(response));
             } catch (error) {
                 dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response));
@@ -107,7 +107,7 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publicImages =
 
             try {
                 dispatch({type: constants.REQUEST_IMAGES_AND_META});
-                response = await makeImageRequest(user, pageSize, pageNumber);
+                response = await makeImageRequest(user.data, pageSize, pageNumber);
 
                 dispatch(receiveUserImagesAndMeta(response));
             } catch (error) {
@@ -117,8 +117,6 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publicImages =
             }
         };
     }
-
-
 }
 
 export function selectImage(image) {

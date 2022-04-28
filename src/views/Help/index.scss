@@ -1,5 +1,12 @@
 @use "src/assets/mixin" as m;
 .help-page {
+    margin-top: 5rem;
+    h1 {
+        margin-top: 2rem;
+    }
+    h2 {
+        font-weight: normal;
+    }
     #long {
         margin-bottom: 8rem;
     }

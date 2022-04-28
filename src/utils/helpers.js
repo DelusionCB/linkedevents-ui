@@ -44,6 +44,21 @@ export const sanitizeString = (string) => {
 }
 
 /**
+ * @param {string} language locale
+ * @param {string} type terms / help / instructions
+ * @returns {*} file with markdown texts
+ */
+export const getContent = (language, type = 'help') => {
+    if (language === 'fi') {
+        return require(`@city-assets/md/${type}-content.fi.md`);}
+    if (language === 'en') {
+        return require(`@city-assets/md/${type}-content.en.md`);}
+    if (language === 'sv') {
+        return require(`@city-assets/md/${type}-content.sv.md`);}
+    return require(`src/assets/default/assets/md/${type}-content.fi.md`);
+}
+
+/**
  * Check if text input is reaching the limit
  * @param  {object || string } value
  * @param  {int} limit

@@ -237,4 +237,24 @@ describe('utils/helpers', () => {
                 expect(correctLabel).toEqual(expected)
             })
     })
+
+    describe('getContent', () => {
+        const langsAndTypes = [
+            {language: 'fi', type: 'help'},
+            {language: 'en', type: 'help'},
+            {language: 'sv', type: 'help'},
+            {language: 'fi', type: 'terms'},
+            {language: 'en', type: 'terms'},
+            {language: 'sv', type: 'terms'},
+            {language: 'fi', type: 'tips'},
+            {language: 'en', type: 'tips'},
+            {language: 'sv', type: 'tips'},
+        ]
+        test.each(langsAndTypes) (
+            'returns correct md-file for obj %o',
+            ({language, type}) => {
+                const correctContent = helpers.getContent(language, type)
+                expect(correctContent).toBe(require(`@city-assets/md/${type}-content.${language}.md`))
+            })
+    })
 })

@@ -677,6 +677,7 @@
     "terms-agree-text": "I agree to the",
     "terms-agree-link": "terms of service",
     "terms-heading": "Terms of Service",
+    "terms-page": "Terms of use",
 
     "user-events-toggle": "Only display the contents created by me.",
     "navbar.brand": "Linked Events logo, link to front page",
@@ -749,10 +750,9 @@
 
     "event-is-virtualandhaslocation": "This event is both virtual and physical",
     "homepage-welcome": "Welcome to Linked Services",
-    "homepage-introduction-one": "Welcome to add your events, hobbies or training to the open Linked Events database. Linked Events is an open event database and interface that provides information as open data in a consistent machine-readable format for a variety of applications.",
-    "homepage-introduction-two": "<strong>Linked Events is not itself a visual calendar for events.</strong> <a href='https://kalenteri.turku.fi' target='_blank' rel='noopener noreferrer'>See the calendar of the City of Turku. (Opens in a new tab)</a>",
-    "homepage-introduction-three": "City of Turku's Linked Events is intended for all event, hobby and educational content in the region of Southwest Finland, not just for city's own events.",
-    "homepage-introduction-four": "Linked Events is based on open source (MIT-license).",
+    "homepage-introduction-one": "Welcome to add your events, hobbies or educations to the Linked Events of Southwest Finland!",
+    "homepage-introduction-two": "Enter data for use in multiple locations at once. Linked Events is an open data database. The information you enter in the database is available for various applications, such as in the municipal event calendars or on the hobbyists' own pages.",
+    "homepage-introduction-three": "Read more about Linked Events on the 'Learn More'-tab.",
     "homepage-for-publishers": "For the event organizer",
     "homepage-organization-button": "Add your organization",
     "homepage-example-events": "Examples of created contents",
@@ -803,5 +803,7 @@
     "en-language-remove": "Notice! All content for language 'english' will be cleared.",
 
     "mailto-subject": "Linked events error report",
-    "mailto-body": "Reporting an error that occurred in Linked events. Description of the error below:%0A-%0A-%0A-%0A-%0A%0AInstructions on reporting an error:%0A- What was being done before the error occurred%0A- What time did the error occur%0A- What functionality caused the error%0A- What browser and device was used"
+    "mailto-body": "Reporting an error that occurred in Linked events. Description of the error below:%0A-%0A-%0A-%0A-%0A%0AInstructions on reporting an error:%0A- What was being done before the error occurred%0A- What time did the error occur%0A- What functionality caused the error%0A- What browser and device was used",
+
+    "instructions-page": "Instructions"
 }

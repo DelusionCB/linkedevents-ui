@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet';
 import {getContent} from '../../utils/helpers';
 
-class Help extends React.Component {
+class Instructions extends React.Component {
     render() {
-        const content = getContent(this.props.locale, 'help');
+        const content = getContent(this.props.locale, 'tips');
         const {intl} = this.context;
         // Defined React Helmet title with intl
-        const pageTitle = `Linkedevents - ${intl.formatMessage({id: 'more-info'})}`
+        const pageTitle = `Linkedevents - ${intl.formatMessage({id: 'instructions-page'})}`
         return (
             <Fragment>
                 <Helmet title={pageTitle}/>
@@ -20,15 +20,15 @@ class Help extends React.Component {
     }
 }
 
-Help.propTypes = {
+Instructions.propTypes = {
     locale: PropTypes.string,
 }
-Help.contextTypes = {
+Instructions.contextTypes = {
     intl: PropTypes.object,
 }
 
 const mapStateToProps = (state) => ({
     locale: state.userLocale.locale,
 });
-export {Help as UnconnectedHelp}
-export default connect(mapStateToProps)(Help)
+export {Instructions as UnconnectedInstructions}
+export default connect(mapStateToProps)(Instructions)

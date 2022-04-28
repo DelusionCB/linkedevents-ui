@@ -1,11 +1,10 @@
 import '../HelSelect.scss'
 
-import React, {useRef, useEffect} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import AsyncSelect from 'react-select/async'
 import {setData as setDataAction} from '../../../actions/editor'
 import {connect} from 'react-redux'
-import {get, isNil} from 'lodash'
 import client from '../../../api/client'
 import {injectIntl} from 'react-intl'
 import {getStringWithLocale} from '../../../utils/locale';

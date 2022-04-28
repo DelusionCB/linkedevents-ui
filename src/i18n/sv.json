@@ -684,6 +684,7 @@
     "terms-agree-text": "Jag godkänner",
     "terms-agree-link": "användarvillkoren",
     "terms-heading": "Användarvillkoren för Linked Events",
+    "terms-page": "Användarvillkor",
 
     "user-events-toggle": "Visa bara innehållet som skapats själv.",
 
@@ -752,10 +753,9 @@
     "eventItem-description": "Kort beskrivning:",
 
     "homepage-welcome": "Välkommen till Linked-service",
-    "homepage-introduction-one": "Välkommen att lägga in era evenemang, hobbyn eller skolningar till den öppna Linked Events databasen. Linked Events är en öppen evenemangsdatabas samt gränssnitt som erbjuder evenemangs informationen som öppen data i maskinläsbar format för olika applikationer.",
-    "homepage-introduction-two": "<strong>Linked Events är inte en visuell kalender i sig själv.</strong> <a href='https://kalenteri.turku.fi/sv/events/calendar' target='_blank' rel='noopener noreferrer'>se Åbo stads kalender. (Öppnar i ett nytt fönster)</a>",
-    "homepage-introduction-three": "Åbo stads Linked Events är avsedd för alla evenemang, hobbyn och utbildningsinnehåll i Egentliga Finland, inte bara stadens egna.",
-    "homepage-introduction-four": "Linked Events är baserad på öppen källkod (under MIT-lisens).",
+    "homepage-introduction-one": "Välkommen att lägga in evenemang, hobbyn eller skolningar till Egentliga Finlands Linked Events!",
+    "homepage-introduction-two": "Mata in data som kan sedan användas på flera olika platser. Linked Events är en öppen evenemangsdatabas. Data som läggs till databasen är tillgängligt till olika slags applikationer, t.ex. kommuners evenemangskalender eller enskilda hobbys egna webbsidor.",
+    "homepage-introduction-three": "Mer information angående Linked Events finns på 'Mer information'-sida.",
     "homepage-for-publishers": "För arrangören",
     "homepage-organization-button": "Lägg till din organisation",
     "homepage-example-events": "Exempel på skapade innehåll",
@@ -805,5 +805,7 @@
     "en-language-remove": "OBS! All inmatad data för språket 'engelska' raderas.",
 
     "mailto-subject": "Linked events körfel rapport",
-    "mailto-body": "Det uppstod fel i linked events. Beskrivning av felet nedanför:%0A-%0A-%0A-%0A-%0A%0AAnvisning för rapportering av felet:%0A- Vad höll man på med innan felet%0A- Vilken tid uppstod felet%0A- Vilken funktionalitet orsakade felet%0A- Vilken webbläsare och maskin användes"
+    "mailto-body": "Det uppstod fel i linked events. Beskrivning av felet nedanför:%0A-%0A-%0A-%0A-%0A%0AAnvisning för rapportering av felet:%0A- Vad höll man på med innan felet%0A- Vilken tid uppstod felet%0A- Vilken funktionalitet orsakade felet%0A- Vilken webbläsare och maskin användes",
+
+    "instructions-page": "Bruksanvisning"
 }

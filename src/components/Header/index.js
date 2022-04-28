@@ -205,6 +205,26 @@ class HeaderBar extends React.Component {
                                     <FormattedMessage id='more-info' />
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    strict={this.isActivePath('/terms')}
+                                    className='nav-link'
+                                    to='/terms'
+                                    onClick={() => this.handleOnClick('/terms')}>
+                                    <span aria-hidden className='glyphicon glyphicon-question-sign' />
+                                    <FormattedMessage id='terms-page' />
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink
+                                    strict={this.isActivePath('/instructions')}
+                                    className='nav-link'
+                                    to='/instructions'
+                                    onClick={() => this.handleOnClick('/instructions')}>
+                                    <span aria-hidden className='glyphicon glyphicon-question-sign' />
+                                    <FormattedMessage id='instructions-page' />
+                                </NavLink>
+                            </NavItem>
                         </ul>
                     </Collapse>
                 </Navbar>

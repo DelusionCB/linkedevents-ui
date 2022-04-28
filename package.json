@@ -143,7 +143,7 @@
       "node_modules"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|svg|woff|woff2)$": "identity-obj-proxy",
+      "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|svg|woff|woff2|md)$": "identity-obj-proxy",
       "^src/(.*)": "<rootDir>/src/$1",
       "@city-i18n/(.*)": "<rootDir>/src/assets/default/i18n/$1",
       "@city-assets/(.*)": "<rootDir>/src/assets/default/assets/$1"

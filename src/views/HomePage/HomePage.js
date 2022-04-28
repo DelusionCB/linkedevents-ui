@@ -76,13 +76,13 @@ class HomePage extends React.Component {
 
         getIDref(locale) {
             if (locale === 'fi') {
-                return '#b-organisaatiotunnukset'
+                return '#organisaationa'
             }
             if (locale === 'en') {
-                return '#b-organization-ids'
+                return '#as-organization'
             }
             if (locale === 'sv') {
-                return '#b-organisationsidentifikation'
+                return '#organisation'
             }
         }
 
@@ -129,10 +129,9 @@ class HomePage extends React.Component {
                     </React.Fragment>
                             }
                             <div className='container-md'>
-                                <FormattedMessage id='homepage-introduction-one'>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedHTMLMessage id='homepage-introduction-two'/>
+                                <FormattedMessage id='homepage-introduction-one'>{txt => <h1>{txt}</h1>}</FormattedMessage>
+                                <FormattedMessage id='homepage-introduction-two'>{txt => <p>{txt}</p>}</FormattedMessage>
                                 <FormattedMessage id='homepage-introduction-three'>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id='homepage-introduction-four'>{txt => <p>{txt}</p>}</FormattedMessage>
                             </div>
                             <div className='homebuttons'>
                                 <FormattedMessage id='homepage-for-publishers'>{txt => <h2>{txt}</h2>}</FormattedMessage>
