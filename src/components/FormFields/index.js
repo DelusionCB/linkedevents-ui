@@ -265,6 +265,15 @@ class FormFields extends React.Component {
         return found;
     }
 
+    trimmedDescription() {
+        let descriptions = Object.assign({}, this.props.editor.values['description'])
+        for (const lang in descriptions) {
+            if (descriptions[lang] !== null) {
+                descriptions[lang] = descriptions[lang].replace(/<\/p><p>/gi, '\n\n').replace(/<br\s*[\/]?>/gi, '\n').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/&amp;/g, '&')
+            }
+        }
+        return descriptions
+    }
 
     render() {
         // Changed keywordSets to be compatible with Turku's backend.
@@ -367,7 +376,7 @@ class FormFields extends React.Component {
                             ref="description"
                             name="description"
                             validationErrors={validationErrors['description']}
-                            defaultValue={values['description']}
+                            defaultValue={this.trimmedDescription()}
                             languages={this.props.editor.contentLanguages}
                             validations={[VALIDATION_RULES.LONG_STRING]}
                             setDirtyState={this.props.setDirtyState}
