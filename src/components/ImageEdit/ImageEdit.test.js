@@ -276,6 +276,7 @@ describe('ImageEdit', () => {
                     const imageToPost = {
                         alt_text:{fi:'alt text'},
                         name:{fi:'image name'},
+                        id: 1337,
                         license: 'cc_by',
                         photographer_name: 'Phil Photo',
                     };

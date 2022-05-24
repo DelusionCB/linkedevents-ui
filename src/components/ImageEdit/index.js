@@ -255,6 +255,7 @@ class ImageEdit extends React.Component {
             alt_text: image['altText'],
             photographer_name: image['photographerName'],
             license: license,
+            id: id,
         };
         if (hideAltText) {
             const decorationAlts = contentLanguages.reduce((acc,curr)  => {
