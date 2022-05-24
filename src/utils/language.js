@@ -13,7 +13,7 @@ function* propertyNames(obj, parent) {
         if (val instanceof Object && !SKIP_FIELDS.has(name)) {
             yield* propertyNames(val);
         }
-        if (val && val != '') {
+        if (val && val !== '') {
             yield name;
         }
     }
@@ -29,7 +29,7 @@ export default function getContentLanguages(event) {
     const languages = new Set(orderedLanguages);
     let foundLanguages = new Set();
     for (let name of propertyNames(event)) {
-        if (foundLanguages.size == languages.size) {
+        if (foundLanguages.size === languages.size) {
             break;
         }
         if (languages.has(name)) {

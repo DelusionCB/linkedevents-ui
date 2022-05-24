@@ -123,9 +123,19 @@ function update(state = initialState, action) {
     }
 
     if (action.type === constants.EDITOR_CLEAR_VALUE) {
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 $unset: action.values,
+            },
+        });
+
+        let validationErrors = {}
+        if (_.keys(state.validationErrors).length > 0) {
+            validationErrors = doValidations(newValues, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC, state.keywordSets)
+        }
+        return updater(newValues, {
+            validationErrors: {
+                $set: validationErrors,
             },
         })
     }

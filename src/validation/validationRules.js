@@ -1,6 +1,6 @@
 
 import moment from 'moment'
-import {includes, every, isNull} from 'lodash';
+import {includes} from 'lodash';
 import constants from '../constants'
 import {getCurrentTypeSet, textLimitValidator} from '../utils/helpers'
 import {mapKeywordSetToForm} from '../utils/apiDataMapping'
@@ -22,17 +22,6 @@ let isEmpty = function isEmpty(value) {
         if (vals.length === 0) {return true}
     }
 }
-
-const _containsAllLanguages = (value, languages) => {
-    let requiredLanguages = new Set(languages)
-    _.forOwn(value, (item, key) => {
-        if (isNull(item) || item.length && item.length > 0) {
-            requiredLanguages.delete(key)
-        }
-    })
-    return requiredLanguages.size === 0
-}
-
 
 const _isUrl = function(values, value) {
     return validations.matchRegexp(values, value, /^(https?):\/\/(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i);
@@ -63,32 +52,12 @@ var validations = {
 
      */
     /* eslint-enable */
-    isUrl: function isUrl(values, value, key) {
-        if (typeof value === 'object') {
-            if (typeof key !== 'undefined') {
-                // Check all language urls
-                let finnishUrlValidationPassed = true
-                let englishUrlValidationPassed = true
-                let swedishUrlValidationPassed = true
-                if (value) {
-                    if (value.fi) {
-                        finnishUrlValidationPassed = _isUrl(values, value.fi)
-                    }
-                    if (value.en) {
-                        englishUrlValidationPassed = _isUrl(values, value.en)
-                    }
-                    if (value.sv) {
-                        swedishUrlValidationPassed = _isUrl(values, value.sv)
-                    }
-                }
-                return finnishUrlValidationPassed && englishUrlValidationPassed && swedishUrlValidationPassed
-            } else {
-                return _.every(value, (item) => {
-                    return _isUrl(values, item)
-                })
-            }
+    isUrl: function isUrl(values, value, language) {
+        if (language === undefined) {
+            return _isUrl(values, value)
+        } else {
+            return _isUrl(values, value[language])
         }
-        return _isUrl(values, value)
     },
     isTrue: function isTrue(values, value) {
         return value === true;
@@ -140,10 +109,10 @@ var validations = {
         // However, HelDateTimeField itself runs this too, and there we must *not* accept empty time.
         return validations.matchRegexp(values, value, /(24((:|\.)00)?)|^((2[0-3]|1[0-9]|0[0-9]|[0-9])((:|\.)[0-5][0-9])?)$/i);
     },
-    isDate(values, value) {
+    isDate: function isDate(values, value) {
         // Emtpy string needs to match, to allow empty *or* valid date.
         // Required (non-empty) fields are validated separately.
-        return !value | moment(value, moment.ISO_8601, true).isValid()
+        return !value || moment(value, moment.ISO_8601, true).isValid()
     },
     isLessThanMaxAge: function isLessThanMaxAge(values, value) {
         if (!values.audience_max_age || !value) {
@@ -224,15 +193,12 @@ var validations = {
         }
         return this.requiredString(values, value);
     },
-    requiredMulti(values, value) {
-        if(typeof value !== 'object' || !value) {
-            return false;
+    requiredMulti: function requiredMulti(values, value, language) {
+        if (!value || !value[language]) {
+            return false
+        } else {
+            return value[language].length > 0
         }
-        if (Object.keys(value).length === 0) {
-            return false;
-        }
-        const valueContent = Object.values(value);
-        return valueContent.every(x => !isNull(x)) && valueContent.every(x => typeof x === 'string' && x.trim().length > 0)
     },
     requiredAtId: function requiredAtId(values, value) {
         if(typeof value !== 'object' || !value) {
@@ -270,26 +236,26 @@ var validations = {
             .map(item => item.value)
             .some(item => value.find(_item => _item.value.includes(item)))
     },
-    shortString: function shortString(values, value) {
-        return textLimitValidator(value, constants.CHARACTER_LIMIT.SHORT_STRING)
-    },
-    mediumString: function mediumString(values, value) {
-        return textLimitValidator(value, constants.CHARACTER_LIMIT.MEDIUM_STRING)
-    },
-    longString: function longString(values, value) {
-        return textLimitValidator(value, constants.CHARACTER_LIMIT.LONG_STRING)
-    },
-    requiredInContentLanguages: function requiredInContentLanguages(values, value) {
-        if (typeof value !== 'object') {
-            return false
+    shortString: function shortString(values, value, language) {
+        if (language === undefined) {
+            return textLimitValidator(value, constants.CHARACTER_LIMIT.SHORT_STRING)
+        } else {
+            return textLimitValidator(value[language], constants.CHARACTER_LIMIT.SHORT_STRING)
         }
-        return _containsAllLanguages(value, values._contentLanguages)
     },
-    offerIsFreeOrHasPrice: function offerIsFreeOrHasPrice(values, value, key) {
-        if (typeof value !== 'object') {
-            return false
+    mediumString: function mediumString(values, value, language) {
+        if (language === undefined) {
+            return textLimitValidator(value, constants.CHARACTER_LIMIT.MEDIUM_STRING)
+        } else {
+            return textLimitValidator(value[language], constants.CHARACTER_LIMIT.MEDIUM_STRING)
         }
-        return _containsAllLanguages(value[key], values._contentLanguages)
+    },
+    longString: function longString(values, value, language) {
+        if (language === undefined) {
+            return textLimitValidator(value, constants.CHARACTER_LIMIT.LONG_STRING)
+        } else {
+            return textLimitValidator(value[language], constants.CHARACTER_LIMIT.LONG_STRING)
+        }
     },
     atLeastOneIsTrue: function atLeastOneIsTrue(values, value) {
         for (const key in value) {
@@ -362,34 +328,36 @@ var validations = {
             return true;
         }
     },
-    hasValidPrice: function hasValidPrice(values, value) {
+    hasValidPrice: function hasValidPrice(values, value, language) {
         if (values.price !== null) {
-            return Object.keys(value).every(
-                key => this.isAtLeastZero(values, value[key])
-            )
+            return this.isAtLeastZero(values, value[language])
         } else {
             return true
         }
     },
-    hasPrice: function hasPrice(values, value) {
+    hasPrice: function hasPrice(values, value, language) {
         if (values.is_free !== undefined && !values.is_free) {
-            return Object.keys(value).every(key => value[key] && !!value[key].length);
+            return value[language] && !!value[language].length;
         } else {
             return true
         }
     },
-    requiredVideoField(values, value, key) {
+    requiredVideoField(values, value, language, key) {
         // check whether all values are empty
         const allEmpty = Object.values(values).every(isEmpty)
 
-        if (allEmpty) {
+        if (!allEmpty) {
+            if (key === 'url' && language === undefined) {
+                return value.length !== 0
+            }
+            if (['name','alt_text'].includes(key) && value[language] !== null) {
+                return Object.keys(value).length > 0 && value[language].length > 0
+            } else {
+                return false
+            }
+        } else {
             return true
         }
-
-        // check whether given field value is empty
-        return !Object.keys(values)
-            .filter(valueKey => isEmpty(values[valueKey]))
-            .includes(key)
     },
 };
 

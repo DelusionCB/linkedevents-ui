@@ -322,7 +322,7 @@ describe('actions/editor', () => {
             const mockFormValues = createFormValues(mockLanguages);
             // Name value set to empty string, this causes a validation error.
             mockFormValues.name.fi = '';
-            const expectedValidationError = {name: ['requiredMulti']};
+            const expectedValidationError = {name: {fi: ['requiredMulti']}};
             const values = getPrepareFormValues({values: mockFormValues,dispatch: mockDispatch});
             expect(values).toBeUndefined();
             // First dispatch is actually setLoading(false) but it appears as an anonymous function.

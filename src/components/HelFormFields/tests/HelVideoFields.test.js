@@ -28,6 +28,7 @@ describe('HelVideoFields', () => {
         action: 'create',
         setData: jest.fn(),
         clearVideos: jest.fn(),
+        clearValue: jest.fn(),
         validationErrors: {},
         setDirtyState: jest.fn(),
         languages: mockEditor.contentLanguages,
@@ -101,13 +102,22 @@ describe('HelVideoFields', () => {
                 const multiLangVideo = _.cloneDeep(MOCK_VIDEO);
                 multiLangVideo.name.sv = 'This is the swedish name of the video';
                 multiLangVideo.alt_text.sv = 'This is the swedish alt text of the video';
-                let wrapper = getWrapper({defaultValues:[multiLangVideo]});
+                let wrapper = getWrapper({defaultValues:[multiLangVideo], languages: ['sv', 'fi']});
                 let instance = wrapper.instance();
                 const spy = jest.spyOn(instance.props,'setData');
 
                 wrapper.setProps({languages:['fi']});
                 expect(spy).toHaveBeenCalledWith({videos: [MOCK_VIDEO]});
                 wrapper.unmount();
+            });
+
+            test('clearValue is called if defaultValues are equal to EMPTY_VIDEO and component is updated', () => {
+                const wrapper = getWrapper({defaultValues:[EMPTY_VIDEO], action: 'update'});
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(instance.props,'clearValue');
+                wrapper.setProps({action: 'create'});
+                expect(spy).toHaveBeenCalledWith(['videos'])
+                expect(wrapper.state()).toEqual({videos:[EMPTY_VIDEO]});
             });
 
             test('if prevProps.action was update && this.props.action is create -> clear state by setting it to an empty video', () =>{

@@ -64,13 +64,13 @@ describe('utils/helpers', () => {
 
     describe('textLimitValidator', () => {
         const values = [
-            {value: {test: 'tests'}, limit: 5},
-            {value: 'tests', limit: 5},
+            {value: 'tests', limit: 5, expected: true},
+            {value: 'testtesttesttest', limit: 5., expected: false},
         ]
         test.each(values) (
-            'expect return true when value (object || string) is over limit %o',
-            ({value, limit}) => {
-                expect(helpers.textLimitValidator(value, limit)).toBe(true)
+            'expect return correctly when value string is over / under limit %o',
+            ({value, limit, expected}) => {
+                expect(helpers.textLimitValidator(value, limit)).toBe(expected)
             }
         )
     })

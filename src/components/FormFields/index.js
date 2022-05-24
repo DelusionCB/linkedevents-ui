@@ -928,7 +928,7 @@ class FormFields extends React.Component {
                             targetCollapseNameId={`${currentEventType}-social-header`}
                             toggleHeader={this.toggleHeader}
                             validationErrorList={[validationErrors['info_url'], validationErrors['extlink_facebook'],
-                                validationErrors['extlink_twitter'], validationErrors['extlink_instagram']]}
+                                validationErrors['extlink_twitter'], validationErrors['extlink_instagram'], validationErrors['videos']]}
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerSocials}>

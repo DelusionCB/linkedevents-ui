@@ -235,7 +235,7 @@ class HelTextField extends Component {
                         {label}{required ? <span aria-hidden="true">*</span> : null}
                     </label>
                     <InputGroup>
-                        <InputGroupAddon className={classNames('inputIcons', {'error': validationErrors})} addonType="prepend">
+                        <InputGroupAddon className={classNames('inputIcons', {'error': validationErrors && validationErrors.length !== 0})} addonType="prepend">
                             {this.getCorrectIcons(nameRef, type)}
                         </InputGroupAddon>
                         <Input
@@ -251,7 +251,7 @@ class HelTextField extends Component {
                             disabled={disabled}
                             min={min}
                             max={max}
-                            invalid={Array.isArray(validationErrors)}
+                            invalid={Array.isArray(validationErrors) && validationErrors.length !== 0}
                         />
                         {validationErrors &&
                         <div className='validation-notification' />

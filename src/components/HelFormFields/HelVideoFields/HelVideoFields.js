@@ -2,11 +2,11 @@ import './HelVideoFields.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {setData as setDataAction} from 'src/actions/editor';
+import {setData as setDataAction, clearValue as clearValueAction} from 'src/actions/editor';
 import {HelTextField, MultiLanguageField} from '../index';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
-import {isEmpty, get} from 'lodash';
+import {isEmpty, get, isEqual} from 'lodash';
 import update from 'immutability-helper';
 
 import constants from 'src/constants';
@@ -67,7 +67,7 @@ class HelVideoFields extends React.Component {
      * }
      */
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.languages !== this.props.languages) {
+        if (prevProps.languages !== this.props.languages && prevProps.languages.length > this.props.languages.length && this.props.defaultValues) {
             const usedLanguages = this.props.languages;
             let videos = this.state.videos;
 
@@ -89,6 +89,11 @@ class HelVideoFields extends React.Component {
         if (prevProps.action === 'update' && this.props.action === 'create') {
             this.setState({videos: [Object.assign({}, EMPTY_VIDEO)]})
         }
+        if (this.props.defaultValues && this.props.defaultValues.length === 1) {
+            if (isEqual(EMPTY_VIDEO, this.props.defaultValues[0])) {
+                this.props.clearValue(['videos']);
+            }
+        }
     }
 
     /**
@@ -98,7 +103,16 @@ class HelVideoFields extends React.Component {
      * @param video
      */
     handleBlur(event, value, video) {
-        this.props.setData({videos: video});
+        let updatedValues = video;
+        if (video.length > 1) {
+            updatedValues = video.reduce((acc, curr) => {
+                if (!isEqual(curr, EMPTY_VIDEO)) {
+                    acc.push(curr);
+                }
+                return acc;
+            }, [])
+        }
+        this.props.setData({videos: updatedValues});
     }
 
     /**
@@ -113,16 +127,12 @@ class HelVideoFields extends React.Component {
      *  then name: { }
      */
     handleChange(event, value, name, index) {
-        const usedLanguages = this.props.languages;
         this.setState(state => {
             let videos = [...state.videos];
 
             if (name !== 'url' && typeof value === 'object') {
                 let hasData;
-                Object.entries(value).forEach((entry, index) => {
-                    if (usedLanguages.length > 1) {hasData = entry.some(x => x.length > 0)}
-                    else {hasData = entry.every(x => x.length > 0)}
-                })
+                hasData = Object.values(value).some((langValue) => langValue.length > 0);
                 if (!hasData) {value = {}}
             }
 
@@ -241,6 +251,7 @@ class HelVideoFields extends React.Component {
                                         placeholder='https://...'
                                         type='url'
                                         disabled={this.props.disabled}
+                                        forceApplyToStore
                                     />
                                     <MultiLanguageField
                                         id='event-video-name'
@@ -298,6 +309,7 @@ HelVideoFields.contextTypes = {
 HelVideoFields.propTypes = {
     action: PropTypes.string,
     setData: PropTypes.func,
+    clearValue: PropTypes.func,
     defaultValues: PropTypes.array,
     disabled: PropTypes.bool,
     validationErrors: PropTypes.object,
@@ -315,6 +327,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setData: (value) => dispatch(setDataAction(value)),
+    clearValue: (value) => dispatch(clearValueAction(value)),
 });
 
 export {HelVideoFields as UnconnectedHelVideoFields}

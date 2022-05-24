@@ -136,8 +136,8 @@ class MultiLanguageField extends React.Component {
                         onChange={(e,v) => this.onChange(e,v,langs[0])}
                         onBlur={(e,v) => this.onBlur(e,v)}
                         disabled={this.props.disabled}
-                        validations={this.props.validations}
-                        validationErrors={this.props.validationErrors}
+                        validations={this.props.validations} 
+                        validationErrors={this.props.validationErrors ? this.props.validationErrors[langs] : undefined}
                         index={this.props.index}
                         multiLine={this.props.multiLine}
                         type={this.props.type}
@@ -167,7 +167,7 @@ class MultiLanguageField extends React.Component {
                             onBlur={(e,v) => this.onBlur(e,v)}
                             disabled={this.props.disabled}
                             validations={this.props.validations}
-                            validationErrors={this.props.validationErrors}
+                            validationErrors={this.props.validationErrors ? this.props.validationErrors[lang] : undefined}
                             type={this.props.type}
                             setInitialFocus={this.props.setInitialFocus && (index === 0)}
                             placeholder={this.props.placeholder}

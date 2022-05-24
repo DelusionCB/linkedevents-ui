@@ -60,14 +60,12 @@ export const getContent = (language, type = 'help') => {
 
 /**
  * Check if text input is reaching the limit
- * @param  {object || string } value
+ * @param  {string} value
  * @param  {int} limit
  * @return {boolean} validation status
  */
 export const textLimitValidator = (value, limit) => {
-    if (typeof value === 'object') {
-        return !some(value, item => !isNull(item) && item.length > limit)
-    } else if (typeof value === 'string') {
+    if (typeof value === 'string') {
         return value.length <= limit
     }
     return true

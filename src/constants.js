@@ -144,7 +144,7 @@ const constants = {
         SHORT_STRING: 'shortString',
         HAS_PRICE: 'hasPrice',
         HAS_VALID_PRICE: 'hasValidPrice',
-        REQUIRE_MULTI: 'requiredMulti',
+        REQUIRED_MULTI: 'requiredMulti',
         IS_MORE_THAN_MIN_AGE: 'isMoreThanMinAge',
         IS_LESS_THAN_MAX_AGE: 'isLessThanMaxAge',
         IS_LESS_THAN_MAX_CAPACITY: 'isLessThanMaximumCapacity',
