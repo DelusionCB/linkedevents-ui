@@ -1,3 +1,4 @@
+@use "src/assets/mixin" as m;
 @import '../../assets/colors';
 
 $checkbox-column-width: 50px;
@@ -70,6 +71,11 @@ $checkbox-column-width: 50px;
             tr {
                 display: flex;
             }
+        }
+        .sort-cell {
+            background-color: transparent;
+            border: none;
+        @include m.add-outline('&:hover, &:focus')
         }
     }
 

@@ -24,14 +24,14 @@ describe('HeaderCell', () => {
     }
 
     describe('components', () => {
-        describe('div', () => {
+        describe('button', () => {
             test('correct props', () => {
                 const wrapper = getWrapper({name: 'publisher'})
                 const instance = wrapper.instance()
-                const divElement = wrapper.find('div')
-                expect(divElement).toHaveLength(1)
-                expect(divElement.prop('aria-sort')).toBe(defaultProps.sortDirection)
-                expect(divElement.prop('onClick')).toBe(instance.handleSort)
+                const buttonElement = wrapper.find('button')
+                expect(buttonElement).toHaveLength(1)
+                expect(buttonElement.prop('aria-sort')).toBe(defaultProps.sortDirection)
+                expect(buttonElement.prop('onClick')).toBe(instance.handleSort)
             })
         })
         describe('other element', () => {
@@ -39,7 +39,7 @@ describe('HeaderCell', () => {
 
             test('renders', () => {
                 const element = getWrapper({children: childElement, name: 'publisher'});
-                expect(element.find('div').prop('onClick')).toBeDefined();
+                expect(element.find('button').prop('onClick')).toBeDefined();
                 expect(element.find('p')).toHaveLength(1);
                 expect(element.find('p').text()).toBe('Julkaisija');
             });

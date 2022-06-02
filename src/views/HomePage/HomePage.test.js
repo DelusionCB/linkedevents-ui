@@ -45,16 +45,16 @@ describe('Homepage', () => {
                 const wrapper = getWrapper()
                 const instance = wrapper.instance()
                 const fetchDataSpy = jest.spyOn(instance, 'fetchTableData')
-    
+
                 afterEach(() => { fetchDataSpy.mockClear() })
                 afterAll(() => { fetchDataSpy.mockRestore() })
-    
+
                 test('fetchTableData is called when locale prop changes', () => {
                     wrapper.setProps({locale: 'fi'})
                     wrapper.setProps({locale: 'en'})
                     expect(fetchDataSpy).toHaveBeenCalledTimes(1)
                 })
-    
+
                 test('fetchTableData is not called when locale prop does not change', () => {
                     const locale = {locale: 'sv'}
                     wrapper.setProps(locale)
@@ -63,14 +63,19 @@ describe('Homepage', () => {
                     wrapper.setProps(locale)
                     expect(fetchDataSpy).toHaveBeenCalledTimes(0)
                 })
-                test('getIDref returns correct string', () => {
-                    const wrapper = getWrapper()
-                    const instance = wrapper.instance()
-                    const button = wrapper.find(Button).at(1)
-                    const expectedHref =  instance.getIDref(defaultProps.locale)
-                    expect(expectedHref).toEqual(button.prop('href'))
-                })
             })
+            describe('getIDref', () => {
+                test.each([
+                    {locale: 'fi', expectedValue: '#organisaationa'},
+                    {locale: 'sv', expectedValue: '#organisation'},
+                    {locale: 'en', expectedValue: '#as-organization'},
+                ])('returns correct value for case: %o',({locale, expectedValue}) => {
+                    const wrapper = getWrapper();
+                    const instance = wrapper.instance();
+                    const value = instance.getIDref(locale);
+                    expect(value).toBe(expectedValue);
+                });
+            });
         })
 
         describe('elements', () => {

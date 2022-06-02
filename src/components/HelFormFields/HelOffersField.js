@@ -57,7 +57,7 @@ class HelOffersField extends React.Component {
         let firstKey;
         if (offers) {
             keys = Object.keys(offers);
-            firstKey = keys.length > 1 ? keys[keys.length - 1] : keys[0];
+            firstKey = keys.length > 1 ? keys[keys.length - 1] : false;
         }
         for (const key in offers) {
             if (offers.hasOwnProperty(key) && !this.state.isFree) {

@@ -1,8 +1,6 @@
 import React from 'react'
 import {
-    injectIntl,
     FormattedMessage,
-    FormattedHTMLMessage,
     intlShape,
 } from 'react-intl'
 import PropTypes from 'prop-types';
@@ -16,7 +14,7 @@ import {get} from 'lodash'
 import constants from '../../constants'
 import {Button} from 'reactstrap'
 import {Helmet} from 'react-helmet';
-const {USER_TYPE, PUBLICATION_STATUS} = constants
+const {PUBLICATION_STATUS} = constants
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -69,105 +67,104 @@ class HomePage extends React.Component {
             <EventGrid events={homeEvents} locale={this.props.locale} homePage={true} />
         )}
 
-        handleRouterClick = (url) => {
-            const {routerPush} = this.props;
-            routerPush(url);
+    handleRouterClick = (url) => {
+        const {routerPush} = this.props;
+        routerPush(url);
+    }
+
+    getIDref(locale) {
+        if (locale === 'fi') {
+            return '#organisaationa'
+        }
+        if (locale === 'en') {
+            return '#as-organization'
+        }
+        if (locale === 'sv') {
+            return '#organisation'
+        }
+    }
+
+    render() {
+        const {user, locale} = this.props;
+        const {intl} = this.context;
+        const userType = get(user, 'userType')
+        const pageTitle = `Linkedevents - ${intl.formatMessage({id: `${appSettings.ui_mode}-homepage`})}`
+
+        let organization_missing_msg = null;
+        if (user && !user.organization) {
+            organization_missing_msg =
+                <div className='organization-missing-msg'>
+                    <h1>
+                        <FormattedMessage id='organization-missing-heading'/>
+                        {user.displayName}!
+                    </h1>
+                    <p>
+                        <FormattedMessage id='organization-missing-message'/>
+                        <FormattedMessage id='organization-missing-message-contact'/>
+                        <a href="mailto:matias.peltonen@turku.fi">
+                            <FormattedMessage id='organization-missing-message-contact1'/>
+                        </a>
+                        <FormattedMessage id='organization-missing-message-contact2'/>
+                    </p>
+                    <FormattedMessage id='organization-missing-message1'/>
+                </div>
         }
 
-        getIDref(locale) {
-            if (locale === 'fi') {
-                return '#organisaationa'
-            }
-            if (locale === 'en') {
-                return '#as-organization'
-            }
-            if (locale === 'sv') {
-                return '#organisation'
-            }
-        }
-
-        render() {
-            const {user, locale} = this.props;
-            const {intl} = this.context;
-            const userType = get(user, 'userType')
-            const pageTitle = `Linkedevents - ${intl.formatMessage({id: `${appSettings.ui_mode}-homepage`})}`
-
-            let organization_missing_msg = null;
-            if (user && !user.organization) {
-                organization_missing_msg =
-                    <div className='organization-missing-msg'>
-                        <h1>
-                            <FormattedMessage id='organization-missing-heading'/>
-                            {user.displayName}!
-                        </h1>
-                        <p>
-                            <FormattedMessage id='organization-missing-message'/>
-                            <FormattedMessage id='organization-missing-message-contact'/>
-                            <a href="mailto:matias.peltonen@turku.fi">
-                                <FormattedMessage id='organization-missing-message-contact1'/>
-                            </a>
-                            <FormattedMessage id='organization-missing-message-contact2'/>
-                        </p>
-                        <FormattedMessage id='organization-missing-message1'/>
-                    </div>
-            }
-
-            return (
-                <div className='homepage'>
-                    <div className='container header'/>
-                    <div className='container'>
-                        <Helmet title={pageTitle}/>
-                        <div className='content'>
-                            <div className= 'row-homeheader'>
-                                <div>
-                                    <FormattedMessage id='homepage-welcome'>{txt => <h1>{txt}{user ? ', ' + user.firstName : null }</h1>}</FormattedMessage>
-                                </div>
+        return (
+            <div className='homepage'>
+                <div className='container header'/>
+                <div className='container'>
+                    <Helmet title={pageTitle}/>
+                    <div className='content'>
+                        <div className= 'row-homeheader'>
+                            <div>
+                                <FormattedMessage id='homepage-welcome'>{txt => <h1>{txt}{user ? ', ' + user.firstName : null }</h1>}</FormattedMessage>
                             </div>
-                            {this.props.location.pathname == '/' &&
-                    <React.Fragment>
-                        {organization_missing_msg}
-                    </React.Fragment>
-                            }
-                            <div className='container-md'>
-                                <FormattedMessage id='homepage-introduction-one'>{txt => <h1>{txt}</h1>}</FormattedMessage>
-                                <FormattedMessage id='homepage-introduction-two'>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id='homepage-introduction-three'>{txt => <p>{txt}</p>}</FormattedMessage>
-                            </div>
-                            <div className='homebuttons'>
-                                <FormattedMessage id='homepage-for-publishers'>{txt => <h2>{txt}</h2>}</FormattedMessage>
-                                <Button
-                                    className='btn'
-                                    onClick={() => this.handleRouterClick('/event/create/new')}
-                                >
-                                    <span aria-hidden className='glyphicon glyphicon-plus' />
-                                    <FormattedMessage id={`create-${appSettings.ui_mode}`} />
-                                </Button>
-                                <Button
-                                    className='btn'
-                                    href={this.getIDref(locale)}
-                                    onClick={() => this.handleRouterClick('/help/')}
-                                >
-                                    <span aria-hidden className='glyphicon glyphicon-user' />
-                                    <FormattedMessage id='homepage-organization-button'/>
-                                </Button>
-                                <Button
-                                    className='btn'
-                                    onClick={() => this.handleRouterClick('/help')}
-                                >
-                                    <span aria-hidden className='glyphicon glyphicon-question-sign' />
-                                    <FormattedMessage id='more-info' />
-                                </Button>
-                            </div>
-                            <div className='events'>
-                                <FormattedMessage id='homepage-example-events'>{txt => <h2>{txt}</h2>}</FormattedMessage>
-                                {this.getEvents()}
-                            </div>
+                        </div>
+                        {this.props.location.pathname === '/' &&
+                <React.Fragment>
+                    {organization_missing_msg}
+                </React.Fragment>
+                        }
+                        <div className='container-md'>
+                            <FormattedMessage id='homepage-introduction-one'>{txt => <h1>{txt}</h1>}</FormattedMessage>
+                            <FormattedMessage id='homepage-introduction-two'>{txt => <p>{txt}</p>}</FormattedMessage>
+                            <FormattedMessage id='homepage-introduction-three'>{txt => <p>{txt}</p>}</FormattedMessage>
+                        </div>
+                        <div className='homebuttons'>
+                            <FormattedMessage id='homepage-for-publishers'>{txt => <h2>{txt}</h2>}</FormattedMessage>
+                            <Button
+                                className='btn'
+                                onClick={() => this.handleRouterClick('/event/create/new')}
+                            >
+                                <span aria-hidden className='glyphicon glyphicon-plus' />
+                                <FormattedMessage id={`create-${appSettings.ui_mode}`} />
+                            </Button>
+                            <Button
+                                className='btn'
+                                onClick={() => this.handleRouterClick(`/help${this.getIDref(locale)}`)}
+                            >
+                                <span aria-hidden className='glyphicon glyphicon-user' />
+                                <FormattedMessage id='homepage-organization-button'/>
+                            </Button>
+                            <Button
+                                className='btn'
+                                onClick={() => this.handleRouterClick('/help')}
+                            >
+                                <span aria-hidden className='glyphicon glyphicon-question-sign' />
+                                <FormattedMessage id='more-info' />
+                            </Button>
+                        </div>
+                        <div className='events'>
+                            <FormattedMessage id='homepage-example-events'>{txt => <h2>{txt}</h2>}</FormattedMessage>
+                            {this.getEvents()}
                         </div>
                     </div>
                 </div>
+            </div>
 
-            );
-        }
+        );
+    }
 }
 HomePage.propTypes = {
     events: PropTypes.array,

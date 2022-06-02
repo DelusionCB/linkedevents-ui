@@ -196,7 +196,7 @@ describe('ImageEdit', () => {
                 test('calls postImage with correct props when !updateExisting', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
 
-                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage});
+                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage, imagePermission: true});
                     wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
@@ -223,7 +223,7 @@ describe('ImageEdit', () => {
 
                 test('expect states to be default after postImage', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
-                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage});
+                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage, imagePermission: true});
                     wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
@@ -272,6 +272,7 @@ describe('ImageEdit', () => {
                             thumbnailUrl: defaultProps.thumbnailUrl,
                             license: 'cc_by',
                         });
+                    wrapper.setState({imagePermission: true})
                     await wrapper.instance().handleImagePost();
                     const imageToPost = {
                         alt_text:{fi:'alt text'},
@@ -286,7 +287,7 @@ describe('ImageEdit', () => {
                 });
                 test('calls postImage with correct alt_text when hideAltText-state is true', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
-                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage});
+                    wrapper.setState({imageFile: imageFile, thumbnailUrl: defaultImage, imagePermission: true});
                     const checked = (bool) => ({target: {checked: bool}});
                     wrapper.instance().handleChange({target:{id:'alt-text'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});

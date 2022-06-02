@@ -1,8 +1,18 @@
 .keyword-selector {
+    legend {
+        padding-top: 5px;
+        font-size: 1.5em !important;
+        font-weight: bold;
+    }
     .side-field, .hel-select {
         padding-left: 0;
     }
     .side-field {
         margin-bottom: 15px;
+    }
+    .keyword-search {
+        &__placeholder, &__menu-notice {
+            color: var(--black-color) !important;
+        }
     }
 }

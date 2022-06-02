@@ -95,6 +95,9 @@
 				}
 			}
 		}
+        .btn-submit.disabled {
+                pointer-events: none;
+            }
 	}
 
 	.image-license-container {

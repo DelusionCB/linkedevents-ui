@@ -59,7 +59,10 @@ const EventTable = ({
     const tableId = tableName ? tableName + '-id' : 'events-table-id'
     return (
         <Table className="event-table" responsive='md' id={tableId}>
-            <FormattedMessage id={tableCaption}>{txt => <caption className='visually-hidden'>{txt}</caption>}</FormattedMessage>
+            <caption className='visually-hidden'>
+                <FormattedMessage id={tableCaption}>{txt => <p>{txt}</p>}</FormattedMessage>
+                <FormattedMessage id='table-sortable-headers'>{txt => <p>{txt}</p>}</FormattedMessage>
+            </caption>
             {tableName === 'draft' &&
                     <thead className='selection-head'>
                         <tr className='selection-row'>

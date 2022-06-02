@@ -145,7 +145,7 @@ $actionBtnHeight: 60px;
     }
     .row-header {
         border-color: var(--hobby-color);
-        h2 {
+        p {
             color: var(--hobby-color);
         }
     }
@@ -177,7 +177,8 @@ $actionBtnHeight: 60px;
         border-color: var(--hobby-color);
     }
     .language-selection .custom-control.custom-checkbox .custom-control-input:checked ~ .custom-control-label.disabled::before {
-        background-color: var(--hobbylight-color);
+        background-color: var(--hobby-color);
+        opacity: 0.7;
     }
     .keyword-search__control--menu-is-open,
     .location-search__control--menu-is-open{
@@ -237,7 +238,7 @@ $actionBtnHeight: 60px;
     }
     .row-header {
         border-color: var(--course-color);
-        h2 {
+        p {
             color: var(--course-color);
         }
     }
@@ -269,7 +270,8 @@ $actionBtnHeight: 60px;
         border-color: var(--course-color);
     }
     .language-selection .custom-control.custom-checkbox .custom-control-input:checked ~ .custom-control-label.disabled::before {
-        background-color: var(--courselight-color);
+        background-color: var(--course-color);
+        opacity: 0.7;
     }
     .keyword-search__control--menu-is-open,
     .location-search__control--menu-is-open{

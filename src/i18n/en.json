@@ -462,6 +462,7 @@
     "image-creation-error": "Error while creating image.",
     "image-deletion-success": "Image deleted!",
     "image-deletion-error": "Error while deleting image.",
+    "image-selection-success": "Image chosen succesfully!",
     "image-update-success": "Image information updated!",
     "image-update-error": "Error while updating image.",
     "confirm-image-delete": "Confirm image deletion",
@@ -660,6 +661,7 @@
     "image-page": "Page {n}",
     "image-pagination": "Paging of the images",
     "image-modal-image-license-permission": "I have permission to use this image.",
+    "image-submit-disabled": "Fill all required fields",
 
     "event-image-modal-image-license-explanation-only": "Image may be used only for this event: image use is limited to this event.",
     "hobby-image-modal-image-license-explanation-only": "Image may be used only for this hobby = Image use is limited to this hobby.",
@@ -713,6 +715,7 @@
 	"table-pagination-shortcut-link": "Back to top of the table",
 	"table-pagination-next-page": "Next page",
     "table-pagination-previous-page": "Previous page",
+    "table-sortable-headers": "Headers with buttons are sortable",
 
     "close-report-modal": "Close the reporting dialog",
 

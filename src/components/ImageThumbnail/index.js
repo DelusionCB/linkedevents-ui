@@ -10,7 +10,7 @@ import ImageEdit from '../ImageEdit'
 import {getEventLanguageType, getStringWithLocale} from 'src/utils/locale';
 import {Button} from 'reactstrap'
 import {isEmpty} from 'lodash';
-import {confirmAction} from '../../actions/app';
+import {confirmAction, setFlashMsg as setFlashMsgAction} from '../../actions/app';
 
 class ImageThumbnail extends React.PureComponent {
 
@@ -20,13 +20,14 @@ class ImageThumbnail extends React.PureComponent {
             edit: false,
         }
 
-        this.selectThis = this.selectThis.bind(this)
+        this.selectThis = this.selectThis.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
     }
 
     selectThis() {
         if (!this.props.selected) {
             this.props.selectImage(this.props.data);
+            this.props.setFlashMsg('image-selection-success', 'success')
             if (this.props.close) {
                 this.props.close();
             }
@@ -34,7 +35,6 @@ class ImageThumbnail extends React.PureComponent {
         } else {
             this.props.selectImage({});
         }
-
     }
 
     handleDelete(event) {
@@ -127,6 +127,7 @@ ImageThumbnail.propTypes = {
     user: PropTypes.object,
     close: PropTypes.func,
     editor: PropTypes.object,
+    setFlashMsg: PropTypes.func,
 }
 
 ImageThumbnail.contextTypes = {
@@ -135,6 +136,7 @@ ImageThumbnail.contextTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     selectImage: (data) => dispatch(selectImageAction(data)),
+    setFlashMsg: (id, status) => dispatch(setFlashMsgAction(id, status)),
     deleteImage: (selectedImage, user) => dispatch(deleteImage(selectedImage, user)),
     confirmAction: (msg,style, actionButtonLabel, data) => dispatch(confirmAction(msg,style,actionButtonLabel,data)),
 })

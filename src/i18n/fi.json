@@ -450,6 +450,7 @@
     "image-creation-success": "Kuva luotiin onnistuneesti!",
     "image-creation-error": "Virhe kuvaa luodessa.",
     "image-deletion-success": "Kuva poistettiin onnistuneesti!",
+    "image-selection-success": "Kuva valittu onnistuneesti!",
     "image-deletion-error": "Virhe kuvaa poistettaessa.",
     "image-update-success": "Kuvan tiedot päivitettiin onnistuneesti!",
     "image-update-error": "Virhe kuvaa päivittäessä.",
@@ -608,6 +609,7 @@
     "table-events-checkbox-invalid": "Korjaa sisällön {name} validaatiovirheet ennen kuin voit valita",
     "table-events-checkbox-error": "Korjaa sisällön {name} validaatiovirheet ennen kuin voit valita",
     "table-events-checkbox-all": "Valitse kaikki sisältö jossa ei ole validaatiovirheitä poistaaksesi tai julkaistaksesi",
+    "table-sortable-headers": "Painikkeen sisältävät sarakkeet ovat järjestettäviä",
 
     "draft-cancel": "Tapahtumaluonnoksia ei voi perua.",
     "draft-invalid-postpone": "Luonnoksia ei voi lykätä.",
@@ -662,6 +664,7 @@
     "image-page": "Sivu {n}",
     "image-pagination": "Kuvien sivutus",
     "image-modal-image-license-permission": "Minulla on oikeus lähettää kuva.",
+    "image-submit-disabled": "Syötä kaikki vaaditut kentät",
 
     "event-image-modal-image-license-explanation-only": "Käyttö rajattu tapahtuman yhteyteen: kuvaa saa käyttää ja jakaa vain tämän tapahtumatiedon yhteydessä.",
     "hobby-image-modal-image-license-explanation-only": "Käyttö rajattu harrastuksen yhteyteen: kuvaa saa käyttää ja jakaa vain tämän harrastustiedon yhteydessä.",

@@ -395,76 +395,76 @@ export class EventListing extends React.Component {
                                     </div>
                                 </div>
                             }
-                            <div className='row'>
-                                <FormattedMessage id='filter-event-type'/>
-                            </div>
-                            <div className='row'>
-                                <div className='col-sm-12'>
-                                    <HelCheckbox
-                                        label={<FormattedMessage id='event'/>}
-                                        fieldID={EVENT_TYPE_PARAM.EVENT}
-                                        defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.EVENT)}
-                                        onChange={this.toggleEventTypes}
-                                        disabled={this.disableEventTypes(EVENT_TYPE_PARAM.EVENT)}
-                                    />
-                                    <HelCheckbox
-                                        label={<FormattedMessage id='hobby'/>}
-                                        fieldID={EVENT_TYPE_PARAM.HOBBY}
-                                        defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.HOBBY)}
-                                        onChange={this.toggleEventTypes}
-                                        disabled={this.disableEventTypes(EVENT_TYPE_PARAM.HOBBY)}
-                                    />
-                                    <HelCheckbox
-                                        label={<FormattedMessage id='courses'/>}
-                                        fieldID={EVENT_TYPE_PARAM.COURSE}
-                                        defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.COURSE)}
-                                        onChange={this.toggleEventTypes}
-                                        disabled={this.disableEventTypes(EVENT_TYPE_PARAM.COURSE)}
-                                    /> 
-                                </div>
+                            <fieldset>
+                                <FormattedMessage id='filter-event-type'>{txt => <legend>{txt}</legend>}</FormattedMessage>
                                 <div className='row'>
-                                    <FormattedMessage id='filter-event-languages'/>
+                                    <div className='col-sm-12'>
+                                        <HelCheckbox
+                                            label={<FormattedMessage id='event'/>}
+                                            fieldID={EVENT_TYPE_PARAM.EVENT}
+                                            defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.EVENT)}
+                                            onChange={this.toggleEventTypes}
+                                            disabled={this.disableEventTypes(EVENT_TYPE_PARAM.EVENT)}
+                                        />
+                                        <HelCheckbox
+                                            label={<FormattedMessage id='hobby'/>}
+                                            fieldID={EVENT_TYPE_PARAM.HOBBY}
+                                            defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.HOBBY)}
+                                            onChange={this.toggleEventTypes}
+                                            disabled={this.disableEventTypes(EVENT_TYPE_PARAM.HOBBY)}
+                                        />
+                                        <HelCheckbox
+                                            label={<FormattedMessage id='courses'/>}
+                                            fieldID={EVENT_TYPE_PARAM.COURSE}
+                                            defaultChecked={this.checkEventTypes(EVENT_TYPE_PARAM.COURSE)}
+                                            onChange={this.toggleEventTypes}
+                                            disabled={this.disableEventTypes(EVENT_TYPE_PARAM.COURSE)}
+                                        /> 
+                                    </div>
                                 </div>
-                                <div className='col-sm-12'>
-                                    <SelectorRadio
-                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-all`})}
-                                        value='all'
-                                        checked={showContentLanguage === ''}
-                                        handleCheck={this.toggleEventLanguages}
-                                        messageID='filter-event-all'
-                                        name='radiogroup'
-                                    >
-                                    </SelectorRadio>
-                                    <SelectorRadio
-                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-fi`})}
-                                        value='fi'
-                                        checked={showContentLanguage === 'fi'}
-                                        handleCheck={this.toggleEventLanguages}
-                                        messageID='filter-event-fi-mobile'
-                                        name='radiogroup'
-                                    >
-                                    </SelectorRadio>
+                                <fieldset>
+                                    <FormattedMessage id='filter-event-languages'>{txt => <legend>{txt}</legend>}</FormattedMessage>
+                                    <div className='col-sm-12'>
+                                        <SelectorRadio
+                                            ariaLabel={this.context.intl.formatMessage({id: `filter-event-all`})}
+                                            value='all'
+                                            checked={showContentLanguage === ''}
+                                            handleCheck={this.toggleEventLanguages}
+                                            messageID='filter-event-all'
+                                            name='radiogroup'
+                                        >
+                                        </SelectorRadio>
+                                        <SelectorRadio
+                                            ariaLabel={this.context.intl.formatMessage({id: `filter-event-fi`})}
+                                            value='fi'
+                                            checked={showContentLanguage === 'fi'}
+                                            handleCheck={this.toggleEventLanguages}
+                                            messageID='filter-event-fi-mobile'
+                                            name='radiogroup'
+                                        >
+                                        </SelectorRadio>
 
-                                    <SelectorRadio
-                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-sv`})}
-                                        value='sv'
-                                        checked={showContentLanguage === 'sv'}
-                                        handleCheck={this.toggleEventLanguages}
-                                        messageID='filter-event-sv-mobile'
-                                        name='radiogroup'
-                                    >
-                                    </SelectorRadio>
-                                    <SelectorRadio
-                                        ariaLabel={this.context.intl.formatMessage({id: `filter-event-en`})}
-                                        value='en'
-                                        checked={showContentLanguage === 'en'}
-                                        handleCheck={this.toggleEventLanguages}
-                                        messageID='filter-event-en-mobile'
-                                        name='radiogroup'
-                                    >
-                                    </SelectorRadio>
-                                </div>
-                            </div>
+                                        <SelectorRadio
+                                            ariaLabel={this.context.intl.formatMessage({id: `filter-event-sv`})}
+                                            value='sv'
+                                            checked={showContentLanguage === 'sv'}
+                                            handleCheck={this.toggleEventLanguages}
+                                            messageID='filter-event-sv-mobile'
+                                            name='radiogroup'
+                                        >
+                                        </SelectorRadio>
+                                        <SelectorRadio
+                                            ariaLabel={this.context.intl.formatMessage({id: `filter-event-en`})}
+                                            value='en'
+                                            checked={showContentLanguage === 'en'}
+                                            handleCheck={this.toggleEventLanguages}
+                                            messageID='filter-event-en-mobile'
+                                            name='radiogroup'
+                                        >
+                                        </SelectorRadio>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
                         </div>
                         <hr style={{borderTop: '2px solid black'}}/>
                     </Collapse>

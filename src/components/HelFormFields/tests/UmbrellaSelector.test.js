@@ -1,7 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import AsyncSelect from 'react-select/async'
-import {HelSelectStyles, HelSelectTheme} from '../../../themes/react-select'
 import {IntlProvider} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
@@ -83,14 +82,13 @@ describe('UmbrellaSelector', () => {
                     wrapper.setState({hasUmbrellaEvent: true})
                     const component = wrapper.find(AsyncSelect)
                     expect(component).toHaveLength(1)
+                    expect(component.prop('classNamePrefix')).toBe('umbrella-search')
                     expect(component.prop('isClearable')).toBe(true)
                     expect(component.prop('loadOptions')).toBe(instance.getOptions)
                     expect(component.prop('placeholder')).toBe(intl.formatMessage({id: 'select'}))
                     expect(component.prop('onFocus')).toBe(instance.hideSelectTip)
                     expect(component.prop('onChange')).toBe(instance.handleChange)
                     expect(component.prop('filterOption')).toBeDefined()
-                    expect(component.prop('styles')).toBe(HelSelectStyles)
-                    expect(component.prop('theme')).toBe(HelSelectTheme)
                     expect(component.prop('loadingMessage')).toBeDefined()
                     expect(component.prop('noOptionsMessage')).toBeDefined()
                 })

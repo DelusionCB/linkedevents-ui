@@ -66,7 +66,7 @@ describe('EventTable', () => {
             test('correct amount', () => {
                 const wrapper = getWrapper()
                 const formattedElement = wrapper.find(FormattedMessage)
-                expect(formattedElement).toHaveLength( 8)
+                expect(formattedElement).toHaveLength( 9)
             })
             test('first being captions id', () => {
                 const wrapper = getWrapper()

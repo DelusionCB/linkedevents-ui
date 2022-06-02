@@ -35,15 +35,15 @@ class HeaderCell extends React.Component {
                 }
                 {name !== 'checkbox' && name !== 'validation' && name !== 'context' &&
                 <th className={cellClassNames}>
-                    <div aria-sort={sortDirection} onClick={this.handleSort}>
+                    <button className='sort-cell' aria-sort={sortDirection} onClick={this.handleSort}>
                         {children}
                         {active && sortDirection === 'asc' &&
-                            <span className='glyphicon glyphicon-arrow-up' />
+                            <span aria-hidden='true' className='glyphicon glyphicon-arrow-up' />
                         }
                         {active && sortDirection === 'desc' &&
-                            <span className='glyphicon glyphicon-arrow-down' />
+                            <span aria-hidden='true' className='glyphicon glyphicon-arrow-down' />
                         }
-                    </div>
+                    </button>
                 </th>
                 }
             </React.Fragment>

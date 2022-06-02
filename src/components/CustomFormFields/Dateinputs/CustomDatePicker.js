@@ -187,6 +187,7 @@ class CustomDatePicker extends React.Component {
                         <Input
                             aria-describedby={this.state.showValidationError ? inputErrorId : undefined}
                             aria-invalid={this.state.showValidationError}
+                            invalid={this.state.showValidationError}
                             type="text"
                             name={name}
                             id={id}

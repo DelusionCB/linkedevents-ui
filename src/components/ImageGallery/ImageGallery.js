@@ -23,7 +23,7 @@ class ImageGallery extends React.Component {
 
         this.toggleEditModal = this.toggleEditModal.bind(this);
         this.toggleOrgModal = this.toggleOrgModal.bind(this);
-        this.validationRef = React.createRef()
+        this.validationRef = React.createRef();
     }
 
 
@@ -58,11 +58,13 @@ class ImageGallery extends React.Component {
                         block
                         onClick={this.toggleEditModal}
                         disabled={!user}
+                        aria-describedby='image-alert'
                     >
                         <span aria-hidden className="glyphicon glyphicon-plus"/>
                         <FormattedMessage id='upload-new-image' />
                     </Button>
                     <ValidationNotification
+                        id='image-alert'
                         anchor={this.validationRef.current}
                         validationErrors={validationErrors}
                         className='validation-notification'

@@ -40,9 +40,9 @@ const HelLabeledCheckboxGroup = (props) => {
     return (
         <Fragment>
             <fieldset className="checkbox-group">
-                <h3 ref={labelRef}>
+                <legend id={groupLabel} ref={labelRef}>
                     {groupLabel}
-                </h3>
+                </legend>
                 <div className={classNames(('row'), {'validation': validationErrors})}>
                     {options.map((item, index) => {
                         const checked = checkedOptions.includes(item.value)
@@ -63,6 +63,7 @@ const HelLabeledCheckboxGroup = (props) => {
                                     onChange={() => handleChange(refs, props)}
                                     id={inputId}
                                     disabled={disabled}
+                                    aria-describedby={`${groupLabel} ${groupLabel}-validation-alert`}
                                 />
                                 <label htmlFor={inputId} className='custom-control-label'>{item.label}</label>
                             </div>
@@ -70,6 +71,7 @@ const HelLabeledCheckboxGroup = (props) => {
                     })}
                 </div>
                 <ValidationNotification
+                    id={`${groupLabel}-validation-alert`}
                     className='validation-checkboxes'
                     anchor={labelRef.current}
                     validationErrors={validationErrors}
@@ -92,7 +94,7 @@ HelLabeledCheckboxGroup.propTypes = {
     selectedValues: PropTypes.array,
     options: PropTypes.array,
     itemClassName: PropTypes.string,
-    groupLabel: PropTypes.object,
+    groupLabel: PropTypes.string,
     validationErrors: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,

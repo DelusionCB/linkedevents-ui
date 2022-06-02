@@ -56,6 +56,7 @@ class CustomDateTime extends React.Component {
         if(!dateInputValue && !timeInputValue){
             this.setState({showValidationError: false})
         }
+        this.updateLocalValidation();
         this.handleDataUpdate(dateInputValue, timeInputValue)
     }
 
@@ -151,10 +152,55 @@ class CustomDateTime extends React.Component {
         }
     }
 
+    updateLocalValidation() {
+        const {dateInputValue, timeInputValue, showValidationErrorDate, showValidationErrorTime} = this.state;
+        const validDate = moment(dateInputValue, 'D.M.YYYY', true).isValid();
+        const validTime = moment(timeInputValue, 'H.mm', true).isValid();
+        const updatedState = {};
+        if (dateInputValue) {
+            if (!validDate && !showValidationErrorDate) {
+                updatedState.validationErrorTextDate = <FormattedMessage id="invalid-date-time-format" />;
+                updatedState.showValidationErrorDate = true;
+            }
+            if (validDate && showValidationErrorDate) {
+                updatedState.validationErrorTextDate = '';
+                updatedState.showValidationErrorDate = false;
+            }
+        } else if (dateInputValue === '') {
+            if (!validDate && showValidationErrorDate) {
+                updatedState.validationErrorTextDate = '';
+                updatedState.showValidationErrorDate = false;
+            }
+        }
+
+        if (timeInputValue) {
+            if (!validTime && !showValidationErrorTime) {
+                updatedState.validationErrorTextTime = <FormattedMessage id="invalid-date-time-format" />;
+                updatedState.showValidationErrorTime = true;
+            }
+            if (validTime && showValidationErrorTime) {
+                updatedState.validationErrorTextTime = '';
+                updatedState.showValidationErrorTime = false;
+            }
+        } else if (timeInputValue === '') {
+            if (!validTime && showValidationErrorTime) {
+                updatedState.validationErrorTextTime = '';
+                updatedState.showValidationErrorTime = false;
+            }
+        }
+        if (Object.keys(updatedState).length) {
+            this.setState(updatedState);
+        }
+    }
+
 
     render() {
         const {labelDate, labelTime, name, id, defaultValue, minDate, maxDate, disabled, required, intl, validationErrors} = this.props
-        const {dateInputValue, timeInputValue, showValidationError, validationErrorText} = this.state
+        const {
+            dateInputValue, timeInputValue, showValidationError,
+            validationErrorText, showValidationErrorDate, showValidationErrorTime,
+            validationErrorTextDate, validationErrorTextTime}
+            = this.state
         const inputErrorId = 'date-input-error__' + id
         const dateFieldId = `${id}-date-field`
         const timeFieldId = `${id}-time-field`
@@ -190,7 +236,7 @@ class CustomDateTime extends React.Component {
                                     }}
                                 />
                                 <Input
-                                    aria-describedby={showValidationError ? inputErrorId : undefined}
+                                    aria-describedby={`date-${inputErrorId} validation-date-${inputErrorId} ${inputErrorId}`}
                                     aria-invalid={showValidationError}
                                     invalid={invalidDate}
                                     type="text"
@@ -208,10 +254,13 @@ class CustomDateTime extends React.Component {
                                 }
                             </div>
                             <ValidationNotification
+                                id={`validation-date-${inputErrorId}`}
                                 anchor={this.containerRef}
                                 validationErrors={dateInputValue ? undefined : validationErrors}
                                 className='validation-dateTime'
                             />
+                            {showValidationErrorDate &&
+                                <p id={`date-${inputErrorId}`} role="alert" className="date-input-error">{validationErrorTextDate}</p>}
                         </div>
                     </FormGroup>
                     <FormGroup>
@@ -240,7 +289,7 @@ class CustomDateTime extends React.Component {
                                     }}
                                 />
                                 <Input
-                                    aria-describedby={showValidationError ? inputErrorId : undefined}
+                                    aria-describedby={`time-${inputErrorId} validation-time-${inputErrorId} ${inputErrorId}`}
                                     aria-invalid={showValidationError}
                                     invalid={invalidTime}
                                     type="text"
@@ -257,10 +306,13 @@ class CustomDateTime extends React.Component {
                                 }
                             </div>
                             <ValidationNotification
+                                id={`validation-time-${inputErrorId}`}
                                 anchor={this.containerRef}
                                 validationErrors={timeInputValue ? undefined : validationErrors}
                                 className='validation-dateTime'
                             />
+                            {showValidationErrorTime &&
+                                <p id={`time-${inputErrorId}`} role="alert" className="date-input-error">{validationErrorTextTime}</p>}
                         </div>
                     </FormGroup>
                 </div>

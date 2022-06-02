@@ -18,6 +18,7 @@ const defaultProps = {
     dispatch: jest.fn(),
     close: jest.fn(),
     confirmAction: jest.fn(),
+    setFlashMsg: jest.fn(),
     deleteImage: jest.fn(),
     selectImage: jest.fn(),
     data: imageMock,

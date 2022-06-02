@@ -13,8 +13,10 @@ $select-input-border-radius: 0px;
 }
 
 
-.css-1wa3eu0-placeholder{
-    color: #000000 !important;
+.location-search {
+        &__placeholder, &__menu-notice {
+            color: var(--black-color) !important;
+        }
 }
 
 .select-popover {

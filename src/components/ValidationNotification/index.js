@@ -9,6 +9,7 @@ const ValidationNotification =  ({
     anchor,
     index,
     className,
+    id,
 }) => {
     let errorMsg = null
 
@@ -46,6 +47,7 @@ const ValidationNotification =  ({
         <Fragment>
             {anchor
                 ? <p
+                    id={id}
                     className={className}
                     anchor={anchor}>
                     { errorMsg }
@@ -64,6 +66,7 @@ ValidationNotification.propTypes = {
     anchor: PropTypes.object,
     index: PropTypes.string,
     className: PropTypes.string,
+    id: PropTypes.string,
 }
 
 export default ValidationNotification

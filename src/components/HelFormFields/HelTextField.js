@@ -251,16 +251,18 @@ class HelTextField extends Component {
                             disabled={disabled}
                             min={min}
                             max={max}
+                            aria-describedby={`alert-${inputId} validation-${inputId}`}
                             invalid={Array.isArray(validationErrors) && validationErrors.length !== 0}
                         />
                         {validationErrors &&
                         <div className='validation-notification' />
                         }
                     </InputGroup>
-                    <FormText {...alert}>
+                    <FormText id={`alert-${inputId}`} {...alert}>
                         {this.helpText()}
                     </FormText>
                     <ValidationNotification
+                        id={`validation-${inputId}`}
                         className='validation-fields'
                         index={index}
                         anchor={this.inputRef}

@@ -76,11 +76,16 @@ describe('renders', () => {
                 expect(element.prop('type')).toBe('text')
                 expect(element.prop('name')).toBe(defaultProps.name)
                 expect(element.prop('onBlur')).toBe(instance.handleInputBlur)
-                expect(element.prop('aria-describedby')).toBe(undefined)
                 expect(element.prop('disabled')).toBe(defaultProps.disabled)
                 expect(element.prop('aria-required')).toBe(defaultProps.required)
                 expect(element.prop('id')).toBe(defaultProps.id + typeFieldId[index])
             });
+            expect(input.at(0).prop('aria-describedby')).toBe(
+                `date-date-input-error__${defaultProps.id} validation-date-date-input-error__${defaultProps.id} date-input-error__${defaultProps.id}`
+            )
+            expect(input.at(1).prop('aria-describedby')).toBe(
+                `time-date-input-error__${defaultProps.id} validation-time-date-input-error__${defaultProps.id} date-input-error__${defaultProps.id}`
+            )
             expect(input.at(0).prop('value')).toBe(instance.state.dateInputValue)
             expect(input.at(0).prop('onChange')).toBe(instance.handleInputChangeDate)
             expect(input.at(1).prop('value')).toBe(instance.state.timeInputValue)
@@ -111,7 +116,7 @@ describe('renders', () => {
             const showValidationError = true
             instance.setState({showValidationError})
             const input = wrapper.find(Input)
-            expect(input.at(0,1).prop('aria-describedby')).toBe('date-input-error__' + defaultProps.id)
+            expect(input.at(0,1).prop('aria-describedby')).toBe(`date-date-input-error__${defaultProps.id} validation-date-date-input-error__${defaultProps.id} date-input-error__${defaultProps.id}`)
         })
 
         test('prop aria-invalid is equal to state.showValidationError', () => {

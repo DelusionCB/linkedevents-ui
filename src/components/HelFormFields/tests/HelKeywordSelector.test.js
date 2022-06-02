@@ -76,8 +76,8 @@ describe('HelSelect', () => {
                     const groupElement = wrapper.find(HelLabeledCheckboxGroup)
                     const rules = ['atLeastOneMainCategory', 'atLeastOneSecondaryCategory']
                     expect(groupElement).toHaveLength(2)
-                    expect(groupElement.at(0).prop('groupLabel')).toEqual(<FormattedMessage id='categories-header-content'/>)
-                    expect(groupElement.at(1).prop('groupLabel')).toEqual(<FormattedMessage id='event-categories-type'/>)
+                    expect(groupElement.at(0).prop('groupLabel')).toEqual(intl.formatMessage({id: 'categories-header-content'}))
+                    expect(groupElement.at(1).prop('groupLabel')).toEqual(intl.formatMessage({id: 'event-categories-type'}))
                     groupElement.forEach((element, index) => {
                         expect(element.prop('selectedValues')).toBe(defaultProps.editor.values.keywords)
                         expect(element.prop('name')).toBe('keywords')
@@ -98,7 +98,7 @@ describe('HelSelect', () => {
                     const groups = getWrapper().find(HelLabeledCheckboxGroup)
                     expect(groups).toHaveLength(3)
                     const extraGroup = groups.at(2)
-                    expect(extraGroup.prop('groupLabel')).toEqual(<FormattedMessage id='event-categories-extra'/>)
+                    expect(extraGroup.prop('groupLabel')).toEqual(intl.formatMessage({id: 'event-categories-extra'}))
                     expect(extraGroup.prop('selectedValues')).toBe(defaultProps.editor.values.keywords)
                     expect(extraGroup.prop('name')).toBe('keywords')
                     expect(extraGroup.prop('disabled')).toBe(defaultProps.disabled)

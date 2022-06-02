@@ -474,6 +474,7 @@ class FormFields extends React.Component {
                                         title={position ? null : this.context.intl.formatMessage({id: 'event-location-button-tooltip'})}
                                         aria-pressed={this.state.openMapContainer}
                                         aria-disabled={!position}
+                                        aria-hidden='true'
                                         id='map-button'
                                         className={classNames('btn btn-link', {disabled: !position})}
                                         onClick={() => this.toggleMapContainer()}
@@ -598,7 +599,7 @@ class FormFields extends React.Component {
                                         </label>
                                     </div>
                                     { !['update', 'add'].includes(formType) && (subTimeDisable || values.start_time !== undefined) ?
-                                        <div className='typetip' id='event-recurring-type-disabled-tip-message'>
+                                        <div className='typetip' role='alert' id='event-recurring-type-disabled-tip-message'>
                                             <FormattedMessage id="editor-tip-eventtype-disable"/>
                                         </div>
                                         : null
@@ -744,7 +745,7 @@ class FormFields extends React.Component {
                         </div>
                         <div className="row audience-row">
                             <HelLabeledCheckboxGroup
-                                groupLabel={<FormattedMessage id={`${currentEventType}-target-groups-header`}/>}
+                                groupLabel={this.context.intl.formatMessage({id: `${currentEventType}-target-groups-header`})}
                                 selectedValues={values['audience']}
                                 ref="audience"
                                 name="audience"
@@ -1020,7 +1021,7 @@ class FormFields extends React.Component {
                     <Collapse isOpen={this.state.headerInlanguage}>
                         <div className="row inlanguage-row">
                             <HelLabeledCheckboxGroup
-                                groupLabel={<FormattedMessage id={`${currentEventType}-languages-header2`}/>}
+                                groupLabel={this.context.intl.formatMessage({id: `${currentEventType}-languages-header2`})}
                                 selectedValues={values['in_language']}
                                 ref="in_language"
                                 name="in_language"

@@ -607,7 +607,7 @@ describe('FormField', () => {
                 })
                 test('correct props for audience checkboxgroup', () => {
                     const audiencegroup = helgroupboxes.at(0)
-                    expect(audiencegroup.prop('groupLabel')).toEqual(<FormattedMessage id='event-target-groups-header' />)
+                    expect(audiencegroup.prop('groupLabel')).toEqual(intl.formatMessage({id: 'event-target-groups-header'}))
                     expect(audiencegroup.prop('selectedValues')).toBe(defaultProps.editor.values.audience)
                     expect(audiencegroup.prop('name')).toBe('audience')
                     expect(audiencegroup.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.audience)
@@ -615,7 +615,7 @@ describe('FormField', () => {
                 })
                 test('correct props for in_language checkboxgroup', () => {
                     const languagegroup = helgroupboxes.at(1)
-                    expect(languagegroup.prop('groupLabel')).toEqual(<FormattedMessage id="event-languages-header2"/>)
+                    expect(languagegroup.prop('groupLabel')).toEqual(intl.formatMessage({id: 'event-languages-header2'}))
                     expect(languagegroup.prop('selectedValues')).toBe(defaultProps.editor.values.in_language)
                     expect(languagegroup.prop('name')).toBe('in_language')
                     expect(languagegroup.prop('validationErrors')).toBe(defaultProps.editor.validationErrors.in_language)

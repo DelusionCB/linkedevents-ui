@@ -1,0 +1,11 @@
+
+.umbrella-search {
+    &__control {
+        border: 2px solid var(--black-color) !important;
+    }
+    &__indicators {
+        svg {
+            color: var(--black-color) !important;
+        }
+    }
+}

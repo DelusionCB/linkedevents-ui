@@ -233,55 +233,57 @@ class ImageEdit extends React.Component {
      * @returns {Promise<void>}
      */
     async handleImagePost() {
-        const {
-            hideAltText,
-            image,
-            imageFile: stateImageFile,
-            license,
-            thumbnailUrl,
-        } = this.state;
-        const {
-            close,
-            editor: {contentLanguages},
-            id,
-            imageFile,
-            postImage,
-            updateExisting,
-            user,
-        } = this.props;
+        if (!this.getNotReadyToSubmit()) {
+            const {
+                hideAltText,
+                image,
+                imageFile: stateImageFile,
+                license,
+                thumbnailUrl,
+            } = this.state;
+            const {
+                close,
+                editor: {contentLanguages},
+                id,
+                imageFile,
+                postImage,
+                updateExisting,
+                user,
+            } = this.props;
 
-        let imageToPost = {
-            name: image['name'],
-            alt_text: image['altText'],
-            photographer_name: image['photographerName'],
-            license: license,
-            id: id,
-        };
-        if (hideAltText) {
-            const decorationAlts = contentLanguages.reduce((acc,curr)  => {
-                acc[curr] = this.context.intl.formatMessage({id: `description-alt.${curr}`});
-                return acc;
-            },  {});
-            // default image alt texts are set.
-            imageToPost = update(imageToPost, {
-                alt_text:{$set: decorationAlts},
-            });
-        }
-        if (!updateExisting) {
-            if (imageFile || stateImageFile) {
-                imageToPost = update(imageToPost,{
-                    image:{$set: thumbnailUrl},
-                    file_name:{$set: stateImageFile.name.split('.')[0]},
-                });
-            } else {
-                imageToPost = update(imageToPost,{
-                    url:{$set: thumbnailUrl},
+            let imageToPost = {
+                name: image['name'],
+                alt_text: image['altText'],
+                photographer_name: image['photographerName'],
+                license: license,
+                id: id,
+            };
+            if (hideAltText) {
+                const decorationAlts = contentLanguages.reduce((acc, curr) => {
+                    acc[curr] = this.context.intl.formatMessage({id: `description-alt.${curr}`});
+                    return acc;
+                }, {});
+                // default image alt texts are set.
+                imageToPost = update(imageToPost, {
+                    alt_text: {$set: decorationAlts},
                 });
             }
+            if (!updateExisting) {
+                if (imageFile || stateImageFile) {
+                    imageToPost = update(imageToPost, {
+                        image: {$set: thumbnailUrl},
+                        file_name: {$set: stateImageFile.name.split('.')[0]},
+                    });
+                } else {
+                    imageToPost = update(imageToPost, {
+                        url: {$set: thumbnailUrl},
+                    });
+                }
+            }
+            postImage(imageToPost, user, updateExisting ? id : null);
+            this.setState(INITIAL_STATE);
+            close();
         }
-        postImage(imageToPost, user, updateExisting ? id : null);
-        this.setState(INITIAL_STATE);
-        close();
     }
 
     /**
@@ -295,7 +297,7 @@ class ImageEdit extends React.Component {
      * @param event
      * @param value
      */
-    handleChange(event, value){
+    handleChange(event, value) {
         const {id} = event.target;
         let localImage = this.state.image;
         if (id.includes('alt-text')) {
@@ -473,6 +475,7 @@ class ImageEdit extends React.Component {
         const {open, close, uiMode, localeType} = this.props;
         const thumbnailUrl = this.state.thumbnailUrl || this.props.thumbnailUrl;
         const errorMessage = this.state.urlError ? 'validation-isUrl' : 'uploaded-image-size-error';
+        const buttonDisabled = this.getNotReadyToSubmit()
         return (
             <React.Fragment>
                 <Modal
@@ -595,7 +598,9 @@ class ImageEdit extends React.Component {
                                     type="button"
                                     color="primary"
                                     variant="contained"
-                                    disabled={this.getNotReadyToSubmit()}
+                                    aria-label={buttonDisabled ? this.context.intl.formatMessage({id: 'image-submit-disabled'}) : ''}
+                                    aria-disabled={buttonDisabled}
+                                    className={classNames('btn btn-submit', {disabled: buttonDisabled})}
                                     onClick={() => this.handleImagePost()}
                                 >
                                     <FormattedMessage id={'image-modal-save-button-text'}>{txt => txt}</FormattedMessage>

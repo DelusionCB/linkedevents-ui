@@ -78,102 +78,102 @@ exports[`EventListing Snapshot should render view by default 1`] = `
             />
           </div>
         </div>
-        <div
-          className="row"
-        >
+        <fieldset>
           <FormattedMessage
             id="filter-event-type"
             values={Object {}}
-          />
-        </div>
-        <div
-          className="row"
-        >
-          <div
-            className="col-sm-12"
           >
-            <HelCheckbox
-              defaultChecked={true}
-              disabled={false}
-              fieldID="eventgeneral"
-              label={
-                <FormattedMessage
-                  id="event"
-                  values={Object {}}
-                />
-              }
-              onChange={[Function]}
-            />
-            <HelCheckbox
-              defaultChecked={true}
-              disabled={false}
-              fieldID="eventhobbies"
-              label={
-                <FormattedMessage
-                  id="hobby"
-                  values={Object {}}
-                />
-              }
-              onChange={[Function]}
-            />
-            <HelCheckbox
-              defaultChecked={true}
-              disabled={false}
-              fieldID="eventcourse"
-              label={
-                <FormattedMessage
-                  id="courses"
-                  values={Object {}}
-                />
-              }
-              onChange={[Function]}
-            />
-          </div>
+            <Component />
+          </FormattedMessage>
           <div
             className="row"
           >
+            <div
+              className="col-sm-12"
+            >
+              <HelCheckbox
+                defaultChecked={true}
+                disabled={false}
+                fieldID="eventgeneral"
+                label={
+                  <FormattedMessage
+                    id="event"
+                    values={Object {}}
+                  />
+                }
+                onChange={[Function]}
+              />
+              <HelCheckbox
+                defaultChecked={true}
+                disabled={false}
+                fieldID="eventhobbies"
+                label={
+                  <FormattedMessage
+                    id="hobby"
+                    values={Object {}}
+                  />
+                }
+                onChange={[Function]}
+              />
+              <HelCheckbox
+                defaultChecked={true}
+                disabled={false}
+                fieldID="eventcourse"
+                label={
+                  <FormattedMessage
+                    id="courses"
+                    values={Object {}}
+                  />
+                }
+                onChange={[Function]}
+              />
+            </div>
+          </div>
+          <fieldset>
             <FormattedMessage
               id="filter-event-languages"
               values={Object {}}
-            />
-          </div>
-          <div
-            className="col-sm-12"
-          >
-            <SelectorRadio
-              ariaLabel="Kaikki kielet"
-              checked={true}
-              handleCheck={[Function]}
-              messageID="filter-event-all"
-              name="radiogroup"
-              value="all"
-            />
-            <SelectorRadio
-              ariaLabel="Suomeksi"
-              checked={false}
-              handleCheck={[Function]}
-              messageID="filter-event-fi-mobile"
-              name="radiogroup"
-              value="fi"
-            />
-            <SelectorRadio
-              ariaLabel="Ruotsiksi"
-              checked={false}
-              handleCheck={[Function]}
-              messageID="filter-event-sv-mobile"
-              name="radiogroup"
-              value="sv"
-            />
-            <SelectorRadio
-              ariaLabel="Englanniksi"
-              checked={false}
-              handleCheck={[Function]}
-              messageID="filter-event-en-mobile"
-              name="radiogroup"
-              value="en"
-            />
-          </div>
-        </div>
+            >
+              <Component />
+            </FormattedMessage>
+            <div
+              className="col-sm-12"
+            >
+              <SelectorRadio
+                ariaLabel="Kaikki kielet"
+                checked={true}
+                handleCheck={[Function]}
+                messageID="filter-event-all"
+                name="radiogroup"
+                value="all"
+              />
+              <SelectorRadio
+                ariaLabel="Suomeksi"
+                checked={false}
+                handleCheck={[Function]}
+                messageID="filter-event-fi-mobile"
+                name="radiogroup"
+                value="fi"
+              />
+              <SelectorRadio
+                ariaLabel="Ruotsiksi"
+                checked={false}
+                handleCheck={[Function]}
+                messageID="filter-event-sv-mobile"
+                name="radiogroup"
+                value="sv"
+              />
+              <SelectorRadio
+                ariaLabel="Englanniksi"
+                checked={false}
+                handleCheck={[Function]}
+                messageID="filter-event-en-mobile"
+                name="radiogroup"
+                value="en"
+              />
+            </div>
+          </fieldset>
+        </fieldset>
       </div>
       <hr
         style={
@@ -633,6 +633,8 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "image-modal-view-terms-paragraph-text": "Voit tutustua laajemmin <a href='/help#images' target='_blank' rel='noopener noreferrer'>kuvien lisäämisen ehtoihin ja suosituksiin (aukeaa uudessa välilehdessä).</a>",
       "image-page": "Sivu {n}",
       "image-pagination": "Kuvien sivutus",
+      "image-selection-success": "Kuva valittu onnistuneesti!",
+      "image-submit-disabled": "Syötä kaikki vaaditut kentät",
       "image-update-error": "Virhe kuvaa päivittäessä.",
       "image-update-success": "Kuvan tiedot päivitettiin onnistuneesti!",
       "in-ar": "arabiaksi",
@@ -795,6 +797,7 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "table-pagination-previous-page": "Edellinen sivu",
       "table-pagination-results": "Tapahtumat välillä {from} ja {to} / {count}",
       "table-pagination-shortcut-link": "Siirry taulukon alkuun",
+      "table-sortable-headers": "Painikkeen sisältävät sarakkeet ovat järjestettäviä",
       "terms-agree-link": "palvelun käyttöehdot",
       "terms-agree-text": "Hyväksyn",
       "terms-heading": "Linked Eventsin käyttöehdot",

@@ -78,14 +78,14 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
     const secondaryCategoryOptions = mapKeywordSetToForm(keywordSets, 'turku:topic_type', currentLocale)
     const extraCategoryOptions = mapKeywordSetToForm(keywordSets, 'system:extra', currentLocale)
     return (
-        <div className='keyword-selector'>
-            <FormattedMessage id={`${localeType}-categories-header-type`}>{txt => <h3>{txt}</h3>}</FormattedMessage>
+        <fieldset className='keyword-selector'>
+            <FormattedMessage id={`${localeType}-categories-header-type`}>{txt => <legend>{txt}</legend>}</FormattedMessage>
             <SideField id='editor-tip-keyword-sidefield'>
                 <FormattedMessage id={`${localeType}-editor-tip-keywords`} />
             </SideField>
             <div>
                 <HelLabeledCheckboxGroup
-                    groupLabel={<FormattedMessage id="categories-header-content"/>}
+                    groupLabel={intl.formatMessage({id: 'categories-header-content'})}
                     selectedValues={keywords}
                     name="keywords"
                     disabled={disabled}
@@ -100,7 +100,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 />
                 {values.type_id === constants.EVENT_TYPE.GENERAL &&
                 <HelLabeledCheckboxGroup
-                    groupLabel={<FormattedMessage id="event-categories-type"/>}
+                    groupLabel={intl.formatMessage({id: 'event-categories-type'})}
                     selectedValues={keywords}
                     name="keywords"
                     disabled={disabled}
@@ -116,7 +116,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 }
                 {(extraCategoryOptions && extraCategoryOptions.length > 0) &&
                 <HelLabeledCheckboxGroup
-                    groupLabel={<FormattedMessage id="event-categories-extra"/>}
+                    groupLabel={intl.formatMessage({id: 'event-categories-extra'})}
                     selectedValues={keywords}
                     name="keywords"
                     disabled={disabled}
@@ -148,7 +148,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                     placeholderId={'event-keywords-search'}
                 />
                 <CopyToClipboard tabIndex='-1' aria-hidden='true' text={values['keywords'] ? getKeywordIds(keywords) : ''}>
-                    <button id='keyword-clipboard' type='button' className="clipboard-copy-button btn btn-default" aria-label={intl.formatMessage({id: 'copy-keyword-to-clipboard'})}>
+                    <button id='keyword-clipboard' aria-hidden='true' type='button' className="clipboard-copy-button btn btn-default" aria-label={intl.formatMessage({id: 'copy-keyword-to-clipboard'})}>
                         <span className="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
                     </button>
                 </CopyToClipboard>
@@ -160,7 +160,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                     intl={intl}
                 />
             </div>
-        </div>
+        </fieldset>
     )
 }
 

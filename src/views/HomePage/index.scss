@@ -54,7 +54,7 @@
             }
 
             .btn {
-                @include m.add-outline(){
+                @include m.add-outline("&:focus,&:hover"){
                     outline-offset: unset;
                 };
             white-space: break-spaces;
@@ -67,21 +67,23 @@
             background-color: var(--main-color);
             color: var(--light-color);
             border-color: var(--darkgray-color);
-                .glyphicon {
-                    align-self: end;
-                    font-size: 2rem;
-                    @media screen and (max-width: 991px) {
-                        font-size: 1rem;
-                    }
-                }
-                span {
+            text-decoration: none;
+
+            .glyphicon {
+                align-self: end;
+                font-size: 2rem;
+                @media screen and (max-width: 991px) {
                     font-size: 1rem;
                 }
-                @media screen and (max-width: 991px) {
-                    height: 80px;
-                    display: inline-grid;
-                    margin-bottom: 15px;
-                }
+            }
+            span {
+                font-size: 1rem;
+            }
+            @media screen and (max-width: 991px) {
+                height: 80px;
+                display: inline-grid;
+                margin-bottom: 15px;
+            }
             }
         }
         .container-md {

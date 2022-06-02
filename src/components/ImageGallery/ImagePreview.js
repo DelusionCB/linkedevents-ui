@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 class ImagePreview extends React.PureComponent {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             currentText: props.intl.formatMessage({id: `${props.localeType}-no-image`}),
             image: undefined,

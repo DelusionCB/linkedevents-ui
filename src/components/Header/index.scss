@@ -48,6 +48,13 @@ $iconMarginLeft: 24px;
 		&__login-and-language {
 			display: inline-flex;
 			align-items: center;
+            a {
+                text-decoration: none;
+                &:hover, &:focus {
+                    text-decoration: underline;
+                }
+            }
+
 			.btn-secondary {
                 @include m.add-outline() {
                     box-shadow: none;
@@ -101,6 +108,7 @@ $iconMarginLeft: 24px;
 				}
 			}
                 .nav-link {
+                    text-decoration: none;
 					font-weight: bold;
                     padding-top: 12px;
                     padding-bottom: 12px;
@@ -182,7 +190,10 @@ ul.language {
 			&.active {
 				background-color: lightgrey;
 			}
-            a{
+            &:hover, &:focus {
+                text-decoration: underline;
+            }
+            a {
                 @include m.add-outline() {
                     outline-offset: 1px;
                 };

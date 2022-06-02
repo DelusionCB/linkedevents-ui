@@ -172,7 +172,7 @@ describe('EventListing', () => {
             test('correct props', () => {
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
-                const checkBox = wrapper.find('.row').at(2).find(HelCheckbox)
+                const checkBox = wrapper.find('.row').at(1).find(HelCheckbox)
                 const intlIDs = ['event', 'hobby', 'courses']
                 const elementIds = [EVENT_TYPE_PARAM.EVENT, EVENT_TYPE_PARAM.HOBBY, EVENT_TYPE_PARAM.COURSE]
 
