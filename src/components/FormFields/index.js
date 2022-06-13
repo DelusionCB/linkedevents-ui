@@ -37,20 +37,15 @@ import LoginNotification from './LoginNotification/LoginNotification'
 import {getEventLanguageType} from '../../utils/locale';
 import ValidationNotification from '../ValidationNotification';
 
-
-let FormHeader = ({type = 'h3', messageID}) => {
-    const headerElement = (content) => React.createElement(type, {className: 'col-sm-12'}, content)
-    return(
-        <div className="row">
-            <FormattedMessage id={messageID}>{txt => headerElement(txt)}</FormattedMessage>
-        </div>
-    )
+let FormText = ({type = 'h3', formatId, id}) => {
+    const headerElement = (content) => React.createElement(type, {className: 'col-sm-12', id: id}, content)
+    return(<FormattedMessage id={formatId}>{txt => headerElement(txt)}</FormattedMessage>)
 }
-FormHeader.propTypes = {
+FormText.propTypes = {
     type: PropTypes.string,
-    messageID: PropTypes.string,
+    formatId: PropTypes.string,
+    id: PropTypes.string,
 }
-
 
 class FormFields extends React.Component {
     constructor(props) {
@@ -305,6 +300,20 @@ class FormFields extends React.Component {
         // This variable is used to disable inputs if user doesn't exist.
         const userDoesNotExist = !user;
 
+        const ariaIds = {
+            type: ['type-one'],
+            languages: ['lang-one', 'lang-two'],
+            namedescriptions: ['namedesc-one', 'namedesc-two'],
+            location: ['location-one', 'location-two', 'location-three', 'location-four'],
+            umbrella: ['umbrella-one', 'umbrella-two', 'umbrella-three'],
+            datetime: ['datetime-one', 'datetime-two', 'datetime-three', 'datetime-four', 'datetime-five'],
+            audience: ['audience-one'],
+            enrolment: ['enrolment-one'],
+            attendee: ['attendee-one'],
+            socials: ['social-one'],
+        }
+        const ariaTypes = (id) => ariaIds[id].toString();
+
         return (
             <div className='mainwrapper'>
                 {!this.props.user &&
@@ -316,15 +325,15 @@ class FormFields extends React.Component {
                     <FormattedMessage id={headerTextId}>{txt => <h1>{txt}</h1>}</FormattedMessage>
                 </div>
                 <div className="row row-header">
-                    <FormattedMessage id='editor-tip-required'>{txt => <h2>{txt}</h2>}</FormattedMessage>
+                    <FormattedMessage id='editor-tip-required'>{txt => <p>{txt}</p>}</FormattedMessage>
                 </div>
-                <FormHeader messageID='event-type-select'/>
-                <div className='row'>
+                <div role='group' aria-labelledby={ariaTypes('type')} className='row'>
+                    <FormText formatId='event-type-select' id={ariaIds.type[0]}/>
                     <TypeSelector editor={this.props.editor} event={event} disabled={userDoesNotExist}/>
                 </div>
-                <FormHeader messageID='event-presented-in-languages'/>
-                <FormHeader messageID='event-presented-in-languages2' type='h4'/>
-                <div className="row contentlanguage-row">
+                <div role='group' aria-labelledby={ariaTypes('languages')} className="row contentlanguage-row">
+                    <FormText formatId='event-presented-in-languages' id={ariaIds.languages[0]}/>
+                    <FormText formatId='event-presented-in-languages2' type='p' id={ariaIds.languages[1]}/>
                     <div className="col-sm-6 highlighted-block">
                         <HelLanguageSelect
                             options={API.eventInfoLanguages()}
@@ -333,9 +342,9 @@ class FormFields extends React.Component {
                         />
                     </div>
                 </div>
-                <FormHeader messageID='event-name-descriptions'/>
-                <FormHeader messageID='event-name-descriptions-tip' type='h4'/>
-                <div className="row event-row">
+                <div role='group' aria-labelledby={ariaTypes('namedescriptions')} className="row event-row">
+                    <FormText formatId='event-name-descriptions' id={ariaIds.namedescriptions[0]}/>
+                    <FormText formatId='event-name-descriptions-tip' type='p' id={ariaIds.namedescriptions[1]}/>
                     <div className="col-sm-6">
                         <MultiLanguageField
                             id='event-headline'
@@ -425,16 +434,15 @@ class FormFields extends React.Component {
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerLocationDate}>
-                        <FormHeader messageID='event-location-form-header'/>
-                        <div className="row location-row">
+                        <div role='group' aria-labelledby={ariaTypes('location')} className="row location-row">
+                            <FormText formatId='event-location-form-header' id={ariaIds.location[0]}/>
                             <SideField id='editor-tip-location'>
-                                <FormattedMessage id={`${currentEventType}-editor-tip-location-multi`}>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`${currentEventType}-editor-tip-location-internet`}>{txt => <p><strong>{txt}</strong></p>}</FormattedMessage>
-                                <FormattedMessage id={`${currentEventType}-editor-tip-location-not-found`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`${currentEventType}-editor-tip-location-multi`}>{txt => <p id={ariaIds.location[1]}>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`${currentEventType}-editor-tip-location-internet`}>{txt => <p id={ariaIds.location[2]}><strong>{txt}</strong></p>}</FormattedMessage>
+                                <FormattedMessage id={`${currentEventType}-editor-tip-location-not-found`}>{txt => <p id={ariaIds.location[3]}>{txt}</p>}</FormattedMessage>
                             </SideField>
                             <div className="col-sm-6 hel-select">
                                 <div>
-
                                     <HelCheckbox
                                         name='is_virtualevent'
                                         label={<FormattedMessage id={`${currentEventType}-location-virtual`}/>}
@@ -530,11 +538,11 @@ class FormFields extends React.Component {
                         </div>
                         {formType === 'add' || !isRegularUser &&
                         <React.Fragment>
-                            <FormHeader messageID='event-umbrella-header'/>
-                            <div className="row umbrella-row">
+                            <div role='group' aria-labelledby={ariaTypes('umbrella')} className="row umbrella-row">
+                                <FormText formatId='event-umbrella-header' id={ariaIds.umbrella[0]}/>
                                 <SideField id='editor-tip-umbrella'>
-                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection`}>{txt => <p>{txt}</p>}</FormattedMessage>
-                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection1`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection`}>{txt => <p id={ariaIds.umbrella[1]}>{txt}</p>}</FormattedMessage>
+                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection1`}>{txt => <p id={ariaIds.umbrella[2]}>{txt}</p>}</FormattedMessage>
                                 </SideField>
                                 <div className="col-sm-6">
                                     <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent} disabled={userDoesNotExist}/>
@@ -542,13 +550,13 @@ class FormFields extends React.Component {
                             </div>
                         </React.Fragment>
                         }
-                        <FormHeader messageID={`${currentEventType}-datetime-form-header`}/>
-                        <div className='row date-row'>
+                        <div role='group' aria-labelledby={ariaTypes('datetime')} className='row date-row'>
+                            <FormText formatId={`${currentEventType}-datetime-form-header`} id={ariaIds.datetime[0]}/>
                             <SideField id={`${currentEventType}-editor-tip-times`}>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start`}>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start-end`}>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-type`}>{txt => <p>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-end`}>{txt => <p>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start`}>{txt => <p id={ariaIds.datetime[1]}>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start-end`}>{txt => <p id={ariaIds.datetime[2]}>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-type`}>{txt => <p id={ariaIds.datetime[3]}>{txt}</p>}</FormattedMessage>
+                                <FormattedMessage id={`editor-tip-${currentEventType}-time-end`}>{txt => <p id={ariaIds.datetime[4]}>{txt}</p>}</FormattedMessage>
                             </SideField>
                             <div className='col-sm-6'>
                                 <div className='row radio-row'>
@@ -605,7 +613,9 @@ class FormFields extends React.Component {
                                         : null
                                     }
                                 </div>
-                                <FormHeader messageID='event-datetime-form-header2' type='h4'/>
+                                <div className='row'>
+                                    <FormText formatId='event-datetime-form-header2' type='h4'/>
+                                </div>
                                 {!this.state.selectEventType
                                     ?
                                     <div className='col-xs-12 col-sm-12'>
@@ -756,8 +766,8 @@ class FormFields extends React.Component {
                                 disabled={userDoesNotExist}
                             />
                         </div>
-                        <FormHeader messageID='audience-age-restrictions'/>
-                        <div className="row">
+                        <div role='group' aria-labelledby={ariaTypes('audience')} className="row">
+                            <FormText formatId='audience-age-restrictions' id={ariaIds.audience[0]}/>
                             <div className="col-sm-6">
                                 <HelTextField
                                     id="audience_min_age"
@@ -803,7 +813,9 @@ class FormFields extends React.Component {
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerPrices}>
-                        <FormHeader messageID='event-price-fields-header'/>
+                        <div className='row'>
+                            <FormText formatId='event-price-fields-header'/>
+                        </div>
                         <div className={classNames('row offers-row', {'has-offers': values['offers']})}>
                             {values['offers'] &&
                                 <SideField id='editor-tip-offers-sidefield'>
@@ -838,7 +850,8 @@ class FormFields extends React.Component {
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerCourses}>
-                        <div className='row courses-row'>
+                        <div role='group' aria-labelledby={ariaTypes('enrolment')} className='row courses-row'>
+                            <FormText formatId={`${currentEventType}-enrolment-header`} id={ariaIds.enrolment[0]}/>
                             <div className='col-xs-12 col-sm-6'>
                                 <HelTextField
                                     validations={[VALIDATION_RULES.IS_URL]}
@@ -854,11 +867,6 @@ class FormFields extends React.Component {
                                     placeholder='https://...'
                                     disabled={userDoesNotExist}
                                 />
-                            </div>
-                        </div>
-                        <FormHeader messageID={`${currentEventType}-enrolment-time`}/>
-                        <div className="row courses-row">
-                            <div className='col-xs-12 col-sm-6'>
                                 <CustomDateTime
                                     id={`${currentEventType}-enrolment-start-time`}
                                     name="enrolment_start_time"
@@ -885,8 +893,8 @@ class FormFields extends React.Component {
                             </div>
                         </div>
 
-                        <FormHeader messageID='attendee-capacity'/>
-                        <div className="row">
+                        <div role='group' aria-labelledby={ariaTypes('attendee')} className="row">
+                            <FormText formatId='attendee-capacity' id={ariaIds.attendee[0]}/>
                             <div className="col-xs-12 col-sm-6">
                                 <HelTextField
                                     id="minimum_attendee_capacity"
@@ -933,7 +941,8 @@ class FormFields extends React.Component {
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerSocials}>
-                        <div className="row social-media-row">
+                        <div role='group' aria-labelledby={ariaTypes('socials')} className="row social-media-row">
+                            <FormText formatId='social-medias' id={ariaIds.socials[0]}/>
                             <div className="col-sm-6">
                                 <MultiLanguageField
                                     id='event-info-url'

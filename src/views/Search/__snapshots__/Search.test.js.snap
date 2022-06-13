@@ -572,6 +572,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "series-invalid-postpone": "Sarjaa ei voi lykätä.",
       "server-error": "Virhe palvelimella.",
       "skiplink-shortcut": "Siirry sisältöön",
+      "social-medias": "Sosiaalisen median kanavat",
       "sub-event-of-series": "Tämä sisältö kuuluu sarjaan: ",
       "sub-event-of-umbrella": "Tällä sisällöllä on kattotapahtuma: ",
       "sub-events-for-series": "Sarjan alatapahtumat:",

@@ -13,6 +13,8 @@ import {Link} from 'react-router-dom'
 import {getFirstMultiLanguageFieldValue, scrollToTop} from '../../../utils/helpers'
 import constants from '../../../constants'
 import {getSuperEventId} from '../../../utils/events'
+import {ariaOverrides, optionsMessageValue, screenReaderOverrideValue} from '../utils/SelectHelper'
+
 
 class UmbrellaSelector extends React.Component {
 
@@ -255,6 +257,10 @@ class UmbrellaSelector extends React.Component {
      */
     hideSelectTip = () => this.setState({showSelectTip: false})
 
+    screenReaderOverride = (obj) => {
+        return  this.context.intl.formatMessage(...screenReaderOverrideValue(obj))
+    }
+
     render() {
         const {showSelectTip, selectedUmbrellaEvent, isUmbrellaEvent, hasUmbrellaEvent, superEventSuperEventType} = this.state
         const {event} = this.props
@@ -314,6 +320,8 @@ class UmbrellaSelector extends React.Component {
                             noOptionsMessage={() => this.context.intl.formatMessage({id: 'search-no-results'})}
                             filterOption={createFilter({ignoreAccents: false})}
                             classNamePrefix='umbrella-search'
+                            ariaLiveMessages={ariaOverrides(this.context.intl, 'select', 'umbrella')}
+                            screenReaderStatus={this.screenReaderOverride}
                         />
                         {showSelectTip &&
                             <span><small><FormattedMessage id="event-has-umbrella-select-tip"/></small></span>

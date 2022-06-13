@@ -256,6 +256,30 @@ describe('FormField', () => {
 
         describe('components', () => {
 
+            describe('divs with role group', () => {
+                const wrapper = getWrapper()
+                const roleDivs = wrapper.find('div').filter({role: 'group'})
+                test('correct amount', () => {
+                    expect(roleDivs).toHaveLength(10)
+                })
+                const testValues = [
+                    {index: 0, expected: 'type-one'},
+                    {index: 1, expected: 'lang-one,lang-two'},
+                    {index: 2, expected: 'namedesc-one,namedesc-two'},
+                    {index: 3, expected: 'location-one,location-two,location-three,location-four'},
+                    {index: 4, expected: 'umbrella-one,umbrella-two,umbrella-three'},
+                    {index: 5, expected: 'datetime-one,datetime-two,datetime-three,datetime-four,datetime-five'},
+                    {index: 6, expected: 'audience-one'},
+                    {index: 7, expected: 'enrolment-one'},
+                    {index: 8, expected: 'attendee-one'},
+                    {index: 9, expected: 'social-one'},
+                ]
+                test.each(testValues) (
+                    'returns correct ids for aria-labelledby: %o',
+                    ({index, expected}) => {
+                        expect(roleDivs.at(index).prop('aria-labelledby')).toBe(expected)
+                    })
+            })
             describe('FormattedMessage', () => {
                 test('Correct amount of FormattedMessage components rendered', () => {
                     const wrapper = getWrapper()
