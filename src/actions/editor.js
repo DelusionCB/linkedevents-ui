@@ -87,6 +87,36 @@ export function deleteOffer(offerKey) {
         offerKey,
     }
 }
+
+export function setVideoData(values, key) {
+    return {
+        type: constants.EDITOR_SETDATA,
+        key,
+        values,
+        video: true,
+    }
+}
+
+export function addVideo(values) {
+    return {
+        type: constants.EDITOR_ADD_VIDEO,
+        values,
+    }
+}
+
+export function deleteVideo(videoKey) {
+    return {
+        type: constants.EDITOR_DELETE_VIDEO,
+        videoKey,
+    }
+}
+
+export function setNoVideos() {
+    return {
+        type: constants.EDITOR_SET_NO_VIDEOS,
+    }
+}
+
 /**
  * Clears key(s) from editor.values
  * @param {[] || string} values

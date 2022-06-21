@@ -165,7 +165,7 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
             errors = updatedValidations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key], keywordSets) ? null : validation)
         // validate videos
         } else if (key === 'videos') {
-            errors = values && values.videos && values.videos.length
+            errors = values && values.videos && values.videos.length > 0
                 ? validateVideos(valuesWithLanguages, validations)
                 : {}
         } else if (

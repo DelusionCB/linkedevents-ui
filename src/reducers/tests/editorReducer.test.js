@@ -12,7 +12,7 @@ import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
 
 const {EDITOR_SETDATA, EDITOR_SETMETHODDATA, EDITOR_CLEAR_VALUE, EDITOR_UPDATE_SUB_EVENT,
     EDITOR_DELETE_SUB_EVENT, EDITOR_SORT_SUB_EVENTS, EDITOR_ADD_OFFER,
-    EDITOR_DELETE_OFFER, EDITOR_SET_FREE_OFFERS, EDITOR_SETLANGUAGES,
+    EDITOR_DELETE_OFFER, EDITOR_SET_FREE_OFFERS, EDITOR_ADD_VIDEO, EDITOR_DELETE_VIDEO, EDITOR_SET_NO_VIDEOS, EDITOR_SETLANGUAGES,
     VALIDATE_FOR, EDITOR_REPLACEDATA, EDITOR_CLEARDATA, EDITOR_SENDDATA_SUCCESS,
     EDITOR_RECEIVE_KEYWORDSETS, EDITOR_RECEIVE_PAYMENTMETHODS,
     EDITOR_RECEIVE_LANGUAGES, RECEIVE_EVENT_FOR_EDITING, SELECT_IMAGE_BY_ID,
@@ -76,6 +76,29 @@ describe('reducers/editor', () => {
                     }
                 );
                 expect(stateWithUpdatedOffer).toEqual(expectedState);
+            });
+
+            test('video values are set', () => {
+                // add video
+                const stateWithVideo = update(
+                    INITIAL_STATE,
+                    {type: EDITOR_ADD_VIDEO, values:  {0: {url: 'https://google.fi'}}}
+                );
+                // update video values
+                const stateWithUpdatedVideo = update(
+                    stateWithVideo,
+                    {type: EDITOR_SETDATA, video: true, key: '0', values: {'0': {'name': 'test'}}}
+                );
+                const expectedState = getProps(
+                    stateWithUpdatedVideo,
+                    {
+                        values: {
+                            ...INITIAL_STATE.values,
+                            videos: [{'0': {url: 'https://google.fi'}, name: 'test'}],
+                        },
+                    }
+                );
+                expect(stateWithUpdatedVideo).toEqual(expectedState);
             });
 
             test('sub_events are set', () => {
@@ -195,6 +218,20 @@ describe('reducers/editor', () => {
             });
         });
 
+        describe('EDITOR_ADD_VIDEO', () => {
+            test('add video to values', () => {
+                const nextState = update(
+                    INITIAL_STATE,
+                    {type: EDITOR_ADD_VIDEO, values: {0: {url: '', name: {}, alt_text: {}}}}
+                );
+                const expectedState = getProps(
+                    INITIAL_STATE,
+                    {values:{...INITIAL_STATE.values, videos:[{0: {url: '', name: {}, alt_text: {}}}]}}
+                );
+                expect(nextState).toEqual(expectedState);
+            });
+        });
+
         describe('EDITOR_DELETE_OFFER', () => {
             test('return state with updated offers', () => {
                 // add first offer
@@ -213,6 +250,24 @@ describe('reducers/editor', () => {
             });
         });
 
+        describe('EDITOR_DELETE_VIDEO', () => {
+            test('return state with updated videos', () => {
+                // add first video
+                const stateWithOneVideo = update(
+                    INITIAL_STATE,
+                    {type: EDITOR_ADD_VIDEO, values: {0: {url: '', name: {}, alt_text: {}}}}
+                );
+                // add second video
+                const stateWithTwoVideos = update(
+                    stateWithOneVideo,
+                    {type: EDITOR_ADD_VIDEO, values: {1: {url: '', name: {}, alt_text: {}}}}
+                );
+                // remove second video
+                const stateWithVideoRemoved = update(stateWithTwoVideos, {type: EDITOR_DELETE_VIDEO, videoKey: 1})
+                expect(stateWithVideoRemoved).toEqual(stateWithOneVideo);
+            });
+        });
+
         describe('EDITOR_SET_FREE_OFFERS', () => {
             test('existing offer is set free & deleted', () => {
                 const newStateWithOffers = update(
@@ -222,6 +277,20 @@ describe('reducers/editor', () => {
                 const stateWithFreeOffers = update(
                     newStateWithOffers,
                     {type: EDITOR_SET_FREE_OFFERS, isFree: true}
+                );
+                expect(stateWithFreeOffers).toEqual(INITIAL_STATE);
+            });
+        });
+
+        describe('EDITOR_SET_NO_VIDEOS', () => {
+            test('existing offer is set free & deleted', () => {
+                const newStateWithVideo = update(
+                    INITIAL_STATE,
+                    {type: EDITOR_ADD_VIDEO, values: [{price: '5'}]}
+                );
+                const stateWithFreeOffers = update(
+                    newStateWithVideo,
+                    {type: EDITOR_SET_NO_VIDEOS, isFree: true}
                 );
                 expect(stateWithFreeOffers).toEqual(INITIAL_STATE);
             });

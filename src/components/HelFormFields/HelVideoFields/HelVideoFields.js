@@ -2,15 +2,14 @@ import './HelVideoFields.scss';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {setData as setDataAction, clearValue as clearValueAction} from 'src/actions/editor';
-import {HelTextField, MultiLanguageField} from '../index';
-import {connect} from 'react-redux';
-import classNames from 'classnames';
-import {isEmpty, get, isEqual} from 'lodash';
-import update from 'immutability-helper';
-
 import constants from 'src/constants';
-const  {VALIDATION_RULES} = constants;
+import {addVideo, setNoVideos} from 'src/actions/editor';
+import SelectorRadio from '../Selectors/SelectorRadio';
+import {Button} from 'reactstrap';
+import HelVideo from './HelVideo';
+import {FormattedMessage} from 'react-intl';
+
+const  {GENERATE_LIMIT} = constants;
 
 /**
  * empty video object
@@ -24,277 +23,149 @@ const EMPTY_VIDEO = {
 
 
 class HelVideoFields extends React.Component {
+    static contextTypes = {
+        intl: PropTypes.object,
+        dispatch: PropTypes.func,
+    };
     constructor(props) {
         super(props);
-
         this.state = {
-            videos: [],
-        }
-        this.handleAddVideo = this.handleAddVideo.bind(this);
-        this.handleDeleteVideo = this.handleDeleteVideo.bind(this);
-    }
-
-
-    componentDidMount() {
-        const defaultValues = this.props.defaultValues;
-        if (defaultValues && defaultValues.length > 0) {
-            this.setState({videos: this.props.defaultValues})
-        } else {
-            this.setState({videos: [Object.assign({}, EMPTY_VIDEO)]})
+            noVideos: !(this.props.defaultValue && this.props.defaultValue.length > 0),
         }
     }
+
 
     /**
-     * If prevProps languages !== this.props.languages
-     * ie. ['fi','sv'] -> ['fi'] then the 'sv' keys with their values are removed
-     * and the result is dispatched to redux store.
      * @param prevProps
      * @param prevState
-     * @param snapshot
-     * @example
-     * {
-     *     name: {
-     *         fi: 'finnish',
-     *         sv: 'swedish',
-     *     },
-     *
-     * }
-     * becomes
-     * {
-     *     name: {
-     *         fi: 'finnish',
-     *     },
-     * }
      */
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.languages !== this.props.languages && prevProps.languages.length > this.props.languages.length && this.props.defaultValues) {
-            const usedLanguages = this.props.languages;
-            let videos = this.state.videos;
+    componentDidUpdate(prevProps, prevState) {
+        const {defaultValue: currentValue} = this.props;
 
-            for (let video of videos) {
-                for (let key in video) {
-                    if (typeof video[key] === 'object') {
-                        Object.keys(video[key]).forEach((k) => {
-                            if (!usedLanguages.includes(k)) {
-                                video[key] = update(video[key], {
-                                    $unset: [k],
-                                })
-                            }
-                        })
-                    }
-                }
-            }
-            this.props.setData({videos: videos});
-        }
-        if (prevProps.action === 'update' && this.props.action === 'create') {
-            this.setState({videos: [Object.assign({}, EMPTY_VIDEO)]})
-        }
-        if (this.props.defaultValues && this.props.defaultValues.length === 1) {
-            if (isEqual(EMPTY_VIDEO, this.props.defaultValues[0])) {
-                this.props.clearValue(['videos']);
+        // Did change occur? If so...
+        if (prevProps.defaultValue !== currentValue) {
+            if(currentValue && currentValue.length > 0) {
+                // video array has content
+                this.setState({noVideos: false});
+            } else {
+                // video array is empty
+                this.setState({noVideos: true});
             }
         }
     }
 
-    /**
-     * Sends dispatch containing current videos to redux store
-     * @param event
-     * @param value
-     * @param video
-     */
-    handleBlur(event, value, video) {
-        let updatedValues = video;
-        if (video.length > 1) {
-            updatedValues = video.reduce((acc, curr) => {
-                if (!isEqual(curr, EMPTY_VIDEO)) {
-                    acc.push(curr);
-                }
-                return acc;
-            }, [])
-        }
-        this.props.setData({videos: updatedValues});
-    }
 
     /**
-     *
-     * Sets value object to the correct video , if the object value is empty then { } is set.
-     * @param {Object} event
-     * @param {Object} value
-     * @param {string} name - key where value is to be set
-     * @param {number} index - index of video in state.videos array
-     * @example
-     *  if name: {fi: ''}
-     *  then name: { }
-     */
-    handleChange(event, value, name, index) {
-        this.setState(state => {
-            let videos = [...state.videos];
-
-            if (name !== 'url' && typeof value === 'object') {
-                let hasData;
-                hasData = Object.values(value).some((langValue) => langValue.length > 0);
-                if (!hasData) {value = {}}
-            }
-
-            let target = videos[index];
-            videos[index] = update(target, {
-                [name]: {
-                    $set: value,
-                },
-            })
-            return {videos};
-        });
-    }
-
-    /**
-     * Adds one video to state.videos array
-     * @example
-     * state.videos = [{video}]
-     * handleAddVideo()
-     * state.videos = [{video}{video}]
+     * Dispatch new video with EMPTY_VIDEO -object
      */
     handleAddVideo() {
-        let updatedStateVideos = this.state.videos;
-        updatedStateVideos = update(updatedStateVideos, {$push:[Object.assign({}, EMPTY_VIDEO)]});
-        this.setState({videos: updatedStateVideos})
+        this.context.dispatch(addVideo(EMPTY_VIDEO));
     }
 
     /**
-     * Removes video at index from state.videos
-     * @example
-     * state.videos = [{one}{two}{three}]
-     * handleDeleteVideo(1)
-     * state.videos = [{one}{three}]
+     * If state noVideos is true, call handleAddVideo
+     * Else call setNoVideos & clear all videos from values.
      */
-    handleDeleteVideo(index) {
-        const currentStateVideos = this.state.videos;
-        const filteredCurrentStateVideos = currentStateVideos.filter((video, itemIndex) => itemIndex !== index);
-        this.setState({videos: filteredCurrentStateVideos});
-        this.props.setData({videos: filteredCurrentStateVideos});
-    }
-
-
-    /**
-     * Checks if video contains any values are not length > 0
-     * @example
-     * {
-     *     name: {
-     *         fi: '',
-     *     }
-     *     alt_text: {
-     *         fi: '',
-     *     },
-     *     url: '',
-     * } // this video would return False
-     * {
-     *     name: {
-     *         fi:'',
-     *     },
-     *     alt_text: {
-     *         fi:'test',
-     *     },
-     *     url: '',
-     * } // this video would return True
-     * @param {Object} video
-     * @returns {boolean}
-     */
-    checkIfRequired(video) {
-        const entries = Object.values(video);
-        let result;
-
-        for (const entry of entries) {
-            if (result) {break}
-            if (typeof entry === 'object') {
-                for (const key in entry) {
-                    result = !isEmpty(entry[key]);
-                    if (result) {break}
-                }
-            }
-            if (typeof entry === 'string') {result = entry.length > 0;}
+    toggleVideos = () => {
+        if (this.state.noVideos) {
+            this.handleAddVideo();
+        } else {
+            this.context.dispatch(setNoVideos());
         }
-        return result;
+    }
+
+    /**
+     * Generate new videos, each separated into HelVideo -components.
+     * @returns {[]}
+     */
+    generateVideos() {
+        const {validationErrors, disabled, defaultValue, languages, localeType, editorValues} = this.props;
+        const {noVideos} = this.state;
+        const videos = defaultValue;
+        const newVideos = [];
+        let keys;
+        let firstKey;
+        if (videos) {
+            keys = Object.keys(videos);
+            firstKey = keys.length > 1 ? keys[keys.length - 1] : false;
+        }
+        for (const key in videos) {
+            if (videos.hasOwnProperty(key) && !this.state.noVideos) {
+                newVideos.push(
+                    <HelVideo
+                        editor={editorValues}
+                        key={key}
+                        length={newVideos.length + 1}
+                        videoKey={key}
+                        defaultValue={defaultValue[key]}
+                        validationErrors={validationErrors}
+                        languages={languages}
+                        noVideos={noVideos}
+                        setInitialFocus={key === firstKey}
+                        disabled={disabled}
+                        localeType={localeType}
+                    />
+                );
+            }
+        }
+        return newVideos;
+    }
+
+    /**
+     * Get radios to toggle when ever content has videos or not.
+     * @returns {JSX.Element}
+     */
+    getToggleRadios() {
+        const {noVideos} = this.state;
+        const {disabled} = this.props;
+        return (
+            <div className='row video-toggle'>
+                <SelectorRadio
+                    checked={noVideos}
+                    disabled={disabled}
+                    handleCheck={this.toggleVideos}
+                    messageID='no-videos'
+                    value='no_videos'
+                />
+                <SelectorRadio
+                    checked={!noVideos}
+                    disabled={disabled}
+                    handleCheck={this.toggleVideos}
+                    messageID='has-videos'
+                    value='has_videos'
+                />
+            </div>
+        )
     }
 
     render() {
+        const {defaultValue, disabled} = this.props;
+        const isOverLimit = defaultValue && defaultValue.length >= GENERATE_LIMIT.VIDEO_LENGTH;
+        const disabledButton = disabled || isOverLimit || this.state.noVideos;
 
-        // TODO: Uncomment the Button components to enable adding multiple video fields.
-        // Everything should work with multiple videos but it should be tested/checked before using.
-
-        const stateVideos = this.state.videos;
-        const required = stateVideos.map(video => this.checkIfRequired(video));
         return (
             <React.Fragment>
-                <div className="row event-videos">
-                    <div className="col-xs-12 col-sm-6">
-                        {stateVideos.map((video, index) => (
-                            <div key={`video-field-${index}`} className={classNames('event-videos--item-container', {'indented': this.state.videos.length > 1})}>
-                                <div className='event-videos--item-inputs'>
-                                    { /*this.state.videos.length > 1 &&
-                                    <Button
-                                        size='sm'
-                                        onClick={() => this.handleDeleteVideo(index)}
-                                        style={{left: '480px', position: 'absolute'}}
-                                    >
-                                        {this.props.intl.formatMessage({id: 'delete'})}
-                                    </Button>
-                                    */}
-                                    <HelTextField
-                                        id='event-video-url'
-                                        key='url-video-field'
-                                        required={required[index]}
-                                        defaultValue={video.url}
-                                        label={this.context.intl.formatMessage({id: `${this.props.localeType}-video-url`})}
-                                        validations={[VALIDATION_RULES.IS_URL]}
-                                        validationErrors={get(this.props.validationErrors,['videos', index, 'url'], null)}
-                                        onChange={(e, v) => this.handleChange(e, v, 'url', index)}
-                                        onBlur={(e, v) => this.handleBlur(e, v, this.state.videos)}
-                                        placeholder='https://...'
-                                        type='url'
-                                        disabled={this.props.disabled}
-                                        forceApplyToStore
-                                    />
-                                    <MultiLanguageField
-                                        id='event-video-name'
-                                        defaultValue={video.name}
-                                        required={required[index]}
-                                        multiLine={false}
-                                        validations={[VALIDATION_RULES.SHORT_STRING]}
-                                        validationErrors={get(this.props.validationErrors,['videos', index, 'name'], null)}
-                                        label='event-video-name'
-                                        languages={this.props.languages}
-                                        onChange={(e, v) => this.handleChange(e, v, 'name', index)}
-                                        onBlur={(e, v) => this.handleBlur(e, v, this.state.videos)}
-                                        type='text'
-                                        disabled={this.props.disabled}
-                                    />
-                                    <MultiLanguageField
-                                        id='event-video-alt_text'
-                                        defaultValue={video.alt_text}
-                                        required={required[index]}
-                                        multiLine={false}
-                                        validations={[VALIDATION_RULES.MEDIUM_STRING]}
-                                        validationErrors={get(this.props.validationErrors,['videos', index, 'alt_text'], null)}
-                                        label='event-video-alt_text'
-                                        languages={this.props.languages}
-                                        onChange={(e, v) => this.handleChange(e, v, 'alt_text', index)}
-                                        onBlur={(e, v) => this.handleBlur(e, v, this.state.videos)}
-                                        type='text'
-                                        disabled={this.props.disabled}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                        {/*
+                {this.getToggleRadios()}
+                <div className="event-videos">
+                    <div className="videos">
+                        {defaultValue && this.generateVideos()}
                         <div>
+                            {!this.state.noVideos &&
                             <Button
                                 size='lg'
                                 block
-                                onClick={this.handleAddVideo}
+                                disabled={disabledButton}
+                                onClick={() => this.handleAddVideo()}
                             >
                                 {this.context.intl.formatMessage({id: 'event-video-add'})}
                             </Button>
+                            }
+                            {isOverLimit &&
+                                <p className='videosLimit' role='alert'>
+                                    <FormattedMessage id='event-video-add-limit' values={{count: GENERATE_LIMIT.VIDEO_LENGTH}} />
+                                </p>
+                            }
                         </div>
-                        */}
                     </div>
                 </div>
             </React.Fragment>
@@ -302,15 +173,11 @@ class HelVideoFields extends React.Component {
     }
 }
 
-HelVideoFields.contextTypes = {
-    intl: PropTypes.object,
-}
-
 HelVideoFields.propTypes = {
     action: PropTypes.string,
     setData: PropTypes.func,
     clearValue: PropTypes.func,
-    defaultValues: PropTypes.array,
+    defaultValue: PropTypes.array,
     disabled: PropTypes.bool,
     validationErrors: PropTypes.object,
     setDirtyState: PropTypes.func,
@@ -320,15 +187,5 @@ HelVideoFields.propTypes = {
     localeType: PropTypes.string,
 }
 
-const mapStateToProps = (state) => ({
-    languages: state.editor.contentLanguages,
-    editorValues: state.editor.values,
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    setData: (value) => dispatch(setDataAction(value)),
-    clearValue: (value) => dispatch(clearValueAction(value)),
-});
-
 export {HelVideoFields as UnconnectedHelVideoFields}
-export default connect(mapStateToProps, mapDispatchToProps)(HelVideoFields)
+export default HelVideoFields

@@ -327,12 +327,15 @@
     "event-price-methods": "Betalningsmetoder",
     "event-purchase-link": "Länk till biljettförsäljning",
 
-    "event-video": "Video som hör ihop med evenemanget",
-    "event-video-url": "Video som hör ihop med evenemanget (URL)",
-    "hobby-video": "Video som hör ihop med hobbyn",
-    "hobby-video-url": "Video som hör ihop med hobbyn (URL)",
-    "course-video": "Video som hör ihop med utbildningen",
-    "course-video-url": "Video som hör ihop med utbildningen (URL)",
+    "event-video-url": "Videokälla (URL)",
+    "event-video-count": "Video {count}",
+    "event-video-add-limit": "Högsta antalet videon som kan tilläggas är {count}.",
+
+    "event-video-header": "Evenemangets videon",
+    "hobby-video-header": "Hobbyns videon",
+    "course-video-header": "Utbildningens videon",
+    "no-videos": "Inga videon",
+    "has-videos": "Innehåller videon",
 
     "event-video-name": "Video namn",
     "event-video-alt_text": "Videons alt-text",

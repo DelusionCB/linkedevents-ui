@@ -6,6 +6,10 @@ import {
     setEventData,
     setOfferData,
     addOffer,
+    setVideoData,
+    addVideo,
+    deleteVideo,
+    setNoVideos,
     clearValue,
     setFreeOffers,
     setLanguages,
@@ -36,6 +40,9 @@ const {
     EDITOR_SET_FREE_OFFERS,
     EDITOR_SETLANGUAGES,
     EDITOR_DELETE_OFFER,
+    EDITOR_ADD_VIDEO,
+    EDITOR_DELETE_VIDEO,
+    EDITOR_SET_NO_VIDEOS,
     EDITOR_CLEARDATA,
     EDITOR_RECEIVE_LANGUAGES,
     EDITOR_RECEIVE_KEYWORDSETS,
@@ -55,6 +62,7 @@ function createFormValues(languages) {
         short_description: {},
         description: {},
         offers: [{is_free: false, info_url: {}, price: {}, description: {}}],
+        videos: [{name: {}, alt_text: {}, url: 'https://testUrl.com'}],
         start_time: moment().tz('Europe/Helsinki').add(1, 'days').endOf('day').toISOString(),
         end_time: moment().tz('Europe/Helsinki').add(10, 'days').endOf('day').toISOString(),
         image: mockImages[0],
@@ -79,6 +87,8 @@ function createFormValues(languages) {
         values.offers[0].price[lang] = '10';
         values.offers[0].description[lang] = `${lang}-description`
         values.offers[0].info_url[lang] = `http://${lang}info.domain`
+        values.videos[0].name[lang] = `${lang}-name`
+        values.videos[0].alt_text[lang] = `${lang}-alt_text`
     })
     return values
 }
@@ -126,6 +136,13 @@ describe('actions/editor', () => {
         });
     });
 
+    describe('setVideoData', () => {
+        test('return object with correct type, key, values & video', () => {
+            const expectedResult  = {type: constants.EDITOR_SETDATA, key: 1, values: mockEvent, video: true}
+            expect(setVideoData(mockEvent, 1)).toEqual(expectedResult);
+        });
+    });
+
     describe('addOffer', () => {
         test('return object with correct type & values', () => {
             const expectedResult  = {type: EDITOR_ADD_OFFER, values: mockEvent}
@@ -161,6 +178,28 @@ describe('actions/editor', () => {
             expect(setLanguages(mockLanguages)).toEqual(expectedResult);
         });
     });
+
+    describe('setNoVideos', () => {
+        test('return object with correct type', () => {
+            const expectedResult  = {type: EDITOR_SET_NO_VIDEOS}
+            expect(setNoVideos()).toEqual(expectedResult);
+        });
+    });
+
+    describe('deleteVideo', () => {
+        test('return object with correct type & videoKey', () => {
+            const expectedResult  = {type: EDITOR_DELETE_VIDEO, videoKey: 1}
+            expect(deleteVideo(1)).toEqual(expectedResult);
+        });
+    });
+
+    describe('addVideo', () => {
+        test('return object with correct type', () => {
+            const expectedResult  = {type: EDITOR_ADD_VIDEO}
+            expect(addVideo()).toEqual(expectedResult);
+        });
+    });
+
     describe('clearData', () => {
         test('return object with correct type', () => {
             const expectedResult  = {type: EDITOR_CLEARDATA}

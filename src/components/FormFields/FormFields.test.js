@@ -260,7 +260,7 @@ describe('FormField', () => {
                 const wrapper = getWrapper()
                 const roleDivs = wrapper.find('div').filter({role: 'group'})
                 test('correct amount', () => {
-                    expect(roleDivs).toHaveLength(10)
+                    expect(roleDivs).toHaveLength(11)
                 })
                 const testValues = [
                     {index: 0, expected: 'type-one'},
@@ -737,7 +737,7 @@ describe('FormField', () => {
                 const wrapper = getWrapper()
                 const videofields = wrapper.find(HelVideoFields)
                 test('correct props for HelVideoFields', () => {
-                    expect(videofields.prop('defaultValues')).toBe(defaultProps.editor.values.videos)
+                    expect(videofields.prop('defaultValue')).toBe(defaultProps.editor.values.videos)
                     expect(videofields.prop('validationErrors')).toBe(defaultProps.editor.validationErrors)
                     expect(videofields.prop('setDirtyState')).toBe(defaultProps.setDirtyState)
                     expect(videofields.prop('intl')).toBe(intl)

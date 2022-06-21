@@ -343,10 +343,7 @@ var validations = {
         }
     },
     requiredVideoField(values, value, language, key) {
-        // check whether all values are empty
-        const allEmpty = Object.values(values).every(isEmpty)
-
-        if (!allEmpty) {
+        if (values) {
             if (key === 'url' && language === undefined) {
                 return value.length !== 0
             }

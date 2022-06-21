@@ -306,12 +306,15 @@
     "event-price-methods": "Payment methods",
     "event-purchase-link": "Link to ticket purchase",
 
-    "event-video": "Video connected to the event",
-    "event-video-url": "Video connected to the event (URL)",
-    "hobby-video": "Video connected to the hobby",
-    "hobby-video-url": "Video connected to the hobby (URL)",
-    "course-video": "Video connected to the education",
-    "course-video-url": "Video connected to the education (URL)",
+    "event-video-url": "Video source (URL)",
+    "event-video-count": "Video {count}",
+    "event-video-add-limit": "There can be only up to {count} videos.",
+
+    "event-video-header": "Videos related to the event",
+    "hobby-video-header": "Videos related to the hobby",
+    "course-video-header": "Videos related to the education",
+    "no-videos": "No videos",
+    "has-videos": "Contains videos",
 
     "event-video-name": "Video name",
     "event-video-alt_text": "Videos alt-text",

@@ -694,7 +694,7 @@ describe('validation rules', () => {
     })
     describe('requiredVideoField', () => {
         const testValues = [
-            {values: {alt_text: {}, name: {}, url: ''}, value: '', language: '', key: '', expected: true},
+            {values: {alt_text: {}, name: {}, url: ''}, value: '', language: '', key: '', expected: false},
             {values: {alt_text: {fi: 'test'}, name: {}, url: ''}, value: '', language: undefined, key: 'url', expected: false},
             {values: {alt_text: {}, name: {}, url: ''}, value: {fi: 'test'}, language: 'fi', key: 'name', expected: true},
             {values: {alt_text: {sv: null}, name: {sv: null}, url: ''}, value: {}, language: 'sv', key: 'alt_text', expected: false},

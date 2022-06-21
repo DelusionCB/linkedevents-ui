@@ -75,8 +75,7 @@ function mapUIDataToAPIFormat(values) {
     // Video data
     obj.videos = []
     if (values.videos && !isEmpty(values.videos)) {
-        // filter out items where every field is empty
-        obj.videos = values.videos.filter(item => !Object.values(item).every(isEmpty))
+        obj.videos = values.videos
     }
 
     // Price data

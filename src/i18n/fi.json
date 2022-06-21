@@ -303,16 +303,19 @@
     "event-price-methods": "Maksutavat",
     "event-purchase-link": "Linkki lipunmyyntiin",
 
-    "event-video": "Tapahtumaan liittyvä video",
-    "event-video-url": "Tapahtumaan liittyvä video (URL)",
-    "hobby-video": "Harrastukseen liittyvä video",
-    "hobby-video-url": "Harrastukseen liittyvä video (URL)",
-    "course-video": "Koulutukseen liittyvä video",
-    "course-video-url": "Koulutukseen liittyvä video (URL)",
+    "event-video-url": "Videon lähde (URL)",
+    "event-video-count": "Video {count}",
+    "event-video-add-limit": "Videoita voi olla enintään {count} kappaletta.",
 
+    "event-video-header": "Tapahtumaan liittyvät videot",
+    "hobby-video-header": "Harrastukseen liittyvät videot",
+    "course-video-header": "Koulutukseen liittyvät videot",
     "event-video-name": "Videon nimi",
     "event-video-alt_text": "Videon alt-teksti",
     "event-video-add": "Lisää uusi video",
+
+    "no-videos": "Ei videota",
+    "has-videos": "Sisältää videoita",
 
     "event-social-media-fields-header": "Tapahtuman kanavat",
     "hobby-social-media-fields-header": "Harrastuksen kanavat",

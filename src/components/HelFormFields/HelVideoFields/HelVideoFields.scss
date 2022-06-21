@@ -16,4 +16,19 @@
     &--item-inputs {
         flex: 1;
     }
+    .videosLimit {
+        margin-top: 0.5rem;
+        color: var(--red-color);
+        font-weight: bold;
+    }
 }
+
+.row.video-toggle {
+    margin-left: 0;
+    margin-right: 0;
+
+    .custom-control.custom-radio {
+        margin-right: 25px;
+    }
+}
+

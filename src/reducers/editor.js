@@ -66,6 +66,17 @@ function update(state = initialState, action) {
                 },
             });
             newValues = newValues.values
+        } else if (action.video) {
+            newValues = updater(state, {
+                values: {
+                    videos: {
+                        [action.key]: {
+                            $merge: action.values[action.key],
+                        },
+                    },
+                },
+            });
+            newValues = newValues.values
         } else {
             newValues = Object.assign({}, state.values, action.values)
         }
@@ -101,8 +112,18 @@ function update(state = initialState, action) {
                 },
                 validationErrors: {$set: validationErrors},
             });
+        } else if (action.video) {
+            return updater(state, {
+                values: {
+                    videos: {
+                        [action.key]: {
+                            $set: newValues.videos[action.key],
+                        },
+                    },
+                },
+                validationErrors: {$set: validationErrors},
+            });
         }
-
         return Object.assign({}, state, {
             values: newValues,
             validationErrors: validationErrors,
@@ -229,6 +250,48 @@ function update(state = initialState, action) {
                 ...updateValues,
             },
         });
+    }
+
+    if (action.type === constants.EDITOR_ADD_VIDEO) {
+        let videoItems = []
+        if (state.values.videos) {
+            videoItems = JSON.parse(JSON.stringify(state.values.videos))
+        }
+        videoItems.push(action.values)
+        return updater(state, {
+            values: {
+                videos: {
+                    $set: videoItems,
+                },
+            },
+        })
+    }
+
+    if (action.type === constants.EDITOR_DELETE_VIDEO) {
+        const index = parseInt(action.videoKey)
+        const videos = JSON.parse(JSON.stringify(state.values.videos))
+        videos.splice(index, 1)
+        /**
+         * If videos.length is falsy(zero in this case) -> last video was deleted -> unset videos,
+         * otherwise set updated videos.
+         */
+        const updateValues = videos.length ? {videos: {$set: videos}} : {$unset: ['videos']};
+
+        return updater(state, {
+            values: {
+                ...updateValues,
+            },
+        });
+    }
+
+    if (action.type === constants.EDITOR_SET_NO_VIDEOS) {
+        // Content doesn't have videos so we unset it
+        // this prevents validation errors on possibly already entered video fields
+        return updater(state, {
+            values: {
+                $unset: ['videos'],
+            },
+        })
     }
 
     if (action.type === constants.EDITOR_SET_FREE_OFFERS) {

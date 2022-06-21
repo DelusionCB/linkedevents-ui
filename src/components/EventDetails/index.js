@@ -306,7 +306,7 @@ OffersValue.propTypes = {
 const VideoValue = ({values, localeType}) => {
 
     if (!values || values.length === 0) {
-        return (<NoValue labelKey={'event-video'}/>)
+        return (<NoValue labelKey={`${localeType}-video-header`}/>)
     }
 
     return (
@@ -316,6 +316,7 @@ const VideoValue = ({values, localeType}) => {
                     key={`video-item-${index}`}
                     className={'video-item--container'}
                 >
+                    <FormattedMessage id='event-video-count' values={{count: index + 1}}>{txt => <h3>{txt}</h3>}</FormattedMessage>
                     {Object.entries(item)
                         .map(([key, value]) => {
                             if (key === 'url') {
@@ -509,7 +510,7 @@ const EventDetails = (props) => {
             <TextValue labelKey="instagram-url" value={values['extlink_instagram']}/>
 
             <FormHeader>
-                {intl.formatMessage({id: `${localeType}-video`})}
+                {intl.formatMessage({id: `${localeType}-video-header`})}
             </FormHeader>
             <VideoValue localeType={localeType} values={values['videos']} />
 

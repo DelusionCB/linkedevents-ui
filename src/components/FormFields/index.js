@@ -311,6 +311,7 @@ class FormFields extends React.Component {
             enrolment: ['enrolment-one'],
             attendee: ['attendee-one'],
             socials: ['social-one'],
+            videos: ['video-one'],
         }
         const ariaTypes = (id) => ariaIds[id].toString();
 
@@ -1006,15 +1007,21 @@ class FormFields extends React.Component {
                                 />
                             </div>
                         </div>
-                        <HelVideoFields
-                            defaultValues={values['videos']}
-                            validationErrors={validationErrors}
-                            setDirtyState={this.props.setDirtyState}
-                            intl={this.context.intl}
-                            action={this.props.action}
-                            disabled={userDoesNotExist}
-                            localeType={currentEventType}
-                        />
+                        <div role='group' aria-labelledby={ariaTypes('videos')} className='row videos-row'>
+                            <FormText formatId={`${currentEventType}-video-header`} id={ariaIds.videos[0]}/>
+                            <div className='col-sm-6'>
+                                <HelVideoFields
+                                    defaultValue={values['videos']}
+                                    validationErrors={validationErrors}
+                                    setDirtyState={this.props.setDirtyState}
+                                    intl={this.context.intl}
+                                    action={this.props.action}
+                                    disabled={userDoesNotExist}
+                                    localeType={currentEventType}
+                                    languages={this.props.editor.contentLanguages}
+                                />
+                            </div>
+                        </div>
                     </Collapse>
                 </div>
                 <div>
