@@ -36,6 +36,20 @@ const initialState = {
     loading: false,
 }
 
+/**
+ * If validationErrors exist, check if they're fixed
+ * @param {object} values
+ * @param {object} state
+ * @returns {object} validationErrors
+ */
+function validateValues(values, state) {
+    let validationErrors = Object.assign({}, state.validationErrors)
+    if (_.keys(state.validationErrors).length > 0) {
+        validationErrors = doValidations(values.values, state.contentLanguages, state.validateFor || constants.PUBLICATION_STATUS.PUBLIC, state.keywordSets)
+    }
+    return validationErrors
+}
+
 function clearEventDataFromLocalStorage() {
     localStorage.setItem('EDITOR_VALUES', JSON.stringify({}))
 }
@@ -226,12 +240,16 @@ function update(state = initialState, action) {
             offersItems = JSON.parse(JSON.stringify(state.values.offers))
         }
         offersItems.push(action.values)
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 offers: {
                     $set: offersItems,
                 },
             },
+        })
+        return Object.assign({}, state, {
+            values: newValues.values,
+            validationErrors: validateValues(newValues, state),
         })
     }
 
@@ -245,11 +263,15 @@ function update(state = initialState, action) {
          */
         const updateValues = offers.length ? {offers: {$set: offers}} : {$unset: ['offers']};
 
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 ...updateValues,
             },
         });
+        return Object.assign({}, state, {
+            values: newValues.values,
+            validationErrors: validateValues(newValues, state),
+        })
     }
 
     if (action.type === constants.EDITOR_ADD_VIDEO) {
@@ -258,12 +280,16 @@ function update(state = initialState, action) {
             videoItems = JSON.parse(JSON.stringify(state.values.videos))
         }
         videoItems.push(action.values)
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 videos: {
                     $set: videoItems,
                 },
             },
+        })
+        return Object.assign({}, state, {
+            values: newValues.values,
+            validationErrors: validateValues(newValues, state),
         })
     }
 
@@ -277,30 +303,43 @@ function update(state = initialState, action) {
          */
         const updateValues = videos.length ? {videos: {$set: videos}} : {$unset: ['videos']};
 
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 ...updateValues,
             },
         });
+
+        return Object.assign({}, state, {
+            values: newValues.values,
+            validationErrors: validateValues(newValues, state),
+        })
     }
 
     if (action.type === constants.EDITOR_SET_NO_VIDEOS) {
         // Content doesn't have videos so we unset it
         // this prevents validation errors on possibly already entered video fields
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 $unset: ['videos'],
             },
+        })
+        return Object.assign({}, state, {
+            values: newValues.values,
+            validationErrors: validateValues(newValues, state),
         })
     }
 
     if (action.type === constants.EDITOR_SET_FREE_OFFERS) {
         // Event is free so we can clear the offers key from state store
         // this prevents validation errors on possibly already entered offer fields
-        return updater(state, {
+        const newValues = updater(state, {
             values: {
                 $unset: ['offers'],
             },
+        })
+        return Object.assign({}, state, {
+            values: newValues.values,
+            validationErrors: validateValues(newValues, state),
         })
     }
 

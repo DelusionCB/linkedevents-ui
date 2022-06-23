@@ -9,6 +9,17 @@ import constants from '../../constants';
 import SelectorRadio from './Selectors/SelectorRadio';
 import {addOffer, setFreeOffers} from 'src/actions/editor.js';
 
+/**
+ * empty offer object
+ * @type {{alt_text: {}, name: {}, url: string}}
+ */
+const EMPTY_OFFER = {
+    is_free: false,
+    price: {},
+    description: {},
+    info_url: {},
+};
+
 const {GENERATE_LIMIT} = constants;
 class HelOffersField extends React.Component {
     static contextTypes = {
@@ -46,7 +57,7 @@ class HelOffersField extends React.Component {
     }
 
     addNewOffer = () => {
-        this.context.dispatch(addOffer({is_free: false}));
+        this.context.dispatch(addOffer(EMPTY_OFFER));
     }
 
     generateOffers() {

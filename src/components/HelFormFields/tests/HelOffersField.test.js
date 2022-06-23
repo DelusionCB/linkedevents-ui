@@ -15,6 +15,13 @@ const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {}
 const {intl} = intlProvider.getChildContext();
 const dispatch = jest.fn()
 
+const EMPTY_OFFER = {
+    is_free: false,
+    price: {},
+    description: {},
+    info_url: {},
+};
+
 const defaultProps = {
     defaultValue: undefined,
     languages: ['fi'],
@@ -150,7 +157,7 @@ describe('HelOffersField', () => {
                 instance.togglePricing();
                 expect(spy).toHaveBeenCalledTimes(1);
                 expect(dispatch).toHaveBeenCalledTimes(1);
-                expect(dispatch).toHaveBeenCalledWith(addOffer({is_free: false}));
+                expect(dispatch).toHaveBeenCalledWith(addOffer(EMPTY_OFFER));
             });
             test('calls setFreeOffers when defaultValue is truthy', () => {
                 wrapper.setProps({defaultValue: [createOffer()]});
@@ -165,7 +172,7 @@ describe('HelOffersField', () => {
             test('calls addOffer with correct props', () => {
                 const wrapper = getWrapper();
                 wrapper.instance().addNewOffer();
-                expect(dispatch).toHaveBeenCalledWith(addOffer({is_free: false}));
+                expect(dispatch).toHaveBeenCalledWith(addOffer(EMPTY_OFFER));
             });
         });
 
