@@ -522,67 +522,9 @@
     "editor-sentinel-alert": "You can view the form, but you don't have the permission to publish or edit events. You are not logged in or your login has expired.",
     "editor-authorization-required": "You must be logged in to create or edit events.",
 
-    "editor-tip-event-time-start": "Choose whether your event is a single event or a serial event.",
-    "editor-tip-event-time-start-end": "A serial event consists of multiple sub-events, it may contain at least 2 and up to 65 sub-events.",
-    "editor-tip-event-time-type": "Add new occasion: add sub-events to a serial event.",
-    "editor-tip-event-time-end": "Regularly recurring event: Add regularly recurring events, e.g. a weekly.",
-
-    "editor-tip-hobby-time-start": "Choose whether the hobby is a single function or a hobby series.",
-    "editor-tip-hobby-time-start-end": "A hobby series consists of multiple occurances, it may contain at least 2 and up to 65.",
-    "editor-tip-hobby-time-type": "Add new occasion: Add occurance to a hobby series.",
-    "editor-tip-hobby-time-end": "Regularly recurring hobby: Add regularly, eg. weekly, recurring hobby.",
-
-    "editor-tip-course-time-start": "Choose whether the education is a single function or an education series.",
-    "editor-tip-course-time-start-end": "A education series consists of multiple occurances, it may contain at least 2 and up to 65.",
-    "editor-tip-course-time-type": "Add new occasion: add occurrence to an education series.",
-    "editor-tip-course-time-end": "Regularly recurring education: add regularly, eg. weekly, recurring education.",
-
-    "event-editor-tip-location-multi": "The event can be virtual, physical or both.",
-    "event-editor-tip-location-internet": "If the event is virtual on the Internet, select Virtual event as the location and enter a URL. You can enter details about the exact location, for example conference room name or instruction to find an entrance.",
-    "event-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
-
-    "hobby-editor-tip-location-multi": "Hobbies are usually onsite events.",
-    "hobby-editor-tip-location-internet": "If the hobby is virtual on the Internet, select Virtual hobby as the location and enter a URL. For onsite hobbies, you can enter details about the exact location, for example the instructions to find the entrance or the name / number of the sports hall.",
-    "hobby-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
-
-    "course-editor-tip-location-multi": "Teaching can be provided remotely, face-to-face, or both",
-    "course-editor-tip-location-internet": "If the teaching is arranged remotely, select Remotely as the location, and enter a URL. For face-to-face teaching you can enter details about the exact location, for example the instructions to find the entrance or the name / number of the classroom.",
-    "course-editor-tip-location-not-found": "If you can't find the exact venue, then choose the nearest street address and enter the venue name or arrival instructions in the additional information field.",
-
     "editor-tip-umbrella-sub-event": "If you wish to add this event under an umbrella event, you may do so from the associated ",
     "editor-tip-umbrella-sub-event-link": "top level event",
 
-    "editor-tip-event-umbrella-selection": "Umbrella event: the event brings together several other events. For example, Night of the Arts or Movie Day.",
-    "editor-tip-event-umbrella-selection1": "Part of an umbrella event: The event is a part of a larger event. For example, Meet with the Writer on Night of the Arts",
-    "editor-tip-hobby-umbrella-selection": "Hobbies are usually independent. Hobby theme: Theme brings together several hobbies, that belong to the same theme. For example “Kivakesä kulmilla”.",
-    "editor-tip-hobby-umbrella-selection1": "Related to the roof them: The hobby is a part of a larger theme.",
-    "editor-tip-course-umbrella-selection": "Education is usually an independent entity. The umbrella theme of the training brings together several trainings related to this theme.",
-    "editor-tip-course-umbrella-selection1": "Related to the roof theme: The education is a part of a larger theme.",
-
-    "editor-tip-eventtype-disable": "Delete the added times, if you would like to change the event recurrence.",
-    "editor-tip-required": "Fields marked with an asterisk (*) are mandatory.",
-
-    "event-editor-tip-keywords": "Select a category to describe the content of the event at a general level. Usually one category is enough, but you can select more than one when necessary. Also choose the type of event to describe how the event is organized.",
-    "hobby-editor-tip-keywords": "Select a category to describe the content of the hobby at a general level. Usually, one category is enough.",
-    "course-editor-tip-keywords": "Select a category to describe the content of the education at a general level. Usually, one category is enough.",
-
-    "event-editor-tip-keyword-selection": "Choose keywords to describe the event as accurately as possible (for example, children's music instead of music). Usually 1-5 keywords are enough.",
-    "hobby-editor-tip-keyword-selection": "Choose keywords to describe the hobby as accurately as possible (for example, children's music instead of music). Usually 1-5 keywords are enough.",
-    "course-editor-tip-keyword-selection": "Choose keywords to describe the education as accurately as possible (for example, children's music instead of music). Usually, 1-5 keywords are enough.",
-
-    "editor-tip-keyword-sidefield": "Instructions for selecting categories",
-    "editor-tip-category-sidefield": "Instructions for selecting keywords",
-
-    "editor-tip-umbrella": "Instructions for an umbrella event",
-
-    "event-editor-tip-times": "Instructions for choosing event recurrence",
-    "hobby-editor-tip-times": "Instructions for choosing hobby recurrence",
-    "course-editor-tip-times": "Instructions for choosing education recurrence",
-
-    "editor-tip-location": "Instructions for selecting a location",
-
-    "editor-tip-offers-sidefield": "Instructions for entering price details",
-    "editor-tip-offers-payment-method": "Notice! The payment methods from the first price information are inherited by the others if they don't have any payment methods when the event is saved.",
     "editor-headerbutton-collapse": "Click to close section",
     "editor-headerbutton-expand": "Click to expand section",
     "editor-expand-required": "This section is required",

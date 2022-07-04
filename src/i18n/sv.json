@@ -541,67 +541,12 @@
     "editor-sentinel-alert": "Du kan granska blanketten men du har inte rättigheter att publicera eller redigera evenemangen. Du har inte loggat in eller din inloggning har föråldrats.",
     "editor-authorization-required": "Logga in först om du vill publicera ett evenemang.",
 
-    "editor-tip-event-time-start": "Välj mellan en enskild eller återkommande evenemang.",
-    "editor-tip-event-time-start-end": "En evenemang serie består av flera evenemangstillfällen, det måste innehålla mellan 2 och 65 evenemang.",
-    "editor-tip-event-time-type": "Lägg till en ny tidpunkt: Lägg till återkommande evenemang till en serie.",
-    "editor-tip-event-time-end": "Ett regelbundet återkommande evenemang: Lägg till regelbundet återkommande tider som upprepas t.ex varje vecka (bl.a. en teaterföreställning som upprepas likadan flera gånger).",
-
-    "editor-tip-hobby-time-start": "Välj mellan en enskild eller en återkommande hobby.",
-    "editor-tip-hobby-time-start-end": "En hobby serie består av flera hobbytillfällen, det måste innehålla mellan 2 och 65 tillfällen.",
-    "editor-tip-hobby-time-type": "Lägg till en ny tidpunkt: Lägg till ett tillfälle till en återkommande hobby.",
-    "editor-tip-hobby-time-end": "En regelbundet återkommande hobby: Lägg till regelbundet återkommande tider som upprepas t.ex. varje vecka.",
-
-    "editor-tip-course-time-start": "Välj mellan en enskild eller en återkommande utbildning.",
-    "editor-tip-course-time-start-end": "En utbildnings serie består av flera utbildningstillfällen, det måste innehålla mellan 2 och 65 tillfällen.",
-    "editor-tip-course-time-type": "Lägg till en ny tidpunkt: Lägg till enskilda utbildningstillfällen till utbildnings serien.",
-    "editor-tip-course-time-end": "En regelbundet återkommande utbildning: Lägg till regelbundet återkommande tider som upprepas t.ex. varje vecka.",
-
-    "event-editor-tip-location-multi": "Evenemanget kan vara virtuellt, fysiskt eller båda.",
-    "event-editor-tip-location-internet": "Om evenemanget ordnas på distans över internet, välj då Virtuellt evenemang som evenemangsplats, samt mata in en URL. Du kan ange ytterligare information för att hitta evenemangsplatsen, till exempel konferensrummets namn eller instruktioner för att hitta ingången.",
-    "event-editor-tip-location-not-found": "Om en exakt evenemangsplats inte finns på listan, välj då närmaste gatuadress och skriv platsens namn eller ankomst instruktioner i fältet för tilläggsuppgifter.",
-
-    "hobby-editor-tip-location-multi": "Hobbyn ordnas vanligen fysiskt på plats.",
-    "hobby-editor-tip-location-internet": "Om hobbyn ordnas på distans över internet, välj då Virtuell hobby som hobbyplats, samt mata in en URL. För hobbyn som ordnas fysiskt på plats så kan du ange ytterligare information för att hitta hobbyplatsen, till exempel instruktioner för att hitta ingången eller gymnastiksalens namn / nummer.",
-    "hobby-editor-tip-location-not-found": "Om en exakt hobbyplats inte finns på listan, välj då närmaste gatuadress och skriv platsens namn eller ankomstinstruktioner i fältet för tilläggsuppgifter.",
-
-    "course-editor-tip-location-multi": "Undervisningen kan hållas som distansundervisning, fysiskt på plats eller både och.",
-    "course-editor-tip-location-internet": "Om utbildningen hålls på distans på Internet, välj Distansträning som plats och ange URL. I klassrumsundervisningen kan du ge ytterligare information för att hitta en plats, till exempel namnet på klassrummet eller vägbeskrivning till entrén.",
-    "course-editor-tip-location-not-found": "Utbildning: Om den exakta träningsplatsen inte kan hittas i listan, välj närmaste gatuadress som plats och ange ortens namn eller andra detaljerade instruktioner i fältet för ytterligare information.",
-
     "editor-tip-umbrella-sub-event": "Om du vill tillägga detta evenemang som en del av ett paraplyevenemang, gör det",
     "editor-tip-umbrella-sub-event-link": "seriens samlande evenemang",
-
-    "editor-tip-event-umbrella-selection": "Paraplyevenemang: evenemanget är en samling flera evenemang. T.ex Konstens natt.",
-    "editor-tip-event-umbrella-selection1": "Del av ett paraplyevenemang: evenemanget är en del av ett större evenemang. T.ex Författarträff under Konstens natt.",
-    "editor-tip-hobby-umbrella-selection": "Hobbyer är vanligen självständiga helheter. Paraplyevenemang = Evenemanget är en samling flera hobbyer. T.ex. Sommarskoj i knutarna.",
-    "editor-tip-hobby-umbrella-selection1": "Del av ett paraplyevenemang: Hobbyn är en del av en större helhet. T.ex. Dansworkshop i Laustis, som hör till Sommarskoj i knutarna -programmet.",
-    "editor-tip-course-umbrella-selection": "Utbildning är vanligtvis en självständig enhet. Utbildningens paraplytema samlar flera utbildningar relaterade till detta tema.",
-    "editor-tip-course-umbrella-selection1": "Relaterat till temat takutbildning: Utbildningen är en del av ett större tema.",
 
     "editor-tip-required": "Obligatoriska fält är utmärkta med en asterisk (*).",
     "editor-tip-eventtype-disable": "Radera tiderna om du vill byta evenemangets repetition.",
 
-    "event-editor-tip-keywords": "Välj kategori som övrigt beskriver evenemangets innehåll. Vanligtvis så räcker det med en kategori men vid behov så kan flera kategorier också väljas. Välj också innehållets typ som beskriver hur evenemanget ordnas.",
-    "hobby-editor-tip-keywords": "Välj en kategori som beskriver innehållet i hobby på generell nivå. Vanligtvis så räcker det med en kategori.",
-    "course-editor-tip-keywords": "Välj en kategori som beskriver innehållet i utbildningen på generell nivå. Vanligtvis så räcker det med en kategori.",
-
-    "event-editor-tip-keyword-selection": "Välj ämnesord som beskriver evenemanget så exakt som möjligt(t.ex. barnmusik istället för musik). 1-5 ämnesord brukar räcka till för att beskriva evenemang.",
-    "hobby-editor-tip-keyword-selection": "Välj ämnesord som beskriver hobbyn så exakt som möjligt(t.ex. barnmusik istället för musik). 1-5 ämnesord brukar räcka till för att beskriva hobbyn.",
-    "course-editor-tip-keyword-selection": "Välj ämnesord som beskriver utbildningen så exakt som möjligt (t.ex. barnmusik istället för musik). 1–5 ämnesord brukar räcka till för att beskriva hobbyn.",
-
-    "editor-tip-keyword-sidefield": "Anvisning för val av kategori",
-    "editor-tip-category-sidefield": "Anvisning för val av ämnesord",
-
-    "editor-tip-umbrella": "Anvisningen om ett paraplyevenemang",
-
-    "event-editor-tip-times": "Anvisningen om evenemangets repetition",
-    "hobby-editor-tip-times": "Anvisningen om hobbys repetition",
-    "course-editor-tip-times": "Anvisningen om utbildningens repetition",
-
-    "editor-tip-location": "Anvisningen om att välja plats",
-
-    "editor-tip-offers-sidefield": "Anvisning om prisuppgifter",
-    "editor-tip-offers-payment-method": "OBS! Den första prisinformationens betalningsmetoder ärvs av alla andra prisinformation om de inte har betalningsmetoder då evenemanget sparas.",
     "editor-headerbutton-collapse": "Klicka för att stänga sektionen",
     "editor-headerbutton-expand": "Klicka för att utöka sektionen",
     "editor-expand-required": "Detta sektion krävs",

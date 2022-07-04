@@ -20,13 +20,21 @@ import {
     receiveKeywordSets,
     receiveLanguages,
     prepareFormValues,
-    setValidationErrors,
+    setValidationErrors, receiveSideFields,
 } from '../editor';
 import constants from '../../constants.js'
 import * as formDataFunctions from '../../utils/formDataMapping';
 import moment from 'moment-timezone';
 import {merge} from 'lodash';
-import {mockUserEvents, mockLanguages, mockPaymentMethods, mockKeywordSets, mockUser, mockImages} from '__mocks__/mockData';
+import {
+    mockUserEvents,
+    mockLanguages,
+    mockPaymentMethods,
+    mockKeywordSets,
+    mockUser,
+    mockImages,
+    mockSideFields,
+} from '__mocks__/mockData';
 const mockEvent = mockUserEvents[0];
 
 const {
@@ -47,6 +55,7 @@ const {
     EDITOR_RECEIVE_LANGUAGES,
     EDITOR_RECEIVE_KEYWORDSETS,
     EDITOR_RECEIVE_PAYMENTMETHODS,
+    EDITOR_RECEIVE_SIDEFIELDS,
     VALIDATE_FOR,
     SUPER_EVENT_TYPE_RECURRING,
 } = constants;
@@ -252,6 +261,16 @@ describe('actions/editor', () => {
             expect(receiveLanguages(languages)).toEqual(expectedResult);
             const expectedLocalStorage = JSON.stringify(languages);
             expect(localStorage.getItem('LANGUAGES')).toEqual(expectedLocalStorage);
+        });
+    });
+    describe('receiveSideFields', () => {
+        test('returns object with correct values & saves sidefields to localStorage', () => {
+            localStorage.clear()
+            const sidefields = mockSideFields
+            const expectedResult  = {type: EDITOR_RECEIVE_SIDEFIELDS, sidefields}
+            expect(receiveSideFields(sidefields)).toEqual(expectedResult);
+            const expectedLocalStorage = JSON.stringify(sidefields);
+            expect(localStorage.getItem('SIDEFIELDS')).toEqual(expectedLocalStorage);
         });
     });
     describe('prepareFormValues', () => {

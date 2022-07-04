@@ -569,6 +569,28 @@ export const receiveLanguages = (languages) => {
     }
 }
 
+// Fetch sidefields
+export const fetchSideFields = () => async (dispatch) => {
+    try {
+        const response = await client.get('sidefield')
+        const sidefields = response.data.data
+
+        dispatch(receiveSideFields(sidefields))
+    } catch (e) {
+        throw Error(e)
+    }
+}
+
+// Receive sidefields
+export const receiveSideFields = (sidefields) => {
+    localStorage.setItem('SIDEFIELDS', JSON.stringify(sidefields))
+
+    return {
+        type: constants.EDITOR_RECEIVE_SIDEFIELDS,
+        sidefields,
+    }
+}
+
 export const setEventForEditing = (eventData) => {
     return (dispatch) => {
         dispatch({

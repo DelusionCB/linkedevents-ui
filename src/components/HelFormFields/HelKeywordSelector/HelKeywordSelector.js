@@ -80,9 +80,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
     return (
         <fieldset className='keyword-selector'>
             <FormattedMessage id={`${localeType}-categories-header-type`}>{txt => <legend>{txt}</legend>}</FormattedMessage>
-            <SideField id='editor-tip-keyword-sidefield'>
-                <FormattedMessage id={`${localeType}-editor-tip-keywords`} />
-            </SideField>
+            <SideField type='category' />
             <div>
                 <HelLabeledCheckboxGroup
                     groupLabel={intl.formatMessage({id: 'categories-header-content'})}
@@ -130,9 +128,7 @@ const HelKeywordSelector = ({intl, editor, setDirtyState, setData, currentLocale
                 />
                 }
             </div>
-            <SideField id='editor-tip-category-sidefield'>
-                <FormattedMessage id={`${localeType}-editor-tip-keyword-selection`} />
-            </SideField>
+            <SideField type='keyword' />
             <div className="col-sm-6 hel-select keywords-select">
                 <KeywordSearch
                     legend={intl.formatMessage({id: 'event-keywords'})}

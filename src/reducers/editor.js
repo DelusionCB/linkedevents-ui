@@ -14,12 +14,14 @@ let editorValues = {
 let languages = []
 let keywordSets = {}
 let paymentMethods = {}
+let sideFields = {}
 try {
     // Local storage form value loading and saving disabled for now
     // editorValues = JSON.parse(localStorage.getItem('EDITOR_VALUES'))
     keywordSets = JSON.parse(localStorage.getItem('KEYWORDSETS'))
     languages = JSON.parse(localStorage.getItem('LANGUAGES'))
     paymentMethods = JSON.parse(localStorage.getItem('PAYMENTMETHODS'))
+    sideFields = JSON.parse(localStorage.getItem('SIDEFIELDS'))
     //
 } catch(e) {
     editorValues = {}
@@ -31,6 +33,7 @@ const initialState = {
     contentLanguages: ['fi'],
     keywordSets: keywordSets,
     paymentMethods: paymentMethods,
+    sideFields: sideFields,
     validationErrors: {},
     validateFor: null,
     loading: false,
@@ -415,6 +418,12 @@ function update(state = initialState, action) {
     if (action.type === constants.EDITOR_RECEIVE_LANGUAGES) {
         return Object.assign({}, state, {
             languages: action.languages,
+        })
+    }
+
+    if (action.type === constants.EDITOR_RECEIVE_SIDEFIELDS) {
+        return Object.assign({}, state, {
+            sideFields: action.sidefields,
         })
     }
 

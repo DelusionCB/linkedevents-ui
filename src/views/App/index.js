@@ -16,6 +16,7 @@ import {
     fetchLanguages as fetchLanguagesAction,
     fetchKeywordSets as fetchKeywordSetsAction,
     fetchPaymentMethods as fetchPaymentMethodsAction,
+    fetchSideFields as fetchSideFieldsAction,
 } from '../../actions/editor'
 import {fetchUser as fetchUserAction} from '../../actions/user'
 import Favicon from '../../assets/images/favicon'
@@ -66,6 +67,8 @@ class App extends React.Component {
 
         this.props.fetchPaymentMethods()
 
+        // fetch sidefields
+        this.props.fetchSideFields()
     }
 
     componentDidUpdate(prevProps) {
@@ -110,6 +113,7 @@ App.propTypes = {
     auth : PropTypes.object,
     fetchUser: PropTypes.func,
     location: PropTypes.object,
+    fetchSideFields: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
@@ -123,6 +127,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchKeywordSets: () => dispatch(fetchKeywordSetsAction()),
     fetchLanguages:() => dispatch(fetchLanguagesAction()),
     fetchPaymentMethods:() => dispatch(fetchPaymentMethodsAction()),
+    fetchSideFields:() => dispatch(fetchSideFieldsAction()),
     fetchUser: (id) => dispatch(fetchUserAction(id)),
 })
 

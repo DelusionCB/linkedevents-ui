@@ -1,16 +1,33 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import SideField from './SideField'
-import {Collapse} from 'reactstrap'
+import {IntlProvider} from 'react-intl';
+import mapValues from 'lodash/mapValues';
+import fiMessages from 'src/i18n/fi.json';
+import {UnconnectedSideField} from './SideField'
+import {Collapse} from 'reactstrap';
 import CollapseButton  from '../CollapseButton/CollapseButton';
+import {mapSideFieldsToForm} from '../../../utils/apiDataMapping';
+import {mockSideFields} from '../../../../__mocks__/mockData';
+
+const testMessages = mapValues(fiMessages, (value, key) => value);
+const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
+const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
     id: 'event-category-header',
+    type: 'category',
+    editor: {
+        values: {
+            type_id: 'General',
+        },
+        sideFields: mockSideFields,
+    },
+    intl,
 }
 
 describe('SideField', () => {
     function getWrapper(props) {
-        return shallow(<SideField {...defaultProps} {...props} />);
+        return shallow(<UnconnectedSideField {...defaultProps} {...props} />, {context: {intl}});
     }
 
     describe('renders', () => {
@@ -28,10 +45,12 @@ describe('SideField', () => {
                     const wrapper = getWrapper()
                     const instance = wrapper.instance()
                     const collapseButton = wrapper.find(CollapseButton)
+                    const contextTexts = mapSideFieldsToForm(defaultProps.editor.sideFields, defaultProps.editor.values.type_id, intl.locale)
                     expect(collapseButton).toHaveLength(1)
-                    expect(collapseButton.prop('targetCollapseNameId')).toBe(defaultProps.id)
+                    expect(collapseButton.prop('targetCollapseNameId')).toBe(contextTexts[defaultProps.type].mobileHeader)
                     expect(collapseButton.prop('isOpen')).toBe(wrapper.state('isOpen'))
                     expect(collapseButton.prop('toggleHeader')).toBe(instance.toggleHeader)
+                    expect(collapseButton.prop('useNameIdAsRawName')).toBe(true)
                 })
             })
         })

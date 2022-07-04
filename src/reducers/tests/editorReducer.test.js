@@ -6,6 +6,7 @@ import {
     mockKeywordSets,
     mockLanguages,
     mockPaymentMethods,
+    mockSideFields,
 } from '../../../__mocks__/mockData';
 import {getProps} from '../../../__mocks__/testMocks';
 import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
@@ -15,7 +16,7 @@ const {EDITOR_SETDATA, EDITOR_SETMETHODDATA, EDITOR_CLEAR_VALUE, EDITOR_UPDATE_S
     EDITOR_DELETE_OFFER, EDITOR_SET_FREE_OFFERS, EDITOR_ADD_VIDEO, EDITOR_DELETE_VIDEO, EDITOR_SET_NO_VIDEOS, EDITOR_SETLANGUAGES,
     VALIDATE_FOR, EDITOR_REPLACEDATA, EDITOR_CLEARDATA, EDITOR_SENDDATA_SUCCESS,
     EDITOR_RECEIVE_KEYWORDSETS, EDITOR_RECEIVE_PAYMENTMETHODS,
-    EDITOR_RECEIVE_LANGUAGES, RECEIVE_EVENT_FOR_EDITING, SELECT_IMAGE_BY_ID,
+    EDITOR_RECEIVE_LANGUAGES, EDITOR_RECEIVE_SIDEFIELDS, RECEIVE_EVENT_FOR_EDITING, SELECT_IMAGE_BY_ID,
     SET_VALIDATION_ERRORS, EDITOR_SET_LOADING, VALIDATION_STATUS, PUBLICATION_STATUS} = constants
 
 const editorValues = {
@@ -28,6 +29,7 @@ const INITIAL_STATE = {
     contentLanguages: ['fi'],
     keywordSets: mockKeywordSets,
     paymentMethods: mockPaymentMethods,
+    sideFields: mockSideFields,
     validationErrors: {},
     validateFor: null,
     loading: false,
@@ -426,6 +428,17 @@ describe('reducers/editor', () => {
                     {type: EDITOR_RECEIVE_LANGUAGES, languages: mockLanguages}
                 );
                 const expectedState = getProps(INITIAL_STATE, {languages: mockLanguages});
+                expect(nextState).toEqual(expectedState);
+            });
+        });
+
+        describe('EDITOR_RECEIVE_SIDEFIELDS', () => {
+            test('returns state with sideFields set', () => {
+                const nextState = update(
+                    INITIAL_STATE,
+                    {type: EDITOR_RECEIVE_SIDEFIELDS, sidefields: mockSideFields}
+                );
+                const expectedState = getProps(INITIAL_STATE, {sideFields: mockSideFields});
                 expect(nextState).toEqual(expectedState);
             });
         });

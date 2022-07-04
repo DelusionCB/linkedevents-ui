@@ -1,8 +1,8 @@
 import React from 'react'
 import {shallow} from 'enzyme';
-import {IntlProvider, FormattedMessage} from 'react-intl';
+import {IntlProvider} from 'react-intl';
 import mapValues from 'lodash/mapValues';
-
+import Button from 'reactstrap/lib/Button'
 import fiMessages from 'src/i18n/fi.json';
 import {CollapseButtonWithoutIntl as  CollapseButton} from './CollapseButton';
 
@@ -15,6 +15,7 @@ describe('CollapseButton', () => {
         id: 'test-id',
         intl,
         isOpen: false,
+        useNameIdAsRawName: false,
         targetCollapseNameId: 'event-category-form-header',
         toggleHeader: () => {},
     }
@@ -50,7 +51,7 @@ describe('CollapseButton', () => {
                 expect(button).toHaveLength(1)
                 expect(button.prop('aria-expanded')).toBe(true)
                 expect(button.prop('aria-label')).toBe(intl.formatMessage({id: 'editor-headerbutton-collapse'}) + ' '
-                    + intl.formatMessage({id: defaultProps.targetCollapseNameId}))
+                    + intl.formatMessage({id: defaultProps.targetCollapseNameId}) )
             })
 
             test('with correct classnames when there are errors', () => {
@@ -81,12 +82,6 @@ describe('CollapseButton', () => {
                     + intl.formatMessage({id: defaultProps.targetCollapseNameId}) + ' '
                     + intl.formatMessage({id: 'editor-expand-required'}))
             })
-        })
-        
-        test('FormattedMessage with correct props', () => {
-            const message = getWrapper().find(FormattedMessage)
-            expect(message).toHaveLength(1)
-            expect(message.prop('id')).toBe(defaultProps.targetCollapseNameId)
         })
         
         describe('icon span', () => {

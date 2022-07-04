@@ -53,3 +53,25 @@ export function mapLanguagesSetToForm(set, locale = 'fi') {
         return []
     }
 }
+
+export function mapSideFieldsToForm(allSidefields, typeId = 'General', locale = 'fi') {
+    let sideFieldDataForType = find(allSidefields, {'type_id': typeId})
+    const myFields = ['category', 'keyword', 'location', 'offers', 'times', 'umbrella']
+    let mappedFields = {}
+    if (!sideFieldDataForType) {
+        // side field data is missing for some reason, fill content accordingly..
+        myFields.forEach(field => {
+            mappedFields[field] = {content: '', mobileHeader: ''}
+        });
+    } else {
+        myFields.forEach(field => {
+            // fill each field with content and mobile header
+            // handle and fill missing field content accordingly
+            mappedFields[field] = {
+                content: `${field}_sidefield` in sideFieldDataForType ? sideFieldDataForType[`${field}_sidefield`][locale] || '' : '',
+                mobileHeader: `${field}_mobile` in sideFieldDataForType ? sideFieldDataForType[`${field}_mobile`][locale] || '' : '',
+            }
+        });
+    }
+    return mappedFields
+}

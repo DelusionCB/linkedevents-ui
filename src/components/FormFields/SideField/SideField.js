@@ -4,6 +4,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CollapseButton from '../CollapseButton/CollapseButton';
 import {Collapse} from 'reactstrap';
+import {connect} from 'react-redux';
+import {mapSideFieldsToForm} from '../../../utils/apiDataMapping';
+import {injectIntl} from 'react-intl';
 
 class SideField extends React.Component {
     constructor(props) {
@@ -44,20 +47,22 @@ class SideField extends React.Component {
     }
 
     render() {
-        const {children, id} = this.props;
+
+        const {id, editor, intl, type} = this.props;
+        const {sideFields, values} = editor;
         const {isOpen} = this.state;
+        const contentTexts = mapSideFieldsToForm(sideFields, values['type_id'], intl.locale)
 
         return (
             <div className='side-field col-sm-6'>
                 <CollapseButton
-                    targetCollapseNameId={id}
+                    targetCollapseNameId={contentTexts[type].mobileHeader}
                     isOpen={isOpen}
                     toggleHeader={this.toggleHeader}
+                    useNameIdAsRawName={true}
                 />
                 <Collapse isOpen={isOpen}>
-                    <div className='tip'>
-                        {children}
-                    </div>
+                    <div id={id} className='tip' dangerouslySetInnerHTML={{__html: contentTexts[type].content.replace(/\n/g, '<br />')}} />
                 </Collapse>
             </div>
         );
@@ -65,11 +70,19 @@ class SideField extends React.Component {
 }
 
 SideField.propTypes = {
+    editor: PropTypes.object,
+    type: PropTypes.string,
     id: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object,
-    ]),
+    intl: PropTypes.object,
 };
 
-export default SideField
+SideField.contextTypes = {
+    intl: PropTypes.object,
+}
+
+const mapStateToProps = (state) => ({
+    editor: state.editor,
+})
+
+export {SideField as UnconnectedSideField}
+export default injectIntl(connect(mapStateToProps)(SideField));

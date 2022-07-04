@@ -65,6 +65,74 @@ export const mockUserEvents = [
     },
 ];
 
+export const mockSideFields = [
+    {
+        type_id: 'General',
+        sidefieldset_name: 'General',
+        category_mobile: {
+            fi: 'category_mobile_fi',
+            sv: 'category_mobile_sv',
+            en: 'category_mobile_en',
+        },
+        umbrella_mobile: {
+            fi: 'umbrella_mobile_fi',
+            sv: 'umbrella_mobile_sv',
+            en: 'umbrella_mobile_en',
+        },
+        offers_mobile: {
+            fi: 'offers_mobile_fi',
+            sv: 'offers_mobile_sv',
+            en: 'offers_mobile_en',
+        },
+        times_mobile: {
+            fi: 'times_mobile_fi',
+            sv: 'times_mobile_sv',
+            en: 'times_mobile_en',
+        },
+        times_sidefield: {
+            fi: 'times_sidefield_fi',
+            sv: 'times_sidefield_sv',
+            en: 'times_sidefield_en',
+        },
+        keyword_sidefield: {
+            fi: 'keyword_sidefield_fi',
+            sv: 'keyword_sidefield_sv',
+            en: 'keyword_sidefield_en',
+        },
+        offers_sidefield: {
+            fi: 'offers_sidefield_fi',
+            sv: 'offers_sidefield_sv',
+            en: 'offers_sidefield_en',
+        },
+        location_sidefield: {
+            fi: 'location_sidefield_fi',
+            sv: 'location_sidefield_sv',
+            en: 'location_sidefield_en',
+        },
+        keyword_mobile: {
+            fi: 'keyword_mobile_fi',
+            sv: 'keyword_mobile_sv',
+            en: 'keyword_mobile_en',
+        },
+        category_sidefield: {
+            fi: 'category_sidefield_fi',
+            sv: 'category_sidefield_sv',
+            en: 'category_sidefield_en',
+        },
+        umbrella_sidefield: {
+            fi: 'umbrella_sidefield_fi',
+            sv: 'umbrella_sidefield_sv',
+            en: 'umbrella_sidefield_en',
+        },
+        location_mobile: {
+            fi: 'location_mobile_fi',
+            sv: 'location_mobile_sv',
+            en: 'location_mobile_en',
+        },
+    },
+]
+
+
 export const mockPaymentMethods = [
     {
         id: '1',

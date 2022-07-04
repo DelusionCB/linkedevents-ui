@@ -304,16 +304,17 @@ class FormFields extends React.Component {
             type: ['type-one'],
             languages: ['lang-one', 'lang-two'],
             namedescriptions: ['namedesc-one', 'namedesc-two'],
-            location: ['location-one', 'location-two', 'location-three', 'location-four'],
-            umbrella: ['umbrella-one', 'umbrella-two', 'umbrella-three'],
-            datetime: ['datetime-one', 'datetime-two', 'datetime-three', 'datetime-four', 'datetime-five'],
+            location: ['location-one', 'location-two'],
+            umbrella: ['umbrella-one', 'umbrella-two'],
+            datetime: ['datetime-one', 'datetime-two'],
             audience: ['audience-one'],
+            offers: ['offers-one', 'offers-two'],
             enrolment: ['enrolment-one'],
             attendee: ['attendee-one'],
             socials: ['social-one'],
             videos: ['video-one'],
         }
-        const ariaTypes = (id) => ariaIds[id].toString();
+        const ariaTypes = (id) => ariaIds[id].join(' ');
 
         return (
             <div className='mainwrapper'>
@@ -437,11 +438,7 @@ class FormFields extends React.Component {
                     <Collapse isOpen={this.state.headerLocationDate}>
                         <div role='group' aria-labelledby={ariaTypes('location')} className="row location-row">
                             <FormText formatId='event-location-form-header' id={ariaIds.location[0]}/>
-                            <SideField id='editor-tip-location'>
-                                <FormattedMessage id={`${currentEventType}-editor-tip-location-multi`}>{txt => <p id={ariaIds.location[1]}>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`${currentEventType}-editor-tip-location-internet`}>{txt => <p id={ariaIds.location[2]}><strong>{txt}</strong></p>}</FormattedMessage>
-                                <FormattedMessage id={`${currentEventType}-editor-tip-location-not-found`}>{txt => <p id={ariaIds.location[3]}>{txt}</p>}</FormattedMessage>
-                            </SideField>
+                            <SideField type='location' id={ariaIds.location[1]} />
                             <div className="col-sm-6 hel-select">
                                 <div>
                                     <HelCheckbox
@@ -541,10 +538,7 @@ class FormFields extends React.Component {
                         <React.Fragment>
                             <div role='group' aria-labelledby={ariaTypes('umbrella')} className="row umbrella-row">
                                 <FormText formatId='event-umbrella-header' id={ariaIds.umbrella[0]}/>
-                                <SideField id='editor-tip-umbrella'>
-                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection`}>{txt => <p id={ariaIds.umbrella[1]}>{txt}</p>}</FormattedMessage>
-                                    <FormattedMessage id={`editor-tip-${currentEventType}-umbrella-selection1`}>{txt => <p id={ariaIds.umbrella[2]}>{txt}</p>}</FormattedMessage>
-                                </SideField>
+                                <SideField type='umbrella' id={ariaIds.umbrella[1]} />
                                 <div className="col-sm-6">
                                     <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent} disabled={userDoesNotExist}/>
                                 </div>
@@ -553,12 +547,7 @@ class FormFields extends React.Component {
                         }
                         <div role='group' aria-labelledby={ariaTypes('datetime')} className='row date-row'>
                             <FormText formatId={`${currentEventType}-datetime-form-header`} id={ariaIds.datetime[0]}/>
-                            <SideField id={`${currentEventType}-editor-tip-times`}>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start`}>{txt => <p id={ariaIds.datetime[1]}>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-start-end`}>{txt => <p id={ariaIds.datetime[2]}>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-type`}>{txt => <p id={ariaIds.datetime[3]}>{txt}</p>}</FormattedMessage>
-                                <FormattedMessage id={`editor-tip-${currentEventType}-time-end`}>{txt => <p id={ariaIds.datetime[4]}>{txt}</p>}</FormattedMessage>
-                            </SideField>
+                            <SideField type='times' id={ariaIds.datetime[1]} />
                             <div className='col-sm-6'>
                                 <div className='row radio-row'>
                                     <div className='custom-control custom-radio'>
@@ -814,14 +803,10 @@ class FormFields extends React.Component {
                         />
                     </h2>
                     <Collapse isOpen={this.state.headerPrices}>
-                        <div className='row'>
-                            <FormText formatId='event-price-fields-header'/>
-                        </div>
-                        <div className={classNames('row offers-row', {'has-offers': values['offers']})}>
+                        <div role='group' aria-labelledby={ariaTypes('offers')} className={classNames('row offers-row', {'has-offers': values['offers']})}>
+                            <FormText formatId='event-price-fields-header' id={ariaIds.offers[0]}/>
                             {values['offers'] &&
-                                <SideField id='editor-tip-offers-sidefield'>
-                                    <FormattedMessage id='editor-tip-offers-payment-method'>{txt => <p>{txt}</p>}</FormattedMessage>
-                                </SideField>
+                                <SideField type='offers' id={ariaIds.offers[1]} />
                             }
                             <div className="col-sm-6">
                                 <HelOffersField

@@ -57,7 +57,7 @@ describe('HelSelect', () => {
                 test('correct amount', () => {
                     const wrapper = getWrapper()
                     const formattedElement = wrapper.find(FormattedMessage)
-                    expect(formattedElement).toHaveLength(3)
+                    expect(formattedElement).toHaveLength(1)
                 })
             })
             describe('Sidefield', () => {
@@ -66,8 +66,8 @@ describe('HelSelect', () => {
                     const sideElement = wrapper.find(SideField)
                     expect(sideElement).toHaveLength(2)
 
-                    expect(sideElement.at(0).prop('id')).toBe('editor-tip-keyword-sidefield')
-                    expect(sideElement.at(1).prop('id')).toBe('editor-tip-category-sidefield')
+                    expect(sideElement.at(0).prop('type')).toBe('category')
+                    expect(sideElement.at(1).prop('type')).toBe('keyword')
                 })
             })
             describe('HelLabeledCheckBoxGroup', () => {

@@ -23,6 +23,7 @@ describe('views/App/index', () => {
         fetchLanguages: () => {},
         fetchKeywordSets: () => {},
         fetchPaymentMethods: () => {},
+        fetchSideFields: () => {},
         fetchUser: () => {},
         location: window.location,
         authUser: {profile: {sub: 'test-sub'}},

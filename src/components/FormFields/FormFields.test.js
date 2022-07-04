@@ -260,19 +260,21 @@ describe('FormField', () => {
                 const wrapper = getWrapper()
                 const roleDivs = wrapper.find('div').filter({role: 'group'})
                 test('correct amount', () => {
-                    expect(roleDivs).toHaveLength(11)
+                    expect(roleDivs).toHaveLength(12)
                 })
                 const testValues = [
                     {index: 0, expected: 'type-one'},
-                    {index: 1, expected: 'lang-one,lang-two'},
-                    {index: 2, expected: 'namedesc-one,namedesc-two'},
-                    {index: 3, expected: 'location-one,location-two,location-three,location-four'},
-                    {index: 4, expected: 'umbrella-one,umbrella-two,umbrella-three'},
-                    {index: 5, expected: 'datetime-one,datetime-two,datetime-three,datetime-four,datetime-five'},
+                    {index: 1, expected: 'lang-one lang-two'},
+                    {index: 2, expected: 'namedesc-one namedesc-two'},
+                    {index: 3, expected: 'location-one location-two'},
+                    {index: 4, expected: 'umbrella-one umbrella-two'},
+                    {index: 5, expected: 'datetime-one datetime-two'},
                     {index: 6, expected: 'audience-one'},
-                    {index: 7, expected: 'enrolment-one'},
-                    {index: 8, expected: 'attendee-one'},
-                    {index: 9, expected: 'social-one'},
+                    {index: 7, expected: 'offers-one offers-two'},
+                    {index: 8, expected: 'enrolment-one'},
+                    {index: 9, expected: 'attendee-one'},
+                    {index: 10, expected: 'social-one'},
+                    {index: 11, expected: 'video-one'},
                 ]
                 test.each(testValues) (
                     'returns correct ids for aria-labelledby: %o',
@@ -284,27 +286,8 @@ describe('FormField', () => {
                 test('Correct amount of FormattedMessage components rendered', () => {
                     const wrapper = getWrapper()
                     const messages = wrapper.find(FormattedMessage)
-                    expect(messages).toHaveLength(16)
+                    expect(messages).toHaveLength(6)
                 })
-                const expectedMessages = [
-                    'create-events', 'editor-tip-required',
-                    'event-editor-tip-location-multi', 'event-editor-tip-location-internet',
-                    'event-editor-tip-location-not-found', 'event-location-button',
-                    'editor-tip-event-umbrella-selection', 'editor-tip-event-umbrella-selection1',
-                    'editor-tip-event-time-start', 'editor-tip-event-time-start-end',
-                    'editor-tip-event-time-type', 'editor-tip-event-time-end',
-                    'event-type-single', 'event-type-recurring',
-                    'editor-tip-eventtype-disable', 'editor-tip-offers-payment-method',
-                ]
-                test.each(expectedMessages) (
-                    'FormattedMessage id: "%s" exists and has correct props',
-                    (message) => {
-                        const wrapper = getWrapper()
-                        const element = wrapper.findWhere((FormattedMessage) => FormattedMessage.prop('id') === message );
-                        expect(element).toHaveLength(1);
-                        expect(element.prop('id')).toBe(message);
-                    }
-                )
             })
 
             describe('SideField', () => {
@@ -313,26 +296,18 @@ describe('FormField', () => {
                 test('amount of SideField components is 4', () => {
                     expect(Sidefields).toHaveLength(4)
                 })
-                test.each([
-                    'editor-tip-location','editor-tip-umbrella',
-                    'event-editor-tip-times', 'editor-tip-offers-sidefield',
-                ])('SideField with id: "%s" exists and has at least 1 FormattedMessage as a child.', (type) => {
-                    const element = wrapper.findWhere((SideField) => SideField.prop('id') === type);
-                    expect(element).toHaveLength(1);
-                    expect(element.prop('id')).toBe(type);
-                    expect(element.find(FormattedMessage).length).toBeGreaterThan(0);
-                })
-
-                test('first sidefield with correct amount of children',() => {
-                    const fields = Sidefields.at(0).children();
-                    expect(fields.find(FormattedMessage).length).toEqual(3)
-                })
-                test('first sidefield with correct children ids', () => {
-                    const fields = Sidefields.at(0).children();
-                    expect(fields.at(0).prop('id')).toEqual('event-editor-tip-location-multi')
-                    expect(fields.at(1).prop('id')).toEqual('event-editor-tip-location-internet')
-                    expect(fields.at(2).prop('id')).toEqual('event-editor-tip-location-not-found')
-                })
+                const cases = [
+                    {type: 'location', id: 'location-two', index: 0},
+                    {type: 'umbrella', id: 'umbrella-two', index: 1},
+                    {type: 'times', id: 'datetime-two', index: 2},
+                    {type: 'offers', id: 'offers-two', index: 3},
+                ]
+                test.each(cases) (
+                    'SideField with correct type & id exists %o',
+                    ({type, id, index}) => {
+                        expect(Sidefields.at(index).prop('id')).toBe(id);
+                        expect(Sidefields.at(index).prop('type')).toBe(type);
+                    })
             })
             describe('MultiLanguageField', () => {
                 const wrapper = getWrapper()
