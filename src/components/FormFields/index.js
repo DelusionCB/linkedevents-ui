@@ -37,8 +37,8 @@ import LoginNotification from './LoginNotification/LoginNotification'
 import {getEventLanguageType} from '../../utils/locale';
 import ValidationNotification from '../ValidationNotification';
 
-let FormText = ({type = 'h3', formatId, id}) => {
-    const headerElement = (content) => React.createElement(type, {className: 'col-sm-12', id: id}, content)
+let FormText = ({type = 'h2', formatId, id}) => {
+    const headerElement = (content) => React.createElement(type, {className: `col-sm-12 formText-${type}`, id: id}, content)
     return(<FormattedMessage id={formatId}>{txt => headerElement(txt)}</FormattedMessage>)
 }
 FormText.propTypes = {
@@ -416,6 +416,7 @@ class FormFields extends React.Component {
                             setDirtyState={this.props.setDirtyState}
                             type='textarea'
                             disabled={userDoesNotExist}
+                            forceApplyToStore
                         />
                     </div>
                 </div>
@@ -531,6 +532,7 @@ class FormFields extends React.Component {
                                     setDirtyState={this.props.setDirtyState}
                                     type='textarea'
                                     disabled={userDoesNotExist}
+                                    forceApplyToStore
                                 />
                             </div>
                         </div>
@@ -604,7 +606,7 @@ class FormFields extends React.Component {
                                     }
                                 </div>
                                 <div className='row'>
-                                    <FormText formatId='event-datetime-form-header2' type='h4'/>
+                                    <FormText formatId='event-datetime-form-header2' type='h3'/>
                                 </div>
                                 {!this.state.selectEventType
                                     ?
