@@ -231,6 +231,8 @@
     "hobby-add-recurring": "Säännöllisesti toistuva harrastus",
     "course-add-recurring": "Säännöllisesti toistuva koulutus",
 
+    "add-recurring-subEvent": "Tallenna sisältö sarjaan",
+
     "event-type-single": "Yksittäinen tapahtuma",
     "event-type-recurring": "Sarjatapahtuma",
     "event-sub-count": "Tapahtuma {count}",
@@ -518,6 +520,10 @@
     "editor-authorization-required": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.",
 
     "editor-tip-required": "Tähdellä (*) merkityt kentät ovat pakollisia.",
+    "editor-tip-eventtype-disable": "Jos haluat vaihtaa tapahtumien toistuvuutta, poista lisätyt ajat.",
+
+    "editor-tip-umbrella-sub-event": "Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se",
+    "editor-tip-umbrella-sub-event-link": "sarjan ylätapahtumasta",
 
     "editor-headerbutton-collapse": "Klikkaa sulkeaksesi osio",
     "editor-headerbutton-expand": "Klikkaa laajentaaksesi osio",

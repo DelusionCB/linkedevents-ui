@@ -96,16 +96,15 @@ const publicValidations = {
  * Run draft/public validations depending which document
  * @return {object} Validation errors object
  */
-export function doValidations(values, languages, validateFor, keywordSets) {
-
+function doValidations(values, languages, validateFor, keywordSets) {
     // Public validations
     if(validateFor === PUBLICATION_STATUS.PUBLIC) {
-        return runValidationWithSettings(values, languages, publicValidations, keywordSets)
+        return runValidationWithSettings(values, languages, publicValidations, keywordSets, validateFor)
     }
 
     // Do draft validations
     else if (validateFor === PUBLICATION_STATUS.DRAFT) {
-        return runValidationWithSettings(values, languages, draftValidations, keywordSets)
+        return runValidationWithSettings(values, languages, draftValidations, keywordSets, validateFor)
     }
 
     else {
@@ -113,7 +112,7 @@ export function doValidations(values, languages, validateFor, keywordSets) {
     }
 }
 
-function runValidationWithSettings(values, languages, settings, keywordSets) {
+function runValidationWithSettings(values, languages, settings, keywordSets, validateFor) {
     let obj = {}
 
     // Add content languages to values to have them available in the validations
@@ -126,12 +125,9 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
 
         // validate sub events
         if (key === 'sub_events') {
-            errors = {}
-            each(values['sub_events'], (subEvent, eventKey) => {
-                const subEventError = runValidationWithSettings(subEvent, languages, settings.sub_events)
-                const error = isEmpty(subEventError) ? null : subEventError
-                errors[eventKey] = error
-            })
+            errors = values && values.sub_events
+                ? validateSubEvents(values, validations)
+                : {}
 
             // validate location & virtual event based on conditional
             // if event is virtual, location is not required
@@ -142,10 +138,10 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
             errors = validateSubEventCount(values, validations)
             //Validate start_time
         } else if (key === 'start_time') {
-            errors = validateTimes(values, validations, 'start_time')
+            errors = validateTimes(values, validations, validateFor,'start_time')
             //Validate end_time
         } else if (key === 'end_time') {
-            errors = validateTimes(values, validations, 'end_time')
+            errors = validateTimes(values, validations, validateFor, 'end_time')
         // check is_virtual boolean, is true check that virtualevent_url exists
         // validate virtual_url
         // Check for URL
@@ -169,7 +165,7 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
                 ? validateVideos(valuesWithLanguages, validations)
                 : {}
         } else if (
-            key.includes('audience') || key.includes('attendee'))
+            ['audience','attendee'].includes(key))
         {
             errors = validations.reduce((acc, curr) => {
                 if (!validationFn[curr](valuesWithLanguages, valuesWithLanguages[key])) {
@@ -189,13 +185,11 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
             errors = validations.map(validation => validationFn[validation](valuesWithLanguages, valuesWithLanguages[key]) ? null : validation)
         }
 
+
         // Remove nulls
-        if (key === 'sub_events') {
-            errors = omitBy(errors, i => i === null)
-        } else {
-            remove(errors, i => i === null)
-        }
+        remove(errors, i => i === null)
         obj[key] = errors
+
     })
     obj = pickBy(obj, (validationErrors, key) => {
         if (['sub_events', 'offers', 'videos',
@@ -290,12 +284,45 @@ const validateVirtualURL = (values, validations) => {
 }
 //Validate start_time &/ end_time
 //Check if sub_events exist
-const validateTimes = (values, validations, type = '') => {
+const validateTimes = (values, validations, validateFor, type = '') => {
     const errors = []
-    const isSingleMain = !values.hasOwnProperty('sub_events') ? true : Object.keys(values.sub_events).length === 0;
-    const subEvent = values.hasOwnProperty(type)
-
-    if (subEvent || isSingleMain) {
+    let runValidation;
+    // Event is public validateFor === 'public'
+    const validateForPublic = validateFor === 'public'
+    // Event is draft validateFor === 'draft'
+    const validateForDraft = validateFor === 'draft'
+    /**
+     * if event is a draft & type key doesn't exist -> skip validation.
+     * @example
+     * if (draft && !values['start_time']) -> skip validation and return empty array.
+     */
+    if (validateForDraft && !values[type]) {return errors;}
+    // Event is child of an umbrella
+    const isSubEventUmbrella = values.sub_event_type === CONSTANTS.SUB_EVENT_TYPE_UMBRELLA
+    // Event is child of a series
+    const isSubEventRecurring = values.sub_event_type === CONSTANTS.SUB_EVENT_TYPE_RECURRING
+    //Start_time & End_time are needed when
+    // No sub_events or empty object|array sub_events: {} || []
+    /**
+     * true when values.sub_events exists and doesn't have any keys.
+     * false when values.sub_events doesn't exist or it exists and has keys.
+     * @type {boolean}
+     */
+    const isSingleRequiredFalse = !!values.hasOwnProperty('sub_events') && Object.keys(values.sub_events).length === 0;
+    if (validateForPublic) {
+        /**
+         * true when values.sub_events exists and has no keys OR when values.sub_events doesn't exist.
+         * false when values.sub_events exists and has keys.
+         * @type {boolean}
+         */
+        const isSingleRequiredTrue = !values.hasOwnProperty('sub_events') || Object.keys(values.sub_events).length === 0;
+        // Event has super_event: {@id: 'https://twetesgsdgs.com/id=36t2464'}
+        const hasSuperEvent = values.hasOwnProperty('super_event')
+        runValidation = hasSuperEvent || (isSubEventUmbrella && isSingleRequiredFalse) || isSingleRequiredTrue || isSubEventRecurring
+    } else {
+        runValidation = validateForDraft && (isSubEventRecurring || (isSubEventUmbrella && isSingleRequiredFalse));
+    }
+    if (runValidation) {
         validations.forEach((val) => {
             if (!validationFn[val](values, values[type])) {
                 errors.push(val)
@@ -376,7 +403,6 @@ const validateVideos = (values, validations) => {
     // loop through all video items to get the validation errors
     for (const [index, videoItem] of videos.entries()) {
         // validate each field of the item
-
         const validationResult = Object.entries(videoItem)
             .reduce((acc, [key, valueItem]) => {
                 if (Object.keys(videoItem[key]).length !== 0) {
@@ -438,3 +464,66 @@ const validateVideos = (values, validations) => {
 
     return errors
 }
+
+const validateSubEvents = (values, validations) => {
+    const errors = {}
+    const subEvents = values.sub_events
+    const subFields = ['start_time', 'end_time']
+    if (!subEvents || Object.keys(subEvents).length === 0 || subEvents.length === 0) {
+        return errors
+    }
+    // loop through all sub events to get the validation errors
+    Object.entries(values.sub_events).forEach(([index,  subItem]) => {
+        const subKeys = Object.keys(subItem)
+
+        const includesTimes = subKeys.includes('start_time') && subKeys.includes('end_time')
+        // validate each field of the item
+        subFields.forEach(field => {
+            const validationResult = Object.entries(subItem)
+                .reduce((acc, [key]) => {
+                    if (includesTimes) {
+                        acc[key] = {}
+                        acc[key] = validations[key].reduce((timeErrors, validation) => {
+                            if (!validationFn[validation](subItem, subItem[key])) {
+                                timeErrors.push(validation);
+                            }
+                            return timeErrors;
+                        }, []);
+                    } else {
+                        acc[field] = {}
+                        acc[field] = validations[field].reduce((timeErrors, validation) => {
+                            if (!validationFn[validation](subItem, subItem[field])) {
+                                timeErrors.push(validation);
+                            }
+                            return timeErrors;
+                        }, []);
+                    }
+                    return acc
+                }, {})
+
+            // remove empty arrays
+            Object.entries(validationResult)
+                .forEach(([key, item]) => {
+                    // Remove the whole key
+                    if (isEmpty(item)) delete validationResult[key]
+                })
+
+            // set the errors for the item
+            errors[index] = validationResult
+        });
+    });
+    Object.entries(errors)
+        .forEach(([key, item]) => {
+            if (isEmpty(item)) delete errors[key]
+        })
+
+    return errors
+}
+
+export {
+    doValidations, runValidationWithSettings,
+    draftValidations, publicValidations,
+    validateSubEvents, validateLocation,
+    validateOffers, validateTimes, validateVideos,
+    validateSubEventCount, validateMulti,
+    validateVirtualURL}

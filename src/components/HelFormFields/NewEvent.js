@@ -1,10 +1,11 @@
 import './NewEvent.scss'
 import PropTypes from 'prop-types';
-import React, {useRef} from 'react'
+import React from 'react'
 import CustomDateTime from '../CustomFormFields/Dateinputs/CustomDateTime';
 import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl';
+import moment from 'moment';
 
 const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocus, length, localeType}) => {
     return (
@@ -19,6 +20,7 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
                     labelDate={<FormattedMessage  id={`${localeType}-starting-datelabel`} />}
                     labelTime={<FormattedMessage  id="event-starting-timelabel" />}
                     defaultValue={event.start_time}
+                    maxDate={event.end_time ? moment(event.end_time) : undefined}
                     eventKey={eventKey}
                     validationErrors={errors['start_time']}
                     required={true}
@@ -31,6 +33,7 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl, setInitialFocu
                     labelDate={<FormattedMessage  id={`${localeType}-ending-datelabel`} />}
                     labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                     defaultValue={event.end_time}
+                    minDate={event.start_time ? moment(event.start_time) : undefined}
                     eventKey={eventKey}
                     validationErrors={errors['end_time']}
                     required={true}

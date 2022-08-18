@@ -165,7 +165,7 @@ describe('EventTable', () => {
             test('correct amount', () => {
                 const wrapper = getWrapper();
                 const rowElement = wrapper.find(EventRow)
-                expect(rowElement).toHaveLength(2)
+                expect(rowElement).toHaveLength(3)
             })
             test('correct props', () => {
                 const wrapper = getWrapper();

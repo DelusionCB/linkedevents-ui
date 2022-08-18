@@ -63,6 +63,20 @@ export const mockUserEvents = [
         },
         '@id': 'https://api.hel.fi/linkedevents-test/v1/event/helsinki:afqokz2zxm/',
     },
+    {
+        publication_status: 'draft',
+        created_time: '2018-01-11T13:27:23.840820Z',
+        last_modified_time: '2018-01-11T13:27:23.840843Z',
+        start_time: '2023-02-02T13:00:00Z',
+        end_time: '2023-02-02T14:00:00Z',
+        name: {
+            fi: 'Pomppu',
+        },
+        short_description: {
+            fi: 'Hypähdys',
+        },
+        '@id': 'https://api.hel.fi/linkedevents-test/v1/event/helsinki:afqokz2zxm/',
+    },
 ];
 
 export const mockSideFields = [

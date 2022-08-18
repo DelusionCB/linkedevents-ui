@@ -35,7 +35,7 @@ import {mapAPIDataToUIFormat} from '../../utils/formDataMapping'
 import getContentLanguages from '../../utils/language'
 import PreviewModal from '../../components/PreviewModal/PreviewModal'
 import classNames from 'classnames';
-const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE} = constants
+const {PUBLICATION_STATUS, SUPER_EVENT_TYPE_UMBRELLA, USER_TYPE, SUB_EVENT_TYPE_RECURRING} = constants
 
 // sentinel for authentication alert
 let sentinel = true
@@ -182,6 +182,14 @@ export class EditorPage extends React.Component {
         executeSendRequest(formValues, updateExisting, publicationStatus, subEvents)
     }
 
+    saveSubEvent = () => {
+        const {subEvents} = this.state
+        const {editor: {values: formValues}, executeSendRequest} = this.props
+
+        this.setState({isDirty: false})
+        executeSendRequest(formValues, false, formValues.publication_status, subEvents)
+    }
+
     /**
      * Saves the editor changes to a draft event without publishing
      */
@@ -299,6 +307,7 @@ export class EditorPage extends React.Component {
         const userType = user && user.userType
         const editMode = get(match, ['params', 'action'])
         const isUmbrellaEvent = get(editor, ['values', 'super_event_type']) === SUPER_EVENT_TYPE_UMBRELLA
+        const isRecurringSub = get(editor, ['values', 'sub_event_type']) === SUB_EVENT_TYPE_RECURRING
         const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
         const isAdminUser = userType === USER_TYPE.ADMIN
         const hasSubEvents = subEvents && subEvents.length > 0
@@ -312,7 +321,6 @@ export class EditorPage extends React.Component {
             setTimeout(() => alert(intl.formatMessage({id:'editor-sentinel-alert'})), 1000);
             sentinel = false;
         }
-
         return (
             <React.Fragment>
                 <div className="editor-page">
@@ -381,6 +389,13 @@ export class EditorPage extends React.Component {
                                     )
                                 }
                                 {
+                                    (isRecurringSub && editMode === 'add') &&
+                                    this.getActionButton('add',
+                                        () => this.saveSubEvent(),
+                                        false,
+                                        'add-recurring-subEvent')
+                                }
+                                {
                                     // button that saves changes to a draft without publishing
                                     // only shown to moderators
                                     isDraft && hasOrganizationWithRegularUsers(user) &&
@@ -402,6 +417,7 @@ export class EditorPage extends React.Component {
                                 {
                                     // show confirmation modal when the updated event has sub events and isn't an umbrella event,
                                     // otherwise save directly
+                                    editMode !== 'add' &&
                                     this.getActionButton(
                                         'update',
                                         () => this.saveChanges(false),

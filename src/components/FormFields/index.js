@@ -173,10 +173,10 @@ class FormFields extends React.Component {
     addNewEventDialog(recurring = false) {
         let subEventKeys = Object.keys(this.props.editor.values.sub_events)
         let key = subEventKeys.length > 0 ? Math.max.apply(null, subEventKeys) + 1 : 0
-        const newEventObject = {[key]: {start_time: undefined}}
+        const newEventObject = {[key]: {start_time: undefined, end_time: undefined}}
         this.context.dispatch(setEventData(newEventObject, key))
         if (recurring) {
-            const newObj = {[key + 1]: {start_time: undefined}}
+            const newObj = {[key + 1]: {start_time: undefined, end_time: undefined}}
             this.context.dispatch(setEventData(newObj, key + 1))
         }
     }

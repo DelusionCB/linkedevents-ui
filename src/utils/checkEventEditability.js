@@ -64,24 +64,23 @@ export const userCanDoAction = (user, event, action, editor, superEvent) => {
     const isPostponed = get(event, 'event_status') === EVENT_STATUS.POSTPONED;
     const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
     const isSubEvent = !isUndefined(get(event, ['super_event', '@id']))
-    const isUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
+    const superIsUmbrella = get(superEvent, 'super_event_type') === SUPER_EVENT_TYPE_UMBRELLA
     const disableSubEventDeletion = superEvent !== null && Object.keys(superEvent).length > 0 && get(superEvent, 'sub_events', []).length <= 2
     const subEventLimitReached = get(event, 'sub_events', []).length >= 65
     const eventOwner = get(event, 'is_owner')
     const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
     const {keywordSets} = editor
+    // format event, so that we can validate it
+    const formattedEvent = mapAPIDataToUIFormat(event)
+    // validate
+    const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, keywordSets)
+    // check if there are errors
+    const hasValidationErrors = Object.keys(validations).length > 0
 
     if (action === 'publish') {
-        if (!event.id || (isDraft && isSubEvent)) {
+        if (!event.id || (isDraft && isSubEvent && !superIsUmbrella)) {
             return false
         }
-        // format event, so that we can validate it
-        const formattedEvent = mapAPIDataToUIFormat(event)
-        // validate
-        const validations = doValidations(formattedEvent, getContentLanguages(formattedEvent), PUBLICATION_STATUS.PUBLIC, keywordSets)
-        // check if there are errors
-        const hasValidationErrors = Object.keys(validations).length > 0
-
         return !hasValidationErrors
     }
     if (action === 'update') {
@@ -91,10 +90,10 @@ export const userCanDoAction = (user, event, action, editor, superEvent) => {
         return !(isSeries || isPostponed || isDraft || isSubEvent)
     }
     if (action === 'delete') {
-        return !((!isUmbrella && disableSubEventDeletion) || (isRegularUser && (isUmbrellaEvent || isPublic)))
+        return !((!superIsUmbrella && disableSubEventDeletion) || (isRegularUser && (isUmbrellaEvent || isPublic)))
     }
     if (action === 'cancel') {
-        return !(isDraft || (isRegularUser && isPublic))
+        return !(isDraft || (isRegularUser && isPublic) || (!superIsUmbrella && disableSubEventDeletion))
     }
     if (action === 'edit' || action === 'update') {
         return !(isRegularUser && (isUmbrellaEvent || isPublic))
@@ -108,6 +107,8 @@ export const userCanDoAction = (user, event, action, editor, superEvent) => {
 export const eventIsEditable = (event) => {
     const eventIsCancelled = get(event, 'event_status') === EVENT_STATUS.CANCELLED
     const eventIsDeleted = get(event, 'deleted')
+    const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT
+    const isSerial = get(event, 'super_event_type') === SUPER_EVENT_TYPE_RECURRING
     const startTime = get(event, 'start_time', '')
     const endTime = get(event, 'end_time', null)
     const eventIsInThePast =
@@ -119,7 +120,7 @@ export const eventIsEditable = (event) => {
     if (eventIsDeleted) {
         return {editable: false, explanationId: 'event-deleted'};
     }
-    if (eventIsInThePast) {
+    if (eventIsInThePast && !isDraft) {
         return {editable: false, explanationId: 'event-in-the-past'};
     }
     return {editable: true, explanationId: ''}
@@ -171,7 +172,7 @@ export const checkEventEditability = (user, event, action, editor, superEvent) =
         if (userMayEdit && subEventLimitReached && isSeries && action === 'add') {
             return 'validation-isMoreThanSixtyFive'
         }
-        if (userMayEdit && disableSubEventDeletion && !isUmbrella && action === 'delete') {
+        if (userMayEdit && disableSubEventDeletion && !isUmbrella && (action === 'delete' || action === 'cancel')) {
             return 'not-enough-sub-events'
         }
         if (!userMayEdit || !userCanDoAction) {

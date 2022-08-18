@@ -240,6 +240,8 @@
     "hobby-add-recurring": "Regelbundet återkommande hobby",
     "course-add-recurring": "Regelbundet återkommande utbildning",
 
+    "add-recurring-subEvent": "Spara innehållet till serien",
+
     "event-type-single": "Enskilt evenemang",
     "event-type-recurring": "Återkommande evenemang",
     "event-sub-count": "Händelse {count}",
