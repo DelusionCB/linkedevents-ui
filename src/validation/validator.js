@@ -473,50 +473,34 @@ const validateSubEvents = (values, validations) => {
         return errors
     }
     // loop through all sub events to get the validation errors
-    Object.entries(values.sub_events).forEach(([index,  subItem]) => {
-        const subKeys = Object.keys(subItem)
-
-        const includesTimes = subKeys.includes('start_time') && subKeys.includes('end_time')
-        // validate each field of the item
-        subFields.forEach(field => {
-            const validationResult = Object.entries(subItem)
-                .reduce((acc, [key]) => {
-                    if (includesTimes) {
-                        acc[key] = {}
-                        acc[key] = validations[key].reduce((timeErrors, validation) => {
-                            if (!validationFn[validation](subItem, subItem[key])) {
-                                timeErrors.push(validation);
-                            }
-                            return timeErrors;
-                        }, []);
-                    } else {
-                        acc[field] = {}
-                        acc[field] = validations[field].reduce((timeErrors, validation) => {
-                            if (!validationFn[validation](subItem, subItem[field])) {
-                                timeErrors.push(validation);
-                            }
-                            return timeErrors;
-                        }, []);
+    const subEventValues = Object.entries(values.sub_events);
+    subEventValues.forEach(([index, subEvent]) => {
+        const validationResult = Object.keys(subEvent).reduce((acc, curr) => {
+            if (subFields.includes(curr)) {
+                acc[curr] = {}
+                acc[curr] = validations[curr].reduce((timeErrors, validation) => {
+                    if (!validationFn[validation](subEvent, subEvent[curr])) {
+                        timeErrors.push(validation);
                     }
-                    return acc
-                }, {})
-
-            // remove empty arrays
-            Object.entries(validationResult)
-                .forEach(([key, item]) => {
-                    // Remove the whole key
-                    if (isEmpty(item)) delete validationResult[key]
-                })
-
-            // set the errors for the item
-            errors[index] = validationResult
-        });
+                    return timeErrors;
+                }, []);
+            }
+            return acc;
+        }, {});
+        // Remove empty arrays if errors do not exist
+        errors[index] = Object.entries(validationResult).reduce((acc, [ind, curr]) => {
+            if (curr.length !== 0) {
+                acc[ind] = curr;
+            }
+            return acc;
+        }, {});
+        // errors looks like {index: {start_time: etc}}
     });
-    Object.entries(errors)
-        .forEach(([key, item]) => {
-            if (isEmpty(item)) delete errors[key]
-        })
-
+    // Remove empty objects if subEvents do not have validationErrors
+    // {0:{start_time...}1:{}} -> {0:{start_time....}}
+    Object.keys(errors).forEach((item) => {
+        if (isEmpty(errors[item])) delete errors[item]
+    })
     return errors
 }
 
