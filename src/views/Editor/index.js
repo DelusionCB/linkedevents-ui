@@ -16,6 +16,7 @@ import {
     setLanguages as setLanguageAction,
     setEventForEditing as setEventForEditingAction,
     setValidationErrors as setValidationErrorsAction,
+    setLoading as setLoadingAction,
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg as clearFlashMsgAction, setFlashMsg as setFlashMsgAction} from '../../actions/app'
 import constants from '../../constants'
@@ -53,7 +54,7 @@ export class EditorPage extends React.Component {
     }
 
     componentDidMount() {
-        const {user, match, setFlashMsg, setEditorAuthFlashMsg} = this.props
+        const {user, match, setFlashMsg, setEditorAuthFlashMsg, fetchingUser} = this.props
 
         setEditorAuthFlashMsg()
 
@@ -61,13 +62,15 @@ export class EditorPage extends React.Component {
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
         const userHasOrganizations = !isNull(getOrganizationMembershipIds(user))
 
+        if (!user && params.action === 'update' && !fetchingUser) {
+            this.props.routerPush('/404')
+        }
         this.setState({isRegularUser})
-
 
         if (user && !userHasOrganizations) {
             setFlashMsg('user-no-rights-create', 'error', {sticky: true})
         }
-        if (params.action === 'update' && params.eventId) {
+        if ((user || fetchingUser) && params.action === 'update' && params.eventId) {
             this.fetchEventData()
         }
     }
@@ -112,7 +115,7 @@ export class EditorPage extends React.Component {
      * Fetches the event, sub event and super event data for the event that is being updated
      */
     fetchEventData = async () => {
-        const {setEventForEditing} = this.props
+        const {setEventForEditing, setLoading} = this.props
         const eventId = get(this.props, ['match', 'params', 'eventId'])
 
         if (!eventId) {
@@ -126,12 +129,14 @@ export class EditorPage extends React.Component {
         queryParams.nocache = moment().unix()
 
         try {
+            setLoading(true)
             const eventData = await fetchEvent(eventId, queryParams, true)
             const [event, subEvents, superEvent] = eventData
 
             this.setState({event, subEvents, superEvent})
             setEventForEditing(event)
         } finally {
+            setLoading(false)
             this.setState({loading: false})
         }
     }
@@ -436,12 +441,14 @@ export class EditorPage extends React.Component {
 const mapStateToProps = (state) => ({
     editor: state.editor,
     user: state.user.data,
+    fetchingUser: state.user.isFetchingUser,
 })
 
 const mapDispatchToProps = (dispatch) => ({
     setEventForEditing: (eventId, user) => dispatch(setEventForEditingAction(eventId, user)),
     clearData: () => dispatch(clearDataAction()),
     setFlashMsg: (id, status, data) => dispatch(setFlashMsgAction(id, status, data)),
+    setLoading: (loading) => dispatch(setLoadingAction(loading)),
     setEditorAuthFlashMsg: () => dispatch(setEditorAuthFlashMsgAction()),
     setLanguages: (languages) => dispatch(setLanguageAction(languages)),
     setValidationErrors: (errors) => dispatch(setValidationErrorsAction(errors)),
@@ -465,6 +472,7 @@ EditorPage.propTypes = {
     setFlashMsg: PropTypes.func,
     setEditorAuthFlashMsg: PropTypes.func,
     setLanguages: PropTypes.func,
+    setLoading: PropTypes.func,
     setValidationErrors: PropTypes.func,
     clearFlashMsg: PropTypes.func,
     executeSendRequest: PropTypes.func,
@@ -476,5 +484,6 @@ EditorPage.propTypes = {
     loading: PropTypes.bool,
     isDirty: PropTypes.bool,
     isRegularUser: PropTypes.bool,
+    fetchingUser: PropTypes.bool,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditorPage))

@@ -90,6 +90,14 @@ describe('ValidationCell', () => {
                 expect(element.prop('aria-hidden')).toBe(true)
                 expect(element.prop('className')).toBe('glyphicon glyphicon-ok')
             })
+            test('correct props & length while hasErrors & subErrors are true', () => {
+                const wrapper = getWrapper()
+                wrapper.setState({hasErrors: true, subErrors: true})
+                const element = wrapper.find('span').at(0);
+                expect(element).toHaveLength(1)
+                expect(element.prop('aria-hidden')).toBe(true)
+                expect(element.prop('className')).toBe('glyphicon glyphicon-alert')
+            })
         })
         describe('tooltip', () => {
             test('correct props & length', () => {

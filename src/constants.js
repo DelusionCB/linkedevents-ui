@@ -153,6 +153,7 @@ const constants = {
         IS_LESS_THAN_MAX_AGE: 'isLessThanMaxAge',
         IS_LESS_THAN_MAX_CAPACITY: 'isLessThanMaximumCapacity',
         IS_MORE_THAN_MIN_CAPACITY: 'isMoreThanMinimumCapacity',
+        MAXIMUM_CAPACITY: 'maximumCapacity',
         AFTER_START_TIME: 'afterStartTime',
         AFTER_ENROLMENT_START_TIME: 'afterEnrolmentStartTime',
         IN_THE_FUTURE: 'inTheFuture',
@@ -184,6 +185,7 @@ const constants = {
         LONG_STRING: 5000,
     },
 
+    MAX_CAPACITY_LIMIT: 100000,
     MAX_AGE_LIMIT: 150,
 
     GENERATE_LIMIT: {

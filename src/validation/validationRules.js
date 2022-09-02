@@ -138,6 +138,12 @@ var validations = {
         }
         return value <= Number.parseInt(values.maximum_attendee_capacity)
     },
+    maximumCapacity: function maximumCapacity(values, value) {
+        if (!value) {
+            return true
+        }
+        return value <= constants.MAX_CAPACITY_LIMIT
+    },
     afterStartTime: function afterStartTime(values, value) {
         if (!values.start_time || !value) return true
 

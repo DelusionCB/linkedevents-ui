@@ -37,6 +37,7 @@ const defaultProps = {
             super_event: '',
             super_event_type: '',
         },
+        loading: false,
     },
     intl,
     disabled: false,

@@ -110,7 +110,6 @@ class FormFields extends React.Component {
         if(!prevState.createdRecurringEvents && this.state.createdRecurringEvents){
             this.setState({createdRecurringEvents: false})
         }
-
     }
 
     handleSetMapContainer = (mapContainer) => {

@@ -1,6 +1,4 @@
-import configureStore from 'redux-mock-store';
 import React from 'react';
-import thunk from 'redux-thunk';
 import {shallow} from 'enzyme';
 import {IntlProvider, FormattedMessage} from 'react-intl';
 import mapValues from 'lodash/mapValues';
@@ -32,7 +30,6 @@ jest.mock(
 import {EditorPage} from './index';
 import {mockUser, mockEditorNewEvent, mockEditorExistingEvent} from '../../../__mocks__/mockData';
 
-const mockStore = configureStore([thunk]);
 const initialStoreNewEvent = {
     user: mockUser,
     editor: mockEditorNewEvent,
@@ -45,6 +42,8 @@ const initialStoreExistingEvent = {
 describe('Editor Snapshot', () => {
     it('should render view correctly when new event', () => {
         const componentProps = {
+            setLoading: () => {},
+            fetchingUser: false,
             match: {
                 params: {
                     action: 'create',
@@ -68,6 +67,8 @@ describe('Editor Snapshot', () => {
 
     it('should render view correctly when editing existing event', () => {
         const componentProps = {
+            setLoading: () => {},
+            fetchingUser: false,
             match: {
                 params: {
                     action: 'update',
@@ -91,6 +92,8 @@ describe('Editor Snapshot', () => {
 
     it('should render view correctly when creating new event from existing one', () => {
         const componentProps = {
+            setLoading: () => {},
+            fetchingUser: false,
             match: {
                 params: {
                     action: 'create',
@@ -113,36 +116,67 @@ describe('Editor Snapshot', () => {
     });
 
     const defaultProps = {
-        intl,
-    };
-
-    function getWrapper(props) {
-        return shallow(<EditorPage {...defaultProps} {...componentProps} {...props} />, {context: {intl}});
-    }
-    const componentProps = {
+        setLoading: () => {},
+        user: mockUser,
+        fetchingUser: false,
+        editor: mockEditorExistingEvent,
         match: {
             params: {
                 action: 'create',
                 eventId: 'new?_k=dn954b',
             },
         },
-        app: {
-            flashMsg: null,
-            confirmAction: null,
-        },
         setFlashMsg: jest.fn(),
         setEditorAuthFlashMsg: jest.fn(),
-        intl: {
-            formatMessage: jest.fn(),
-        },
-        ...initialStoreExistingEvent,
+        routerPush: jest.fn(),
+        intl,
     };
+    function getWrapper(props) {
+        return shallow(<EditorPage {...defaultProps} {...props} />, {context: {intl}});
+    }
+
+    describe('lifecycle methods', () => {
+        describe('componentDidMount', () => {
+            test('routerPush is called if mounting with no user and editing an event', () => {
+                const props = {
+                    user: null,
+                    routerPush: jest.fn(),
+                    match: {
+                        params: {
+                            action: 'update',
+                        },
+                    },
+                };
+                const wrapper = getWrapper(props);
+                const instance = wrapper.instance();
+                // spy on fetchEventData function which is normally called on mount when editing.
+                const spy = jest.spyOn(instance, 'fetchEventData');
+                jest.clearAllMocks();
+                instance.componentDidMount();
+                // routerPush should've been called because user was missing.
+                expect(props.routerPush).toHaveBeenCalledWith('/404');
+                // fetchEventData shouldn't have been called because user is missing.
+                expect(spy).not.toHaveBeenCalled();
+            });
+            test('setFlashMsg is called if mounting with user but user doesnt belong to any org', () => {
+                const adminUser = Object.assign({}, mockUser);
+                adminUser.adminOrganizations = null;
+                const props = {
+                    user: adminUser,
+                    setFlashMsg: jest.fn(),
+                };
+                getWrapper(props);
+                const expectedValues = ['user-no-rights-create', 'error', {sticky: true}];
+                expect(props.setFlashMsg).toHaveBeenCalledWith(...expectedValues);
+            });
+        });
+    });
     test('correct amount of FormattedMessages', () => {
         const element = getWrapper().find(FormattedMessage);
         expect(element).toHaveLength(1);
     });
     test('react-helmet is defined and gets title prop', () => {
-        const wrapper = getWrapper().find(Helmet);
+        const wrapper = getWrapper({intl:{formatMessage: jest.fn()}}).find(Helmet);
         const pageTitle = wrapper.prop('title');
         expect(wrapper).toBeDefined();
         expect(pageTitle).toBeDefined();

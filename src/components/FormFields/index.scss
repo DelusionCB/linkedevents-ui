@@ -317,7 +317,7 @@ h4 {
 .hel-select {
     .location-select {
         position: relative;
-        z-index: 1;
+        z-index: 2;
     }
     .custom-control {
     &-label {
@@ -354,14 +354,14 @@ h4 {
         max-height: 500px;
         transition-property: height;
         transition-duration: 0.2s;
-
         .map-component {
             display: none;
 
         }
         &.open {
             height: 300px;
-
+            z-index: 1;
+            position: relative;
             .map-component {
                 display: initial;
 

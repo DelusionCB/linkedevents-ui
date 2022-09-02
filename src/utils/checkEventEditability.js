@@ -78,13 +78,16 @@ export const userCanDoAction = (user, event, action, editor, superEvent) => {
     const hasValidationErrors = Object.keys(validations).length > 0
 
     if (action === 'publish') {
-        if (!event.id || (isDraft && isSubEvent && !superIsUmbrella)) {
+        // Event doesn't have id OR is draft, a sub_event & the super event is not an umbrella
+        const draftSub = isDraft && isSubEvent && !superIsUmbrella
+        if (!event.id || draftSub) {
             return false
         }
         return !hasValidationErrors
     }
+    // Event is draft, a sub_event, user is not regular & super event is not umbrella
     if (action === 'update') {
-        return !(isDraft && isSubEvent && !isRegularUser)
+        return !(isDraft && isSubEvent && !isRegularUser && !superIsUmbrella)
     }
     if (action === 'postpone') {
         return !(isSeries || isPostponed || isDraft || isSubEvent)
@@ -160,7 +163,7 @@ export const checkEventEditability = (user, event, action, editor, superEvent) =
         if (isDraft && action === 'cancel') {
             return 'draft-cancel'
         }
-        if (!userCanDoAction && (action === 'publish' || action === 'update') && isSubEvent) {
+        if (!userCanDoAction && (action === 'publish' || action === 'update') && (isSubEvent && !isUmbrella)) {
             return 'draft-publish-subevent'
         }
         if (!userCanDoAction && action === 'publish') {

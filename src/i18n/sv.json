@@ -65,6 +65,7 @@
     "sub-events-for-series": "Seriets evenemang: ",
     "sub-events-for-umbrella": "Evenemang under paraplyevenemanget: ",
 
+    "event-sort-checkbox": "Selektion",
     "event-sort-name": "Rubrik",
     "event-sort-start_time": "Innehållet börjar",
     "event-sort-context": "Innehåll",
@@ -439,6 +440,7 @@
     "validation-isMoreThanMinAge": "Övre åldersgränsen måste vara mera än nedre åldersgränsen.",
     "validation-isLessThanMaximumCapacity": "Minimiantalet måste vara mindre än maximiantalet.",
     "validation-isMoreThanMinimumCapacity": "Maximiantalet måste vara mera än miniantalet.",
+    "validation-maximumCapacity": "Deltagarantalet kan vara högst 100 000",
     "validation-isPositiveInt": "Siffran måste vara positiv.",
     "validation-isLessThanMaxAgeLimit": "Åldersgräns måste vara under 150.",
     "validation-hasValidPrice": "Priset innehåller fel. Kontrollera formateringen (t.ex. 4.50).",
@@ -584,6 +586,7 @@
     "draft-publish-subevent": "Evenemang i serien kan inte publiceras.",
     "event-validation-errors": "Innehållets information är felaktigt, korrigera felen före publicering.",
     "event-validation-no-errors": "Innehållets information innehåller inga fel.",
+    "subevent-validation-errors": "Underinnehåll är felaktigt, korrigera felen före publicering.",
     "event-in-the-past": "Gångna evenemang kan inte redigeras.",
     "event-invalid-postpone": "Innehåll has redan senarelagts.",
     "event-canceled": "Inställda evenemang kan inte redigeras.",

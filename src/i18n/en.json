@@ -69,6 +69,7 @@
     "table-event-moderation": "Moderation table for publishing and deleting contents",
     "table-event-published": "Moderation table of published contents",
 
+    "event-sort-checkbox": "Selection",
     "event-sort-name": "Title",
     "event-sort-start_time": "Content starts",
     "event-sort-end_time": "Content ends",
@@ -433,6 +434,7 @@
     "validation-isMoreThanMinAge": "Maximum age must be more than minimum age",
     "validation-isLessThanMaximumCapacity": "Minimum attendee must be less than maximum attendees",
     "validation-isMoreThanMinimumCapacity": "Maximum attendees must be more than minimum attendees",
+    "validation-maximumCapacity": "Maximum capacity of attendees is 100 000",
     "validation-isPositiveInt": "Number must be positive",
     "validation-isLessThanMaxAgeLimit": "Limit for age restrictions is 150",
     "validation-hasValidPrice": "Price is invalid. Check format (Example 4.50).",
@@ -570,6 +572,7 @@
     "draft-publish-subevent": "A subevent of a series cannot be published.",
     "event-validation-errors": "Content data contains errors, correct the erraneous data before publishing..",
     "event-validation-no-errors": "Content data contains no errors.",
+    "subevent-validation-errors": "Sub-contents contain errors. Fix errors before publication.",
     "event-in-the-past": "Past events can't be edited.",
     "event-invalid-postpone": "Content is already postponed",
     "event-canceled": "Cancelled events can't be edited.",

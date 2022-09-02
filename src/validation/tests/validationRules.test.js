@@ -337,6 +337,19 @@ describe('validation rules', () => {
                 expect(testFunction).toBe(expected)
             })
     })
+    describe('maximumCapacity', () => {
+        const testValues = [
+            {value: 15000, expected: true},
+            {value: 150000, expected: false},
+            {value: 100000, expected: true},
+        ]
+        test.each(testValues) (
+            'returns correct Booleans for test case: %#',
+            ({values, value, expected}) => {
+                const testFunction = validationFn.maximumCapacity(values, value)
+                expect(testFunction).toBe(expected)
+            })
+    })
     describe('afterStartTime', () => {
         const testValues = [
             {values: {start_time: new Date('2022-12-17')}, value: new Date('2022-12-19'), expected: true},

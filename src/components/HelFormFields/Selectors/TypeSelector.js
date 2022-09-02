@@ -33,7 +33,7 @@ class TypeSelector extends React.Component {
             const newType = editor.values.type_id || EVENT_TYPE.GENERAL;
             this.setState({type: newType});
 
-        }else if (prevProps.editor.values && !editor.values.type_id && !isCreateView) {
+        } else if (prevProps.editor.values && !editor.values.type_id && !editor.loading && !isCreateView) {
             this.setState({isCreateView: true});
             this.context.dispatch(setData({type_id: EVENT_TYPE.GENERAL}))
         }

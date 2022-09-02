@@ -174,6 +174,7 @@ export function replaceData(formData, recurring = false) {
         delete formObject.event_status
         delete formObject.super_event_type
         delete formObject.id
+        delete formObject.image
         formObject.sub_events = {}
         // here, we do more thorough validation
         dispatch(validateFor(publicationStatus))

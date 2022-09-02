@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip, Button} from 'reactstrap';
+import {Button, Tooltip} from 'reactstrap';
 import {injectIntl} from 'react-intl';
 import {doValidations} from 'src/validation/validator';
 import getContentLanguages from 'src/utils/language';
@@ -17,6 +17,7 @@ class ValidationCell extends React.Component {
         super(props);
         this.state = {
             hasErrors: false,
+            subErrors: false,
             tooltipOpen: false,
         }
         this.toggleTooltip = this.toggleTooltip.bind(this);
@@ -26,8 +27,12 @@ class ValidationCell extends React.Component {
     componentDidMount() {
         const {event, editor} = this.props;
         const formattedEvent = mapAPIDataToUIFormat(event);
-
-        formattedEvent.sub_events = [];
+        formattedEvent.sub_events = Object.values(formattedEvent.sub_events).reduce((acc, curr, index) => {
+            acc[index] = {}
+            acc[index]['start_time'] = curr['start_time']
+            acc[index]['end_time'] = curr['end_time']
+            return acc
+        }, {});
 
         const validations = doValidations(
             formattedEvent,
@@ -36,11 +41,14 @@ class ValidationCell extends React.Component {
             editor.keywordSets
         );
 
+        const hasSubValidationErrors = Object.keys(validations).includes('sub_events')
         const hasValidationErrors = Object.keys(validations).length > 0;
+        const nextState = {}
+        if (hasSubValidationErrors) {nextState.subErrors = true;}
 
-        if (hasValidationErrors) {
+        if (hasValidationErrors || hasSubValidationErrors) {
             this.props.handleInvalidRow(event.id);
-            this.setState({hasErrors: true});
+            this.setState({hasErrors: true, ...nextState});
         }
     }
 
@@ -53,35 +61,46 @@ class ValidationCell extends React.Component {
         routerPush(`/event/update/${event.id}`);
     }
 
+    getValidations(messageId) {
+        const {hasErrors, subErrors} = this.state;
+        const {intl} = this.props;
+
+        if (hasErrors && !subErrors) {
+            return (<React.Fragment>
+                <Button
+                    aria-label={intl.formatMessage({id: messageId})}
+                    onClick={this.moveToEdit}
+                >
+                    <span aria-hidden className='glyphicon glyphicon-alert' />
+                </Button>
+            </React.Fragment>)
+        }
+
+        const allErrors = hasErrors && subErrors;
+        const glyphType = allErrors ? 'alert' : 'ok';
+        return (<React.Fragment>
+            <span aria-hidden className={`glyphicon glyphicon-${glyphType}`} />
+            <span className='visually-hidden'>
+                {intl.formatMessage({id: messageId})}
+            </span>
+        </React.Fragment>)
+    }
+
 
     render() {
         const {intl, event:{id}} = this.props;
+        const {hasErrors, subErrors, tooltipOpen} = this.state;
         // This is a unique id based on the event id + -validationAlert
         const uniqueId = id.replace(/[^\w]/gi, '') + '-validationAlert';
-        const messageId = this.state.hasErrors ? 'event-validation-errors' : 'event-validation-no-errors'
+        const messageId = hasErrors ? 'event-validation-errors' : 'event-validation-no-errors'
+        const subMessage = 'subevent-validation-errors'
+        const message = subErrors ? subMessage : messageId
 
         return (
-            <td id={uniqueId} className={classNames('validation-cell',{'error': this.state.hasErrors})}>
-                {this.state.hasErrors &&
-                <React.Fragment>
-                    <Button
-                        aria-label={intl.formatMessage({id: messageId})}
-                        onClick={this.moveToEdit}
-                    >
-                        <span aria-hidden className='glyphicon glyphicon-alert'/>
-                    </Button>
-                </React.Fragment>
-                }
-                {!this.state.hasErrors &&
-                    <React.Fragment>
-                        <span aria-hidden className='glyphicon glyphicon-ok'/>
-                        <span className='visually-hidden'>
-                            {intl.formatMessage({id: messageId})}
-                        </span>
-                    </React.Fragment>
-                }
-                <Tooltip isOpen={this.state.tooltipOpen} target={uniqueId} toggle={this.toggleTooltip}>
-                    {intl.formatMessage({id: messageId})}
+            <td id={uniqueId} className={classNames('validation-cell',{'error': hasErrors})}>
+                {this.getValidations(message)}
+                <Tooltip isOpen={tooltipOpen} target={uniqueId} toggle={this.toggleTooltip}>
+                    {intl.formatMessage({id: message})}
                 </Tooltip>
             </td>
         );
