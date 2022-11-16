@@ -181,7 +181,7 @@ class EventPage extends React.Component {
         const {event, loading} = this.state
         const userType = get(user, 'userType')
         const isDraft = event.publication_status === PUBLICATION_STATUS.DRAFT
-        const isAdmin = userType === USER_TYPE.ADMIN
+        const isAdmin = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(userType)
         const isRecurring = event.super_event_type === SUPER_EVENT_TYPE_RECURRING
         const editEventButton = this.getActionButton('edit', idPrefix,this.openEventInEditor, false)
         const addRecurringButton = this.getActionButton('add',idPrefix, () => this.openEventInEditor('addRecurring'), false)
