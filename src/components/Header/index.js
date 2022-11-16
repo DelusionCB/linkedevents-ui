@@ -46,7 +46,7 @@ class HeaderBar extends React.Component {
 
         if (user) {
             const showModerationLink =
-                get(user, 'userType') === USER_TYPE.ADMIN && hasOrganizationWithRegularUsers(user);
+                [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
             this.setState({showModerationLink});
         }
     }
@@ -57,7 +57,7 @@ class HeaderBar extends React.Component {
 
         if (oldUser !== user) {
             const showModerationLink =
-                get(user, 'userType') === USER_TYPE.ADMIN && hasOrganizationWithRegularUsers(user);
+                [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
             this.setState({showModerationLink});
         }
     }

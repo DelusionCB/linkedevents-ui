@@ -195,6 +195,7 @@ const constants = {
     },
 
     USER_TYPE: {
+        SUPERADMIN: 'superadmin',
         ADMIN: 'admin',
         REGULAR: 'regular',
         PUBLIC: 'public',
