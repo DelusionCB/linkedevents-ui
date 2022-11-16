@@ -255,6 +255,30 @@ describe('EventListing', () => {
             });
         });
 
+        describe('getPageSubtitle', () => {
+            
+            test('gets correct eventListing page title for super admin', () => {
+                mockUser.userType = 'superadmin';
+                const wrapper = getWrapper({user: mockUser});
+                expect(wrapper.find('#events-management-description-super-user')).toHaveLength(1);
+            });
+            test('gets correct eventListing page title for regular user', () => {
+                mockUser.userType = 'regular';
+                const wrapper = getWrapper({user: mockUser});
+                expect(wrapper.find('#events-management-description-regular-user')).toHaveLength(1);
+            });
+            test('gets correct eventListing page title for public user', () => {
+                mockUser.userType = 'public';
+                const wrapper = getWrapper({user: mockUser});
+                expect(wrapper.find('#events-management-description-public-user')).toHaveLength(1);
+            });
+            test('gets correct eventListing page title for admin', () => {
+                mockUser.userType = 'admin';
+                const wrapper = getWrapper({user: mockUser});
+                expect(wrapper.find('#events-management-description')).toHaveLength(1);
+            });
+        });
+
         describe('toggleEventLanguages', () => {
             const event = (lang) => ({target: {value: lang}});
             describe('sets values to state', () => {

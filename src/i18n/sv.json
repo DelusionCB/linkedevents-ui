@@ -136,6 +136,7 @@
     "events-management-description": "Bläddra i och redigera det publicerade innehållet från din organisation.",
     "events-management-description-regular-user": "Bläddra i och redigera dina utkast och bläddra i dina publicerade evenemang. Publicerade evenemang kan inte redigeras.",
     "events-management-description-public-user": "Bläddra och redigera dina publicerade evenemang.",
+    "events-management-description-super-user": "Bläddra och redigera alla publicerade evenemang.",
     "events-management-no-results": "Ingen redigerbar evenemang hittades.",
 
     "language-label.fi": "Innehåll finns på finska",

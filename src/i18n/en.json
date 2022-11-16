@@ -138,6 +138,7 @@
     "events-management-description": "Browse and edit the contents published by your organization.",
     "events-management-description-regular-user": "Browse and edit your drafts and browse your published events. Published events can't be edited.",
     "events-management-description-public-user": "Browse and edit events published by you.",
+    "events-management-description-super-user": "Browse and edit all published events.",
     "events-management-no-results": "No editable events found.",
 
     "language-label.fi": "Content is in Finnish",
