@@ -287,7 +287,10 @@ class FormFields extends React.Component {
         const maxSubEventCount = CONSTANTS.GENERATE_LIMIT.EVENT_LENGTH
         const userType = get(user, 'userType')
         const isRegularUser = userType === USER_TYPE.REGULAR
-        const organizationData = get(user, `${userType}OrganizationData`, {})
+        let organizationData = get(user, `${userType}OrganizationData`, {})
+        if (userType === USER_TYPE.SUPERADMIN) {
+            organizationData = get(user, `adminOrganizationData`, {})
+        }
         const publisherOptions = Object.keys(organizationData)
             .map(id => ({label: organizationData[id].name, value: id}))
         const subTimeDisable = this.subEventsContainTime(values['sub_events'])

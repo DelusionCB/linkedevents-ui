@@ -78,7 +78,7 @@ export const getOrganizationMembershipIds = user => {
     if (!get(user, 'userType')) {
         return null
     }
-    if (user.userType === USER_TYPE.ADMIN) {
+    if ([USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(user.userType)) {
         return user.adminOrganizations
     }
     if (user.userType === USER_TYPE.REGULAR) {
