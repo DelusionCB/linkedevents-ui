@@ -80,12 +80,12 @@ class Notifications extends React.Component {
         return (
             <React.Fragment>
                 { flashMsgSpan &&
-                    <div className='notification'
+                    <dialog className='notification'
                         open={(!!flashMsg)}
                         onClose={closeFn}
                     >
                         <p className="text-center" role='alert'>{flashMsgSpan}{[actionButton]}</p>
-                    </div>
+                    </dialog>
                 }
             </React.Fragment>
         )
