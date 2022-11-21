@@ -49,7 +49,7 @@ const ValidationNotification =  ({
                 ? <p
                     id={id}
                     className={className}
-                    anchor={anchor}>
+                >
                     { errorMsg }
                 </p>
                 : <React.Fragment />
