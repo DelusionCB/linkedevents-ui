@@ -25,13 +25,13 @@ describe('Notifications', () => {
     }
 
     describe('when flash message is defined', () => {
-        test('renders div', () => {
+        test('renders dialog', () => {
             const isSticky =  flashMsg && flashMsg.sticky
             const duration = isSticky ? null : 7000
-            const div = getWrapper({flashMsg}).find('div')
-            expect(div).toHaveLength(1)
-            expect(div.prop('open')).toBe(!!flashMsg)
-            expect(div.prop('onClose')).toBeDefined()
+            const dialog = getWrapper({flashMsg}).find('dialog')
+            expect(dialog).toHaveLength(1)
+            expect(dialog.prop('open')).toBe(!!flashMsg)
+            expect(dialog.prop('onClose')).toBeDefined()
         })
 
         test('renders paragraph', () => {
@@ -44,9 +44,9 @@ describe('Notifications', () => {
     })
 
     describe('when flash message is not defined', () => {
-        test('doesnt render div', () => {
-            const div = getWrapper().find('div')
-            expect(div).toHaveLength(0)
+        test('doesnt render dialog', () => {
+            const dialog = getWrapper().find('dialog')
+            expect(dialog).toHaveLength(0)
         })
 
         test('doesnt render paragraph', () => {
