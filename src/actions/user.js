@@ -34,6 +34,9 @@ export function loadingUser(data) {
 }
 
 const getUserType = (permissions) => {
+    if (permissions.includes(USER_TYPE.SUPERADMIN)) {
+        return USER_TYPE.SUPERADMIN
+    }
     if (permissions.includes(USER_TYPE.ADMIN)) {
         return USER_TYPE.ADMIN
     }
@@ -63,6 +66,9 @@ export const fetchUser = (id) => async (dispatch) => {
         }
         if (get(userData, 'public_memberships', []).length > 0) {
             permissions.push(USER_TYPE.PUBLIC)
+        }
+        if (get(userData, 'is_superuser', false)) {
+            permissions.push(USER_TYPE.SUPERADMIN)
         }
 
         // add all desired user data in an object which will be stored into redux store

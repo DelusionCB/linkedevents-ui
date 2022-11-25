@@ -149,6 +149,7 @@
     "events-management-description": "Selaa ja muokkaa oman organisaatiosi julkaistuja sisältöjä.",
     "events-management-description-regular-user": "Selaa ja muokkaa omia luonnoksiasi ja selaa julkaistuja tapahtumiasi. Julkaistuja tapahtumia ei voi muokata.",
     "events-management-description-public-user": "Selaa ja muokkaa julkaisemiasi tapahtumia.",
+    "events-management-description-super-user": "Selaa ja muokkaa kaikkia julkaistuja tapahtumia.",
     "events-management-no-results": "Yhtäkään muokattavaa tapahtumaa ei löytynyt.",
 
     "event-image-title": "Tapahtuman kuva*",

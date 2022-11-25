@@ -142,6 +142,7 @@ describe('EventActionButton', () => {
         describe('actions & disabled control', () => {
             const admin = {userType: USER_TYPE.ADMIN}
             const regular = {userType: USER_TYPE.REGULAR}
+            const superadmin = {userType: USER_TYPE.SUPERADMIN}
             function getEvents(count = 0, type = constants.SUPER_EVENT_TYPE_RECURRING) {
                 const sub_events = [];
                 for(let i = 0; i < count; i++) {
@@ -173,6 +174,18 @@ describe('EventActionButton', () => {
                     const button = wrapper.find(Button)
                     expect(button.prop('aria-disabled')).toBe(false)
                 })
+            })
+            describe('event action buttons when user is super admin', () => {
+                const event = {publication_status: PUBLICATION_STATUS.PUBLIC}
+                const actions = ['add', 'update', 'delete', 'cancel', 'edit', 'postpone']
+                test.each(actions)(
+                    '%s button should be enabled',
+                    ({action}) => {
+                        const wrapper = getWrapper({user: superadmin, event: event, action})
+                        const button = wrapper.find(Button)
+                        expect(button.prop('aria-disabled')).toBe(false)
+                    }
+                )
             })
             describe('action === update', () => {
                 const event = {publication_status: PUBLICATION_STATUS.DRAFT, super_event: {

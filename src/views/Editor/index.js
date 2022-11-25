@@ -314,7 +314,7 @@ export class EditorPage extends React.Component {
         const isUmbrellaEvent = get(editor, ['values', 'super_event_type']) === SUPER_EVENT_TYPE_UMBRELLA
         const isRecurringSub = get(editor, ['values', 'sub_event_type']) === SUB_EVENT_TYPE_RECURRING
         const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
-        const isAdminUser = userType === USER_TYPE.ADMIN
+        const isAdminUser = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(userType)
         const hasSubEvents = subEvents && subEvents.length > 0
         const headerTextId = editMode === 'update'
             ? 'edit-events'

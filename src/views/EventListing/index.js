@@ -319,6 +319,21 @@ export class EventListing extends React.Component {
         });
     };
 
+    getPageSubtitle = () => {
+        const {user} = this.props;
+
+        if (get(user, 'userType') === USER_TYPE.SUPERADMIN) {
+            return <FormattedMessage id="events-management-description-super-user" />
+        }
+        if (get(user, 'userType') === USER_TYPE.REGULAR) {
+            return <FormattedMessage id="events-management-description-regular-user" />
+        }
+        if (get(user, 'userType') === USER_TYPE.PUBLIC) {
+            return <FormattedMessage id="events-management-description-public-user" />
+        }
+        return <FormattedMessage id="events-management-description" />
+    }
+
     render() {
         const {user} = this.props;
         const {intl} = this.context;
@@ -338,6 +353,7 @@ export class EventListing extends React.Component {
         const header = <h1><FormattedMessage id={`${appSettings.ui_mode}-management`}/></h1>
         // Defined React Helmet title with intl
         const pageTitle = `Linkedevents - ${intl.formatMessage({id: `${appSettings.ui_mode}-management`})}`
+        const pageSubtitle = this.getPageSubtitle()
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
         const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
 
@@ -357,19 +373,9 @@ export class EventListing extends React.Component {
             <div className="container">
                 <Helmet title={pageTitle} />
                 {header}
-                {isPublicUser
-                    ?
-                    <p>
-                        <FormattedMessage id="events-management-description-public-user"/>
-                    </p>
-                    :
-                    <p>
-                        {isRegularUser
-                            ? <FormattedMessage id="events-management-description-regular-user"/>
-                            : <FormattedMessage id="events-management-description"/>
-                        }
-                    </p>
-                }
+                <p>
+                    {pageSubtitle}
+                </p>
                 {!isRegularUser &&
                 <div className='event-settings'>
                     <h2>

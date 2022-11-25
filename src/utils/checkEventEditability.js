@@ -18,8 +18,13 @@ export const userMayEdit = (user, event) => {
     const organizationMemberships = get(user, 'organizationMemberships')
     const publicationStatus = get(event, 'publication_status')
     const userHasOrganizations = !isNull(getOrganizationMembershipIds(user))
+    const isSuperAdmin = get(user, 'userType') === USER_TYPE.SUPERADMIN
 
     let userMayEdit = false
+
+    if (isSuperAdmin) {
+        return true
+    }
 
     // users that don't belong to any organization are not allowed to edit
     if (!userHasOrganizations) {
