@@ -11,6 +11,7 @@ import {Button, Input, Label, Form, InputGroup, InputGroupAddon} from 'reactstra
 import Spinner from 'react-bootstrap/Spinner';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import classNames from 'classnames';
+import moment from 'moment'
 
 class ImageGalleryGrid extends React.Component {
     constructor(props) {
@@ -74,6 +75,9 @@ class ImageGalleryGrid extends React.Component {
         this.fetchImages();
     }
 
+    formatDateTime = (dateTime) => {
+        return moment(dateTime).format('D.M.YYYY H.mm')
+    }
     render() {
         // save the id of the selected image of this event (or editor values)
         let selected_id = getIfExists(this.props.editor.values, 'image.id', null);
@@ -81,19 +85,30 @@ class ImageGalleryGrid extends React.Component {
         let images = this.props.images.items.map((img) => {
             let selected = selected_id === img.id
             return (
-                <ImageThumbnail
-                    locale={this.props.intl.locale}
-                    selected={selected}
-                    key={img.id}
-                    url={img.url}
-                    data={img}
-                    defaultModal={this.props.defaultModal}
-                    close={this.props.close}
-                    user={this.props.user}
-                />
+                <div className='col-md-3 col-xs-12' key={img.id}>
+                    <ImageThumbnail
+                        locale={this.props.intl.locale}
+                        selected={selected}
+                        key={img.id}
+                        url={img.url}
+                        data={img}
+                        defaultModal={this.props.defaultModal}
+                        close={this.props.close}
+                        user={this.props.user}
+                    />
+                    {
+                        this.props.showImageDetails && (
+                            <div className='imageDetails'> 
+                                <p><FormattedMessage id='manage-media-publisher' /> {img.publisher_name}</p>
+                                <p><FormattedMessage id='manage-media-created' /> {this.formatDateTime(img.created_time)}</p>
+                                <p><FormattedMessage id='manage-media-last-modified' /> {this.formatDateTime(img.last_modified_time)}</p>
+                            </div>
+                        )
+                    }
+                </div >
             )
         });
-
+       
         // ...and finally check if there is no image for this event to be able to set the class
         const {isFetching, fetchComplete, meta} = this.props.images
         const {defaultModal, user, intl, pageSize} = this.props
@@ -166,6 +181,7 @@ ImageGalleryGrid.propTypes = {
     close: PropTypes.func,
     pageSize: PropTypes.number,
     intl: intlShape,
+    showImageDetails: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => ({

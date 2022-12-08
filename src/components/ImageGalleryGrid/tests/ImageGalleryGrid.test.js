@@ -10,7 +10,8 @@ import {UnconnectedImageGalleryGrid} from '../index';
 import {IntlProvider, FormattedMessage} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
-import {mockUser} from '../../../../__mocks__/mockData';
+import {mockUser, mockImages} from '../../../../__mocks__/mockData';
+import ImageThumbnail from '../../ImageThumbnail'
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -35,6 +36,13 @@ const defaultProps = {
         meta: {},
         items: [],
     },
+    showImageDetails: false,
+};
+
+const userSuperAdmin = {
+    displayName: 'superadmin user',
+    userType: 'superadmin',
+    organizationsWithRegularUsers: ['jokuOrganisaatio'],
 };
 
 describe('ImageGalleryGrid', () => {
@@ -88,6 +96,35 @@ describe('ImageGalleryGrid', () => {
                 expect(buttonElement.prop('color')).toBe('primary');
                 expect(buttonElement.prop('variant')).toBe('contained');
                 expect(buttonElement.prop('type')).toBe('submit');
+            });
+        });
+
+        describe('image details', () => {
+            test('if showImageDetails: true and there are images, image details exists', () => {
+                const images = {
+                    fetchComplete: true,
+                    isFetching: false,
+                    meta: {},
+                    items: mockImages,
+                }
+                const imageDetails = getWrapper({user: userSuperAdmin, showImageDetails: true, images}).find('.imageDetails');
+                expect(imageDetails).toHaveLength(4);
+            });
+
+            test('if showImageDetails: false and there are images, image details should not exist', () => {
+                const images = {
+                    fetchComplete: true,
+                    isFetching: false,
+                    meta: {},
+                    items: mockImages,
+                }
+                const imageDetails = getWrapper({user: userSuperAdmin, showImageDetails: false, images}).find('.imageDetails');
+                expect(imageDetails).toHaveLength(0);
+            });
+
+            test('if showImageDetails: true and there are not images,  image details should not exist', () => {
+                const imageDetails = getWrapper({user: userSuperAdmin, showImageDetails: true}).find('.imageDetails');
+                expect(imageDetails).toHaveLength(0);
             });
         });
 

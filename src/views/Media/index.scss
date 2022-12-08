@@ -1,0 +1,24 @@
+@use "src/assets/mixin" as m;
+.manageMedia {
+  
+    input {
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: var(--main-color) !important;
+        }
+    }
+ 
+    .btn-primary {
+        background-color: var(--main-color) !important;
+        @include m.add-outline('&:hover, &:focus', $width: 4px, $color: rgba(130, 138, 145, 0.5));
+    }
+
+    .pagination {
+        .page-item.active .page-link {
+            background-color: var(--main-color);
+            border-color: var(--main-color);
+        }
+    }
+}

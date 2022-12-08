@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Media Snapshot should render view by default 1`] = `
+<div
+  className="container manageMedia"
+>
+  <h1>
+    <FormattedMessage
+      id="manage-media"
+      values={Object {}}
+    />
+  </h1>
+  <Connect(InjectIntl(ImageGalleryGrid))
+    editor={
+      Object {
+        "values": Object {},
+      }
+    }
+    images={
+      Object {
+        "fetchComplete": true,
+        "isFetching": false,
+        "items": Array [
+          Object {
+            "@context": "http://schema.org",
+            "@id": "https://api.hel.fi/linkedevents-test/v1/image/47696/",
+            "@type": "ImageObject",
+            "created_time": "2018-11-16T15:04:44.720111Z",
+            "cropping": "",
+            "data_source": "helmet",
+            "id": 47696,
+            "last_modified_time": "2018-11-16T15:04:44.720130Z",
+            "license": "cc_by",
+            "name": "",
+            "photographer_name": null,
+            "publisher": "ahjo:u4804001010",
+            "url": "https://www.helmet.fi/download/noname/{482BADF8-A86A-4D10-BF30-4FE0DC7A73E7}/69190",
+          },
+          Object {
+            "@context": "http://schema.org",
+            "@id": "https://api.hel.fi/linkedevents-test/v1/image/47695/",
+            "@type": "ImageObject",
+            "created_time": "2018-11-16T15:04:43.074981Z",
+            "cropping": "",
+            "data_source": "helmet",
+            "id": 47695,
+            "last_modified_time": "2018-11-16T15:04:43.075001Z",
+            "license": "cc_by",
+            "name": "",
+            "photographer_name": null,
+            "publisher": "ahjo:u4804001010",
+            "url": "https://www.helmet.fi/download/noname/{BCA5FC49-8479-458A-8C50-ED041623837B}/69214",
+          },
+          Object {
+            "@context": "http://schema.org",
+            "@id": "https://api.hel.fi/linkedevents-test/v1/image/47694/",
+            "@type": "ImageObject",
+            "created_time": "2018-11-16T15:04:42.563744Z",
+            "cropping": "",
+            "data_source": "helmet",
+            "id": 47694,
+            "last_modified_time": "2018-11-16T15:04:42.563762Z",
+            "license": "cc_by",
+            "name": "",
+            "photographer_name": null,
+            "publisher": "ahjo:u4804001010",
+            "url": "https://www.helmet.fi/download/noname/{35F0C5D4-BD73-4D4F-B798-1F3D9C530AAE}/69221",
+          },
+          Object {
+            "@context": "http://schema.org",
+            "@id": "https://api.hel.fi/linkedevents-test/v1/image/47693/",
+            "@type": "ImageObject",
+            "created_time": "2018-11-16T15:04:41.097735Z",
+            "cropping": "",
+            "data_source": "helmet",
+            "id": 47693,
+            "last_modified_time": "2018-11-16T15:04:41.097753Z",
+            "license": "cc_by",
+            "name": "",
+            "photographer_name": null,
+            "publisher": "ahjo:u4804001010",
+            "url": "https://www.helmet.fi/download/noname/{F1E07D11-EA41-4343-AD0E-7413789AF15E}/69199",
+          },
+        ],
+        "meta": Object {},
+      }
+    }
+    showImageDetails={true}
+    user={
+      Object {
+        "_json": Object {
+          "date_joined": "2017-11-27T08:07:41.123918Z",
+          "department_name": null,
+          "email": "foo@foo.com",
+          "first_name": "",
+          "last_login": "2018-01-19T07:33:42.102250Z",
+          "last_name": "",
+          "username": "u-ajbd4wwtjii6pgsbyks5pa3yvq",
+          "uuid": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+        },
+        "_raw": "{\\"last_login\\":\\"2018-01-19T07:33:42.102250Z\\",\\"username\\":\\"u-ajbd4wwtjii6pgsbyks5pa3yvq\\",\\"email\\":\\"foo@foo.com\\",\\"date_joined\\":\\"2017-11-27T08:07:41.123918Z\\",\\"first_name\\":\\"\\",\\"last_name\\":\\"\\",\\"uuid\\":\\"0a423e5a-d34a-11e7-9a41-c2a5d78378ac\\",\\"department_name\\":null}",
+        "adminOrganizationData": Object {
+          "ahjo:02100": Object {
+            "id": "ahjoID",
+          },
+        },
+        "emails": Array [
+          Object {
+            "value": "foo@foo.com",
+          },
+        ],
+        "firstName": "",
+        "id": "0a423e5a-d34a-11e7-9a41-c2a5d78378ac",
+        "lastName": "",
+        "organization": "ahjo:02100",
+        "provider": "helsinki",
+        "token": "sometoken",
+        "userType": "superadmin",
+        "username": "u-bjbd4wwtjii6pgsbyks5pa3yvq",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Media Snapshot should render view correctly 1`] = `
+<div
+  className="container manageMedia"
+>
+  <h1>
+    <span>
+      Median hallinta
+    </span>
+  </h1>
+</div>
+`;
