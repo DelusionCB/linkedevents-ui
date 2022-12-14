@@ -19,7 +19,7 @@
     "submit": "Skicka",
     "cancel": "Ångra",
     "clear": "Töm",
-	"create-admin-draft-events": "Skapa som ett utkast",
+    "create-admin-draft-events": "Skapa som ett utkast",
     "create-events": "Lägg till ett nytt innehåll",
     "edit-events": "Bearbeta innehållet",
     "add-events": "Lägg till ett nytt innehåll",
@@ -162,8 +162,8 @@
 
     "event-image-title-modal": "Bildbanken",
 
-    "new-image":  "Lägg till ny bild",
-    "upload-image":  "Ladda upp bild från din apparat",
+    "new-image": "Lägg till ny bild",
+    "upload-image": "Ladda upp bild från din apparat",
     "choose-image": "Lägg en bild till evenemanget eller välj en från bildbanken",
     "use-external-image-url": "eller ange URL till extern bild:",
     "upload-image-from-url-button": "Ladda upp från webbadress",
@@ -190,7 +190,7 @@
     "hobby-no-image": "Hobbyn har ingen bild",
     "course-no-image": "Utbildningen har ingen bild",
 
-    "search-images": "Sök efter bildnamn, ALT-text eller fotografens namn",
+    "search-images": "Sök efter bildnamn, ALT-text eller utgivares eller fotografens namn",
     "search-images-text": "Sök",
     "search-image-result": "{count} bilder i bildbanken på {page} sidor",
 
@@ -274,7 +274,7 @@
 
     "event-price-header": "Mata in prisinformation",
     "event-price-count": "Prisinformation {count}",
-    "event-add-price":  "Lägg till en ny prisinformation",
+    "event-add-price": "Lägg till en ny prisinformation",
     "event-add-price-limit": "Det kan finnas högst {count} stycken prisuppgifter.",
     "date": "Datum",
     "time": "Tid",
@@ -480,9 +480,9 @@
     "table-events-checkbox-all": "Välj alla innehåll, som inte har valideringsfel, för att radera eller publicera",
     "table-sortable-headers": "Kolumner som innehåller knappar kan sorteras",
 
-    "image-creation-success":  "Bilden skapades framgångsrikt!",
+    "image-creation-success": "Bilden skapades framgångsrikt!",
     "image-creation-error": "Fel när bilden skapades.",
-    "image-deletion-success":  "Bilden avlägsnades framgångsrikt!",
+    "image-deletion-success": "Bilden avlägsnades framgångsrikt!",
     "image-deletion-error": "Fel då bilden avlägsnades.",
     "image-selection-success": "Bild val lyckades!",
     "image-update-success": "Bildens information uppdaterades framgångsrikt!",
@@ -654,7 +654,6 @@
 
     "skiplink-shortcut": "Gå till innehållet",
 
-
     "footer-accessibility": "Tillgänglighetsutlåtande",
     "footer-city": "© Helsingfors stad",
     "footer-city1": "Norra esplanaden 11-13, PB 1, 00099 ",
@@ -680,8 +679,8 @@
     "eventtable-close": "Dölj underinnehållet",
 
     "table-pagination-results": "Händelserna mellan {from} och {to} / {count}",
-	"table-pagination-shortcut-link": "Gå till början av tabellen",
-	"table-pagination-next-page": "Nästa sida",
+    "table-pagination-shortcut-link": "Gå till början av tabellen",
+    "table-pagination-next-page": "Nästa sida",
     "table-pagination-previous-page": "Föregående sida",
 
     "close-report-modal": "Stäng rapporteringsdialogen",
@@ -752,7 +751,6 @@
     "select-results": "{results} för sökterm {input}",
     "select-reader": "Hittades {count} resultat",
 
-
     "editor-show-broader-concepts": "Visa överordnade begrepp för ämnesordet '{value}'.",
     "editor-show-narrower-concepts": "Visa underordnade begrepp för ämnesordet '{value}'.",
 
@@ -766,5 +764,10 @@
     "mailto-subject": "Linked events körfel rapport",
     "mailto-body": "Det uppstod fel i linked events. Beskrivning av felet nedanför:%0A-%0A-%0A-%0A-%0A%0AAnvisning för rapportering av felet:%0A- Vad höll man på med innan felet%0A- Vilken tid uppstod felet%0A- Vilken funktionalitet orsakade felet%0A- Vilken webbläsare och maskin användes",
 
-    "instructions-page": "Bruksanvisning"
+    "instructions-page": "Bruksanvisning",
+
+    "manage-media": "Hantering av media",
+    "manage-media-publisher": "Utgivare:",
+    "manage-media-created": "Skapad:",
+    "manage-media-last-modified": "Redigerad:"
 }

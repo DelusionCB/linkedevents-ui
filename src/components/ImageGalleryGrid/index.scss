@@ -37,3 +37,15 @@
     overflow: auto;
     height: auto;
 }
+.imageDetails {
+    font-style: italic;
+    p {
+       margin-bottom: 0.5rem; 
+    }
+    margin-bottom: 2.5rem;
+}
+
+.manageMedia .row.image-row {
+    height: auto;
+    overflow-y: auto;
+}

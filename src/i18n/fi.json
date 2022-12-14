@@ -19,7 +19,7 @@
     "submit": "Lähetä",
     "cancel": "Kumoa",
     "clear": "Tyhjennä",
-	"create-admin-draft-events": "Tallenna luonnoksena",
+    "create-admin-draft-events": "Tallenna luonnoksena",
     "create-events": "Lisää uusi sisältö",
     "edit-events": "Muokkaa sisältöä",
     "add-events": "Lisää sarjaan tapahtuma, harrastus tai koulutus",
@@ -183,7 +183,7 @@
     "hobby-no-image": "Harrastuksella ei ole kuvaa",
     "course-no-image": "Koulutuksella ei ole kuvaa",
 
-    "search-images": "Hae kuvan nimellä, ALT-tekstillä tai kuvaajan nimellä.",
+    "search-images": "Hae kuvan nimellä, ALT-tekstillä tai julkaisijan tai kuvaajan nimellä.",
     "search-images-text": "Hae",
     "search-image-result": "Kuvapankissa {count} kuvaa {page} sivulla",
 
@@ -273,7 +273,6 @@
     "repetition-interval-label": "Toistoväli",
     "repeated": "Toistetaan ",
     "repetition-interval": " viikon välein.",
-
 
     "event-location-fields-header": "Tapahtumapaikka",
     "hobby-location-fields-header": "Harrastuspaikka",
@@ -472,9 +471,9 @@
     "search-minimum-length": "Syötä vähintään 3 merkkiä",
     "search-no-results": "Ei tuloksia",
     "search-results-count": "Hakutulosten määrä on {count}",
-	"search-date-label-start": "Alkaen (pp.kk.vvvv)",
-	"search-date-label-end": "Päättyen (pp.kk.vvvv)",
-	"date-picker-button-label": "Päivämäärävalitsin",
+    "search-date-label-start": "Alkaen (pp.kk.vvvv)",
+    "search-date-label-end": "Päättyen (pp.kk.vvvv)",
+    "date-picker-button-label": "Päivämäärävalitsin",
     "copy-location-to-clipboard": "Kopioi paikka id leikepöydälle",
     "copy-keyword-to-clipboard": "Kopioi asiasana leikepöydälle",
 
@@ -668,9 +667,9 @@
     "eventtable-expand": "Näytä alisisältö",
     "eventtable-close": "Piilota alisisältö",
 
-	"table-pagination-results": "Tapahtumat välillä {from} ja {to} / {count}",
-	"table-pagination-shortcut-link": "Siirry taulukon alkuun",
-	"table-pagination-next-page": "Seuraava sivu",
+    "table-pagination-results": "Tapahtumat välillä {from} ja {to} / {count}",
+    "table-pagination-shortcut-link": "Siirry taulukon alkuun",
+    "table-pagination-next-page": "Seuraava sivu",
     "table-pagination-previous-page": "Edellinen sivu",
 
     "event-close-recurring-modal": "Sulje toistuvan tapahtuman dialogi",
@@ -767,5 +766,10 @@
     "mailto-subject": "Linked events virhetilanneraportti",
     "mailto-body": "Raportoin linked events järjestelmän virhetilanteesta. Alla virheen kuvaus:%0A-%0A-%0A-%0A-%0A%0AOhjeita virhetilanteen raportointiin:%0A- Mitä olit tekemässä ennen kuin virhetilanne syntyi%0A- Mihin kellonaikaan virhetilanne ilmeni%0A- Mikä toiminnallisuus aiheutti virheen%0A- Millä selaimella ja laitteella virhetilanne syntyi",
 
-    "instructions-page": "Ohjeet"
+    "instructions-page": "Ohjeet",
+
+    "manage-media": "Median hallinta",
+    "manage-media-publisher": "Julkaisija:",
+    "manage-media-created": "Luotu:",
+    "manage-media-last-modified": "Muokattu:"
 }

@@ -38,6 +38,12 @@ const userAdmin = {
     organizationsWithRegularUsers: ['jokuOrganisaatio'],
 };
 
+const userSuperAdmin = {
+    displayName: 'superadmin user',
+    userType: 'superadmin',
+    organizationsWithRegularUsers: ['jokuOrganisaatio'],
+};
+
 describe('components/Header/index', () => {
     describe('HeaderBar', () => {
         function getWrapper(props) {
@@ -134,9 +140,24 @@ describe('components/Header/index', () => {
                     expect(navLinks).toHaveLength(7);
                 });
 
+                test('render 8 NavLinks when user is superadmin', () => {
+                    const navLinks = getWrapper({user: userSuperAdmin}).find(NavLink);
+                    expect(navLinks).toHaveLength(8);
+                });
+
                 test('when user is admin, one of the NavLinks is to moderation', () => {
                     const element = getWrapper({user: userAdmin}).find(NavLink).filter('.moderator');
                     expect(element.prop('className')).toBe('nav-link moderator');
+                });
+
+                test('when user is not superadmin media NavLink should not be there', () => {
+                    const navLink = getWrapper({user: userAdmin}).find(NavLink).filter('.media');
+                    expect(navLink).toHaveLength(0);
+                });
+
+                test('when user is superadmin media NavLink should be there', () => {
+                    const navLink = getWrapper({user: userSuperAdmin}).find(NavLink).filter('.media');
+                    expect(navLink).toHaveLength(1);
                 });
 
                 test('NavLink is active based on location.pathname prop',() => {

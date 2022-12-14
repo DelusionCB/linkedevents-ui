@@ -73,7 +73,6 @@ class ImageThumbnail extends React.PureComponent {
 
         return (
             <div
-                className='col-md-3 col-xs-12'
                 id={this.props.data.id}
             >
                 <div className={classname}>

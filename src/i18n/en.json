@@ -19,7 +19,7 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "clear": "Clear",
-	"create-admin-draft-events": "Save as a draft",
+    "create-admin-draft-events": "Save as a draft",
     "create-events": "Create new contents",
     "edit-events": "Edit content",
     "add-events": "Add an event to a serial event",
@@ -182,7 +182,7 @@
     "hobby-no-image": "NO IMAGE",
     "course-no-image": "NO IMAGE",
 
-    "search-images": "Search by image name, alt-text or photographer's name",
+    "search-images": "Search by image name, alt-text, publisher or photographer's name",
     "search-images-text": "Search",
     "search-image-result": "{count} images in the image bank on {page} pages",
 
@@ -764,5 +764,10 @@
     "mailto-subject": "Linked events error report",
     "mailto-body": "Reporting an error that occurred in Linked events. Description of the error below:%0A-%0A-%0A-%0A-%0A%0AInstructions on reporting an error:%0A- What was being done before the error occurred%0A- What time did the error occur%0A- What functionality caused the error%0A- What browser and device was used",
 
-    "instructions-page": "Instructions"
+    "instructions-page": "Instructions",
+
+    "manage-media": "Manage media",
+    "manage-media-publisher": "Publisher:",
+    "manage-media-created": "Created:",
+    "manage-media-last-modified": "Last modified:"
 }

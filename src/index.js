@@ -24,6 +24,7 @@ const Event = lazy(() => import('./views/Event').then(({default: Page}) => ({def
 const EventCreated = lazy(() => import('./views/EventCreated').then(({default: Page}) => ({default: Page})));
 const EventListingPage = lazy(() => import('./views/EventListing').then(({default: Page}) => ({default: Page})));
 const ModerationPage = lazy(() => import('./views/Moderation/Moderation').then(({default: Page}) => ({default: Page})));
+const ManageMediaPage = lazy(() => import('./views/Media/ManageMedia').then(({default: Page}) => ({default: Page})));
 const Accessibility = lazy(() => import('./views/Accessibility').then(({default: Page}) => ({default: Page})));
 
 // Actors
@@ -84,6 +85,7 @@ if (window.location.pathname === '/silent-renew') {
                                         <Route exact path="/terms" component={props => <Terms {...props} />}/>
                                         <Route exact path="/instructions" component={props => <Instructions {...props}/>}/>
                                         <Route exact path="/moderation" component={props => <ModerationPage {...props} />}/>
+                                        <Route exact path="/media" component={props => <ManageMediaPage {...props} />}/>
                                         <Route exact path="/accessibility" component={props => <Accessibility {...props} />}/>
                                         <Route exact path="/callback" component={LoginCallback}/>
                                         <Route exact path="/callback/logout" component={LogoutCallback}/>

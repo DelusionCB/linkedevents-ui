@@ -33,6 +33,7 @@ class HeaderBar extends React.Component {
         this.state = {
             isOpen: false,
             showModerationLink: false,
+            showManageMediaLink: false,
         };
     }
     toggle() {
@@ -47,7 +48,10 @@ class HeaderBar extends React.Component {
         if (user) {
             const showModerationLink =
                 [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
+            const showManageMediaLink = 
+                [USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
             this.setState({showModerationLink});
+            this.setState({showManageMediaLink});
         }
     }
 
@@ -58,7 +62,10 @@ class HeaderBar extends React.Component {
         if (oldUser !== user) {
             const showModerationLink =
                 [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
+            const showManageMediaLink = 
+            [USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
             this.setState({showModerationLink});
+            this.setState({showManageMediaLink});
         }
     }
 
@@ -119,8 +126,7 @@ class HeaderBar extends React.Component {
 
     render() {
         const {user, userLocale} = this.props;
-        const {showModerationLink} = this.state;
-
+        const {showModerationLink, showManageMediaLink} = this.state;
         return (
             <header className='main-navbar'>
                 <div className='bar'>
@@ -195,6 +201,18 @@ class HeaderBar extends React.Component {
                                     </NavLink>
                                 </NavItem>
                             )}
+                            {showManageMediaLink && (
+                                <NavItem>
+                                    <NavLink
+                                        strict={this.isActivePath('/media')}
+                                        className='nav-link media'
+                                        to='/media'
+                                        onClick={() => this.handleOnClick('/media')}>
+                                        <span aria-hidden className='glyphicon glyphicon-picture' />
+                                        <FormattedMessage id='manage-media' />
+                                    </NavLink>
+                                </NavItem>
+                            )}
                             <NavItem>
                                 <NavLink
                                     strict={this.isActivePath('/help')}
@@ -240,6 +258,7 @@ HeaderBar.propTypes = {
     setLocale: PropTypes.func,
     location: PropTypes.object,
     showModerationLink: PropTypes.bool,
+    showManageMediaLink: PropTypes.bool,
     type: PropTypes.string,
     tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     clearUserData: PropTypes.func,
