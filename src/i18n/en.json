@@ -769,5 +769,8 @@
     "manage-media": "Manage media",
     "manage-media-publisher": "Publisher:",
     "manage-media-created": "Created:",
-    "manage-media-last-modified": "Last modified:"
+    "manage-media-last-modified": "Last modified:",
+    
+    "organization-select-label": "Browse content by the organization:",
+    "organization-select-placeholder": "Select organization"
 }

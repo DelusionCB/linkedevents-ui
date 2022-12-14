@@ -771,5 +771,9 @@
     "manage-media": "Median hallinta",
     "manage-media-publisher": "Julkaisija:",
     "manage-media-created": "Luotu:",
-    "manage-media-last-modified": "Muokattu:"
+    "manage-media-last-modified": "Muokattu:",
+
+    "organization-select-label": "Selaa sisältöä organisaation mukaan:",
+    "organization-select-placeholder": "Valitse organisaatio"
+
 }

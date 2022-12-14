@@ -62,15 +62,18 @@ import {Collapse} from 'reactstrap';
 import testReduxIntWrapper from '../../../__mocks__/testReduxIntWrapper';
 import ConnectedEventListing, {EventListing} from './index';
 import {mockCurrentTime, resetMockDate} from '../../../__mocks__/testMocks';
-import {mockUserEvents, mockUser} from '../../../__mocks__/mockData';
+import {mockUserEvents, mockUser, mockOrganizations} from '../../../__mocks__/mockData';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 import {Helmet} from 'react-helmet'
 import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
 import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
 import {HelCheckbox} from '../../components/HelFormFields';
-
+import {fetchOrganizations} from '../../actions/organizations';
+import {transformOrganizationDataIntoHierarchy} from '../../utils/helpers'
+import {MultiLevelSelect} from '../../components/MultiLevelSelect/MultiLevelSelect'
 import constants from '../../constants';
+
 const {EVENT_TYPE_PARAM} = constants
 const mockStore = configureStore([thunk]);
 const initialStore = {
@@ -87,6 +90,12 @@ const initialStore = {
 
 const mockUserAdmin = mockUser;
 mockUserAdmin.userType = 'admin';
+const mockRegularUser = JSON.parse(JSON.stringify(mockUser));
+mockRegularUser.userType = 'regular';
+const mockPublicUser = JSON.parse(JSON.stringify(mockUser));
+mockPublicUser.userType = 'public';
+const mockSuperAdminUser = JSON.parse(JSON.stringify(mockUser));
+mockSuperAdminUser.userType = 'superadmin';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -95,6 +104,8 @@ const {intl} = intlProvider.getChildContext();
 const defaultProps = {
     user: mockUserAdmin,
     intl,
+    fetchOrganizations: jest.fn(),
+    organizations: mockOrganizations,
 };
 
 const defaultTableData = {
@@ -122,6 +133,8 @@ describe('EventListing Snapshot', () => {
         const componentProps = {
             login: jest.fn(),
             user: {},
+            organizations:mockOrganizations,
+            fetchOrganizations: jest.fn(),
         };
         const wrapper = shallow(<EventListing {...componentProps} />, {context: {intl}});
         expect(wrapper).toMatchSnapshot();
@@ -131,6 +144,8 @@ describe('EventListing Snapshot', () => {
         store = mockStore(initialStore);
         const componentProps = {
             login: jest.fn(),
+            organizations: mockOrganizations,
+            fetchOrganizations: jest.fn(),
         }; // Props which are added to component
         const wrapper = shallow(testReduxIntWrapper(store, <ConnectedEventListing {...componentProps} />));
         expect(wrapper).toMatchSnapshot();
@@ -200,7 +215,7 @@ describe('EventListing', () => {
             test('correct amount', () => {
                 const wrapper = getWrapper();
                 const formattedMessages = wrapper.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(4);
+                expect(formattedMessages).toHaveLength(5);
             })
         })
         describe('selectorRadios', () => {
@@ -243,6 +258,41 @@ describe('EventListing', () => {
             })
         })
     })
+
+    describe('MultiLevelSelect', () => {
+        test('MultiLevelSelect exists', () => {
+            const wrapper = getWrapper();
+            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
+            expect(MultiLevelSelectElement).toHaveLength(1)
+        })
+
+        test('MultiLevelSelect label should exist', () => {
+            const wrapper = getWrapper();
+            const MultiLevelSelectLabel = wrapper.find('#organization-select-label')
+            expect(MultiLevelSelectLabel).toHaveLength(1)
+        })
+
+        test('MultiLevelSelect should exist when user is superadmin user', () => {
+            const wrapper = getWrapper({user: mockSuperAdminUser});
+            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
+            expect(MultiLevelSelectElement).toHaveLength(1)
+        });
+
+        test('MultiLevelSelect should exist when user is public user', () => {
+            const wrapper = getWrapper({user: mockPublicUser});
+            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
+            expect(MultiLevelSelectElement).toHaveLength(1)
+        });
+
+        test('MultiLevelSelect should not exist when user is regular user', () => {
+            const wrapper = getWrapper({user: mockRegularUser});
+            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
+            expect(MultiLevelSelectElement).toHaveLength(0)
+        })
+        
+        
+    })
+
     describe('methods', () => {
         describe('toggleUserEvents', () => {
             test('sets state for showCreatedByUser according to event.target.checked', () => {
@@ -373,6 +423,55 @@ describe('EventListing', () => {
                 expect(wrapper.state('tableData').pageSize).toBe(50);
             });
         });
+
+        describe('componentDidMount', () => {
+            test('fetchTableData is called in mount', () => {
+                const wrapper = getWrapper()
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(instance, 'fetchTableData');
+                instance.componentDidMount()
+                expect(spy).toHaveBeenCalled()
+            })
+            test('fetchOrganizationsData is called in mount', () => {
+                const wrapper = getWrapper()
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(instance, 'fetchOrganizationsData');
+                instance.componentDidMount()
+                expect(spy).toHaveBeenCalled()
+            })
+        })
+
+        describe('componentDidUpdate', () => {
+            test('fetchTableData is called on update', () => {
+                const wrapper = getWrapper({user: mockUser})
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(instance, 'fetchTableData');
+                const prevProps = {...instance.props, user: null}
+                const prevState = {...instance.state}
+                instance.componentDidUpdate(prevProps, prevState)
+                expect(spy).toHaveBeenCalledTimes(1)
+            })
+            test('fetchOrganizationsData is called on update', () => {
+                const wrapper = getWrapper({user: mockUser})
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(instance, 'fetchOrganizationsData');
+                const prevProps = {...instance.props, user: null}
+                const prevState = {...instance.state}
+                instance.componentDidUpdate(prevProps, prevState)
+                expect(spy).toHaveBeenCalledTimes(1)
+            })
+        })
+
+        describe('handleOrganizationValueChange', () => {
+            test('changes selectedPublishers ', async () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(wrapper.state('selectedPublishers')).toHaveLength(0);
+                await instance.handleOrganizationValueChange(_,['yso:1200','turku:853'])
+                expect(wrapper.state('selectedPublishers')).toHaveLength(2);
+            });
+        });
+
         describe('checkEventTypes', () => {
             const event = (id) => ({target: {id: id}});
             test('is called', () => {

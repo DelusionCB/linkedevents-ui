@@ -15,6 +15,9 @@ import {Collapse} from 'reactstrap';
 import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
 import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
 import HelCheckbox from '../../components/HelFormFields/HelCheckbox';
+import {fetchOrganizations as fetchOrganizationsAction} from 'src/actions/organizations'
+import {MultiLevelSelect} from '../../components/MultiLevelSelect/MultiLevelSelect'
+import {transformOrganizationDataIntoHierarchy} from '../../utils/helpers'
 
 const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS, EVENT_TYPE_PARAM} = constants
 
@@ -36,6 +39,7 @@ export class EventListing extends React.Component {
                 sortBy: 'last_modified_time',
                 sortDirection: 'desc',
             },
+            selectedPublishers: [],
         };
     }
 
@@ -43,7 +47,8 @@ export class EventListing extends React.Component {
         const {user} = this.props
 
         if (!isNull(user) && !isNull(getOrganizationMembershipIds(user))) {
-            this.fetchTableData()
+            this.fetchTableData();
+            this.fetchOrganizationsData();
         }
     }
 
@@ -53,7 +58,8 @@ export class EventListing extends React.Component {
 
         // fetch data if user logged in
         if (isNull(oldUser) && user && !isNull(getOrganizationMembershipIds(user))) {
-            this.fetchTableData()
+            this.fetchTableData();
+            this.fetchOrganizationsData();
         }
         if (prevState.showContentLanguage !== this.state.showContentLanguage || prevState.showEventType !== this.state.showEventType) {
             this.fetchTableData()
@@ -294,6 +300,9 @@ export class EventListing extends React.Component {
         queryParams.super_event = 'none'
         queryParams.publication_status = this.getPublicationStatus()
         queryParams.setPublisher(publisher)
+        if(this.state.selectedPublishers.length) {
+            queryParams.setPublisher(this.state.selectedPublishers)
+        }
         queryParams.page_size = pageSize
         queryParams.setSort(sortBy, sortDirection)
         queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
@@ -334,8 +343,44 @@ export class EventListing extends React.Component {
         return <FormattedMessage id="events-management-description" />
     }
 
+    fetchOrganizationsData = () => {
+        const {fetchOrganizations} = this.props;
+        fetchOrganizations();
+    }
+
+    /**
+     * handles multilevel organization selection
+     * @param selectedNodes currently selected organizations
+     */
+    handleOrganizationValueChange = async (_, selectedNodes) => {
+        if(selectedNodes){
+            const selectOrgs = selectedNodes.map(item => item.value);
+            const queryParams = this.getDefaultEventQueryParams()
+            queryParams.publisher = selectOrgs.join(',')
+            this.setState(state => ({
+                selectedPublishers: selectOrgs,
+            }))
+            this.setLoading(false)
+
+            try {
+                const response = await fetchEvents(queryParams)
+
+                this.setState(state => ({
+                    tableData: {
+                        ...state.tableData,
+                        events: response.data.data,
+                        count: response.data.meta.count,
+                    },
+                }))
+            } finally {
+                this.setLoading(true)
+            }
+        }
+    }
+
     render() {
-        const {user} = this.props;
+        const {user,organizations} = this.props;
+        const formatedOrganizations = !!organizations && (transformOrganizationDataIntoHierarchy(organizations) ?? []);
         const {intl} = this.context;
         const {
             showCreatedByUser,
@@ -356,7 +401,6 @@ export class EventListing extends React.Component {
         const pageSubtitle = this.getPageSubtitle()
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
         const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
-
         if (!user) {
             return (
                 <div className="container">
@@ -401,6 +445,16 @@ export class EventListing extends React.Component {
                                     </div>
                                 </div>
                             }
+                          
+                            <fieldset>
+                                <FormattedMessage id='organization-select-label'>{txt => <legend>{txt}</legend>}</FormattedMessage>
+                                <MultiLevelSelect 
+                                    data={formatedOrganizations} 
+                                    placeholder={this.context.intl.formatMessage({id: `organization-select-placeholder`})}
+                                    handleChange={this.handleOrganizationValueChange}
+                                />
+                            </fieldset>
+                           
                             <fieldset>
                                 <FormattedMessage id='filter-event-type'>{txt => <legend>{txt}</legend>}</FormattedMessage>
                                 <div className='row'>
@@ -499,6 +553,8 @@ EventListing.propTypes = {
     user: PropTypes.object,
     showCreatedByUser: PropTypes.bool,
     tableData: TABLE_DATA_SHAPE,
+    organizations: PropTypes.array,
+    fetchOrganizations: PropTypes.func,
 }
 
 EventListing.contextTypes = {
@@ -507,6 +563,11 @@ EventListing.contextTypes = {
 
 const mapStateToProps = (state) => ({
     user: state.user.data,
+    organizations: state.organizations.data,
 })
 
-export default connect(mapStateToProps)(EventListing);
+const mapDispatchToProps = (dispatch) => ({
+    fetchOrganizations: () => dispatch(fetchOrganizationsAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventListing);

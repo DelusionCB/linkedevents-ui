@@ -1,0 +1,21 @@
+.organization-select {
+    margin: 10px auto 10px auto;
+    .dropdown-trigger {
+        border: 2px solid var(--black-color) !important;
+        width: auto;
+        border-radius: 3px;
+        &:hover,
+        &:focus,
+        &:active {
+            box-shadow: none !important;
+            border-color: var(--main-color) !important;
+        }
+    }
+    .tag-item .search {
+        border-bottom: none !important;
+    }
+    a {
+        text-decoration: none !important;
+    }
+}
+
