@@ -7,6 +7,7 @@
     "search-events": "Search for contents",
     "no-events": "No contents to show.",
     "search-events-description": "View all contents on Linked Events.",
+    "search-events-near-me": "Show contents near me",
     "pick-time-range": "Pick time range",
     "event-search": "Search",
     "event-name-or-place": "Content name or place",
@@ -829,5 +830,8 @@
     "manage-media-last-modified": "Last modified:",
     
     "organization-select-label": "Browse content by the organization:",
-    "organization-select-placeholder": "Select organization"
+    "organization-select-placeholder": "Select organization",
+
+    "location-permission-denied": "Location permission is denied",
+    "location-unavailable": "Location information not available"
 }

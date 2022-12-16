@@ -133,13 +133,13 @@ describe('Search', () => {
         describe('FormattedMessages', () => {
             test('default amount', () => {
                 const element = getWrapper().find(FormattedMessage);
-                expect(element).toHaveLength(3);
+                expect(element).toHaveLength(4);
             });
             test('correct amount when !events & searchExecuted', () => {
                 const element = getWrapper();
                 element.setState({searchExecuted: true});
                 const formattedMessages = element.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(4);
+                expect(formattedMessages).toHaveLength(5);
             });
             test('correct amount when events & searchExecuted', () => {
                 const element = getWrapper()
@@ -152,7 +152,19 @@ describe('Search', () => {
                 const element = getWrapper();
                 element.setState({loading: true});
                 const formattedMessages = element.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(4);
+                expect(formattedMessages).toHaveLength(5);
+            });
+            test('correct amount when nearMeChecked and locationErrorCode is null', () => {
+                const element = getWrapper();
+                element.setState({loading: true, nearMeChecked: true, locationErrorCode: null});
+                const formattedMessages = element.find(FormattedMessage);
+                expect(formattedMessages).toHaveLength(5);
+            });
+            test('correct amount when nearMeChecked and locationErrorCode is not null', () => {
+                const element = getWrapper();
+                element.setState({loading: true, nearMeChecked: true, locationErrorCode: 1});
+                const formattedMessages = element.find(FormattedMessage);
+                expect(formattedMessages).toHaveLength(6);
             });
         });
 
@@ -173,13 +185,13 @@ describe('Search', () => {
                 element.setState({searchExecuted: true});
             });
             test('when no results', () => {
-                const resultCount = element.find(FormattedMessage).at(3);
+                const resultCount = element.find(FormattedMessage).at(4);
                 const count = element.state('events');
                 expect(resultCount.prop('values')).toEqual({'count': count.length});
             });
             test('when results', () => {
                 element.setState({events:['Tammi','Koivu']});
-                const resultCount = element.find(FormattedMessage).at(3);
+                const resultCount = element.find(FormattedMessage).at(4);
                 const count = element.state('events');
                 expect(resultCount.prop('values')).toEqual({'count': count.length});
             });
@@ -220,6 +232,96 @@ describe('Search', () => {
                 expect(instance.state.loading).toBe(false)
             })
         });
+
+        describe('handleNearMeToggle', () => {
+            const searchQuery = 'testing'
+            const startDate = undefined
+            const endDate = undefined
+            const context = ['eventgeneral']
+            test('sets correct state values', async () => {
+                const wrapper = getWrapper();
+                const event = {target: {checked: true}}
+                wrapper.setState({
+                    searchExecuted: true,
+                    events:[],
+                    nearMeChecked: false,
+                    userCoordinates: {
+                        latitude: null,
+                        longitude: null,
+                    },
+                    locationErrorCode: null,
+                });
+                const instance = getWrapper().instance()
+                const initialState = {...instance.state}
+                expect(instance.state.events).toStrictEqual(initialState.events)
+                expect(instance.state.searchExecuted).toBe(initialState.loading)
+                expect(instance.state.loading).toBe(initialState.searchExecuted)
+                await instance.handleNearMeToggle(event)
+                await instance.searchEvents(searchQuery, context, startDate, endDate)
+                expect(instance.state.searchExecuted).toBe(true)
+                expect(instance.state.loading).toBe(false)
+                expect(instance.state.nearMeChecked).toBe(true)
+            })
+        });
+
+        describe('onLocationSuccess', () => {
+            test('sets correct state values', async () => {
+                const coords = {coords: {latitude: 60.4504064, longitude: 22.2625792}};
+                const wrapper = getWrapper();
+                const event = {target: {checked: true}}
+                wrapper.setState({
+                    searchExecuted: true,
+                    events:[],
+                    nearMeChecked: false,
+                    userCoordinates: {
+                        latitude: null,
+                        longitude: null,
+                    },
+                    locationErrorCode: null,
+                });
+                const instance = getWrapper().instance()
+                const initialState = {...instance.state}
+                expect(instance.state.events).toStrictEqual(initialState.events)
+                expect(instance.state.searchExecuted).toBe(initialState.loading)
+                expect(instance.state.loading).toBe(initialState.searchExecuted)
+                await instance.handleNearMeToggle(event)
+                await instance.onLocationSuccess(coords)
+                expect(instance.state.nearMeChecked).toBe(true)
+                expect(instance.state.userCoordinates.latitude).toBe(coords.coords.latitude)
+                expect(instance.state.userCoordinates.longitude).toBe(coords.coords.longitude)
+                expect(instance.state.locationErrorCode).toBe(null)
+            })
+        });
+
+        describe('onLocationError', () => {
+            test('sets correct state values', async () => {
+                const error = {code: 1, message: 'error happens'}
+                const wrapper = getWrapper();
+                const event = {target: {checked: false}}
+                wrapper.setState({
+                    searchExecuted: true,
+                    events:[],
+                    nearMeChecked: false,
+                    userCoordinates: {
+                        latitude: null,
+                        longitude: null,
+                    },
+                    locationErrorCode: null,
+                });
+                const instance = getWrapper().instance()
+                const initialState = {...instance.state}
+                expect(instance.state.events).toStrictEqual(initialState.events)
+                expect(instance.state.searchExecuted).toBe(initialState.loading)
+                expect(instance.state.loading).toBe(initialState.searchExecuted)
+                await instance.handleNearMeToggle(event)
+                await instance.onLocationError(error)
+                expect(instance.state.nearMeChecked).toBe(false)
+                expect(instance.state.userCoordinates.latitude).toBe(null)
+                expect(instance.state.userCoordinates.longitude).toBe(null)
+                expect(instance.state.locationErrorCode).toBe(error.code)
+            })
+        });
+
         describe('getResults', () => {
             test('returns null when searchExecuted && !events.length > 0', () => {
                 const wrapper = getWrapper();
