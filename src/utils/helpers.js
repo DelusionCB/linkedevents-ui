@@ -390,3 +390,39 @@ export const getButtonLabel = (
 
     return buttonLabel
 }
+
+export const transformOrganizationDataIntoHierarchy = (data) => {
+    if(data.length){
+        return data.filter((org)=>!org.parent_organization).map((organization) => {
+            return {
+                label:organization.name,
+                value: organization.id,
+                children: [
+                    ...organization.sub_organizations.map((subOrg) => {
+                        const org = data.find((item) => item['@id'] === subOrg),
+                            name =  org.name,
+                            id = org.id;
+                        return {
+                            label: name,
+                            value: id,
+                            ...(!!org.sub_organizations.length && {children: [
+                                ...org.sub_organizations.map((child) => {
+                                    const childOrg = data.find((item) => item['@id'] === child),
+                                        childOrgName =  childOrg.name,
+                                        childOrgId = childOrg.id;
+                                    return {
+                                        label: childOrgName,
+                                        value: childOrgId,
+                                    }
+                                }),
+                            ]}),
+                        }
+                    }),
+                    
+                ],
+            }
+        })
+    }else {
+        return [];
+    } 
+}

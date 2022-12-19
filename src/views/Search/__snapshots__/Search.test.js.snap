@@ -462,6 +462,8 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "organization-missing-message-contact2": "saadaksesi oikeudet muokata yksikkösi tapahtumia. ",
       "organization-missing-message-courses": "Sinulla ei ole vielä oikeutta hallinnoida yhdenkään yksikön kursseja. ",
       "organization-missing-message1": "Jos olet jo saanut käyttöoikeudet, kirjautumisesi saattaa olla vanhentunut. Kokeile sivun päivittämistä (F5) ja kirjautumista uudestaan.",
+      "organization-select-label": "Selaa sisältöä organisaation mukaan:",
+      "organization-select-placeholder": "Valitse organisaatio",
       "page-not-found": "404 Sivua ei löydy",
       "page-not-found-lead": "Valitettavasti etsimääsi sivua ei löytynyt.",
       "page-not-found-return": "Palaa etusivulle.",

@@ -769,5 +769,8 @@
     "manage-media": "Hantering av media",
     "manage-media-publisher": "Utgivare:",
     "manage-media-created": "Skapad:",
-    "manage-media-last-modified": "Redigerad:"
+    "manage-media-last-modified": "Redigerad:",
+
+    "organization-select-label": "Bläddra i innehållet, vars organisation är:",
+    "organization-select-placeholder": "Välja organisation"
 }
