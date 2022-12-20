@@ -11,4 +11,5 @@
     "openid_authority": "OPENID_AUTHORITY",
     "city_theme": false,
     "enable_cookies": false
+    "private_org_id": "yksilo:2000"
 }

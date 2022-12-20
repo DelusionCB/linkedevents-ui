@@ -1,0 +1,39 @@
+.organizations-view {
+    .return-button {
+        background-color: transparent;
+        color: black;
+        text-decoration: underline;
+        border: none;
+        font-size: 1.25rem;
+        padding: 0;
+        margin-bottom: 2rem;
+        &:hover {
+            box-shadow: 0 0 0 0.2rem rgb(130 138 145);
+        }
+        .glyphicon {
+            margin-right: 5px;
+        }
+    }
+    .control-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        button {
+            background-color: var(--main-color) !important;
+            margin: 2rem 0 2rem 0;
+            &:hover, &:focus {
+                box-shadow: 0 0 0 0.2rem rgb(130 138 145 / 50%);
+            }
+        }
+    }
+    .button-controls {
+        display: flex;
+        justify-content: space-evenly;
+        button {
+            background-color: var(--main-color) !important;
+            margin: 2rem 0 2rem 0;
+            &:hover, &:focus {
+                box-shadow: 0 0 0 0.2rem rgb(130 138 145 / 50%);
+            }
+        }
+    }
+}

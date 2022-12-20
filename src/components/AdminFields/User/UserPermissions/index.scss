@@ -1,0 +1,191 @@
+.editablefield-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: #0262AE;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+    .editablefield-edit {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.user-view {
+    h1 {
+        margin-bottom: 1rem;
+    }
+}
+
+.user-permission-view {
+    margin-top: 32px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    .user-permissions-list-added {
+        padding: 0;
+        .userItem {
+            list-style: none;
+            margin: 1rem;
+            border: 2px solid var(--course-color);
+            .userItem-content {
+                margin: 0.5rem;
+            }
+            .permission-checkboxes {
+                display: flex;
+            }
+            .user-controls {
+                display: flex;
+                justify-content: space-evenly;
+                @media (max-width: 600px) {
+                    display: grid;
+                }
+                button {
+                    @media (max-width: 600px) {
+                        margin: 0.5rem 0 0.5rem 0;
+                    }
+                    background-color: var(--course-color);
+                    &:hover, &:focus {
+                        box-shadow: 0 0 0 0.2rem rgb(130 138 145 / 50%);
+                    }
+                }
+            }
+        }
+    }
+    .user-permission-list {
+        padding: 0;
+        .userItem {
+            list-style: none;
+            margin: 1rem 0 1rem 0;
+            border: 2px solid var(--main-color);
+            .userItem-content {
+                margin: 0.5rem;
+            }
+            .permission-checkboxes {
+                display: flex;
+            }
+            .user-controls {
+                display: flex;
+                justify-content: space-evenly;
+                @media (max-width: 600px) {
+                    display: grid;
+                }
+                button {
+                    @media (max-width: 600px) {
+                        margin: 0.5rem 0 0.5rem 0;
+                    }
+                    background-color: var(--main-color);
+                    &:hover, &:focus {
+                        box-shadow: 0 0 0 0.2rem rgb(130 138 145 / 50%);
+                    }
+                }
+            }
+        }
+    }
+    .user-search, .user-filter {
+        display: flex;
+        margin: 1rem 0 1rem 0;
+        .input-group {
+            .inputIcon {
+                background-color: var(--main-color);
+                .glyphicon {
+                    font-size: 1.375rem;
+                    top: 0px;
+                    background-color: var(--main-color);
+                    background-repeat: round;
+                    color: white;
+                    padding: 8px 8px 8px 8px !important;
+                }
+            }
+
+            .user-search-input, .user-filter-input {
+                &:hover, &:focus {
+                    border: 1px solid var(--main-color);
+                }
+            }
+            .user-search-button, .user-filter-button {
+                background-color: var(--main-color) !important;
+                margin-left: 10px;
+
+                &:hover, &:focus {
+                    box-shadow: 0 0 0 0.2rem rgb(130 138 145 / 50%);
+                }
+            }
+        }
+    }
+}
+
+
+// utils/OrganizationSelect.js
+
+.organization-select {
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: hsl(0, 0%, 100%);
+    border-color: hsl(0, 0%, 80%);
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    cursor: default;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    min-height: 38px;
+    outline: 0!important;
+    position: relative;
+    -webkit-transition: all 100ms;
+    transition: all 100ms;
+    width: 100%;
+    box-sizing: border-box;
+    .organization-select-option {
+        font-size: 1.25rem;
+        padding: 0.1rem;
+    }
+}
+
+.permission-checkboxes label {
+    margin-right: 8px;
+}
+
+.submit-permission-changes-button {
+    margin-right: 16px;
+}
+
+.newOrganization-form {
+    .event-input {
+        .inputIcons {
+            border: 2px;
+            background-color: var(--main-color);
+            align-items: center;
+
+            .glyphicon {
+                font-size: 1.375rem;
+                top: 0px;
+                height: 38px;
+                width: 38px;
+                background-color: var(--main-color);
+                background-repeat: round;
+                margin: 0px !important;
+                color: white;
+                padding: 8px 8px 8px 8px !important;
+            }
+        }
+    }
+}
+

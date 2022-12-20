@@ -92,6 +92,24 @@ const constants = {
         COURSE: 'course',
     },
 
+    ADMIN: {
+        RECEIVE_ADMINDATA: 'RECEIVE_ADMINDATA',
+
+        SET_USER_ORG: 'SET_USER_ORG',
+        SET_USER_LIST: 'SET_USER_LIST',
+        UPDATE_USER_LIST: 'UPDATE_USER_LIST',
+
+        SET_USER_DATA: 'SET_USER_DATA',
+        REPLACE_USER: 'REPLACE_USER',
+
+        SET_SIDEFIELD_DATA: 'SET_SIDEFIELD_DATA',
+        CLEAR_SIDEFIELDS: 'CLEAR_SIDEFIELDS',
+        REPLACE_SIDEFIELDS: 'REPLACE_SIDEFIELDS',
+
+        SET_ORG_DATA: 'SET_ORG_DATA',
+        CLEAR_ORG: 'CLEAR_ORG',
+        REPLACE_ORG: 'REPLACE_ORG',
+    },
     // Local storage keys
     EDITOR_VALUES: 'EDITOR_VALUES',
 
@@ -203,6 +221,7 @@ const constants = {
         ADMIN: 'admin',
         REGULAR: 'regular',
         PUBLIC: 'public',
+        STAFF: 'staff',
     },
 
     EVENT_TYPE: {

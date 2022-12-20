@@ -142,7 +142,7 @@ describe('components/Header/index', () => {
 
                 test('render 8 NavLinks when user is superadmin', () => {
                     const navLinks = getWrapper({user: userSuperAdmin}).find(NavLink);
-                    expect(navLinks).toHaveLength(8);
+                    expect(navLinks).toHaveLength(9);
                 });
 
                 test('when user is admin, one of the NavLinks is to moderation', () => {

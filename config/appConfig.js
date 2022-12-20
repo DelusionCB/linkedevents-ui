@@ -10,7 +10,7 @@ const serverConfigKeys = ['port', 'publicUrl', 'sessionSecret'];
 const templateConfigKeys = ['LE_PRODUCTION_INSTANCE', 'APP_MODE'];
 // React-app config-keys
 const clientConfigKeys = ['api_base', 'local_storage_user_expiry_time', 'nocache', 'raven_id', 'commit_hash', 'ui_mode', 'city_theme',
-    'client_id', 'openid_audience', 'openid_authority', 'enable_cookies'];
+    'client_id', 'openid_audience', 'openid_authority', 'enable_cookies', 'private_org_id'];
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 nconf.overrides({

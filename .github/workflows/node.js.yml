@@ -47,6 +47,7 @@ jobs:
         raven_id: ${{ secrets.RAVEN_ID }}
         city_theme: ${{ secrets.CITY_THEME }}
         enable_cookies: ${{ secrets.ENABLE_COOKIES }}
+        private_org_id: ${{ secrets.PRIVATE_ORG_ID }}
 
     - name: Running Codecov
       uses: codecov/codecov-action@v1

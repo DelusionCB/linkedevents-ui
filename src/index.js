@@ -26,6 +26,7 @@ const EventListingPage = lazy(() => import('./views/EventListing').then(({defaul
 const ModerationPage = lazy(() => import('./views/Moderation/Moderation').then(({default: Page}) => ({default: Page})));
 const ManageMediaPage = lazy(() => import('./views/Media/ManageMedia').then(({default: Page}) => ({default: Page})));
 const Accessibility = lazy(() => import('./views/Accessibility').then(({default: Page}) => ({default: Page})));
+const AdminPanel = lazy(() => import('./views/Admin').then(({default: Page}) => ({default: Page})));
 
 // Actors
 import Validator from './actors/validator'
@@ -89,6 +90,8 @@ if (window.location.pathname === '/silent-renew') {
                                         <Route exact path="/accessibility" component={props => <Accessibility {...props} />}/>
                                         <Route exact path="/callback" component={LoginCallback}/>
                                         <Route exact path="/callback/logout" component={LogoutCallback}/>
+                                        <Route exact path="/admin" component={AdminPanel}/>
+                                        <Route exact path="/admin/:tab" component={AdminPanel}/>
                                         <Route exact path="/404" component={props => <PageNotFound {...props} />}/>
                                         <Redirect from="*" to="/404" />
                                     </Switch>

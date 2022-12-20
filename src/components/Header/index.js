@@ -33,6 +33,7 @@ class HeaderBar extends React.Component {
         this.state = {
             isOpen: false,
             showModerationLink: false,
+            showAdminPanel: false,
             showManageMediaLink: false,
         };
     }
@@ -48,10 +49,12 @@ class HeaderBar extends React.Component {
         if (user) {
             const showModerationLink =
                 [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
+            const showAdminPanel = [USER_TYPE.SUPERADMIN].includes(get(user, 'userType'))
             const showManageMediaLink = 
                 [USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
             this.setState({showModerationLink});
             this.setState({showManageMediaLink});
+            this.setState({showAdminPanel});
         }
     }
 
@@ -62,10 +65,12 @@ class HeaderBar extends React.Component {
         if (oldUser !== user) {
             const showModerationLink =
                 [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
+            const showAdminPanel = [USER_TYPE.SUPERADMIN].includes(get(user, 'userType'))
             const showManageMediaLink = 
             [USER_TYPE.SUPERADMIN].includes(get(user, 'userType')) && hasOrganizationWithRegularUsers(user);
             this.setState({showModerationLink});
             this.setState({showManageMediaLink});
+            this.setState({showAdminPanel});
         }
     }
 
@@ -126,7 +131,8 @@ class HeaderBar extends React.Component {
 
     render() {
         const {user, userLocale} = this.props;
-        const {showModerationLink, showManageMediaLink} = this.state;
+        const {showModerationLink, showManageMediaLink, showAdminPanel} = this.state;
+        
         return (
             <header className='main-navbar'>
                 <div className='bar'>
@@ -243,6 +249,18 @@ class HeaderBar extends React.Component {
                                     <FormattedMessage id='instructions-page' />
                                 </NavLink>
                             </NavItem>
+                            {showAdminPanel && (
+                                <NavItem className="nav-item-pull-right">
+                                    <NavLink
+                                        strict={this.isActivePath('/admin')}
+                                        className='nav-link nav-item-button'
+                                        to='/admin'
+                                        onClick={() => this.handleOnClick('/admin')}>
+                                        <span aria-hidden className='glyphicon glyphicon-cog' />
+                                        <FormattedMessage id='admin-panel' />
+                                    </NavLink>
+                                </NavItem>
+                            )}
                         </ul>
                     </Collapse>
                 </Navbar>
