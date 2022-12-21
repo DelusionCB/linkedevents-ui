@@ -26,6 +26,18 @@
             padding-left: 0;
         }
     }
+    .text-search-input {
+            border: 2px solid var(--black-color) !important;
+            width: auto;
+            border-radius: 3px;
+            &:hover,
+            &:focus,
+            &:active {
+                box-shadow: none !important;
+                border-color: var(--main-color) !important;
+            }
+        }
+    
 }
 .filter-mobile {
     display: none;

@@ -215,7 +215,7 @@ describe('EventListing', () => {
             test('correct amount', () => {
                 const wrapper = getWrapper();
                 const formattedMessages = wrapper.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(5);
+                expect(formattedMessages).toHaveLength(6);
             })
         })
         describe('selectorRadios', () => {
@@ -289,8 +289,12 @@ describe('EventListing', () => {
             const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
             expect(MultiLevelSelectElement).toHaveLength(0)
         })
-        
-        
+
+        test('Text filter input element should exist', () => {
+            const wrapper = getWrapper();
+            const inputElement = wrapper.find('#search')
+            expect(inputElement).toHaveLength(1)
+        })
     })
 
     describe('methods', () => {
@@ -469,6 +473,26 @@ describe('EventListing', () => {
                 expect(wrapper.state('selectedPublishers')).toHaveLength(0);
                 await instance.handleOrganizationValueChange(_,['yso:1200','turku:853'])
                 expect(wrapper.state('selectedPublishers')).toHaveLength(2);
+            });
+        });
+        
+        describe('handleTextQueryChange', () => {
+            test('changes textSearchQuery ', async () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(wrapper.state('textSearchQuery')).toHaveLength(0);
+                const event = {target: {value: 'hello'}}
+                await instance.handleTextQueryChange(event)
+                expect(wrapper.state('textSearchQuery')).toBe(event.target.value)
+            });
+            test('adds textSearchQuery to the query params', async () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(wrapper.state('textSearchQuery')).toHaveLength(0);
+                const event = {target: {value: 'hello'}}
+                await instance.handleTextQueryChange(event)
+                const queryParams = await instance.getDefaultEventQueryParams()
+                expect(queryParams.text).toBe(wrapper.state('textSearchQuery'))
             });
         });
 

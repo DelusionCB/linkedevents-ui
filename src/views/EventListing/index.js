@@ -11,7 +11,7 @@ import EventTable from '../../components/EventTable/EventTable'
 import {getOrganizationMembershipIds} from '../../utils/user'
 import userManager from '../../utils/userManager';
 import {Helmet} from 'react-helmet';
-import {Collapse} from 'reactstrap';
+import {Collapse, FormGroup, Form, Input, Label} from 'reactstrap';
 import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
 import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
 import HelCheckbox from '../../components/HelFormFields/HelCheckbox';
@@ -40,6 +40,7 @@ export class EventListing extends React.Component {
                 sortDirection: 'desc',
             },
             selectedPublishers: [],
+            textSearchQuery: '',
         };
     }
 
@@ -317,6 +318,9 @@ export class EventListing extends React.Component {
         if (this.state.showContentLanguage) {
             queryParams.language = this.state.showContentLanguage
         }
+        if (this.state.textSearchQuery){
+            queryParams.text = this.state.textSearchQuery
+        }
         return queryParams
     }
 
@@ -370,6 +374,32 @@ export class EventListing extends React.Component {
                         ...state.tableData,
                         events: response.data.data,
                         count: response.data.meta.count,
+                    },
+                }))
+            } finally {
+                this.setLoading(true)
+            }
+        }
+    }
+
+    handleTextQueryChange = async (event) => {
+        const value = (event.target.value).trim();
+        if(this.state.textSearchQuery !== value){
+            this.setState(()=>({textSearchQuery: value}))
+
+            const queryParams = this.getDefaultEventQueryParams()
+            queryParams.text = value;
+
+            this.setLoading(false)
+            try {
+                const response = await fetchEvents(queryParams)
+
+                this.setState(state => ({
+                    tableData: {
+                        ...state.tableData,
+                        events: response.data.data,
+                        count: response.data.meta.count,
+                        paginationPage: 0,
                     },
                 }))
             } finally {
@@ -524,6 +554,22 @@ export class EventListing extends React.Component {
                                         </SelectorRadio>
                                     </div>
                                 </fieldset>
+                            </fieldset>
+                            <fieldset>
+                                <FormGroup>
+                                    <Label htmlFor='search'>
+                                        <FormattedMessage id='event-filter-content-text'>{txt => <legend>{txt}</legend>}</FormattedMessage>
+                                    </Label>
+                                    <Input
+                                        aria-label={intl.formatMessage({id: 'event-search'}) + ' ' + intl.formatMessage({id: 'event-filter-content-text'})}
+                                        id='search'
+                                        className='text-search-input'
+                                        type='text'
+                                        onChange={this.handleTextQueryChange}
+                                        onBlur={this.handleTextQueryChange}
+                                        value={this.state.textSearchQuery}
+                                    />
+                                </FormGroup>
                             </fieldset>
                         </div>
                         <hr style={{borderTop: '2px solid black'}}/>

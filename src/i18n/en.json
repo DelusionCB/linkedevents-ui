@@ -11,6 +11,7 @@
     "event-search": "Search",
     "event-name-or-place": "Content name or place",
     "event-type-select": "Choose content type",
+    "event-filter-content-text": "Filter by content name, description or place:",
     "search-event-button": "Search for contents",
     "lang-fi": "Finnish",
     "lang-en": "English",

@@ -252,6 +252,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "event-enrolment-start-time": "Ilmoittautuminen alkaa (pp.kk.vvvv)",
       "event-enrolment-time": "Ilmoittautumisaika",
       "event-enrolment-url": "Linkki ilmoittautumiseen",
+      "event-filter-content-text": "Suodata nimen, sisällön tai paikan mukaan:",
       "event-form-header": "Syötä ilmoittautumistiedot",
       "event-has-umbrella": "Liittyy kattotapahtumaan",
       "event-has-umbrella-select-tip": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
