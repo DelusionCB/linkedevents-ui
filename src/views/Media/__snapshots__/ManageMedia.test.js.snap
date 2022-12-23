@@ -86,6 +86,7 @@ exports[`Media Snapshot should render view by default 1`] = `
       }
     }
     showImageDetails={true}
+    showOrganizationFilter={true}
     user={
       Object {
         "_json": Object {

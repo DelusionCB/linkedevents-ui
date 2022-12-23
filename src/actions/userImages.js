@@ -16,12 +16,16 @@ const {USER_TYPE} = constants;
  * @param pageNumber
  * @returns Object
  */
-async function makeImageRequest(user = {}, pageSize, pageNumber = null) {
+async function makeImageRequest(user = {}, pageSize, pageNumber = null, publisher) {
     const params = {
         page_size: pageSize,
         page: pageNumber,
         publisher: user.organization && [USER_TYPE.REGULAR, USER_TYPE.PUBLIC, USER_TYPE.ADMIN].includes(user.userType) ? user.organization : null,
         created_by: [USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
+    }
+
+    if(publisher){
+        params.publisher = publisher;
     }
 
     const result = await client.get('image', params);
@@ -33,7 +37,7 @@ async function makeImageRequest(user = {}, pageSize, pageNumber = null) {
 
     return result;
 }
-async function makeFilteredImageRequest(user = {}, pageSize, pageNumber = null, filteredName = null) {
+async function makeFilteredImageRequest(user = {}, pageSize, pageNumber = null, filteredName = null, publisher) {
     const params = {
         page_size: pageSize,
         page: pageNumber,
@@ -41,6 +45,10 @@ async function makeFilteredImageRequest(user = {}, pageSize, pageNumber = null, 
         publisher: user.organization && [USER_TYPE.REGULAR, USER_TYPE.PUBLIC, USER_TYPE.ADMIN].includes(user.userType) ? user.organization : null,
         created_by: [USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
     }
+    if(publisher){
+        params.publisher = publisher;
+    }
+
     const result = await client.get('image', params);
 
     // Append the page number to the JSON array so that it can be easily used in the pagination
@@ -68,7 +76,7 @@ async function makeImageRequestDefault(user = {}, pageSize, pageNumber = null, p
     return result;
 }
 
-export function fetchUserImages(pageSize = 50, pageNumber = null, publicImages = false, filter = false, filterString = null) {
+export function fetchUserImages(pageSize = 50, pageNumber = null, publisher = null, publicImages = false, filter = false, filterString = null) {
 
     if (publicImages) {
         return async (dispatch, getState) => {
@@ -92,7 +100,7 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publicImages =
 
             try {
                 dispatch({type: constants.REQUEST_IMAGES_AND_META});
-                response = await makeFilteredImageRequest(user.data, pageSize, pageNumber, filterString);
+                response = await makeFilteredImageRequest(user.data, pageSize, pageNumber, filterString, publisher);
                 dispatch(receiveUserImagesAndMeta(response));
             } catch (error) {
                 dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response));
@@ -107,7 +115,7 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publicImages =
 
             try {
                 dispatch({type: constants.REQUEST_IMAGES_AND_META});
-                response = await makeImageRequest(user.data, pageSize, pageNumber);
+                response = await makeImageRequest(user.data, pageSize, pageNumber, publisher);
 
                 dispatch(receiveUserImagesAndMeta(response));
             } catch (error) {

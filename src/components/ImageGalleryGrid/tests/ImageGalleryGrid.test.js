@@ -37,6 +37,8 @@ const defaultProps = {
         items: [],
     },
     showImageDetails: false,
+    showOrganizationFilter: false,
+    organizations: [],
 };
 
 const userSuperAdmin = {
@@ -128,6 +130,19 @@ describe('ImageGalleryGrid', () => {
             });
         });
 
+        describe('multiLevelSelect', () => {
+            test('find if showOrganizationFilter is true', () => {
+                const wrapper = getWrapper({showOrganizationFilter: true})
+                const multiLevelSelectElement = wrapper.find('.organizationFilter');
+                expect(multiLevelSelectElement).toHaveLength(1);
+            });
+            test('not found if showOrganizationFilter is not true', () => {
+                const wrapper = getWrapper({showOrganizationFilter: false})
+                const multiLevelSelectElement = wrapper.find('.organizationFilter');
+                expect(multiLevelSelectElement).toHaveLength(0);
+            })
+        });
+
         describe('imagePagination', () => {
             test('find with correct props', () => {
                 const wrapper = getWrapper()
@@ -171,20 +186,30 @@ describe('ImageGalleryGrid', () => {
                 expect(spy).toHaveBeenCalled()
             })
         })
+
+        describe('componentDidUpdate', () => {
+            test('fetchImages is called on update', () => {
+                const wrapper = getWrapper()
+                const instance = wrapper.instance();
+                const spy = jest.spyOn(instance, 'fetchImages');
+                instance.componentDidUpdate(_,{selectedPublishers :['yso:1200','turku:853']})
+                expect(spy).toHaveBeenCalled()
+            })
+        })
         describe('fetchImages', () => {
             test('default images', () => {
                 const wrapper = getWrapper({defaultModal: true, user: null})
                 const instance = wrapper.instance();
                 const spy = jest.spyOn(wrapper.instance().props, 'fetchUserImages');
                 instance.fetchImages()
-                expect(spy).toHaveBeenCalledWith(50, 1, true)
+                expect(spy).toHaveBeenCalledWith(50, 1, '', true)
             })
             test('images for user', () => {
                 const wrapper = getWrapper({defaultModal: false})
                 const instance = wrapper.instance();
                 const spy = jest.spyOn(wrapper.instance().props, 'fetchUserImages');
                 instance.fetchImages()
-                expect(spy).toHaveBeenCalledWith(50, 1)
+                expect(spy).toHaveBeenCalledWith(50, 1, '')
             })
             test('images with filter', () => {
                 const wrapper = getWrapper({defaultModal: false})
@@ -193,7 +218,7 @@ describe('ImageGalleryGrid', () => {
                 const spy = jest.spyOn(wrapper.instance().props, 'fetchUserImages');
                 spy.mockClear();
                 wrapper.instance().fetchImages();
-                expect(spy).toHaveBeenCalledWith(50, 1, false, true, instance.state.searchString)
+                expect(spy).toHaveBeenCalledWith(50, 1, '', false, true, instance.state.searchString)
             })
         })
 
@@ -217,6 +242,20 @@ describe('ImageGalleryGrid', () => {
                 expect(instance.state.searchString).toBe(expectedValue)
             })
         })
+
+        describe('handleOrganizationValueChange', () => {
+            test('changes selectedPublishers state', async () => {
+                const options = [
+                    {label: 'Konsernihallinto ja palvelukeskukset', value: 'turku:04'},
+                    {label: 'Työllisyyspalvelukeskus', value: 'turku:0720'},
+                ]
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                expect(wrapper.state('selectedPublishers')).toHaveLength(0);
+                await instance.handleOrganizationValueChange(options)
+                expect(wrapper.state('selectedPublishers')).toHaveLength(2);
+            });
+        });
 
         describe('submitHandler', () => {
             test('click proper button for submitHandler', () => {

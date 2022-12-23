@@ -12,17 +12,25 @@ import Spinner from 'react-bootstrap/Spinner';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import classNames from 'classnames';
 import moment from 'moment'
-
+import {MultiSelect} from '../../components/MultiSelect/MultiSelect'
+import {transformOrganizationData} from '../../utils/helpers'
 class ImageGalleryGrid extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             searchString: '',
+            selectedPublishers: [],
         }
     }
 
     componentDidMount() {
         this.fetchImages();
+    }
+
+    componentDidUpdate(_, prevState) {    
+        if (prevState.selectedPublishers !== this.state.selectedPublishers) {
+            this.fetchImages();
+        }
     }
 
     /**
@@ -41,8 +49,12 @@ class ImageGalleryGrid extends React.Component {
      */
     fetchImages = (user = this.props.user, pageSize = this.props.pageSize, pageNumber = 1) => {
         const {fetchUserImages, defaultModal} = this.props;
-        const {searchString} = this.state;
-        const parameters = [pageSize, pageNumber]
+        const {searchString, selectedPublishers} = this.state;
+        let publisher = null;
+        if(user && !!selectedPublishers){
+            publisher = selectedPublishers.join(',')
+        }
+        const parameters = [pageSize, pageNumber,publisher]
         if (defaultModal) {
             parameters.push(true)
         } else if (user && searchString !== '') {
@@ -78,6 +90,22 @@ class ImageGalleryGrid extends React.Component {
     formatDateTime = (dateTime) => {
         return moment(dateTime).format('D.M.YYYY H.mm')
     }
+
+    /**
+     * handles multilevel organization selection
+     * @param selectedNodes currently selected organizations
+     */
+    handleOrganizationValueChange = async (options,e) => {
+        if(options){
+            const selectOrgs = options.map(item => item.value);
+            this.setState((state)=>({
+                ...state,
+                selectedPublishers: selectOrgs,
+            }
+            ))
+        }
+    }
+
     render() {
         // save the id of the selected image of this event (or editor values)
         let selected_id = getIfExists(this.props.editor.values, 'image.id', null);
@@ -111,9 +139,11 @@ class ImageGalleryGrid extends React.Component {
        
         // ...and finally check if there is no image for this event to be able to set the class
         const {isFetching, fetchComplete, meta} = this.props.images
-        const {defaultModal, user, intl, pageSize} = this.props
+        const {defaultModal, user, intl, pageSize, organizations} = this.props
         const pageAmount = fetchComplete ? Math.ceil(parseInt(meta.count) / pageSize) : null;
         const imageCount = fetchComplete ? meta.count : null;
+        const formatedOrganizations = !!organizations && (transformOrganizationData(organizations) ?? []);
+
         return (
             <div className='image-grid container-fluid'>
                 {!defaultModal && user &&
@@ -140,6 +170,19 @@ class ImageGalleryGrid extends React.Component {
                                         <FormattedMessage id='search-images-text' />
                                     </Button>
                                 </InputGroup>
+                                {
+                                    this.props.showOrganizationFilter && 
+                                      <div className='organizationFilter'>
+                                          <Label htmlFor='organization-select'>
+                                              <FormattedMessage id='manage-media-filter-by-organization' />
+                                          </Label>
+                                          <MultiSelect 
+                                              data={formatedOrganizations} 
+                                              placeholder={intl.formatMessage({id: `organization-select-placeholder`})}
+                                              handleChange={this.handleOrganizationValueChange}
+                                          />
+                                      </div>
+                                }
                             </Form>
                         </div>
                         <div role='status' className='search-results'>
@@ -182,13 +225,16 @@ ImageGalleryGrid.propTypes = {
     pageSize: PropTypes.number,
     intl: intlShape,
     showImageDetails: PropTypes.bool,
+    showOrganizationFilter: PropTypes.bool,
+    organizations: PropTypes.array,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchUserImages: (amount, pageNumber, publicImages, filter, filterString) => dispatch(fetchUserImagesAction(amount, pageNumber, publicImages, filter, filterString)),
+    fetchUserImages: (amount, pageNumber, publicImages, filter, filterString, publisher) => dispatch(fetchUserImagesAction(amount, pageNumber, publicImages, filter, filterString, publisher)),
 });
 
 const mapStateToProps = (state, ownProps) => ({
+    organizations: state.organizations.data,
 });
 
 export {ImageGalleryGrid as UnconnectedImageGalleryGrid}
