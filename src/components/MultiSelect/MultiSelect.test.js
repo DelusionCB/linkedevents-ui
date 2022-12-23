@@ -3,34 +3,37 @@ import {shallow} from 'enzyme';
 import {IntlProvider} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
-import {MultiLevelSelect} from './MultiLevelSelect';
-import DropdownTreeSelect from 'react-dropdown-tree-select'
+import {MultiSelect} from './MultiSelect';
+import Select from 'react-select'
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
 
 const defaultProps = {
-    data: [],
+    data: [
+        {label: 'Konsernihallinto ja palvelukeskukset', value: 'turku:04'},
+        {label: 'Työllisyyspalvelukeskus', value: 'turku:0720'},
+    ],
     placeholder: 'Select organization',
     handleChange: jest.fn(),
 }
 
-describe('MultiLevelSelect', () => {
+describe('MultiSelect', () => {
 
     function getWrapper(props) {
-        return shallow(<MultiLevelSelect {...defaultProps} {...props} />, {context: {intl}});
+        return shallow(<MultiSelect {...defaultProps} {...props} />, {context: {intl}});
     }
     describe('renders', () => {
         describe('components', () => {
             const wrapper = getWrapper();
-            const dropDownTreeSelect = wrapper.find(DropdownTreeSelect);
+            const selectElement = wrapper.find(Select);
             test('correct amount', () => {
-                expect(dropDownTreeSelect).toHaveLength(1);
+                expect(selectElement).toHaveLength(1);
             });
 
             test('with correct props', () => {
-                expect(dropDownTreeSelect.prop('data')).toEqual([]);
+                expect(selectElement.prop('options')).toEqual(defaultProps.data);
             });
         });
     });

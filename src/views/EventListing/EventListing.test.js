@@ -70,8 +70,8 @@ import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadi
 import CollapseButton from '../../components/FormFields/CollapseButton/CollapseButton';
 import {HelCheckbox} from '../../components/HelFormFields';
 import {fetchOrganizations} from '../../actions/organizations';
-import {transformOrganizationDataIntoHierarchy} from '../../utils/helpers'
-import {MultiLevelSelect} from '../../components/MultiLevelSelect/MultiLevelSelect'
+import {transformOrganizationData} from '../../utils/helpers'
+import {MultiSelect} from '../../components/MultiSelect/MultiSelect'
 import constants from '../../constants';
 
 const {EVENT_TYPE_PARAM} = constants
@@ -259,35 +259,35 @@ describe('EventListing', () => {
         })
     })
 
-    describe('MultiLevelSelect', () => {
-        test('MultiLevelSelect exists', () => {
+    describe('MultiSelect', () => {
+        test('MultiSelect exists', () => {
             const wrapper = getWrapper();
-            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
-            expect(MultiLevelSelectElement).toHaveLength(1)
+            const MultiSelectElement = wrapper.find(MultiSelect)
+            expect(MultiSelectElement).toHaveLength(1)
         })
 
-        test('MultiLevelSelect label should exist', () => {
+        test('MultiSelect label should exist', () => {
             const wrapper = getWrapper();
-            const MultiLevelSelectLabel = wrapper.find('#organization-select-label')
-            expect(MultiLevelSelectLabel).toHaveLength(1)
+            const MultiSelectLabel = wrapper.find('#organization-select-label')
+            expect(MultiSelectLabel).toHaveLength(1)
         })
 
-        test('MultiLevelSelect should exist when user is superadmin user', () => {
+        test('MultiSelect should exist when user is superadmin user', () => {
             const wrapper = getWrapper({user: mockSuperAdminUser});
-            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
-            expect(MultiLevelSelectElement).toHaveLength(1)
+            const MultiSelectElement = wrapper.find(MultiSelect)
+            expect(MultiSelectElement).toHaveLength(1)
         });
 
-        test('MultiLevelSelect should exist when user is public user', () => {
+        test('MultiSelect should exist when user is public user', () => {
             const wrapper = getWrapper({user: mockPublicUser});
-            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
-            expect(MultiLevelSelectElement).toHaveLength(1)
+            const MultiSelectElement = wrapper.find(MultiSelect)
+            expect(MultiSelectElement).toHaveLength(1)
         });
 
-        test('MultiLevelSelect should not exist when user is regular user', () => {
+        test('MultiSelect should not exist when user is regular user', () => {
             const wrapper = getWrapper({user: mockRegularUser});
-            const MultiLevelSelectElement = wrapper.find(MultiLevelSelect)
-            expect(MultiLevelSelectElement).toHaveLength(0)
+            const MultiSelectElement = wrapper.find(MultiSelect)
+            expect(MultiSelectElement).toHaveLength(0)
         })
         
         

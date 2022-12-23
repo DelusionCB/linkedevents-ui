@@ -1,0 +1,11 @@
+.organization-select {
+    margin: 10px auto 10px auto;
+    border: 1px solid var(--black-color) !important;
+    div {
+        border: none;
+    }
+    .search-placeholder{
+        color: hsl(0, 0%, 45%) !important;
+    }
+}
+

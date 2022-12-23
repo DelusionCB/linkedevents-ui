@@ -4,7 +4,7 @@ import * as helpers from '../helpers'
 import moment from 'moment';
 import constants from '../../constants'
 import Badge from 'react-bootstrap/Badge'
-import {getDate, transformOrganizationDataIntoHierarchy} from '../helpers';
+import {getDate, transformOrganizationData} from '../helpers';
 import {mockOrganizations} from '../../../__mocks__/mockData';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT, EVENT_TYPE} = constants
@@ -259,14 +259,14 @@ describe('utils/helpers', () => {
             })
     })
 
-    describe('transformOrganizationDataIntoHierarchy', () => {
+    describe('transformOrganizationData', () => {
         test('returns array of object when data is not empty', () => {
-            const transformedOrganizations = transformOrganizationDataIntoHierarchy(mockOrganizations);
-            expect(Object.keys(transformedOrganizations[0]).sort()).toEqual(['children','label','value'].sort())
+            const transformedOrganizations = transformOrganizationData(mockOrganizations);
+            expect(Object.keys(transformedOrganizations[0]).sort()).toEqual(['label','value'].sort())
         })
 
         test('returns empty array of object when data is empty', () => {
-            const transformedOrganizations = transformOrganizationDataIntoHierarchy([]);
+            const transformedOrganizations = transformOrganizationData([]);
             expect(transformedOrganizations).toHaveLength(0)
         })
     })
