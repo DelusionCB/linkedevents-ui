@@ -21,7 +21,6 @@
 
 .custom-control.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     background-color: var(--main-color);
-    opacity: 0.7;
 }
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
     cursor: pointer;
