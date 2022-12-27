@@ -7,6 +7,7 @@
     "search-events": "Etsi sisältöjä",
     "no-events": "Ei sisältöjä, joita näyttää.",
     "search-events-description": "Katsele kaikkia Linked Eventsin sisältöjä.",
+    "search-events-near-me": "Näytä lähellä olevat sisällöt",
     "pick-time-range": "Etsi vain ajalta",
     "event-search": "Hae",
     "event-name-or-place": "Sisällön nimi tai paikka",
@@ -871,6 +872,9 @@
     "manage-media-last-modified": "Muokattu:",
 
     "organization-select-label": "Selaa sisältöä organisaation mukaan:",
-    "organization-select-placeholder": "Valitse organisaatio"
+    "organization-select-placeholder": "Valitse organisaatio",
+
+    "location-permission-denied": "Sijaintia ei sallittu",
+    "location-unavailable": "Sijainti ei ole saatavilla"
 
 }

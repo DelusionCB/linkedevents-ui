@@ -7,6 +7,7 @@
     "search-events": "Sök innehåll",
     "no-events": "Inget innehåll att visa.",
     "search-events-description": "Se alla innehåll i Linked Events.",
+    "search-events-near-me": "Visa innehåll i närheten",
     "pick-time-range": "Sök endast perioden",
     "event-search": "Sök",
     "event-name-or-place": "Innehållets namn och plats",
@@ -831,5 +832,8 @@
     "manage-media-last-modified": "Redigerad:",
 
     "organization-select-label": "Bläddra i innehållet, vars organisation är:",
-    "organization-select-placeholder": "Välja organisation"
+    "organization-select-placeholder": "Välja organisation",
+
+    "location-permission-denied": "Positionen tilläts inte",
+    "location-unavailable": "Positionen ej tillgänglig"
 }

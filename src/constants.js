@@ -252,6 +252,9 @@ const constants = {
         selectedRows: PropTypes.array,
         invalidRows: PropTypes.array,
     }),
+    LOCATION_OPTIONS: {
+        enableHighAccuracy: true, // get possible accurate location
+    },
 }
 
 export default constants
