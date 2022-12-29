@@ -122,6 +122,7 @@ describe('FormField', () => {
             ],
         },
         setDirtyState: () => {},
+        activeOrganization: 'yso:1200',
     }
 
 
@@ -194,6 +195,16 @@ describe('FormField', () => {
                 const prevState = {...instance.state, createdRecurringEvents: false}
                 instance.componentDidUpdate(prevProps, prevState)
                 expect(spy).toHaveBeenCalledWith({createdRecurringEvents: false})
+            })
+
+            test('calls setDefaultOrganization when activeOrganization state is changed', () => {
+                const instance = getWrapper().instance()
+                const spy = jest.spyOn(instance, 'setDefaultOrganization')
+                instance.state.createdRecurringEvents = true
+                const prevProps = {...instance.props, activeOrganization: 'turku:853'}
+                const prevState = {...instance.state}
+                instance.componentDidUpdate(prevProps, prevState)
+                expect(spy).toHaveBeenCalled()
             })
         })
 

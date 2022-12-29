@@ -6,6 +6,7 @@ import {NavLink} from 'react-router-dom'
 import {mockUser} from '__mocks__/mockData';
 import {UnconnectedHeaderBar} from './index';
 import LanguageSelector from './LanguageSelector';
+import ActiveOrganizationSelector from './ActiveOrganizationSelector';
 import constants from '../../constants';
 import {IntlProvider} from 'react-intl';
 import fiMessages from 'src/i18n/fi.json';
@@ -31,6 +32,7 @@ const defaultProps = {
     location: window.location,
     clearUserData: () => {},
     auth: {user: {id_token: 'test-id-token'}},
+    fetchOrganizations: jest.fn(),
 };
 const userAdmin = {
     displayName: 'Matti Meikäläinen',
@@ -56,6 +58,19 @@ describe('components/Header/index', () => {
                     const element = getWrapper({user: userAdmin});
                     expect(element.state('showModerationLink')).toBe(true);
                 });
+                test('fetchOrganizations to be called', () => {
+                    const instance = getWrapper().instance();
+                    const spy = jest.spyOn(instance.props, 'fetchOrganizations');
+                    instance.componentDidMount()
+                    expect(spy).toHaveBeenCalled()
+                });
+                test('fetchOrganizationsData to be called on mount', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance();
+                    const spy = jest.spyOn(instance, 'fetchOrganizationsData');
+                    instance.componentDidMount()
+                    expect(spy).toHaveBeenCalled()
+                })
             });
 
             describe('handleLoginClick', () => {
@@ -111,6 +126,16 @@ describe('components/Header/index', () => {
                 expect(element.prop('languages')).toEqual(LanguageOptions);
                 expect(element.prop('userLocale')).toEqual(defaultProps.userLocale);
                 expect(element.prop('changeLanguage')).toBeDefined();
+            });
+
+            test('contains ActiveOrganizationSelector with correct props', () => {
+                const element = getWrapper().find(ActiveOrganizationSelector);
+                expect(element).toHaveLength(1)
+            });
+
+            test('does not contain ActiveOrganizationSelector when user is empty', () => {
+                const element = getWrapper({user: null}).find('.active-organization-selector');
+                expect(element).toHaveLength(0)
             });
 
             describe('Login button', () => {

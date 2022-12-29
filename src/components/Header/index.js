@@ -10,6 +10,8 @@ import {NavLink} from 'react-router-dom'
 
 import {clearUserData as clearUserDataAction} from 'src/actions/user.js';
 import {setLocale as setLocaleAction} from 'src/actions/userLocale';
+import ActiveOrganizationSelector from './ActiveOrganizationSelector';
+import {fetchOrganizations as fetchOrganizationsAction} from 'src/actions/organizations';
 import LanguageSelector from './LanguageSelector';
 import LogoutDropdown from './LogoutDropdown';
 import {FormattedMessage} from 'react-intl';
@@ -43,8 +45,15 @@ class HeaderBar extends React.Component {
         });
     }
 
+    fetchOrganizationsData = () => {
+        const {fetchOrganizations} = this.props;
+        fetchOrganizations();
+    }
+
     componentDidMount() {
         const {user} = this.props;
+
+        this.fetchOrganizationsData()
 
         if (user) {
             const showModerationLink =
@@ -138,6 +147,11 @@ class HeaderBar extends React.Component {
                 <div className='bar'>
                     <a className='bar__logo' href='#' onClick={this.onLinkToMainPage} aria-label={this.context.intl.formatMessage({id: `navbar.brand`})} />
                     <div className='bar__login-and-language'>
+                        {user && (
+                            <div className='active-organization-selector'>
+                                <ActiveOrganizationSelector />
+                            </div>
+                        )}
                         <div className='language-selector'>
                             <LanguageSelector
                                 languages={this.getLanguageOptions()}
@@ -281,6 +295,7 @@ HeaderBar.propTypes = {
     tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     clearUserData: PropTypes.func,
     auth: PropTypes.object,
+    fetchOrganizations: PropTypes.func,
 };
 
 HeaderBar.contextTypes = {
@@ -296,6 +311,7 @@ const mapDispatchToProps = (dispatch) => ({
     routerPush: (url) => dispatch(push(url)),
     setLocale: (locale) => dispatch(setLocaleAction(locale)),
     clearUserData: () => dispatch(clearUserDataAction()),
+    fetchOrganizations: () => dispatch(fetchOrganizationsAction()),
 });
 
 export {HeaderBar as UnconnectedHeaderBar};
