@@ -91,11 +91,10 @@ class App extends React.Component {
                 <SkipLink />
                 <Favicon />
                 <Headerbar />
-
+                <Notification flashMsg={this.props.app.flashMsg}/>
                 <main id="main-content" className="content">
                     {this.props.children}
                 </main>
-                <Notification flashMsg={this.props.app.flashMsg} />
                 <ConfirmDialog />
                 <Footer />
             </div>
