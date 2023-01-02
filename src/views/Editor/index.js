@@ -76,13 +76,17 @@ export class EditorPage extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {event} = this.state
-
+        const {event, isRegularUser} = this.state
+        const {user} = this.props
         const publisherId = get(event, 'publisher')
         const oldPublisherId = get(prevState, ['event', 'publisher'])
         const prevParams = get(prevProps, ['match', 'params'], {})
         const currParams = get(this.props, ['match', 'params'], {})
-
+        const currentIsRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+        // check and re-set isRegularUser state
+        if(currentIsRegularUser !== isRegularUser){
+            this.setState({isRegularUser: currentIsRegularUser});
+        }
         // check if the editing mode or if the eventId params changed
         if (prevParams.action !== currParams.action || prevParams.eventId !== currParams.eventId) {
             if (currParams.action === 'update') {
