@@ -39,6 +39,9 @@ const initialStoreExistingEvent = {
     editor: mockEditorExistingEvent,
 };
 
+const mockRegularUser = JSON.parse(JSON.stringify(mockUser));
+mockRegularUser.userType = 'regular';
+
 describe('Editor Snapshot', () => {
     it('should render view correctly when new event', () => {
         const componentProps = {
@@ -168,6 +171,16 @@ describe('Editor Snapshot', () => {
                 getWrapper(props);
                 const expectedValues = ['user-no-rights-create', 'error', {sticky: true}];
                 expect(props.setFlashMsg).toHaveBeenCalledWith(...expectedValues);
+            });
+        });
+        describe('componentDidUpdate', () => {
+            test('isRegularUser is set when component updates', () => {
+                const wrapper = getWrapper({user: mockRegularUser});
+                const instance = wrapper.instance();
+                const prevProps = {...instance.props}
+                const prevState = {...instance.state, isRegularUser: false}
+                instance.componentDidUpdate(prevProps, prevState);
+                expect(instance.state.isRegularUser).toBe(true)
             });
         });
     });
