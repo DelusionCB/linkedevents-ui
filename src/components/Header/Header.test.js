@@ -151,12 +151,12 @@ describe('components/Header/index', () => {
                 });
 
                 test('when user is not superadmin media NavLink should not be there', () => {
-                    const navLink = getWrapper({user: userAdmin}).find(NavLink).filter('.media');
+                    const navLink = getWrapper({user: userAdmin}).find(NavLink).filter('#media');
                     expect(navLink).toHaveLength(0);
                 });
 
                 test('when user is superadmin media NavLink should be there', () => {
-                    const navLink = getWrapper({user: userSuperAdmin}).find(NavLink).filter('.media');
+                    const navLink = getWrapper({user: userSuperAdmin}).find(NavLink).filter('#media');
                     expect(navLink).toHaveLength(1);
                 });
 

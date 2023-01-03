@@ -211,7 +211,8 @@ class HeaderBar extends React.Component {
                                 <NavItem>
                                     <NavLink
                                         strict={this.isActivePath('/media')}
-                                        className='nav-link media'
+                                        className='nav-link'
+                                        id='media'
                                         to='/media'
                                         onClick={() => this.handleOnClick('/media')}>
                                         <span aria-hidden className='glyphicon glyphicon-picture' />
