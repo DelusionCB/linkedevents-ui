@@ -829,6 +829,8 @@
     "manage-media-publisher": "Publisher:",
     "manage-media-created": "Created:",
     "manage-media-last-modified": "Last modified:",
+    "manage-media-publisher-select-label": "Filter by publisher:",
+    "manage-media-filter-by-organization": "Filter media by organization",
     
     "organization-select-label": "Browse content by the organization:",
     "organization-select-placeholder": "Select organization",

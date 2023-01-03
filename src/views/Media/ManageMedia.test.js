@@ -11,6 +11,7 @@ import fiMessages from 'src/i18n/fi.json';
 import mapValues from 'lodash/mapValues';
 import renderer from 'react-test-renderer';
 import ImageGalleryGrid from '../../components/ImageGalleryGrid/index';
+import {fetchOrganizations} from '../../actions/organizations';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
@@ -52,6 +53,8 @@ const defaultProps = {
         meta: {},
         items: mockImages,
     },
+    fetchOrganizations: jest.fn(),
+
 };
 
 describe('Media Snapshot', () => {
@@ -74,6 +77,7 @@ describe('Media Snapshot', () => {
             },
             user: mockUserSuperAdmin,
             showImageDetails: true,
+            fetchOrganizations: jest.fn(),
             ...defaultProps,
         };
         const wrapper = shallow(<ManageMedia {...componentProps} />, {context: {intl}});
@@ -90,6 +94,7 @@ describe('Media Snapshot', () => {
             },
             user: mockUserSuperAdmin,
             showImageDetails: true,
+            fetchOrganizations: jest.fn(),
             ...defaultProps,
 
         };
@@ -105,7 +110,7 @@ describe('Media', () => {
         return shallow(<ManageMedia {...defaultProps} {...props} />, {context: {intl}});
     }
 
-    describe('componentDidUpdate', () => {
+    describe('lifecycle methods', () => {
         describe('routerPush', () => {
             afterEach(() => {
                 jest.clearAllMocks();
@@ -135,6 +140,27 @@ describe('Media', () => {
                 wrapper.setProps({user: null, isFetchingUser: true});
                 expect(defaultProps.routerPush).not.toHaveBeenCalled();
             });
+
+            describe('componentDidMount', () =>{
+                test('fetchOrganizationsData is called in mount', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance();
+                    const spy = jest.spyOn(instance, 'fetchOrganizationsData');
+                    instance.componentDidMount()
+                    expect(spy).toHaveBeenCalled()
+                })
+    
+            })
+
+            describe('componentDidUpdate', () =>{
+                test('fetchOrganizationsData is called on mount', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance();
+                    const spy = jest.spyOn(instance, 'fetchOrganizationsData');
+                    instance.componentDidMount({user: mockUserSuperAdmin},_)
+                    expect(spy).toHaveBeenCalled()
+                })
+            })
         });
     })
     describe('renders', () => {

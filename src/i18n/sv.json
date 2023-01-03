@@ -830,6 +830,8 @@
     "manage-media-publisher": "Utgivare:",
     "manage-media-created": "Skapad:",
     "manage-media-last-modified": "Redigerad:",
+    "manage-media-publisher-select-label": "Filtrera efter utgivare:",
+    "manage-media-filter-by-organization": "Filtrera efter organisation",
 
     "organization-select-label": "Bläddra i innehållet, vars organisation är:",
     "organization-select-placeholder": "Välja organisation",

@@ -79,111 +79,102 @@ exports[`EventListing Snapshot should render view by default 1`] = `
           </div>
         </div>
         <fieldset>
-          <FormattedMessage
-            id="organization-select-label"
-            values={Object {}}
-          >
-            <Component />
-          </FormattedMessage>
-          <MultiLevelSelect
-            data={
-              Array [
-                Object {
-                  "children": Array [],
-                  "label": "YSO",
-                  "value": "yso:1200",
-                },
-                Object {
-                  "children": Array [
-                    Object {
-                      "children": Array [
-                        Object {
-                          "label": "Matkailun palvelukeskus",
-                          "value": "turku:0719",
-                        },
-                        Object {
-                          "label": "Työllisyyspalvelukeskus",
-                          "value": "turku:0720",
-                        },
-                      ],
-                      "label": "Konsernihallinto ja palvelukeskukset",
-                      "value": "turku:04",
-                    },
-                    Object {
-                      "label": "Varsinais-Suomen aluepelastuslaitos",
-                      "value": "turku:12",
-                    },
-                    Object {
-                      "label": "Hyvinvointitoimiala",
-                      "value": "turku:25",
-                    },
-                    Object {
-                      "children": Array [
-                        Object {
-                          "label": "Ammatillinen koulutus",
-                          "value": "turku:4032",
-                        },
-                        Object {
-                          "label": "Lukiokoulutus",
-                          "value": "turku:4031",
-                        },
-                      ],
-                      "label": "Sivistystoimiala",
-                      "value": "turku:40",
-                    },
-                    Object {
-                      "children": Array [
-                        Object {
-                          "label": "Kirjastopalvelut",
-                          "value": "turku:4453",
-                        },
-                        Object {
-                          "label": "Liikuntapalvelut",
-                          "value": "turku:4470",
-                        },
-                        Object {
-                          "label": "Museopalvelut",
-                          "value": "turku:4462",
-                        },
-                        Object {
-                          "label": "Nuorisopalvelut",
-                          "value": "turku:4480",
-                        },
-                        Object {
-                          "label": "Turun Kaupunginorkesteri",
-                          "value": "turku:4431",
-                        },
-                      ],
-                      "label": "Vapaa-aikatoimiala",
-                      "value": "turku:44",
-                    },
-                    Object {
-                      "label": "Kaupunkiympäristötoimiala",
-                      "value": "turku:61",
-                    },
-                    Object {
-                      "label": "Turun Kaupunginteatteri",
-                      "value": "turku:80",
-                    },
-                  ],
-                  "label": "Turun kaupunki",
-                  "value": "turku:853",
-                },
-                Object {
-                  "children": Array [],
-                  "label": "Yksityishenkilöt",
-                  "value": "yksilo:2000",
-                },
-                Object {
-                  "children": Array [],
-                  "label": "Virtuaalitapahtumat",
-                  "value": "virtual:3000",
-                },
-              ]
-            }
-            handleChange={[Function]}
-            placeholder="Valitse organisaatio"
-          />
+          <label>
+            <FormattedMessage
+              id="organization-select-label"
+              values={Object {}}
+            >
+              <Component />
+            </FormattedMessage>
+            <MultiSelect
+              data={
+                Array [
+                  Object {
+                    "label": "YSO",
+                    "value": "yso:1200",
+                  },
+                  Object {
+                    "label": "Turun kaupunki",
+                    "value": "turku:853",
+                  },
+                  Object {
+                    "label": "Konsernihallinto ja palvelukeskukset",
+                    "value": "turku:04",
+                  },
+                  Object {
+                    "label": "Matkailun palvelukeskus",
+                    "value": "turku:0719",
+                  },
+                  Object {
+                    "label": "Työllisyyspalvelukeskus",
+                    "value": "turku:0720",
+                  },
+                  Object {
+                    "label": "Varsinais-Suomen aluepelastuslaitos",
+                    "value": "turku:12",
+                  },
+                  Object {
+                    "label": "Hyvinvointitoimiala",
+                    "value": "turku:25",
+                  },
+                  Object {
+                    "label": "Sivistystoimiala",
+                    "value": "turku:40",
+                  },
+                  Object {
+                    "label": "Ammatillinen koulutus",
+                    "value": "turku:4032",
+                  },
+                  Object {
+                    "label": "Lukiokoulutus",
+                    "value": "turku:4031",
+                  },
+                  Object {
+                    "label": "Vapaa-aikatoimiala",
+                    "value": "turku:44",
+                  },
+                  Object {
+                    "label": "Kirjastopalvelut",
+                    "value": "turku:4453",
+                  },
+                  Object {
+                    "label": "Liikuntapalvelut",
+                    "value": "turku:4470",
+                  },
+                  Object {
+                    "label": "Museopalvelut",
+                    "value": "turku:4462",
+                  },
+                  Object {
+                    "label": "Nuorisopalvelut",
+                    "value": "turku:4480",
+                  },
+                  Object {
+                    "label": "Turun Kaupunginorkesteri",
+                    "value": "turku:4431",
+                  },
+                  Object {
+                    "label": "Kaupunkiympäristötoimiala",
+                    "value": "turku:61",
+                  },
+                  Object {
+                    "label": "Turun Kaupunginteatteri",
+                    "value": "turku:80",
+                  },
+                  Object {
+                    "label": "Yksityishenkilöt",
+                    "value": "yksilo:2000",
+                  },
+                  Object {
+                    "label": "Virtuaalitapahtumat",
+                    "value": "virtual:3000",
+                  },
+                ]
+              }
+              handleChange={[Function]}
+              placeholder="Valitse organisaatio"
+            />
+          </label>
         </fieldset>
         <fieldset>
           <FormattedMessage
@@ -846,8 +837,10 @@ exports[`EventListing Snapshot should render view correctly 1`] = `
       "main-categories": "Luokittelu",
       "manage-media": "Median hallinta",
       "manage-media-created": "Luotu:",
+      "manage-media-filter-by-organization": "Suodata organisaation mukaan",
       "manage-media-last-modified": "Muokattu:",
       "manage-media-publisher": "Julkaisija:",
+      "manage-media-publisher-select-label": "Suodata julkaisijan mukaan:",
       "maximum-attendee-capacity": "Enimmäisosallistujamäärä",
       "minimum-attendee-capacity": "Vähimmäisosallistujamäärä",
       "moderation-page": "Moderoi sisältöjä",

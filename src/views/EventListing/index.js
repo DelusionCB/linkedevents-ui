@@ -16,8 +16,8 @@ import CollapseButton from '../../components/FormFields/CollapseButton/CollapseB
 import SelectorRadio from '../../components/HelFormFields/Selectors/SelectorRadio';
 import HelCheckbox from '../../components/HelFormFields/HelCheckbox';
 import {fetchOrganizations as fetchOrganizationsAction} from 'src/actions/organizations'
-import {MultiLevelSelect} from '../../components/MultiLevelSelect/MultiLevelSelect'
-import {transformOrganizationDataIntoHierarchy} from '../../utils/helpers'
+import {MultiSelect} from '../../components/MultiSelect/MultiSelect'
+import {transformOrganizationData} from '../../utils/helpers'
 
 const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS, EVENT_TYPE_PARAM} = constants
 
@@ -410,7 +410,7 @@ export class EventListing extends React.Component {
 
     render() {
         const {user,organizations} = this.props;
-        const formatedOrganizations = !!organizations && (transformOrganizationDataIntoHierarchy(organizations) ?? []);
+        const formatedOrganizations = !!organizations && (transformOrganizationData(organizations) ?? []);
         const {intl} = this.context;
         const {
             showCreatedByUser,
@@ -477,12 +477,14 @@ export class EventListing extends React.Component {
                             }
                           
                             <fieldset>
-                                <FormattedMessage id='organization-select-label'>{txt => <legend>{txt}</legend>}</FormattedMessage>
-                                <MultiLevelSelect 
-                                    data={formatedOrganizations} 
-                                    placeholder={this.context.intl.formatMessage({id: `organization-select-placeholder`})}
-                                    handleChange={this.handleOrganizationValueChange}
-                                />
+                                <label>
+                                    <FormattedMessage id='organization-select-label'>{txt => <legend>{txt}</legend>}</FormattedMessage>
+                                    <MultiSelect 
+                                        data={formatedOrganizations} 
+                                        placeholder={this.context.intl.formatMessage({id: `organization-select-placeholder`})}
+                                        handleChange={this.handleOrganizationValueChange}
+                                    />
+                                </label>
                             </fieldset>
                            
                             <fieldset>
