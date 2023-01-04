@@ -311,7 +311,8 @@ export class EditorPage extends React.Component {
     }
 
     render() {
-        const {editor, user, match, intl} = this.props
+        
+        const {editor, user, match, intl, activeOrganization} = this.props
         const {event, subEvents, superEvent, loading} = this.state
         const userType = user && user.userType
         const editMode = get(match, ['params', 'action'])
@@ -377,6 +378,7 @@ export class EditorPage extends React.Component {
                             setDirtyState={this.setDirtyState}
                             loading={loading}
                             uiMode={this.getTypeTheme()}
+                            activeOrganization={activeOrganization}
                         />
                     </div>
 
@@ -446,6 +448,7 @@ const mapStateToProps = (state) => ({
     editor: state.editor,
     user: state.user.data,
     fetchingUser: state.user.isFetchingUser,
+    activeOrganization: state.user.activeOrganization,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -489,5 +492,6 @@ EditorPage.propTypes = {
     isDirty: PropTypes.bool,
     isRegularUser: PropTypes.bool,
     fetchingUser: PropTypes.bool,
+    activeOrganization: PropTypes.string,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditorPage))

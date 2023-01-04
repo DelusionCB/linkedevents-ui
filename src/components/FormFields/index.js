@@ -110,6 +110,9 @@ class FormFields extends React.Component {
         if(!prevState.createdRecurringEvents && this.state.createdRecurringEvents){
             this.setState({createdRecurringEvents: false})
         }
+        if(prevProps.activeOrganization !== this.props.activeOrganization){
+            this.setDefaultOrganization()
+        }
     }
 
     handleSetMapContainer = (mapContainer) => {
@@ -149,16 +152,12 @@ class FormFields extends React.Component {
     }
 
     setDefaultOrganization = () => {
-        const {user} = this.props;
+        const {user, activeOrganization} = this.props;
 
         if (isNull(user)) {
             return
         }
-
-        const userType = get(user, 'userType')
-        const defaultOrganizationData = get(user, [`${userType}OrganizationData`, `${user.organization}`], {})
-
-        this.context.dispatch(setData({organization: defaultOrganizationData.id}));
+        this.context.dispatch(setData({organization: activeOrganization}));
     }
 
     handleOrganizationChange(event){
@@ -294,7 +293,8 @@ class FormFields extends React.Component {
         const publisherOptions = Object.keys(organizationData)
             .map(id => ({label: organizationData[id].name, value: id}))
         const subTimeDisable = this.subEventsContainTime(values['sub_events'])
-        const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
+        const defaultPublisher = publisherOptions.find(option => option.value === this.props.activeOrganization)
+        const selectedPublisher = (publisherOptions.find(option => option.value === values['organization']) || defaultPublisher) ?? {};
         const position = this.props.editor.values.location ? this.props.editor.values.location.position : null;
         const headerTextId = formType === 'update'
             ? 'edit-events'
@@ -1058,6 +1058,7 @@ FormFields.propTypes = {
     action: PropTypes.oneOf(['update', 'create', 'add']),
     loading: PropTypes.bool,
     uiMode: PropTypes.string,
+    activeOrganization: PropTypes.string,
 }
 
 FormFields.contextTypes = {

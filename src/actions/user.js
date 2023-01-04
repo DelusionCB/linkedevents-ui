@@ -3,8 +3,9 @@ import {set, get} from 'lodash'
 import {setEditorAuthFlashMsg} from './editor'
 import client from '../api/client'
 import {getAdminOrganizations, getRegularOrganizations, getPublicOrganizations} from '../utils/user'
+import store from '../store.js'
 
-const {RECEIVE_USERDATA, CLEAR_USERDATA, USER_TYPE, FETCHING_USERDATA} = constants
+const {RECEIVE_USERDATA, CLEAR_USERDATA, USER_TYPE, FETCHING_USERDATA, SET_ACTIVE_ORGANIZATION} = constants
 
 // Handled by the user reducer
 export function receiveUserData(data) {
@@ -33,6 +34,12 @@ export function loadingUser(data) {
     }
 }
 
+export function setActiveOrganization (org) {
+    return {
+        type: SET_ACTIVE_ORGANIZATION,
+        payload: org,
+    }
+}
 const getUserType = (permissions) => {
     if (permissions.includes(USER_TYPE.SUPERADMIN)) {
         return USER_TYPE.SUPERADMIN
@@ -55,21 +62,29 @@ export const fetchUser = (id) => async (dispatch) => {
         // try to get user data from user endpoint
         const userResponse = await client.get(`user/${id}`)
         const userData = userResponse.data
-
         // add correct permissions to user based on user's organizations
         const permissions = []
-        if (get(userData, 'admin_organizations', []).length > 0) {
+
+        const state = store.getState();
+        const {user:{activeOrganization}} = state;
+        const adminInOrgs = get(userData, 'admin_organizations', [])
+        const regularInOrgs = get(userData, 'organization_memberships', [])
+        const publicOrgs = get(userData, 'public_memberships', [])
+        const activeOrgId = activeOrganization ?? userData.organization;
+
+        if (adminInOrgs.length > 0 && (adminInOrgs).includes(activeOrgId)) {
             permissions.push(USER_TYPE.ADMIN)
         }
-        if (get(userData, 'organization_memberships', []).length > 0) {
+        if (regularInOrgs.length > 0 && (regularInOrgs).includes(activeOrgId)) {
             permissions.push(USER_TYPE.REGULAR)
         }
-        if (get(userData, 'public_memberships', []).length > 0) {
+        if (publicOrgs.length > 0 && (publicOrgs).includes(activeOrgId)) {
             permissions.push(USER_TYPE.PUBLIC)
         }
         if (get(userData, 'is_superuser', false)) {
             permissions.push(USER_TYPE.SUPERADMIN)
         }
+
 
         // add all desired user data in an object which will be stored into redux store
         const mergedUser = {
@@ -103,7 +118,7 @@ export const fetchUser = (id) => async (dispatch) => {
         mergedUser.organizationsWithRegularUsers = adminOrganizations
             .filter(organization => get(organization, ['data', 'has_regular_users'], false))
             .map(organization => organization.data.id)
-
+        dispatch(setActiveOrganization(activeOrgId))
         dispatch(receiveUserData(mergedUser))
         dispatch(setEditorAuthFlashMsg())
     } catch (e) {

@@ -149,6 +149,27 @@ $iconMarginLeft: 24px;
 	}
 }
 
+// Active organization selector
+.active-organization-selector {
+	margin-right: 1.5rem;
+	.activeOrganization {
+		display: flex;
+		color: white;
+		font-weight: bold;
+		padding: .375rem .75rem;
+		align-items: center;
+		cursor: pointer;
+		padding: 0.375rem 0 0.375rem 0;
+		width: max-content;
+
+		a {
+			@include m.add-outline($width: 2px, $color: white) {
+				outline-offset: 2px;
+			};
+		}
+	}
+}
+
 // LanguageSelector
 .LanguageMain {
 	display: flex;
@@ -168,7 +189,7 @@ $iconMarginLeft: 24px;
 	}
 }
 
-ul.language {
+ul.language, ul.active-organization {
 	position: absolute;
 	color: black;
 	padding-left: 0;
@@ -177,6 +198,15 @@ ul.language {
 	cursor: pointer;
 	li {
 		display: none;
+		background-color: lightgrey;
+	}
+	&.active-organization {
+		width: auto;
+		li {
+			padding-left: 1rem;
+			padding-right: 1rem;
+			text-align: left !important;
+		}
 	}
 	&.open {
 		border: 1px solid black;
@@ -229,6 +259,7 @@ ul.user-dropdown {
 	}
 	li {
 		display: none;
+		background-color: lightgrey;
 	}
 	&.open {
 		border: 1px solid black;

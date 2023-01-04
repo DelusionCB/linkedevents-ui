@@ -14,6 +14,7 @@ function getModifiedInitialState(props = {}) {
     const initialState = {
         data: null,
         isFetchingUser: false,
+        activeOrganization: null,
     };
     return {...initialState, ...props}
 }
@@ -50,6 +51,18 @@ describe('reducers/user', () => {
                 const nextState = user(initialState, action);
 
                 expect(nextState).toEqual(initialState);
+            });
+        });
+
+        describe('SET_ACTIVE_ORGANIZATION', () => {
+            test('sets activeOrganization', () => {
+                const setActiveOrganization = createAction(constants.SET_ACTIVE_ORGANIZATION);
+                const initialState = getModifiedInitialState();
+                const org = 'yksilo:2000';
+                const action = setActiveOrganization(org);
+                const nextState = user(initialState, action);
+                const expectedState = getModifiedInitialState({...initialState, activeOrganization: org});
+                expect(nextState).toEqual(expectedState);
             });
         });
 
