@@ -150,7 +150,7 @@ class OrganizationEditor extends React.Component {
 
         return (
             <div className='organization-form'>
-                <div className='value-row'>
+                <div className='value-row d-none'>
                     <CustomTextField
                         id='admin-datasource'
                         label='admin-org-datasource'
@@ -158,7 +158,7 @@ class OrganizationEditor extends React.Component {
                         disabled={true}
                     />
                 </div>
-                <div className='value-row'>
+                <div className='value-row d-none'>
                     <CustomTextField
                         id='admin-internal'
                         label='admin-org-internal'
