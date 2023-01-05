@@ -13,7 +13,7 @@ import CONSTANTS from '../../constants'
 import EventDetails from '../../components/EventDetails';
 import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
 import Users from '../../components/AdminFields/User';
-
+import  Organizations from '../../components/AdminFields/Organizations'
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
@@ -133,11 +133,18 @@ describe('AdminPanel', () => {
         })
 
         describe('getComponent', () => {
-            test('returns correct component', () => {
+            test('returns Users component', () => {
                 const wrapper = getWrapper()
                 const instance = wrapper.instance()
                 const component = instance.getComponent('users')
                 expect(component).toStrictEqual(<Users intl={defaultProps.intl} />)
+            })
+
+            test('returns Organizations component', () => {
+                const wrapper = getWrapper()
+                const instance = wrapper.instance()
+                const component = instance.getComponent('organizations')
+                expect(component).toStrictEqual(<Organizations intl={defaultProps.intl} />)
             })
         })
     });

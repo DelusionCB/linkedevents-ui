@@ -81,6 +81,7 @@ class OrganizationEditor extends React.Component {
         const values = ['name', 'data_source', 'classification', 'internal_type', 'origin_id']
         const useValue = values.includes(name);
         let newValue = e;
+        if(name === 'parent_organization') {newValue = e['@id']}
         if (useValue) {newValue = newValue.target.value}
         if (name === 'founding_date') { newValue = moment(e).tz('Europe/Helsinki').utc(e, 'YYYY-MM-DD').format('YYYY-MM-DD')}
         this.setState({
@@ -145,7 +146,7 @@ class OrganizationEditor extends React.Component {
     }
 
     render() {
-        const {orgMode, intl} = this.props;
+        const {orgMode, intl, organizations} = this.props;
         const {organizationData, errors} = this.state;
 
         return (
@@ -236,8 +237,14 @@ class OrganizationEditor extends React.Component {
                     />
                 </div>
                 <div className='value-row'>
-                    <OrganizationSelect label={intl.formatMessage({id: 'admin-org-child'})} disabled={this.setDisabled()} name='parent_organization'
-                        getSelectedOrg={(e) => this.onChange('parent_organization', e)} selectedValue={organizationData.parent_organization}/>
+                    <OrganizationSelect 
+                        label={intl.formatMessage({id: 'admin-org-child'})} 
+                        disabled={this.setDisabled()} 
+                        name='parent_organization'
+                        getSelectedOrg={(e) => this.onChange('parent_organization', e)} 
+                        selectedValue={organizationData.parent_organization}
+                        organizations={organizations}
+                    />
                 </div>
                 <div className='button-controls'>
                     <Button disabled={errors} onClick={() => this.dispatchData()}>{intl.formatMessage({id: 'admin-org-save'})}</Button>
@@ -255,10 +262,15 @@ OrganizationEditor.propTypes = {
     executeSendRequestOrg: PropTypes.func,
     mode: PropTypes.string,
     orgMode: PropTypes.func,
+    organizations: PropTypes.array,
 }
 
+const mapStateToProps = (state) => ({
+    organizations: state.organizations.data,
+})
 const mapDispatchToProps = (dispatch) => ({
     executeSendRequestOrg: (orgValues, updatingOrganization) => dispatch(executeSendRequestOrgAction(orgValues, updatingOrganization)),
 })
 
-export default connect(null, mapDispatchToProps)(injectIntl(OrganizationEditor))
+export {OrganizationEditor as UnconnectedOrganizationEditor}
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(OrganizationEditor))

@@ -87,7 +87,7 @@ class OrganizationSelect extends React.Component {
      * @returns {{name,value}|null}
      */
     getDefaultValue = () => {
-        const {selectedValue, name} = this.props;
+        const {selectedValue, name, organizations} = this.props;
         if (!selectedValue) {
             return null
         }
@@ -95,6 +95,15 @@ class OrganizationSelect extends React.Component {
             return ({
                 name: selectedValue,
                 value: selectedValue,
+            })
+        }
+        if(name === 'parent_organization'){
+            const orgId = selectedValue.split('/').findLast((item)=> item !== ''),
+                organization = organizations.find((org) => org.id === orgId)
+
+            return({
+                name: organization.name,
+                value: organization['@id'],
             })
         }
         return ({
@@ -156,6 +165,7 @@ OrganizationSelect.propTypes = {
     disabled: PropTypes.bool,
     getSelectedOrg: PropTypes.func,
     label: PropTypes.string,
+    organizations: PropTypes.array,
 }
-
+export {OrganizationSelect as UnconnectedOrganizationSelect}
 export default injectIntl(OrganizationSelect)
