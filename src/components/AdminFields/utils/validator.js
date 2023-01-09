@@ -35,7 +35,7 @@ export const validateOrg = async (values, update) => {
  * @param {Boolean }async
  * @returns {Promise<{error: boolean, errorMsg: string}>}
  */
-async function validator(values, data, update, async) {
+export const validator = async (values, data, update, async) => {
     try {
         if (async) {
             return await asyncValidationFunc(values, data, update)
@@ -53,8 +53,10 @@ async function validator(values, data, update, async) {
  * @param {String} type
  * @returns {Promise<{}|*>}
  */
-const checkIfExists = async (value, type = '') => {
-    let queryParams = {exact_name: value.name}
+export const checkIfExists = async (value, type = '') => {
+    // remove possible leading and trailing space
+    const name = (value.name).trim();
+    let queryParams = {exact_name: name}
     //if (type === 'origin_id') {queryParams = `${value.data_source}:${value.origin_id}`}
     if (type === 'id') {queryParams = `${value.id}`}
     try {
@@ -75,29 +77,33 @@ const checkIfExists = async (value, type = '') => {
  * @param {Boolean} update
  * @returns {Promise<{error: boolean, errorMsg: string}>}
  */
-const asyncValidationFunc = async (values, data, update = false) => {
+export const asyncValidationFunc = async (values, data, update = false) => {
     const validationStatus = {
         error: false,
         errorMsg: '',
     };
     if (data === 'name') {
-        if (!values.name) {
+        // remove possible leading and trailing space
+        const name = (values.name).trim();
+        if (!name) {
             validationStatus.error = true;
             validationStatus.errorMsg = 'admin-error-noName';
         }
-        else if (values.name.length < 4 || values.name.length > 40) {
+        else if (name.length < 4 || name.length > 40) {
             validationStatus.error = true;
-            validationStatus.errorMsg = values.name.length < 4 ? 'admin-error-tooShort' : 'admin-error-tooLong';
+            validationStatus.errorMsg = name.length < 4 ? 'admin-error-tooShort' : 'admin-error-tooLong';
         }
         else {
             const response = await checkIfExists(values, 'name');
+            const lowerValueName = name.toLowerCase();
+            const lowerDataName = (response.data[0].name).toLowerCase();
             if (update) {
-                if (response.meta.count && response.data[0].id !== values.id && values.name === response.data[0].name) {
+                if (response.meta.count && response.data[0].id !== values.id && lowerValueName === lowerDataName) {
                     validationStatus.error = true;
                     validationStatus.errorMsg = 'admin-error-nameUsed';
                 }
             }
-            else if (response.meta.count && values.name === response.data[0].name) {
+            else if (response.meta.count && lowerValueName === lowerDataName) {
                 validationStatus.error = true;
                 validationStatus.errorMsg = 'admin-error-nameUsed';
             }
@@ -132,7 +138,7 @@ const asyncValidationFunc = async (values, data, update = false) => {
  * @param {String} data
  * @returns {{error: boolean, errorMsg: string}}
  */
-const normalValidationFunc = (values, data) => {
+export const normalValidationFunc = (values, data) => {
     const validationStatus = {
         error: false,
         errorMsg: '',
@@ -156,5 +162,4 @@ const normalValidationFunc = (values, data) => {
     return validationStatus
 }
 
-
-
+export default validateOrg
