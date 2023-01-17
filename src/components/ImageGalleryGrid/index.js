@@ -92,8 +92,8 @@ class ImageGalleryGrid extends React.Component {
     }
 
     /**
-     * handles multilevel organization selection
-     * @param selectedNodes currently selected organizations
+     * handles multiple organization selection
+     * @param options currently selected organizations
      */
     handleOrganizationValueChange = async (options,e) => {
         if(options){

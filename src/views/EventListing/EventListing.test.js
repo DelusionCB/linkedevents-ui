@@ -468,10 +468,14 @@ describe('EventListing', () => {
 
         describe('handleOrganizationValueChange', () => {
             test('changes selectedPublishers ', async () => {
+                const options = [
+                    {label: 'Konsernihallinto ja palvelukeskukset', value: 'turku:04'},
+                    {label: 'Työllisyyspalvelukeskus', value: 'turku:0720'},
+                ]
                 const wrapper = getWrapper();
                 const instance = wrapper.instance();
                 expect(wrapper.state('selectedPublishers')).toHaveLength(0);
-                await instance.handleOrganizationValueChange(_,['yso:1200','turku:853'])
+                await instance.handleOrganizationValueChange(options)
                 expect(wrapper.state('selectedPublishers')).toHaveLength(2);
             });
         });
