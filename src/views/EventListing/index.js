@@ -353,15 +353,16 @@ export class EventListing extends React.Component {
     }
 
     /**
-     * handles multilevel organization selection
-     * @param selectedNodes currently selected organizations
+     * handles multiple organization selection
+     * @param options currently selected organizations
      */
-    handleOrganizationValueChange = async (_, selectedNodes) => {
-        if(selectedNodes){
-            const selectOrgs = selectedNodes.map(item => item.value);
+    handleOrganizationValueChange = async (options, e) => {
+        if(options){
+            const selectOrgs = options.map(item => item.value);
             const queryParams = this.getDefaultEventQueryParams()
             queryParams.publisher = selectOrgs.join(',')
             this.setState(state => ({
+                ...state,
                 selectedPublishers: selectOrgs,
             }))
             this.setLoading(false)
