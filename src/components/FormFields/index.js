@@ -403,6 +403,7 @@ class FormFields extends React.Component {
                             selectedOption={selectedPublisher}
                             onChange={this.handleOrganizationChange}
                             labelOrg={`${currentEventType}-provider`}
+                            activeOrganization={this.props.activeOrganization}
                         />
                         <MultiLanguageField
                             id='event-provider-input'

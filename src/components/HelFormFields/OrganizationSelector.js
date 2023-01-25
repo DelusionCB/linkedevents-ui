@@ -13,8 +13,9 @@ function renderSelectOptions(options) {
     )
 }
 
-const OrganizationSelector = ({formType, selectedOption, options, onChange, labelOrg}) => {
-    const label = selectedOption.label ? selectedOption.label : ''
+const OrganizationSelector = ({formType, selectedOption, options, onChange, labelOrg, activeOrganization}) => {
+    const label = selectedOption.label ? selectedOption.label : '';
+    const activeOrganizationLabel = options.find((org)=> org.value === activeOrganization)?.label;
 
     return (
         <React.Fragment>
@@ -27,27 +28,37 @@ const OrganizationSelector = ({formType, selectedOption, options, onChange, labe
                     value={label}
                     readOnly
                 />
-            ) : options.length > 1 ? (
-                <React.Fragment>
+            ) : (activeOrganization && activeOrganizationLabel) ? 
+                (
                     <Input
-                        className="event-publisher-input"
-                        id="event-publisher"
-                        name="event-publisher"
-                        onChange={onChange}
-                        type="select"
-                    >
-                        {renderSelectOptions(options)}
-                    </Input>
-                </React.Fragment>
-            ) : (
-                <Input
-                    readOnly
-                    className='event-publisher-input-disabled'
-                    id='event-publisher'
-                    aria-disabled={true}
-                    value={get(options, '[0].label', '')}
-                />
-            )}
+                        readOnly
+                        className='event-publisher-input-disabled'
+                        id='event-publisher'
+                        aria-disabled={true}
+                        value={activeOrganizationLabel}
+                    />
+                )
+                : options.length > 1 ? (
+                    <React.Fragment>
+                        <Input
+                            className="event-publisher-input"
+                            id="event-publisher"
+                            name="event-publisher"
+                            onChange={onChange}
+                            type="select"
+                        >
+                            {renderSelectOptions(options)}
+                        </Input>
+                    </React.Fragment>
+                ) : (
+                    <Input
+                        readOnly
+                        className='event-publisher-input-disabled'
+                        id='event-publisher'
+                        aria-disabled={true}
+                        value={get(options, '[0].label', '')}
+                    />
+                )}
         </React.Fragment>
     );
 };
@@ -58,5 +69,6 @@ OrganizationSelector.propTypes = {
     selectedOption: PropTypes.object,
     onChange: PropTypes.func,
     labelOrg: PropTypes.string,
+    activeOrganization: PropTypes.string,
 }
 export default OrganizationSelector;
