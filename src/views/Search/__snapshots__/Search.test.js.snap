@@ -586,6 +586,8 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "search-event-button": "Hae sisältöjä",
       "search-events": "Etsi sisältöjä",
       "search-events-description": "Katsele kaikkia Linked Eventsin sisältöjä.",
+      "search-events-max-distance": "Etäisyys enintään:",
+      "search-events-max-distance-aria-label": "Etäisyys enintään kilometreissä",
       "search-events-near-me": "Näytä lähellä olevat sisällöt",
       "search-image-result": "Kuvapankissa {count} kuvaa {page} sivulla",
       "search-images": "Hae kuvan nimellä, ALT-tekstillä tai julkaisijan tai kuvaajan nimellä.",

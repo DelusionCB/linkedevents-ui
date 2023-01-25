@@ -12,7 +12,7 @@ import constants from '../../constants'
 import {Label} from 'reactstrap'
 import classNames from 'classnames';
 
-const {LOCATION_OPTIONS} = constants;
+const {LOCATION_OPTIONS, DEFAULT_SEARCH_DISTANCE} = constants;
 class SearchPage extends React.Component {
 
     state = {
@@ -20,6 +20,7 @@ class SearchPage extends React.Component {
         loading: false,
         searchExecuted: false,
         nearMeChecked: false,
+        maxDistance: DEFAULT_SEARCH_DISTANCE,
         userCoordinates: {
             latitude: null,
             longitude: null,
@@ -29,7 +30,7 @@ class SearchPage extends React.Component {
 
     searchEvents = async (searchQuery, context, startDate, endDate) => {
         this.setState({loading: true})
-        const {nearMeChecked, userCoordinates} = this.state;
+        const {nearMeChecked, userCoordinates, maxDistance} = this.state;
         const queryParams = new EventQueryParams()
         queryParams.page_size = 100
         queryParams.sort = 'start_time'
@@ -40,6 +41,8 @@ class SearchPage extends React.Component {
         if (endDate) queryParams.end = endDate.format('YYYY-MM-DD')
         if(nearMeChecked && userCoordinates.latitude) queryParams.lat = userCoordinates.latitude
         if(nearMeChecked && userCoordinates.longitude) queryParams.lon = userCoordinates.longitude
+        // Convert the radius to meters
+        if(nearMeChecked && maxDistance !== DEFAULT_SEARCH_DISTANCE) queryParams.radius = maxDistance * 1000
 
         try {
             const response = await fetchEvents(queryParams)
@@ -59,6 +62,10 @@ class SearchPage extends React.Component {
 
     handleNearMeToggle = (e) => {
         this.setState({nearMeChecked : e.target.checked});
+    }
+
+    handleMaxDistanceChange = (e) => {
+        this.setState({maxDistance: e.target.value});
     }
 
     onLocationSuccess = ({coords}) => {
@@ -103,6 +110,27 @@ class SearchPage extends React.Component {
                             <FormattedMessage id="search-events-near-me"/>
                         </Label>
                     </div>
+                    {this.state.nearMeChecked && (
+                        <div>
+                            <div>
+                                <Label htmlFor='max-distance'>
+                                    <FormattedMessage id="search-events-max-distance"/>
+                                    &nbsp;
+                                    <span>{this.state.maxDistance} km</span>
+                                </Label>
+                            </div>
+                            <input
+                                type='range'
+                                id='max-distance'
+                                min={1}
+                                max={50}
+                                step={1}
+                                value={this.state.maxDistance}
+                                onChange={this.handleMaxDistanceChange}
+                                aria-label={intl.formatMessage({id: 'search-events-max-distance-aria-label'})}
+                            />
+                        </div>
+                    )}
                     {
                         !!this.state.locationErrorCode && 
                         <div className="alert alert-info location-error-message" role="alert">

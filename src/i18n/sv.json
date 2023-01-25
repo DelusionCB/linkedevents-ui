@@ -8,6 +8,8 @@
     "no-events": "Inget innehåll att visa.",
     "search-events-description": "Se alla innehåll i Linked Events.",
     "search-events-near-me": "Visa innehåll i närheten",
+    "search-events-max-distance": "Maximalt avstånd:",
+    "search-events-max-distance-aria-label": "Maximalt avstånd i kilometer",
     "pick-time-range": "Sök endast perioden",
     "event-search": "Sök",
     "event-name-or-place": "Innehållets namn och plats",
