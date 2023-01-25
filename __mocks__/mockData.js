@@ -1590,5 +1590,84 @@ export const mockOrganizations =  [
         "@context": "http://schema.org",
         "@type": "Organization"
       }
-    ]
-  
+    ];
+
+export const mockOrgClassifications = [
+    {
+      "id": "org:1",
+      "name": "Valtiollinen toimija",
+      "@id": "org:1",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:10",
+      "name": "Muu yhteisö",
+      "@id": "org:10",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:11",
+      "name": "Yksityishenkilö",
+      "@id": "org:11",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:2",
+      "name": "Maakunnallinen toimija",
+      "@id": "org:2",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:3",
+      "name": "Kunta",
+      "@id": "org:3",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:4",
+      "name": "Kunnan liikelaitos",
+      "@id": "org:4",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:5",
+      "name": "Valtion liikelaitos",
+      "@id": "org:5",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:6",
+      "name": "Yritys",
+      "@id": "org:6",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:7",
+      "name": "Säätiö",
+      "@id": "org:7",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:8",
+      "name": "Seurakunta",
+      "@id": "org:8",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    },
+    {
+      "id": "org:9",
+      "name": "Yhdistys tai seura",
+      "@id": "org:9",
+      "@context": "http://schema.org",
+      "@type": "OrganizationClass"
+    }
+  ]

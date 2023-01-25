@@ -108,8 +108,12 @@ class OrganizationEditor extends React.Component {
      */
     fetchAdminOptions = async () => {
         try {
-            const response = await client.get('organization_class')
-            return this.setState({classifications: response.data.data})
+            const {data} = (await client.get('organization_class'))?.data;
+            // make Muu yhteisö class = org:10 last choice
+            const otherClass = data.find((org) => org.id === 'org:10'),
+                rest = data.filter((org) => org.id !== 'org:10');
+            const sortedClasses = otherClass ? [...rest, otherClass] : rest;
+            return this.setState({classifications: sortedClasses})
         } catch (e) {
             throw Error(e)
         }
@@ -247,8 +251,8 @@ class OrganizationEditor extends React.Component {
                     />
                 </div>
                 <div className='button-controls'>
-                    <Button disabled={errors} onClick={() => this.dispatchData()}>{intl.formatMessage({id: 'admin-org-save'})}</Button>
-                    <Button onClick={() => orgMode('cancel')}>{intl.formatMessage({id: 'admin-org-cancel'})}</Button>
+                    <Button id="save-button" disabled={errors} onClick={() => this.dispatchData()}>{intl.formatMessage({id: 'admin-org-save'})}</Button>
+                    <Button id="cancel-button" onClick={() => orgMode('cancel')}>{intl.formatMessage({id: 'admin-org-cancel'})}</Button>
                 </div>
                 {errors && <p className='red-alert' role='status'>{intl.formatMessage({id: 'admin-org-errors'})}</p>}
             </div>
