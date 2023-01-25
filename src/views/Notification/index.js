@@ -43,7 +43,7 @@ class Notifications extends React.Component {
     }
 
     render() {
-        const {flashMsg, clearFlashMsg} = this.props
+        const {flashMsg, clearFlashMsg, isEventCreateOrUpdate} = this.props
         let flashMsgSpan = ('')
         let isSticky =  flashMsg && flashMsg.sticky
         let validations = false
@@ -80,7 +80,8 @@ class Notifications extends React.Component {
         return (
             <React.Fragment>
                 { flashMsgSpan &&
-                    <dialog className='notification'
+                    <dialog 
+                        className={isEventCreateOrUpdate ? 'notification-create-update-contents' : 'notification'}
                         open={(!!flashMsg)}
                         onClose={closeFn}
                     >
@@ -96,6 +97,7 @@ Notifications.propTypes = {
     flashMsg: PropTypes.object,
     clearFlashMsg: PropTypes.func,
     locale: PropTypes.string,
+    isEventCreateOrUpdate: PropTypes.bool,
 }
 
 const mapDisPatchToProps = (dispatch) => ({

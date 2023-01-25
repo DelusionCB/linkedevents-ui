@@ -22,3 +22,23 @@
         top:0px;
     }
 }
+
+.notification-create-update-contents {
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    padding: 1rem 0 0 0;
+    border: none;
+    color: #ffff;
+    background-color: #222222;
+    min-width: -webkit-fill-available;
+    min-width:  -moz-available;
+    .btn {
+        margin-left: 1rem;
+        background-color: transparent;
+        border-color: #ffffff;
+        &.errors {
+            background-color: var(--red-color) !important;
+        }
+    }
+}

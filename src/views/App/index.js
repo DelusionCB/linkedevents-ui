@@ -80,6 +80,9 @@ class App extends React.Component {
 
     render() {
 
+        const isEventCreateOrUpdate = window.location.pathname.includes('/event/create/') ||
+            window.location.pathname.includes('/event/update/');
+
         return (
             <div className='main-wrapper'>
                 <Helmet>
@@ -91,10 +94,11 @@ class App extends React.Component {
                 <SkipLink />
                 <Favicon />
                 <Headerbar />
-                <Notification flashMsg={this.props.app.flashMsg}/>
+                {!isEventCreateOrUpdate && <Notification flashMsg={this.props.app.flashMsg} isEventCreateOrUpdate={isEventCreateOrUpdate} />}
                 <main id="main-content" className="content">
                     {this.props.children}
                 </main>
+                {isEventCreateOrUpdate && <Notification flashMsg={this.props.app.flashMsg} isEventCreateOrUpdate={isEventCreateOrUpdate} />}
                 <ConfirmDialog />
                 <Footer />
             </div>
