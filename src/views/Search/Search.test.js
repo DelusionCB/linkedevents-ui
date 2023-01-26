@@ -158,13 +158,13 @@ describe('Search', () => {
                 const element = getWrapper();
                 element.setState({loading: true, nearMeChecked: true, locationErrorCode: null});
                 const formattedMessages = element.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(5);
+                expect(formattedMessages).toHaveLength(6);
             });
             test('correct amount when nearMeChecked and locationErrorCode is not null', () => {
                 const element = getWrapper();
                 element.setState({loading: true, nearMeChecked: true, locationErrorCode: 1});
                 const formattedMessages = element.find(FormattedMessage);
-                expect(formattedMessages).toHaveLength(6);
+                expect(formattedMessages).toHaveLength(7);
             });
         });
 
@@ -205,6 +205,10 @@ describe('Search', () => {
             const endDate = undefined
             const context = ['eventgeneral']
 
+            beforeEach(() => {
+                fetchEvents.mockClear()
+            })
+
             test('calls fetchEvents with correct parameters', () => {
                 const date = new Date(`2021`)
                 jest.spyOn(global.Date, 'now').mockImplementationOnce(() => date);
@@ -217,6 +221,31 @@ describe('Search', () => {
                 queryParams.type_id = context.join()
                 instance.searchEvents(searchQuery, context, startDate, endDate)
                 expect(fetchEvents).toHaveBeenCalledTimes(1)
+                expect(fetchEvents).toHaveBeenCalledWith(queryParams);
+            })
+
+            test('calls fetchEvents with correct parameters when near me is toggled', () => {
+                const date = new Date(`2021`)
+                jest.spyOn(global.Date, 'now').mockImplementationOnce(() => date);
+                const instance = getWrapper().instance()
+                instance.setState({
+                    nearMeChecked: true,
+                    userCoordinates: {
+                        latitude: 60.4504064,
+                        longitude: 22.2625792,
+                    },
+                    maxDistance: 10,
+                })
+                const queryParams = new EventQueryParams()
+                queryParams.page_size = 100
+                queryParams.sort = 'start_time'
+                queryParams.nocache = date
+                queryParams.text = searchQuery
+                queryParams.type_id = context.join()
+                queryParams.lat = 60.4504064
+                queryParams.lon = 22.2625792
+                queryParams.radius = 10000
+                instance.searchEvents(searchQuery, context, startDate, endDate)
                 expect(fetchEvents).toHaveBeenCalledWith(queryParams);
             })
 
@@ -261,6 +290,39 @@ describe('Search', () => {
                 expect(instance.state.searchExecuted).toBe(true)
                 expect(instance.state.loading).toBe(false)
                 expect(instance.state.nearMeChecked).toBe(true)
+            })
+        });
+
+        describe('handleMaxDistanceChange', () => {
+            const searchQuery = 'testing'
+            const startDate = undefined
+            const endDate = undefined
+            const context = ['eventgeneral']
+            test('sets correct state values', async () => {
+                const wrapper = getWrapper();
+                const event = {target: {value: 10}}
+                const coords = {latitude: 60.4504064, longitude: 22.2625792};
+                wrapper.setState({
+                    searchExecuted: true,
+                    events: [],
+                    nearMeChecked: true,
+                    userCoordinates: {
+                        latitude: coords.latitude,
+                        longitude: coords.longitude,
+                    },
+                    locationErrorCode: null,
+                    maxDistance: 5,
+                });
+                const instance = getWrapper().instance()
+                const initialState = {...instance.state}
+                expect(instance.state.events).toStrictEqual(initialState.events)
+                expect(instance.state.searchExecuted).toBe(initialState.loading)
+                expect(instance.state.loading).toBe(initialState.searchExecuted)
+                await instance.handleMaxDistanceChange(event)
+                await instance.searchEvents(searchQuery, context, startDate, endDate)
+                expect(instance.state.searchExecuted).toBe(true)
+                expect(instance.state.loading).toBe(false)
+                expect(instance.state.maxDistance).toBe(10)
             })
         });
 

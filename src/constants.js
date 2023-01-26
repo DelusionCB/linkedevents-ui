@@ -256,6 +256,8 @@ const constants = {
     LOCATION_OPTIONS: {
         enableHighAccuracy: true, // get possible accurate location
     },
+
+    DEFAULT_SEARCH_DISTANCE: 5,  // in kilometers
 }
 
 export default constants
