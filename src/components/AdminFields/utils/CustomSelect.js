@@ -42,7 +42,7 @@ const CustomSelect = ({
                 </FormattedMessage>
                 {formatOptions(options)}
             </select>
-            {validation.error ? <FormattedMessage id={validation.errorMsg}>{txt => <p>{txt}</p>}</FormattedMessage> : <p />}
+            {validation.error ? <FormattedMessage id={validation.errorMsg}>{txt => <p className='red-alert' role='status'>{txt}</p>}</FormattedMessage> : <p />}
         </div>
     )
 }

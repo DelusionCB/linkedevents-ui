@@ -22,7 +22,7 @@ class OrganizationEditor extends React.Component {
             classifications: [],
             organizationData: {
                 name: '',
-                data_source: 'system',
+                data_source: '',
                 id: '',
                 classification: '',
                 internal_type: 'normal',

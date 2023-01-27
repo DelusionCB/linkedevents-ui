@@ -95,8 +95,8 @@ export const asyncValidationFunc = async (values, data, update = false) => {
         }
         else {
             const response = await checkIfExists(values, 'name');
-            const lowerValueName = name.toLowerCase();
-            const lowerDataName = (response.data[0].name).toLowerCase();
+            const lowerValueName = name?.toLowerCase();
+            const lowerDataName = (response.data[0]?.name)?.toLowerCase();
             if (update) {
                 if (response.meta.count && response.data[0].id !== values.id && lowerValueName === lowerDataName) {
                     validationStatus.error = true;

@@ -52,9 +52,7 @@ export const formatValues = (data, updating) => {
             return acc
         }, [])
     }
-    if (data.parent_organization) {
-        data.parent_organization = data.parent_organization['@id']
-    } else {
+    if (!data.parent_organization.length) {
         data.parent_organization = undefined
     }
     if (data.founding_date === '') {
