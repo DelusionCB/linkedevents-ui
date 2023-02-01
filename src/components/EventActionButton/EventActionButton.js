@@ -166,16 +166,38 @@ class EventActionButton extends React.Component {
             loading,
         } = this.props;
 
-        const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR;
-        const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
+        let combinedOrgs = [];
+        if(user){
+            const {user:{
+                adminOrganizations,
+                organizationMemberships,
+                publicMemberships,
+            }} = this.props;
+            combinedOrgs = [].concat(adminOrganizations,organizationMemberships,publicMemberships);
+        }
+
+        const userOrganizationIds = [...new Set([...combinedOrgs])];
+        const isPublisherInUserOrgs = Object.keys(event).includes('publisher') ? userOrganizationIds.includes(event.publisher) : true;
+        const userType = get(user, 'userType');
+        const isSuperAdmin = userType === USER_TYPE.SUPERADMIN;
+        const isRegularUser = userType === USER_TYPE.REGULAR;
+        const isPublicUser = userType === USER_TYPE.PUBLIC
         const formHasSubEvents = get(editor, ['values', 'sub_events'], []).length > 0;
         const validationErrors = get(editor, ['validationErrors'], {})
         const validationDisable = Object.keys(validationErrors).length > 0
         const isDraft = get(event, 'publication_status') === PUBLICATION_STATUS.DRAFT;
         const {editable, explanationId} = checkEventEditability(user, event, action, editor, superEvent);
         const showTermsCheckbox = (isRegularUser || isPublicUser) && this.isSaveButton(action) && !isDraft;
-        let disabled = !editable || validationDisable || loading || (showTermsCheckbox && !this.state.agreedToTerms);
+        const canPerformActionsForOrg = (isSuperAdmin || 
+        ([USER_TYPE.ADMIN, USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(userType) && isPublisherInUserOrgs)
+        );
 
+        let disabled = (!editable ||
+            validationDisable ||
+            loading ||
+            (showTermsCheckbox && !this.state.agreedToTerms) ||
+            (!canPerformActionsForOrg)
+        );
 
         const buttonLabel = customButtonLabel || getButtonLabel(action, isRegularUser,  isDraft, eventIsPublished, formHasSubEvents);
 
