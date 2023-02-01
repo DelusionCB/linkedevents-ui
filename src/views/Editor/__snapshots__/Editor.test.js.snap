@@ -1964,6 +1964,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
           }
         }
         event={Object {}}
+        isSuperAdmin={false}
         loading={false}
         setDirtyState={[Function]}
         superEvent={Object {}}
@@ -4068,6 +4069,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
           }
         }
         event={Object {}}
+        isSuperAdmin={false}
         loading={true}
         setDirtyState={[Function]}
         superEvent={Object {}}
@@ -5442,6 +5444,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
           }
         }
         event={Object {}}
+        isSuperAdmin={false}
         loading={false}
         setDirtyState={[Function]}
         superEvent={Object {}}

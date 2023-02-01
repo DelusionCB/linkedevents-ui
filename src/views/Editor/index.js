@@ -312,7 +312,7 @@ export class EditorPage extends React.Component {
 
     render() {
         
-        const {editor, user, match, intl, activeOrganization} = this.props
+        const {editor, user, match, intl, activeOrganization, organizations} = this.props
         const {event, subEvents, superEvent, loading} = this.state
         const userType = user && user.userType
         const editMode = get(match, ['params', 'action'])
@@ -320,6 +320,7 @@ export class EditorPage extends React.Component {
         const isRecurringSub = get(editor, ['values', 'sub_event_type']) === SUB_EVENT_TYPE_RECURRING
         const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
         const isAdminUser = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(userType)
+        const isSuperAdmin = userType === USER_TYPE.SUPERADMIN
         const hasSubEvents = subEvents && subEvents.length > 0
         const headerTextId = editMode === 'update'
             ? 'edit-events'
@@ -379,6 +380,8 @@ export class EditorPage extends React.Component {
                             loading={loading}
                             uiMode={this.getTypeTheme()}
                             activeOrganization={activeOrganization}
+                            isSuperAdmin={isSuperAdmin}
+                            organizations={organizations}
                         />
                     </div>
 
@@ -449,6 +452,7 @@ const mapStateToProps = (state) => ({
     user: state.user.data,
     fetchingUser: state.user.isFetchingUser,
     activeOrganization: state.user.activeOrganization,
+    organizations: state.organizations.data,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -493,5 +497,6 @@ EditorPage.propTypes = {
     isRegularUser: PropTypes.bool,
     fetchingUser: PropTypes.bool,
     activeOrganization: PropTypes.string,
+    organizations: PropTypes.array,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(EditorPage))

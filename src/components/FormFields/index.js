@@ -1,6 +1,6 @@
 import './index.scss'
 
-import PropTypes from 'prop-types';
+import PropTypes, {bool} from 'prop-types';
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
@@ -18,7 +18,7 @@ import RecurringEvent from 'src/components/RecurringEvent'
 import {Button, Form, FormGroup, Collapse, UncontrolledCollapse} from 'reactstrap';
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData, clearValue} from '../../actions/editor'
-import {get, isNull, pickBy} from 'lodash'
+import {get, isEmpty, isNull, pickBy} from 'lodash'
 import API from '../../api'
 import CONSTANTS from '../../constants'
 import OrganizationSelector from '../HelFormFields/OrganizationSelector';
@@ -274,7 +274,7 @@ class FormFields extends React.Component {
         const helTargetOptions = mapKeywordSetToForm(this.props.editor.keywordSets, 'turku:audience', currentLocale)
         const helEventLangOptions = mapLanguagesSetToForm(this.props.editor.languages, currentLocale)
 
-        const {event, superEvent, user, editor, uiMode} = this.props
+        const {event, superEvent, user, editor, uiMode, activeOrganization, isSuperAdmin, organizations} = this.props
         const {values, validationErrors, contentLanguages} = editor
         const formType = this.props.action
         const isSuperEvent = values.super_event_type === CONSTANTS.SUPER_EVENT_TYPE_RECURRING
@@ -286,12 +286,23 @@ class FormFields extends React.Component {
         const maxSubEventCount = CONSTANTS.GENERATE_LIMIT.EVENT_LENGTH
         const userType = get(user, 'userType')
         const isRegularUser = userType === USER_TYPE.REGULAR
+        let publisherOptions = [];
         let organizationData = get(user, `${userType}OrganizationData`, {})
+
         if (userType === USER_TYPE.SUPERADMIN) {
-            organizationData = get(user, `adminOrganizationData`, {})
+            organizationData = organizations;
+        }else{
+            organizationData = Object.values(organizationData);
         }
-        const publisherOptions = Object.keys(organizationData)
-            .map(id => ({label: organizationData[id].name, value: id}))
+
+        if(!isEmpty(organizationData)){
+            publisherOptions = !!organizationData && organizationData.map(
+                (item) => {
+                    return {label: item.name, value: item.id}
+                }
+            )
+        }
+
         const subTimeDisable = this.subEventsContainTime(values['sub_events'])
         const defaultPublisher = publisherOptions.find(option => option.value === this.props.activeOrganization)
         const selectedPublisher = (publisherOptions.find(option => option.value === values['organization']) || defaultPublisher) ?? {};
@@ -403,7 +414,9 @@ class FormFields extends React.Component {
                             selectedOption={selectedPublisher}
                             onChange={this.handleOrganizationChange}
                             labelOrg={`${currentEventType}-provider`}
-                            activeOrganization={this.props.activeOrganization}
+                            activeOrganization={activeOrganization}
+                            isSuperAdmin={isSuperAdmin}
+                            organizations={organizations}
                         />
                         <MultiLanguageField
                             id='event-provider-input'
@@ -1060,6 +1073,8 @@ FormFields.propTypes = {
     loading: PropTypes.bool,
     uiMode: PropTypes.string,
     activeOrganization: PropTypes.string,
+    isSuperAdmin: bool,
+    organizations: PropTypes.array,
 }
 
 FormFields.contextTypes = {

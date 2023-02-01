@@ -13,7 +13,7 @@ function renderSelectOptions(options) {
     )
 }
 
-const OrganizationSelector = ({formType, selectedOption, options, onChange, labelOrg, activeOrganization}) => {
+const OrganizationSelector = ({formType, selectedOption, options, onChange, labelOrg, activeOrganization, isSuperAdmin}) => {
     const label = selectedOption.label ? selectedOption.label : '';
     const activeOrganizationLabel = options.find((org)=> org.value === activeOrganization)?.label;
 
@@ -28,7 +28,7 @@ const OrganizationSelector = ({formType, selectedOption, options, onChange, labe
                     value={label}
                     readOnly
                 />
-            ) : (activeOrganization && activeOrganizationLabel) ? 
+            ) : (!isSuperAdmin && (activeOrganization && activeOrganizationLabel)) ? 
                 (
                     <Input
                         readOnly
@@ -46,6 +46,7 @@ const OrganizationSelector = ({formType, selectedOption, options, onChange, labe
                             name="event-publisher"
                             onChange={onChange}
                             type="select"
+                            value={selectedOption.value}
                         >
                             {renderSelectOptions(options)}
                         </Input>
@@ -70,5 +71,6 @@ OrganizationSelector.propTypes = {
     onChange: PropTypes.func,
     labelOrg: PropTypes.string,
     activeOrganization: PropTypes.string,
+    isSuperAdmin: PropTypes.bool,
 }
 export default OrganizationSelector;

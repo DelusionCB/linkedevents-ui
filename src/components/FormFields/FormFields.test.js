@@ -699,8 +699,8 @@ describe('FormField', () => {
             describe('OrganizationSelector', () => {
                 const wrapper = getWrapper()
                 const instance = wrapper.instance();
-                const publisherOptions = Object.keys(defaultProps.user.adminOrganizationData)
-                    .map(id => ({label: defaultProps.user.adminOrganizationData[id].name, value: id}))
+                const publisherOptions = Object.values(defaultProps.user.adminOrganizationData)
+                    .map(item => ({label: item.name, value: item.id}))
                 const organization = wrapper.find(OrganizationSelector)
                 test('correct props for OrganizationSelector', () => {
                     expect(organization.prop('formType')).toBe(defaultProps.action)
