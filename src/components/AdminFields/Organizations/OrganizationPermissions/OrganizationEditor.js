@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {injectIntl} from 'react-intl';
 import {executeSendRequestOrg as executeSendRequestOrgAction} from '../../../../actions/admin';
+import {fetchOrganizations} from '../../../../actions/organizations';
 import {connect} from 'react-redux';
 import OrganizationSelect from '../../utils/OrganizationSelect';
 import {Button} from 'reactstrap';
@@ -12,7 +13,10 @@ import CustomTextField from '../../utils/CustomTextField';
 import {validateOrg} from '../../utils/validator';
 import CustomDateSelector from '../../utils/CustomDateSelector';
 import client from '../../../../api/client';
+import constants from '../../../../constants'
+import {isEqual} from 'lodash';
 
+const {USER_TYPE} = constants;
 class OrganizationEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -39,7 +43,12 @@ class OrganizationEditor extends React.Component {
 
     async componentDidUpdate(prevProps, prevState) {
         const {errors, organizationData} = this.state;
-        const {mode} = this.props;
+        const {mode, organization} = this.props;
+
+        if(!isEqual(organization, prevProps.organization)){
+            this.setOrg();
+            this.fetchOrgs();
+        }
 
         if (errors && prevState.organizationData !== organizationData) {
             // Update validation on every value change, all values are checked for changes.
@@ -52,12 +61,19 @@ class OrganizationEditor extends React.Component {
         }
     }
 
+    componentWillUnmount (){
+        this.fetchOrgs();
+    }
+
+    fetchOrgs = () => {
+        this.props.fetchOrganizations();
+    }
     /**
      * Sets organization to state if mode is edit
      */
     setOrg = () => {
-        const {organization, mode} = this.props;
-        if (mode === 'edit') {
+        const {organization, mode, user: {userType}} = this.props;
+        if (mode === 'edit' || userType === USER_TYPE.ADMIN) {
             this.setState({
                 organizationData: {
                     id: organization.id,
@@ -124,12 +140,12 @@ class OrganizationEditor extends React.Component {
      * @returns {Promise} || setState
      */
     dispatchData = async () => {
-        const {mode, orgMode} = this.props;
+        const {mode, orgMode, user: {userType}} = this.props;
         const {organizationData} = this.state;
-
-        const validationCheck = await validateOrg(organizationData, mode === 'edit')
+        const updatingOrganization = mode === 'edit' || userType === USER_TYPE.ADMIN;
+        const validationCheck = await validateOrg(organizationData, updatingOrganization)
         if (validationCheck.size === 0) {
-            this.props.executeSendRequestOrg(organizationData, mode === 'edit').then(() => {
+            this.props.executeSendRequestOrg(organizationData, updatingOrganization).then(() => {
                 orgMode('cancel')
             })
         } else {
@@ -267,13 +283,18 @@ OrganizationEditor.propTypes = {
     mode: PropTypes.string,
     orgMode: PropTypes.func,
     organizations: PropTypes.array,
+    user: PropTypes.object,
+    fetchOrganizations: PropTypes.func,
+
 }
 
 const mapStateToProps = (state) => ({
     organizations: state.organizations.data,
+    user: state.user.data,
 })
 const mapDispatchToProps = (dispatch) => ({
     executeSendRequestOrg: (orgValues, updatingOrganization) => dispatch(executeSendRequestOrgAction(orgValues, updatingOrganization)),
+    fetchOrganizations: () => dispatch(fetchOrganizations()),
 })
 
 export {OrganizationEditor as UnconnectedOrganizationEditor}

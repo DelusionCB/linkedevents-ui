@@ -1,18 +1,39 @@
 import './index.scss'
 import React from 'react';
 import PropTypes from 'prop-types'
-import {intlShape, FormattedMessage} from 'react-intl';
+import {injectIntl,intlShape, FormattedMessage} from 'react-intl';
+import {connect} from 'react-redux';
 import {Button} from 'reactstrap';
 import OrganizationSelect from '../utils/OrganizationSelect';
 import OrganizationEditor from './OrganizationPermissions/OrganizationEditor';
+import constants from '../../../constants'
+import {isEqual} from 'lodash';
 
-
+const {USER_TYPE} = constants;
 class Organizations extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedOrg: {},
             mode: '',
+        }
+    }
+
+    componentDidMount() {
+        const {user:{userType}, activeOrganization, organizations} = this.props;
+        if(userType === USER_TYPE.ADMIN && !!activeOrganization){
+            const org = organizations.find((item)=> item.id === activeOrganization);
+            this.selectOrg(org);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const {user:{userType}, activeOrganization, organizations} = this.props;
+        const prevActiveOrg = prevProps.organizations.find((org) => org.id === prevProps.activeOrganization);
+        const activeOrg = organizations.find((org) => org.id === activeOrganization);
+        if(userType === USER_TYPE.ADMIN && !!activeOrganization && !isEqual(prevActiveOrg,activeOrg)){
+            const org = organizations.find((item)=> item.id === activeOrganization);
+            this.selectOrg(org);
         }
     }
 
@@ -84,17 +105,19 @@ class Organizations extends React.Component {
 
     render() {
         const {selectedOrg, mode} = this.state;
+        const {user:{userType}} = this.props;
         const edit = mode === 'edit';
-        const add = mode === 'add'
+        const add = mode === 'add';
         const showOrgEditor = add || edit && Object.keys(selectedOrg).length > 0;
+        const showOrgEditorForAdmin = userType === USER_TYPE.ADMIN;
         return (
             <div className='organizations-view'>
                 <FormattedMessage id='admin-org-control'>{txt => <h1>{txt}</h1>}</FormattedMessage>
-                {this.getInitMode()}
+                {(userType === USER_TYPE.SUPERADMIN) && this.getInitMode()}
                 <div>
                     {edit && this.getEditMode()}
                     <div>
-                        {showOrgEditor &&
+                        {(showOrgEditor || showOrgEditorForAdmin) &&
                             <OrganizationEditor
                                 orgMode={(e) => this.setOrgMode(e)}
                                 intl={this.props.intl}
@@ -115,6 +138,18 @@ Organizations.propTypes = {
         PropTypes.object,
         intlShape.isRequired,
     ]),
+    user: PropTypes.object,
+    activeOrganization: PropTypes.string,
+    organizations: PropTypes.array,
 }
 
-export default Organizations
+const mapStateToProps = (state) => ({
+    activeOrganization: state.user.activeOrganization,
+    organizations: state.organizations.data,
+    user: state.user.data,
+})
+const mapDispatchToProps = () => ({})
+
+export {Organizations as UnconnectedOrganizations}
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Organizations));
+

@@ -16,6 +16,7 @@ import Users from '../../components/AdminFields/User';
 import constants from '../../constants';
 import Spinner from 'react-bootstrap/Spinner';
 
+const {USER_TYPE} = constants;
 export class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
@@ -31,9 +32,9 @@ export class AdminPanel extends React.Component {
     checkUserPermissions() {
         const {user, auth, isFetchingUser, routerPush} = this.props
         const noUser = isNull(user) && !isFetchingUser && !auth.isLoadingUser && !auth.user;
-        const userIsNotSuperAdmin = !isNull(user) && user && user.userType !== constants.USER_TYPE.SUPERADMIN;
+        const userHasNoPermission = !isNull(user) && user && user.userType !== USER_TYPE.ADMIN && user.userType !== USER_TYPE.SUPERADMIN;
 
-        if (noUser || userIsNotSuperAdmin) {
+        if (noUser || userHasNoPermission) {
             routerPush('/')
         }
     }
@@ -48,6 +49,7 @@ export class AdminPanel extends React.Component {
     }
 
     getComponent(tab) {
+
         switch(tab){
             /*
             case 'instructions':
@@ -58,14 +60,17 @@ export class AdminPanel extends React.Component {
             case 'users':
                 return <Users intl={this.props.intl} />
             default:
-                return <div><h1>Tervetuloa hallintapaneeliin</h1></div>
+                return <div><h1><FormattedMessage id='admin-panel-front-page-title' /></h1></div>
         }
     }
 
     render() {
-        const {match, intl} = this.props
+        const {match, intl, user} = this.props
         const tabMode = get(match, ['params', 'tab'])
         const pageTitle = `Linkedevents - ${intl.formatMessage({id: 'admin-panel'})}`
+        const isAdminUser = (!isNull(user) && 
+        user && user.userType === USER_TYPE.ADMIN);
+
         if (!this.props.user) {
             return (
                 <>
@@ -110,7 +115,9 @@ export class AdminPanel extends React.Component {
                                                 className='nav-link'
                                                 to='/admin/organizations'
                                                 onClick={() => this.handleOnClick('/admin/organizations')}>
-                                                <FormattedMessage id='admin-organizations' />
+                                                <FormattedMessage 
+                                                    id={isAdminUser ? 'admin-organization' : 'admin-organizations'} 
+                                                />
                                             </NavLink>
                                         </NavItem>
                                         {/*

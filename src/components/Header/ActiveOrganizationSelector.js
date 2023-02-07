@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {setActiveOrganization, fetchUser as fetchUserAction} from '../../actions/user'
+import {isEqual} from 'lodash';
+
 class ActiveOrganizationSelector extends React.Component {
     constructor(props) {
         super(props);
@@ -27,6 +29,16 @@ class ActiveOrganizationSelector extends React.Component {
         document.addEventListener('click', this.handleClick, false);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const {user: {adminOrganizations, organizationMemberships, publicMemberships}, organizations, activeOrganization} = this.props;
+        if(!isEqual(organizations, prevProps.organizations)){
+            const userOrganizationIds = [...new Set([...adminOrganizations, ...organizationMemberships, ...publicMemberships])]
+            const userOrganizations = organizations.filter(org => userOrganizationIds.includes(org.id))
+            this.setState(() => ({userOrganizations: userOrganizations}))
+            const defaultOrg = userOrganizations.find((org)=> org.id === activeOrganization)
+            this.setState(() => ({activeOrganization: defaultOrg}))
+        }
+    }
     componentWillUnmount() {
         document.removeEventListener('click', this.handleClick, false);
     }

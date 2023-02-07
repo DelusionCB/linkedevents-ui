@@ -7,7 +7,9 @@ import {getAdminOrganizations} from '../../../utils/user';
 import OrganizationSelect from '../utils/OrganizationSelect';
 import UserContainer from './UserPermissions/UserContainer';
 import constants from '../../../constants';
+import {isNull} from 'lodash'
 
+const {USER_TYPE} = constants;
 class Users extends React.Component {
     constructor(props) {
         super(props);
@@ -19,14 +21,26 @@ class Users extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.user) {
+        const {user, activeOrganization, organizations} = this.props;
+        if (user) {
             this.fetchOrganizations();
+        }
+
+        if(user && !isNull(user) && user.userType === USER_TYPE.ADMIN){
+            const activeOrg = organizations.find((org) => org.id === activeOrganization);
+            this.selectOrg(activeOrg)
         }
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.user && prevProps.user !== this.props.user) {
+        const {user, activeOrganization, organizations} = this.props;
+        if(user && prevProps.user !== user) {
             this.fetchOrganizations();
+        }
+
+        if(user && !isNull(user) && user.userType === USER_TYPE.ADMIN && prevProps.activeOrganization !== activeOrganization){
+            const activeOrg = organizations.find((org) => org.id === activeOrganization);
+            this.selectOrg(activeOrg)
         }
     }
 
@@ -64,9 +78,10 @@ class Users extends React.Component {
      */
     getOrgSearch(userType = '') {
         const {selectedOrg} = this.state;
+        const userHasNoPermission = (userType !== USER_TYPE.SUPERADMIN && userType !== USER_TYPE.ADMIN);
         return (
             <div>
-                {userType !== constants.USER_TYPE.SUPERADMIN ?
+                { userHasNoPermission ?
                     <>
                     <FormattedMessage id='admin-select-org'>{txt => <label htmlFor='admin-select'>{txt}</label>}</FormattedMessage>
                     <select
@@ -81,8 +96,14 @@ class Users extends React.Component {
                     </select>
                     </>
                     :
-                    <OrganizationSelect label={this.props.intl.formatMessage({id: 'admin-select-org-super'})} getSelectedOrg={(e) => this.selectOrg(e)} name='userOrg'
-                        selectedValue={selectedOrg.name} intl={this.props.intl}/>
+                    <OrganizationSelect
+                        label={this.props.intl.formatMessage({id: 'admin-select-org-super'})}
+                        getSelectedOrg={(e) => this.selectOrg(e)}
+                        name='userOrg'
+                        selectedValue={selectedOrg.name}
+                        intl={this.props.intl}
+                        disabled={userType === USER_TYPE.ADMIN}
+                    />
                 }
             </div>
         )
@@ -109,6 +130,8 @@ class Users extends React.Component {
 
 const mapStateToProps = (state) => ({
     user: state.user.data,
+    activeOrganization: state.user.activeOrganization,
+    organizations: state.organizations.data,
 })
 
 Users.propTypes = {
@@ -117,6 +140,8 @@ Users.propTypes = {
         intlShape.isRequired,
     ]),
     user: PropTypes.object,
+    activeOrganization: PropTypes.string,
+    organizations: PropTypes.array,
 }
 
 export default connect(mapStateToProps, null)(injectIntl(Users))

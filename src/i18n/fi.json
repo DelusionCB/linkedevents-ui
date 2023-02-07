@@ -815,7 +815,9 @@
     "admin-frontpage": "Etusivu",
     "admin-users": "Käyttäjät",
     "admin-organizations": "Organisaatiot",
+    "admin-organization": "Organisaatio",
     "admin-sidefields": "Ohjetekstit",
+    "admin-panel-front-page-title": "Tervetuloa hallintapaneeliin",
 
     "admin-search-user": "Hae käyttäjä ja lisää organisaatioon",
     "admin-search-user-button": "Lisää",

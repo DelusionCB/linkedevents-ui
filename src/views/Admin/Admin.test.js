@@ -14,6 +14,8 @@ import EventDetails from '../../components/EventDetails';
 import {mapAPIDataToUIFormat} from '../../utils/formDataMapping';
 import Users from '../../components/AdminFields/User';
 import  Organizations from '../../components/AdminFields/Organizations'
+import {mockOrganizations} from '../../../__mocks__/mockData';
+
 const testMessages = mapValues(fiMessages, (value, key) => value);
 const intlProvider = new IntlProvider({locale: 'fi', messages: testMessages}, {});
 const {intl} = intlProvider.getChildContext();
@@ -71,6 +73,16 @@ describe('AdminPanel', () => {
                 const wrapper = getWrapper({routerPush, user: tempUser, auth: tempAuth, isFetchingUser: false});
                 expect(routerPush).toHaveBeenCalledTimes(0)
             })
+
+            test('does not call routerPush when admin exists', () => {
+                const tempAuth = {
+                    isLoadingUser: false,
+                    user: undefined,
+                };
+                const tempUser = {name: 'test-name', userType: constants.USER_TYPE.ADMIN};
+                const wrapper = getWrapper({routerPush, user: tempUser, auth: tempAuth, isFetchingUser: false});
+                expect(routerPush).toHaveBeenCalledTimes(0)
+            })
         });
 
         describe('componentDidUpdate', () => {
@@ -96,6 +108,16 @@ describe('AdminPanel', () => {
                     user: undefined,
                 };
                 const tempUser = {name: 'test-name', userType: constants.USER_TYPE.SUPERADMIN};
+                const wrapper = getWrapper({routerPush, user: tempUser, auth: tempAuth, isFetchingUser: false});
+                expect(routerPush).toHaveBeenCalledTimes(0)
+            })
+
+            test('does not call routerPush when admin exists', () => {
+                const tempAuth = {
+                    isLoadingUser: false,
+                    user: undefined,
+                };
+                const tempUser = {name: 'test-name', userType: constants.USER_TYPE.ADMIN};
                 const wrapper = getWrapper({routerPush, user: tempUser, auth: tempAuth, isFetchingUser: false});
                 expect(routerPush).toHaveBeenCalledTimes(0)
             })
@@ -144,7 +166,11 @@ describe('AdminPanel', () => {
                 const wrapper = getWrapper()
                 const instance = wrapper.instance()
                 const component = instance.getComponent('organizations')
-                expect(component).toStrictEqual(<Organizations intl={defaultProps.intl} />)
+                expect(component).toStrictEqual(
+                    <Organizations 
+                        intl={defaultProps.intl} 
+                    />
+                )
             })
         })
     });

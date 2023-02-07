@@ -775,7 +775,9 @@
     "admin-frontpage": "Framsida",
     "admin-users": "Användare",
     "admin-organizations": "Organisationer",
+    "admin-organization": "Organisation",
     "admin-sidefields": "Bruksanvisningar",
+    "admin-panel-front-page-title": "Välkommen till adminpanelen",
 
     "admin-search-user": "Sök användare och lägg till organisation",
     "admin-search-user-button": "Lägg till",

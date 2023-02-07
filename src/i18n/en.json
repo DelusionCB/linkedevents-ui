@@ -774,7 +774,9 @@
     "admin-frontpage": "Frontpage",
     "admin-users": "Users",
     "admin-organizations": "Organizations",
+    "admin-organization": "Organization",
     "admin-sidefields": "Sidefields",
+    "admin-panel-front-page-title": "Welcome to the admin panel",
 
     "admin-search-user": "Search users & add to organization",
     "admin-search-user-button": "Add",

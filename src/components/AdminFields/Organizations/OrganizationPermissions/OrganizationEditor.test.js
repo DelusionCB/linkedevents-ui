@@ -4,7 +4,7 @@ import {IntlProvider} from 'react-intl';
 import {Button} from 'reactstrap';
 import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
-import {mockOrganizations, mockOrgClassifications} from '../../../../../__mocks__/mockData';
+import {mockOrganizations, mockOrgClassifications, mockUser} from '../../../../../__mocks__/mockData';
 import OrganizationSelect from '../../utils/OrganizationSelect';
 import CustomSelect from '../../utils/CustomSelect';
 import CustomTextField from '../../utils/CustomTextField';
@@ -38,9 +38,11 @@ const defaultProps = {
     intl: intl,
     organization: {},
     executeSendRequestOrg: jest.fn(),
+    fetchOrganizations: jest.fn(),
     mode: 'edit',
     orgMode: jest.fn(),
     organizations: mockOrganizations,
+    user: mockUser,
 }
 
 const validations = new Map(),
@@ -127,16 +129,37 @@ describe('renders', () => {
             expect(setOrg).toBeCalled();
         })
         describe('componentDidUpdate', () => {
+            test('setState updates state', () => {
+                const wrapper = getWrapper({validationErrors: {}})
+                const instance = wrapper.instance()
+                const spy = jest.spyOn(instance, 'setState');
+                instance.setState({error:true, organizationData:{}})
+                const prevProps = {...instance.props}
+                const prevState = {...instance.state}
+                instance.componentDidUpdate(prevProps, prevState)
+                expect(spy).toBeCalled();
+                expect(wrapper.state('classifications')).toHaveLength(0)
+                expect(wrapper.state('validationErrors')).toStrictEqual({})
+            })
+            test('methods are called', () => {
+                const wrapper = getWrapper({validationErrors: {}})
+                const instance = wrapper.instance()
+                const setOrg = jest.spyOn(instance, 'setOrg');
+                const fetchOrgs = jest.spyOn(instance, 'fetchOrgs')
+                const prevProps = {...instance.props, organization:{...mockOrganizations[0]}}
+                const prevState = {...instance.state}
+                instance.componentDidUpdate(prevProps, prevState)
+                expect(setOrg).toBeCalled();
+                expect(fetchOrgs).toBeCalled();
+                expect(instance.props.fetchOrganizations).toBeCalled();
+            })
+        })
+        describe('componentWillUnmount', () => {
             const wrapper = getWrapper({validationErrors: {}})
             const instance = wrapper.instance()
-            const spy = jest.spyOn(instance, 'setState');
-            instance.setState({error:true, organizationData:{}})
-            const prevProps = {...instance.props}
-            const prevState = {...instance.state}
-            instance.componentDidUpdate(prevProps, prevState)
+            const spy = jest.spyOn(instance, 'fetchOrgs');
+            instance.componentWillUnmount()
             expect(spy).toBeCalled();
-            expect(wrapper.state('classifications')).toHaveLength(0)
-            expect(wrapper.state('validationErrors')).toStrictEqual({})
         })
         describe('saveButton', () => {
             const wrapper = getWrapper()

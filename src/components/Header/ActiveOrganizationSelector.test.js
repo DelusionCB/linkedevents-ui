@@ -82,6 +82,41 @@ describe('ActiveOrganizationSelector', () => {
             });
         });
 
+        describe('componentDidUpdate', () => {
+            const {user: {admin_organizations, organization_memberships, public_memberships, organization}, organizations} = defaultProps;
+            const user = {
+                ...user,
+                adminOrganizations : admin_organizations,
+                organizationMemberships : organization_memberships,
+                publicMemberships : public_memberships,
+            };
+            const userOrganizationIds = [...new Set([...admin_organizations, ...organization_memberships, ...public_memberships])];
+            const userOrganizations = organizations.filter(org => userOrganizationIds.includes(org.id));
+            const defaultOrg = userOrganizations.find((org)=> org.id === organization);
+            const wrapper = getWrapper({user});
+            const instance = wrapper.instance();
+            const elementMock = document.addEventListener = jest.fn();
+
+            beforeEach(() => {
+                const prevProps = {...instance.props, organizations:[]}
+                const prevState = {...instance.state}
+                instance.componentDidUpdate(prevProps, prevState)
+            });
+
+            test('sets userOrganizations to the state', () => {
+                expect(instance.state.userOrganizations).toEqual(userOrganizations);
+            });
+            test('sets activeOrganization to the state', () => {
+                expect(instance.state.activeOrganization).toEqual(defaultOrg);
+            });
+            test('addEventListener is called', () => {
+                expect(elementMock).toBeCalled()
+            });
+            test('addEventListener is called with correct args', () => {                
+                expect(elementMock).toBeCalledWith('click', expect.any(Function), false)
+            });
+        });
+
         describe('componentWillUnmount', () => {
             const {user: {admin_organizations, organization_memberships, public_memberships}, organizations} = defaultProps;
             const user = {

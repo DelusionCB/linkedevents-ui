@@ -46,6 +46,12 @@ const userSuperAdmin = {
     organizationsWithRegularUsers: ['jokuOrganisaatio'],
 };
 
+const userRegular = {
+    displayName: 'regular user',
+    userType: 'regular',
+    organizationsWithRegularUsers: ['jokuOrganisaatio'],
+};
+
 describe('components/Header/index', () => {
     describe('HeaderBar', () => {
         function getWrapper(props) {
@@ -71,6 +77,41 @@ describe('components/Header/index', () => {
                     instance.componentDidMount()
                     expect(spy).toHaveBeenCalled()
                 })
+                test('state.showAdminPanel is true if user is admin for organization', () => {
+                    const element = getWrapper();
+                    expect(element.state('showAdminPanel')).toBe(true);
+                });
+                test('state.showAdminPanel is true if user is SuperAdmin', () => {
+                    const element = getWrapper({user: userSuperAdmin});
+                    expect(element.state('showAdminPanel')).toBe(true);
+                });
+                test('state.showManageMediaLink is true if user is SuperAdmin', () => {
+                    const element = getWrapper({user: userSuperAdmin});
+                    expect(element.state('showManageMediaLink')).toBe(true);
+                });
+            });
+
+            describe('componentDidUpdate', () => {
+                test('state.showModerationLink is true if user is superAdmin', () => {
+                    const wrapper = getWrapper();
+                    const instance = wrapper.instance()
+                    wrapper.setProps({...instance.props, user: userSuperAdmin})
+                    const prevProps = {...instance.props}
+                    const prevState = {...instance.state}
+                    const prevContext = {...instance.context}
+                    instance.componentDidUpdate(prevProps, prevState, prevContext)
+                    expect(wrapper.state('showModerationLink')).toBe(true);
+                });
+                test('state.showAdminPanel is true if user is userSuperAdmin', () => {
+                    const wrapper = getWrapper();
+                    const instance = wrapper.instance()
+                    wrapper.setProps({...instance.props, user: userSuperAdmin})
+                    const prevProps = {...instance.props}
+                    const prevState = {...instance.state}
+                    const prevContext = {...instance.context}
+                    instance.componentDidUpdate(prevProps, prevState, prevContext)
+                    expect(wrapper.state('showModerationLink')).toBe(true);
+                });
             });
 
             describe('handleLoginClick', () => {
@@ -153,19 +194,19 @@ describe('components/Header/index', () => {
             });
 
             describe('NavLink', () => {
-                test('render 4 NavLinks when user is not admin', () => {
-                    const element = getWrapper();
+                test('render 6 NavLinks when user is not admin/superAdmin', () => {
+                    const element = getWrapper({user: userRegular});
                     const navLinks = element.find(NavLink);
                     expect(navLinks).toHaveLength(6);
                 });
 
-                test('render 5 NavLinks when user is admin', () => {
+                test('render 8 NavLinks when user is admin', () => {
                     const element = getWrapper({user: userAdmin});
                     const navLinks = element.find(NavLink);
-                    expect(navLinks).toHaveLength(7);
+                    expect(navLinks).toHaveLength(8);
                 });
 
-                test('render 8 NavLinks when user is superadmin', () => {
+                test('render 9 NavLinks when user is superadmin', () => {
                     const navLinks = getWrapper({user: userSuperAdmin}).find(NavLink);
                     expect(navLinks).toHaveLength(9);
                 });
