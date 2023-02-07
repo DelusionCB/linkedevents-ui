@@ -42,6 +42,9 @@ const initialStoreExistingEvent = {
 const mockRegularUser = JSON.parse(JSON.stringify(mockUser));
 mockRegularUser.userType = 'regular';
 
+const mockPublicUser = JSON.parse(JSON.stringify(mockUser));
+mockPublicUser.userType = 'public';
+
 describe('Editor Snapshot', () => {
     it('should render view correctly when new event', () => {
         const componentProps = {
@@ -181,6 +184,15 @@ describe('Editor Snapshot', () => {
                 const prevState = {...instance.state, isRegularUser: false}
                 instance.componentDidUpdate(prevProps, prevState);
                 expect(instance.state.isRegularUser).toBe(true)
+            });
+
+            test('isPublicUser is set when component updates', () => {
+                const wrapper = getWrapper({user: mockPublicUser});
+                const instance = wrapper.instance();
+                const prevProps = {...instance.props}
+                const prevState = {...instance.state, isPublicUser: false}
+                instance.componentDidUpdate(prevProps, prevState);
+                expect(instance.state.isPublicUser).toBe(true)
             });
         });
     });

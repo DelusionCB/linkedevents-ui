@@ -51,6 +51,7 @@ export class EditorPage extends React.Component {
         isDirty: false,
         isRegularUser: false,
         showPreviewEventModal: false,
+        isPublicUser: false,
     }
 
     componentDidMount() {
@@ -60,12 +61,13 @@ export class EditorPage extends React.Component {
 
         const params = get(match, 'params')
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+        const isPublicUser = get(user, 'userType') === USER_TYPE.PUBLIC
         const userHasOrganizations = !isNull(getOrganizationMembershipIds(user))
 
         if (!user && params.action === 'update' && !fetchingUser) {
             this.props.routerPush('/404')
         }
-        this.setState({isRegularUser})
+        this.setState({isRegularUser, isPublicUser})
 
         if (user && !userHasOrganizations) {
             setFlashMsg('user-no-rights-create', 'error', {sticky: true})
@@ -76,17 +78,21 @@ export class EditorPage extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {event, isRegularUser} = this.state
-        const {user} = this.props
+        const {event, isRegularUser, isPublicUser} = this.state
         const publisherId = get(event, 'publisher')
         const oldPublisherId = get(prevState, ['event', 'publisher'])
         const prevParams = get(prevProps, ['match', 'params'], {})
         const currParams = get(this.props, ['match', 'params'], {})
-        const currentIsRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
+
         // check and re-set isRegularUser state
-        if(currentIsRegularUser !== isRegularUser){
-            this.setState({isRegularUser: currentIsRegularUser});
+        if(prevState.isRegularUser !== isRegularUser){
+            this.setState({isRegularUser});
         }
+
+        if(prevState.isPublicUser !== isPublicUser){
+            this.setState({isPublicUser});
+        }
+
         // check if the editing mode or if the eventId params changed
         if (prevParams.action !== currParams.action || prevParams.eventId !== currParams.eventId) {
             if (currParams.action === 'update') {
@@ -180,10 +186,10 @@ export class EditorPage extends React.Component {
      * Saves the editor changes
      */
     saveChanges = (isAdminDraft) => {
-        const {subEvents, isRegularUser} = this.state
+        const {subEvents, isRegularUser, isPublicUser} = this.state
         const {match, editor: {values: formValues}, executeSendRequest} = this.props
         const updateExisting = get(match, ['params', 'action']) === 'update'
-        const publicationStatus = (!isRegularUser && !isAdminDraft)
+        const publicationStatus = (!isRegularUser && !isAdminDraft && !isPublicUser)
             ? PUBLICATION_STATUS.PUBLIC
             : PUBLICATION_STATUS.DRAFT
 
