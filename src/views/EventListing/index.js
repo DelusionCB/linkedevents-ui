@@ -306,8 +306,9 @@ export class EventListing extends React.Component {
         }
         queryParams.page_size = pageSize
         queryParams.setSort(sortBy, sortDirection)
-        queryParams.show_all = userType === USER_TYPE.REGULAR ? true : null
+        queryParams.show_all = [USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(userType) ? true : null
         queryParams.admin_user = userType === USER_TYPE.ADMIN ? true : null
+        queryParams.public_user = userType === USER_TYPE.PUBLIC ? true : null
         queryParams.created_by = useCreatedBy ? 'me' : null
         queryParams.type_id = showEventType.join();
         if (user.userType === 'public') {
@@ -338,12 +339,10 @@ export class EventListing extends React.Component {
         if (get(user, 'userType') === USER_TYPE.SUPERADMIN) {
             return <FormattedMessage id="events-management-description-super-user" />
         }
-        if (get(user, 'userType') === USER_TYPE.REGULAR) {
+        if ([USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(get(user, 'userType')) ) {
             return <FormattedMessage id="events-management-description-regular-user" />
         }
-        if (get(user, 'userType') === USER_TYPE.PUBLIC) {
-            return <FormattedMessage id="events-management-description-public-user" />
-        }
+
         return <FormattedMessage id="events-management-description" />
     }
 
@@ -476,18 +475,18 @@ export class EventListing extends React.Component {
                                     </div>
                                 </div>
                             }
-                          
-                            <fieldset>
-                                <label>
-                                    <FormattedMessage id='organization-select-label'>{txt => <legend>{txt}</legend>}</FormattedMessage>
-                                    <MultiSelect 
-                                        data={formatedOrganizations} 
-                                        placeholder={this.context.intl.formatMessage({id: `organization-select-placeholder`})}
-                                        handleChange={this.handleOrganizationValueChange}
-                                    />
-                                </label>
-                            </fieldset>
-                           
+                            {!isPublicUser &&
+                                <fieldset>
+                                    <label>
+                                        <FormattedMessage id='organization-select-label'>{txt => <legend>{txt}</legend>}</FormattedMessage>
+                                        <MultiSelect 
+                                            data={formatedOrganizations} 
+                                            placeholder={this.context.intl.formatMessage({id: `organization-select-placeholder`})}
+                                            handleChange={this.handleOrganizationValueChange}
+                                        />
+                                    </label>
+                                </fieldset>
+                            }
                             <fieldset>
                                 <FormattedMessage id='filter-event-type'>{txt => <legend>{txt}</legend>}</FormattedMessage>
                                 <div className='row'>

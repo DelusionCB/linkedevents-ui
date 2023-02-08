@@ -278,10 +278,10 @@ describe('EventListing', () => {
             expect(MultiSelectElement).toHaveLength(1)
         });
 
-        test('MultiSelect should exist when user is public user', () => {
+        test('MultiSelect should not exist when user is public user', () => {
             const wrapper = getWrapper({user: mockPublicUser});
             const MultiSelectElement = wrapper.find(MultiSelect)
-            expect(MultiSelectElement).toHaveLength(1)
+            expect(MultiSelectElement).toHaveLength(0)
         });
 
         test('MultiSelect should not exist when user is regular user', () => {
@@ -324,7 +324,7 @@ describe('EventListing', () => {
             test('gets correct eventListing page title for public user', () => {
                 mockUser.userType = 'public';
                 const wrapper = getWrapper({user: mockUser});
-                expect(wrapper.find('#events-management-description-public-user')).toHaveLength(1);
+                expect(wrapper.find('#events-management-description-regular-user')).toHaveLength(1);
             });
             test('gets correct eventListing page title for admin', () => {
                 mockUser.userType = 'admin';
