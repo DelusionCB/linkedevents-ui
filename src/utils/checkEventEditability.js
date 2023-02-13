@@ -95,16 +95,16 @@ export const userCanDoAction = (user, event, action, editor, superEvent) => {
         return !(isDraft && isSubEvent && !isRegularUser && !superIsUmbrella)
     }
     if (action === 'postpone') {
-        return !(isSeries || isPostponed || isDraft || isSubEvent || isPublicUser)
+        return !(isSeries || isPostponed || isDraft || isSubEvent || isPublicUser || isRegularUser)
     }
     if (action === 'delete') {
-        return !((!superIsUmbrella && disableSubEventDeletion) || ((isRegularUser || isPublicUser) && (isUmbrellaEvent || isPublic)))
+        return !((!superIsUmbrella && disableSubEventDeletion) || (((isRegularUser && !eventOwner && isPublic) || isPublicUser) && (isUmbrellaEvent || isPublic)))
     }
     if (action === 'cancel') {
         return !(isDraft || ((isRegularUser || isPublicUser) && isPublic) || (!superIsUmbrella && disableSubEventDeletion))
     }
     if (action === 'edit' || action === 'update') {
-        return !((isRegularUser || isPublicUser) && (isUmbrellaEvent || isPublic))
+        return !(((isRegularUser && !eventOwner && isPublic) || isPublicUser) && (isUmbrellaEvent || isPublic))
     }
     if (action === 'add') {
         return !(isRegularUser && eventOwner && isPublic || (subEventLimitReached && isSeries))

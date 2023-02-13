@@ -186,10 +186,10 @@ export class EditorPage extends React.Component {
      * Saves the editor changes
      */
     saveChanges = (isAdminDraft) => {
-        const {subEvents, isRegularUser, isPublicUser} = this.state
+        const {subEvents, isPublicUser} = this.state
         const {match, editor: {values: formValues}, executeSendRequest} = this.props
         const updateExisting = get(match, ['params', 'action']) === 'update'
-        const publicationStatus = (!isRegularUser && !isAdminDraft && !isPublicUser)
+        const publicationStatus = (!isAdminDraft && !isPublicUser)
             ? PUBLICATION_STATUS.PUBLIC
             : PUBLICATION_STATUS.DRAFT
 
@@ -326,6 +326,7 @@ export class EditorPage extends React.Component {
         const isRecurringSub = get(editor, ['values', 'sub_event_type']) === SUB_EVENT_TYPE_RECURRING
         const isDraft = get(event, ['publication_status']) === PUBLICATION_STATUS.DRAFT
         const isAdminUser = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(userType)
+        const isRegularUser = userType === USER_TYPE.REGULAR
         const isSuperAdmin = userType === USER_TYPE.SUPERADMIN
         const hasSubEvents = subEvents && subEvents.length > 0
         const headerTextId = editMode === 'update'
@@ -418,7 +419,7 @@ export class EditorPage extends React.Component {
                                 {
                                     // button that saves changes to a draft without publishing
                                     // only shown to moderators
-                                    isDraft && hasOrganizationWithRegularUsers(user) &&
+                                    isDraft && (hasOrganizationWithRegularUsers(user) || isRegularUser) &&
                                     this.getActionButton(
                                         'update-draft',
                                         this.saveChangesToDraft,
@@ -427,7 +428,7 @@ export class EditorPage extends React.Component {
                                     )
                                 }
                                 {
-                                    (isAdminUser && editMode === 'create') &&
+                                    ((isAdminUser || isRegularUser) && editMode === 'create') &&
                                     this.getActionButton(
                                         'create-admin-draft',
                                         () => this.saveChanges(true),

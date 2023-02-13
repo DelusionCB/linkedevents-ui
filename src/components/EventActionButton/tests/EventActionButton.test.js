@@ -232,9 +232,7 @@ describe('EventActionButton', () => {
                     const event = {super_event_type: constants.SUPER_EVENT_TYPE_UMBRELLA}
                     const wrapper = getWrapper({user: regular, event, action})
                     const button = wrapper.find(Button)
-                    expect(button.prop('aria-disabled')).toBe(true)
-                    expect(button.prop('aria-label')).toBe(
-                        `${intl.formatMessage({id: 'delete-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                    expect(button.prop('aria-disabled')).toBe(false)
                 })
             })
             describe('action === cancel', () => {
@@ -262,9 +260,7 @@ describe('EventActionButton', () => {
                     const event = {super_event_type: constants.SUPER_EVENT_TYPE_UMBRELLA}
                     const wrapper = getWrapper({user: regular, event, action})
                     const button = wrapper.find(Button)
-                    expect(button.prop('aria-disabled')).toBe(true)
-                    expect(button.prop('aria-label')).toBe(
-                        `${intl.formatMessage({id: 'edit-events'})}. ${intl.formatMessage({id: 'user-no-rights-edit'})}`)
+                    expect(button.prop('aria-disabled')).toBe(false)
                 })
                 test('regular and published event', () => {
                     const event = {publication_status: PUBLICATION_STATUS.PUBLIC}

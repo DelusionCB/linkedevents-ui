@@ -199,7 +199,7 @@ class EventActionButton extends React.Component {
             (!canPerformActionsForOrg)
         );
 
-        const buttonLabel = customButtonLabel || getButtonLabel(action, (isRegularUser || isPublicUser ),  isDraft, eventIsPublished, formHasSubEvents);
+        const buttonLabel = customButtonLabel || getButtonLabel(action, isPublicUser,  isDraft, eventIsPublished, formHasSubEvents);
 
         return (
             <Fragment>

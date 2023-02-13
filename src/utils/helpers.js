@@ -365,7 +365,7 @@ export const getDateTime = date => moment(date).format('D.M.YYYY HH:mm')
  */
 export const getButtonLabel = (
     action,
-    isRegularUser,
+    isPublicUser,
     isDraft,
     eventIsPublished,
     formHasSubEvents
@@ -379,7 +379,7 @@ export const getButtonLabel = (
         buttonLabel = 'copy-event-to-draft'
     }
     if (action === 'update') {
-        buttonLabel = isRegularUser
+        buttonLabel = isPublicUser
             ? isDraft ? 'event-action-save-draft-existing' : 'event-action-save-draft-new'
             : eventIsPublished ? 'event-action-save-existing' : 'event-action-save-new'
 
