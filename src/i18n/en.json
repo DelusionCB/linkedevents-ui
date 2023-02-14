@@ -839,6 +839,9 @@
     "organization-select-label": "Browse content by the organization:",
     "organization-select-placeholder": "Select organization",
 
+    "locality-select-label": "Locality",
+    "locality-select-placeholder": "Select locality",
+
     "location-permission-denied": "Location permission is denied",
     "location-unavailable": "Location information not available"
 }

@@ -1671,3 +1671,16 @@ export const mockOrgClassifications = [
       "@type": "OrganizationClass"
     }
   ]
+
+export const mockLocalities = [
+    {
+        "fi": "Turku",
+        "sv": "Åbo",
+        "en": null
+    },
+    {
+        "fi": "Naantali",
+        "sv": "Nådendal",
+        "en": "Naantali"
+    }
+]

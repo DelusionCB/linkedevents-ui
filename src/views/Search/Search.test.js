@@ -219,6 +219,7 @@ describe('Search', () => {
                 queryParams.nocache = date
                 queryParams.text = searchQuery
                 queryParams.type_id = context.join()
+                queryParams.locality = ''
                 instance.searchEvents(searchQuery, context, startDate, endDate)
                 expect(fetchEvents).toHaveBeenCalledTimes(1)
                 expect(fetchEvents).toHaveBeenCalledWith(queryParams);
@@ -245,6 +246,7 @@ describe('Search', () => {
                 queryParams.lat = 60.4504064
                 queryParams.lon = 22.2625792
                 queryParams.radius = 10000
+                queryParams.locality = ''
                 instance.searchEvents(searchQuery, context, startDate, endDate)
                 expect(fetchEvents).toHaveBeenCalledWith(queryParams);
             })

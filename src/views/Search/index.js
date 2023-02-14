@@ -11,12 +11,17 @@ import {Helmet} from 'react-helmet';
 import constants from '../../constants'
 import {Label} from 'reactstrap'
 import classNames from 'classnames';
+import {MultiSelect} from '../../components/MultiSelect/MultiSelect'
+import client from '../../api/client';
+import {formatLocalityOptions} from '../../utils/helpers'
 
 const {LOCATION_OPTIONS, DEFAULT_SEARCH_DISTANCE} = constants;
 class SearchPage extends React.Component {
 
     state = {
         events: [],
+        localityOptions: [],
+        selectedLocalities: [],
         loading: false,
         searchExecuted: false,
         nearMeChecked: false,
@@ -30,7 +35,7 @@ class SearchPage extends React.Component {
 
     searchEvents = async (searchQuery, context, startDate, endDate) => {
         this.setState({loading: true})
-        const {nearMeChecked, userCoordinates, maxDistance} = this.state;
+        const {nearMeChecked, userCoordinates, maxDistance, selectedLocalities} = this.state;
         const queryParams = new EventQueryParams()
         queryParams.page_size = 100
         queryParams.sort = 'start_time'
@@ -39,10 +44,11 @@ class SearchPage extends React.Component {
         queryParams.type_id = context.join();
         if (startDate) queryParams.start = startDate.format('YYYY-MM-DD')
         if (endDate) queryParams.end = endDate.format('YYYY-MM-DD')
-        if(nearMeChecked && userCoordinates.latitude) queryParams.lat = userCoordinates.latitude
-        if(nearMeChecked && userCoordinates.longitude) queryParams.lon = userCoordinates.longitude
+        if (nearMeChecked && userCoordinates.latitude) queryParams.lat = userCoordinates.latitude
+        if (nearMeChecked && userCoordinates.longitude) queryParams.lon = userCoordinates.longitude
+        if (selectedLocalities) queryParams.locality = selectedLocalities.join()
         // Convert the radius to meters
-        if(nearMeChecked && maxDistance !== DEFAULT_SEARCH_DISTANCE) queryParams.radius = maxDistance * 1000
+        if (nearMeChecked && maxDistance !== DEFAULT_SEARCH_DISTANCE) queryParams.radius = maxDistance * 1000
 
         try {
             const response = await fetchEvents(queryParams)
@@ -68,6 +74,21 @@ class SearchPage extends React.Component {
         this.setState({maxDistance: e.target.value});
     }
 
+    /**
+     * handles locality selection change
+     * @param options currently selected options
+     */
+    handleLocalityValueChange = async (options, e) => {
+        if (options) {
+            const selected = options.map(item => item.value);
+            this.setState((state) => ({
+                ...state,
+                selectedLocalities: selected,
+            }
+            ))
+        }
+    }
+
     onLocationSuccess = ({coords}) => {
         const {longitude, latitude} = coords;
         if(latitude && longitude){
@@ -79,6 +100,10 @@ class SearchPage extends React.Component {
         this.setState({locationErrorCode : error.code, nearMeChecked : false});
     }
 
+    componentDidMount() {
+        this.fetchLocalityOptions();
+    }
+
     componentDidUpdate(){
         if('geolocation' in navigator){
             if(this.state.nearMeChecked && (!this.state.userCoordinates.latitude || !this.state.userCoordinates.longitude)){
@@ -87,15 +112,36 @@ class SearchPage extends React.Component {
         }
     }
 
+    async fetchLocalityOptions() {
+        try {
+            const {intl} = this.context
+            const {data} = (await client.get('place_locality'))?.data;
+            const options = formatLocalityOptions(data, intl.locale);
+            return this.setState({localityOptions: options})
+        } catch (e) {
+            throw Error(e)
+        }
+    }
+
     render() {
         const {loading, searchExecuted} = this.state
         const {intl} = this.context
         const pageTitle = `Linkedevents - ${intl.formatMessage({id: `search-events`})}`
         return (
-            <div className="container">
+            <div className="container search-page">
                 <Helmet title={pageTitle}/>
                 <h1><FormattedMessage id={`search-events`}/></h1>
                 <p><FormattedMessage id="search-events-description"/></p>
+                <div>
+                    <label>
+                        <h2><FormattedMessage id='locality-select-label' /></h2>
+                        <MultiSelect
+                            data={this.state.localityOptions}
+                            placeholder={this.context.intl.formatMessage({id: `locality-select-placeholder`})}
+                            handleChange={this.handleLocalityValueChange}
+                        />
+                    </label>
+                </div>
                 <div className='toggle-container'>
                     <div className="custom-control custom-checkbox">  
                         <input
@@ -138,7 +184,6 @@ class SearchPage extends React.Component {
                         </div>
                     }
                 </div>
-                <p><FormattedMessage id='pick-time-range' /></p>
                 <SearchBar onFormSubmit={(query, context, start, end) => this.searchEvents(query, context, start, end)}/>
                 <div id="search-page-results-count-status" role="status" aria-live="polite" aria-atomic="true">
                     {searchExecuted &&

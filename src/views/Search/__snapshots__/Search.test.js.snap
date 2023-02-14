@@ -487,6 +487,8 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "linked-events": "Linked Events",
       "links-to-events": "Kytkökset muihin sisältöihin",
       "loading": "Ladataan...",
+      "locality-select-label": "Tapahtumapaikka",
+      "locality-select-placeholder": "Valitse tapahtumapaikka",
       "location-permission-denied": "Sijaintia ei sallittu",
       "location-unavailable": "Sijainti ei ole saatavilla",
       "location_mobile-course": "Paikkatietojen mobiilitekti",
