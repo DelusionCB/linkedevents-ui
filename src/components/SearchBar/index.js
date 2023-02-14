@@ -46,6 +46,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
 
     return (
         <div className='search-bar'>
+            <h2><FormattedMessage id='pick-time-range' /></h2>
             <div className='search-bar--dates'>
                 <CustomDatePicker
                     id="startTime"
@@ -66,6 +67,7 @@ const SearchBar = ({intl, onFormSubmit}) => {
                     type="date"
                 />
             </div>
+            <h2><FormattedMessage id='pick-type' /></h2>
             <div className='col-sm-12'>
                 <HelCheckbox
                     label={<FormattedMessage id='event'/>}
@@ -92,7 +94,9 @@ const SearchBar = ({intl, onFormSubmit}) => {
             <div className='search-bar--input event-input'>
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
-                        <label htmlFor='search'>{intl.formatMessage({id: 'event-name-or-place'})}</label>
+                        <label htmlFor='search'>
+                            <h2>{intl.formatMessage({id: 'event-name-or-place'})}</h2>
+                        </label>
                         <input
                             aria-label={intl.formatMessage({id: 'event-search'}) + ' ' + intl.formatMessage({id: 'event-name-or-place'})}
                             id='search'
@@ -104,13 +108,15 @@ const SearchBar = ({intl, onFormSubmit}) => {
                         />
                     </FormGroup>
                 </Form>
-                <Button
-                    variant='contained'
-                    color='primary'
-                    onClick={() => onFormSubmit(searchQuery, contextType, startDate, endDate)}>
-                    <FormattedMessage id='search-event-button' />
-                </Button>
             </div>
+            <Button
+                block
+                variant='contained'
+                color='primary'
+                className='search-bar--submit-button'
+                onClick={() => onFormSubmit(searchQuery, contextType, startDate, endDate)}>
+                <FormattedMessage id='search-event-button' />
+            </Button>
         </div>
     );
 };

@@ -21,7 +21,7 @@
 }
 
 .toggle-container{
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     .location-error-message {
         margin-top: 0.5rem;
         width: fit-content;
@@ -33,4 +33,59 @@
 }
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
     cursor: pointer;
+}
+
+/********** Slider styles **********/
+/* Remove default styling */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 15rem;
+}
+
+/***** Chrome, Safari, Opera and Edge Chromium *****/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: var(--main-color);
+    border-radius: 0.5rem;
+    border: 1px solid var(--main-color);
+    height: 0.7rem;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -10px;
+
+    /*custom styles*/
+    background-color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 50%;
+    height: 1.8rem;
+    width: 1.8rem;
+}
+
+/***** Firefox *****/
+/* slider track */
+input[type="range"]::-moz-range-track {
+    background-color: var(--main-color);
+    border-radius: 0.5rem;
+    border: 1px solid var(--main-color);
+    height: 0.7rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+    border: none;
+    border-radius: 0;
+
+    /*custom styles*/
+    background-color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 50%;
+    height: 1.8rem;
+    width: 1.8rem;
 }

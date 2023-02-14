@@ -46,11 +46,11 @@
     }
 }
 
-.search-bar--input {
-    .btn {
-        background-color: #0072c6;
-        margin-left: 18px;
-        height:55px;
+.search-bar {
+    .search-bar--submit-button {
+        background-color: var(--main-color);
+        margin-bottom: 2em;
+        height: 55px;
         border-radius: 2px;
     }
 }
