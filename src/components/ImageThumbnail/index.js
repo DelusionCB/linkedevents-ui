@@ -11,7 +11,9 @@ import {getEventLanguageType, getStringWithLocale} from 'src/utils/locale';
 import {Button} from 'reactstrap'
 import {isEmpty} from 'lodash';
 import {confirmAction, setFlashMsg as setFlashMsgAction} from '../../actions/app';
+import constants from '../../constants' ;
 
+const {USER_TYPE} = constants;
 class ImageThumbnail extends React.PureComponent {
 
     constructor(props) {
@@ -55,6 +57,9 @@ class ImageThumbnail extends React.PureComponent {
         let classname = this.props.selected ? 'image-thumb selected' : 'image-thumb'
         const bgStyle = {backgroundImage: 'url(' + this.props.url + ')'};
         let editModal = null;
+        const {user, isSharedImage} = this.props;
+        const adminUsers = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(user?.userType);
+        const showImageActionButtons = adminUsers ? !this.props.defaultModal : (!this.props.defaultModal && !isSharedImage);
 
         if (this.state.edit) {
             editModal = <ImageEdit
@@ -68,6 +73,7 @@ class ImageThumbnail extends React.PureComponent {
                 close={() => this.setState({edit: false})}
                 updateExisting
                 localeType={getEventLanguageType(this.props.editor.values.type_id)}
+                isSharedImage={isSharedImage}
             />;
         }
 
@@ -87,7 +93,7 @@ class ImageThumbnail extends React.PureComponent {
                         <span className={'image-title'}>
                             {getStringWithLocale(this.props.data, 'name', locale) || <FormattedMessage id="edit-image"/>}
                         </span>
-                        {!this.props.defaultModal &&
+                        {showImageActionButtons &&
                             <div className='name-buttons'>
                                 <button
                                     className={'btn'}
@@ -127,6 +133,7 @@ ImageThumbnail.propTypes = {
     close: PropTypes.func,
     editor: PropTypes.object,
     setFlashMsg: PropTypes.func,
+    isSharedImage: PropTypes.bool,
 }
 
 ImageThumbnail.contextTypes = {

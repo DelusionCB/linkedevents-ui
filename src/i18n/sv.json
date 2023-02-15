@@ -629,6 +629,7 @@
     "image-page": "Sidan {n}",
     "image-pagination": "Bildernas sidväxling",
     "image-modal-image-license-permission": "Jag har tillstånd att använda bilden.",
+    "image-modal-share-image-within-org": "Dela bild inom organisationen.",
 
     "event-image-modal-image-license-explanation-only": "Användningen begränsad till anknytning med evenemanget: bildens användning är begränsat till detta evenemang.",
     "hobby-image-modal-image-license-explanation-only": "Användningen begränsad till anknytning med hobbyn: bildens användning är begränsat till denna hobby.",

@@ -9,7 +9,7 @@ import mapValues from 'lodash/mapValues';
 import {HelTextField, MultiLanguageField} from '../HelFormFields';
 import {Button, Input} from 'reactstrap';
 import constants from 'src/constants';
-import {mockEditorNewEvent} from '__mocks__/mockData';
+import {mockEditorNewEvent, mockUser} from '__mocks__/mockData';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 
@@ -154,6 +154,16 @@ describe('ImageEdit', () => {
                 });
             });
 
+            describe('handleShareWithInOrg', () => {
+                test('set correct state.shareWithinOrg', () => {
+                    const event = {target: {checked: true}}
+                    const wrapper = getWrapper();
+                    const instance = wrapper.instance();
+                    instance.handleShareWithInOrg(event)
+                    expect(wrapper.state('shareWithinOrg')).toEqual(true);
+                })
+            });
+
             describe('handleImagePost', () => {
                 const defaultBlob = new Blob([JSON.stringify(defaultImageFile)], {type: 'image/jpeg'});
                 // let defaultImageBlob = new Blob([JSON.stringify(defaultImageFile)], {type:'image/jpeg'});
@@ -214,6 +224,7 @@ describe('ImageEdit', () => {
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
+                        is_shared_within_org: false,
                     };
 
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
@@ -241,6 +252,7 @@ describe('ImageEdit', () => {
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
+                        is_shared_within_org: false,
                     };
 
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
@@ -272,7 +284,7 @@ describe('ImageEdit', () => {
                             thumbnailUrl: defaultProps.thumbnailUrl,
                             license: 'cc_by',
                         });
-                    wrapper.setState({imagePermission: true})
+                    wrapper.setState({imagePermission: true, shareWithinOrg: true})
                     await wrapper.instance().handleImagePost();
                     const imageToPost = {
                         alt_text:{fi:'alt text'},
@@ -280,6 +292,7 @@ describe('ImageEdit', () => {
                         id: 1337,
                         license: 'cc_by',
                         photographer_name: 'Phil Photo',
+                        is_shared_within_org: true,
                     };
 
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser, 1337);
@@ -307,6 +320,7 @@ describe('ImageEdit', () => {
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
+                        is_shared_within_org: false,
                     };
 
                     expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
@@ -516,6 +530,24 @@ describe('ImageEdit', () => {
                 expect(elements.at(3).prop('name')).toBe('license_type');
                 expect(elements.at(4).prop('name')).toBe('license_type');
                 expect(elements.at(4).prop('value')).toBe('cc_by');
+            });
+            test('six Input components with correct parameters when user is Adminuser', () => {
+                const wrapper = getWrapper({user: mockUser});
+                const elements = wrapper.find('input');
+                expect(elements).toHaveLength(6);
+                expect(elements.at(0).prop('type')).toBe('file');
+                expect(elements.at(1).prop('type')).toBe('checkbox');
+                expect(elements.at(2).prop('type')).toBe('checkbox');
+                expect(elements.at(3).prop('type')).toBe('checkbox');
+                expect(elements.at(4).prop('type')).toBe('radio');
+                expect(elements.at(5).prop('type')).toBe('radio');
+                expect(elements.at(0).prop('name')).toBe('file_upload');
+                expect(elements.at(1).prop('name')).toBe('decoration');
+                expect(elements.at(2).prop('name')).toBe('share_within_org');
+                expect(elements.at(3).prop('name')).toBe('permission');
+                expect(elements.at(4).prop('name')).toBe('license_type');
+                expect(elements.at(5).prop('name')).toBe('license_type');
+                expect(elements.at(5).prop('value')).toBe('cc_by');
             });
             test('one input component for uploading file via hard disk', () => {
                 const wrapper = getWrapper();

@@ -619,6 +619,7 @@
     "image-page": "Sivu {n}",
     "image-pagination": "Kuvien sivutus",
     "image-modal-image-license-permission": "Minulla on oikeus lähettää kuva.",
+    "image-modal-share-image-within-org": "Jaa kuva organisaation sisällä.",
     "image-submit-disabled": "Syötä kaikki vaaditut kentät",
 
     "event-image-modal-image-license-explanation-only": "Käyttö rajattu tapahtuman yhteyteen: kuvaa saa käyttää ja jakaa vain tämän tapahtumatiedon yhteydessä.",

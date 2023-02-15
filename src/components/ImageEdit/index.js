@@ -13,7 +13,7 @@ import validationFn from 'src/validation/validationRules'
 import classNames from 'classnames'
 import {browserVersion, isFirefox, isSafari} from 'react-device-detect';
 
-const {CHARACTER_LIMIT, VALIDATION_RULES} = constants;
+const {CHARACTER_LIMIT, VALIDATION_RULES, USER_TYPE} = constants;
 
 const INITIAL_STATE = {
     image: {
@@ -55,6 +55,7 @@ class ImageEdit extends React.Component {
             urlError: false,
             fileSizeError: false,
             hideAltText: false,
+            shareWithinOrg: false,
         };
 
         this.getCloseButton = this.getCloseButton.bind(this);
@@ -64,6 +65,7 @@ class ImageEdit extends React.Component {
         this.handleInputBlur = this.handleInputBlur.bind(this);
         this.clearPictures = this.clearPictures.bind(this);
         this.setAltDecoration = this.setAltDecoration.bind(this);
+        this.handleShareWithInOrg = this.handleShareWithInOrg.bind(this);
     }
 
     componentDidMount() {
@@ -73,6 +75,7 @@ class ImageEdit extends React.Component {
             defaultPhotographerName,
             license,
             updateExisting,
+            isSharedImage,
         } = this.props;
         if (updateExisting) {
             this.setState(
@@ -84,6 +87,7 @@ class ImageEdit extends React.Component {
                             photographerName: defaultPhotographerName || '',
                         },
                     license: license,
+                    shareWithinOrg: isSharedImage,
                 });
         }
     }
@@ -240,6 +244,7 @@ class ImageEdit extends React.Component {
                 imageFile: stateImageFile,
                 license,
                 thumbnailUrl,
+                shareWithinOrg,
             } = this.state;
             const {
                 close,
@@ -257,6 +262,7 @@ class ImageEdit extends React.Component {
                 photographer_name: image['photographerName'],
                 license: license,
                 id: id,
+                is_shared_within_org: shareWithinOrg,
             };
             if (hideAltText) {
                 const decorationAlts = contentLanguages.reduce((acc, curr) => {
@@ -320,6 +326,15 @@ class ImageEdit extends React.Component {
             })
         }
         this.setState({image: localImage});
+    }
+
+    /**
+     * Sets value to correct shareWithinOrg in state
+     * @param event
+     */
+    handleShareWithInOrg(event){
+        const checked = event.target.checked;
+        this.setState({shareWithinOrg: checked})
     }
 
     getCloseButton() {
@@ -392,8 +407,10 @@ class ImageEdit extends React.Component {
     getCheckedValue = (prop) => ({checked: prop === this.state.license})
 
     getLicense() {
-        const {imagePermission} = this.state;
-        const {localeType} = this.props;
+        const {imagePermission, shareWithinOrg} = this.state;
+        const {localeType, user} = this.props;
+        const showShareWithInOrg = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(user?.userType);
+
         return (
             <div className='image-license-container'>
                 <div className='license-choices'>
@@ -401,6 +418,22 @@ class ImageEdit extends React.Component {
                         <FormattedMessage id={`${localeType}-image-modal-image-license-explanation-only`}/>
                         <FormattedHTMLMessage id={'image-modal-image-license-explanation-cc-by'} />
                     </div>
+                    {
+                        showShareWithInOrg &&
+                        <div className='custom-control custom-checkbox'>
+                            <input
+                                className='custom-control-input'
+                                type='checkbox'
+                                id='share_within_org'
+                                name='share_within_org'
+                                onChange={this.handleShareWithInOrg}
+                                checked={shareWithinOrg}
+                            />
+                            <label className='custom-control-label' htmlFor='share_within_org'>
+                                <FormattedMessage id={'image-modal-share-image-within-org'}>{txt => txt}</FormattedMessage>
+                            </label>
+                        </div>
+                    }
                     <div className='custom-control custom-checkbox'>
                         <input
                             className='custom-control-input'
@@ -630,6 +663,7 @@ ImageEdit.propTypes = {
     open: PropTypes.bool,
     uiMode: PropTypes.string,
     localeType: PropTypes.string,
+    isSharedImage: PropTypes.bool,
 };
 ImageEdit.contextTypes = {
     intl: PropTypes.object,

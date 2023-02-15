@@ -21,7 +21,7 @@ async function makeImageRequest(user = {}, pageSize, pageNumber = null, publishe
         page_size: pageSize,
         page: pageNumber,
         publisher: user.organization && [USER_TYPE.REGULAR, USER_TYPE.PUBLIC, USER_TYPE.ADMIN].includes(user.userType) ? user.organization : null,
-        created_by: [USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
+        created_by: [USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
     }
 
     if(publisher){
@@ -43,7 +43,7 @@ async function makeFilteredImageRequest(user = {}, pageSize, pageNumber = null, 
         page: pageNumber,
         image_text: filteredName,
         publisher: user.organization && [USER_TYPE.REGULAR, USER_TYPE.PUBLIC, USER_TYPE.ADMIN].includes(user.userType) ? user.organization : null,
-        created_by: [USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
+        created_by: [USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
     }
     if(publisher){
         params.publisher = publisher;
@@ -63,7 +63,7 @@ async function makeImageRequestDefault(user = {}, pageSize, pageNumber = null, p
         page_size: pageSize,
         page: pageNumber,
         publisher: publisher,
-        created_by: [USER_TYPE.REGULAR, USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
+        created_by: [USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
     }
 
     const result = await client.get('image', params);

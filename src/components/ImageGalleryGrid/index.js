@@ -123,6 +123,7 @@ class ImageGalleryGrid extends React.Component {
                         defaultModal={this.props.defaultModal}
                         close={this.props.close}
                         user={this.props.user}
+                        isSharedImage={img.is_shared_within_org}
                     />
                     {
                         this.props.showImageDetails && (
