@@ -403,3 +403,16 @@ export const transformOrganizationData = (data) => {
         return [];
     } 
 }
+
+export const formatLocalityOptions = (data, locale) => {
+    if (data.length) {
+        return data.map((locality) => {
+            return {
+                // Use Finnish as a fallback if a translation is not available
+                label: locality[locale] ? locality[locale] : locality['fi'],
+                value: locality['fi'],
+            }
+        })
+    }
+    return [];
+}

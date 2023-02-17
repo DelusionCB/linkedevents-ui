@@ -4,8 +4,8 @@ import * as helpers from '../helpers'
 import moment from 'moment';
 import constants from '../../constants'
 import Badge from 'react-bootstrap/Badge'
-import {getDate, transformOrganizationData} from '../helpers';
-import {mockOrganizations} from '../../../__mocks__/mockData';
+import {getDate, transformOrganizationData, formatLocalityOptions} from '../helpers';
+import {mockOrganizations, mockLocalities} from '../../../__mocks__/mockData';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT, EVENT_TYPE} = constants
 
@@ -268,6 +268,18 @@ describe('utils/helpers', () => {
         test('returns empty array of object when data is empty', () => {
             const transformedOrganizations = transformOrganizationData([]);
             expect(transformedOrganizations).toHaveLength(0)
+        })
+    })
+
+    describe('formatLocalityOptions', () => {
+        test('returns array of object when data is not empty', () => {
+            const formattedOptions = formatLocalityOptions(mockLocalities);
+            expect(Object.keys(formattedOptions[0]).sort()).toEqual(['label', 'value'].sort())
+        })
+
+        test('returns empty array of objects when data is empty', () => {
+            const formattedOptions = formatLocalityOptions([]);
+            expect(formattedOptions).toHaveLength(0)
         })
     })
 
