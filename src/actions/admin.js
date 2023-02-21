@@ -1,7 +1,7 @@
 import constants from '../constants'
 import client from '../api/client';
 import {setFlashMsg} from './app';
-import {sendDataComplete,setLoading} from './editor';
+import {fetchSideFields, sendDataComplete, setLoading} from './editor';
 import {scrollToTop} from '../utils/helpers';
 
 
@@ -107,7 +107,7 @@ export const executeSendRequestOrg = (
             data.apisuccessMsg = updatingOrganization ? 'admin-org-updated' : 'admin-org-created'
         }
 
-        dispatch(sendOrgComplete(data))
+        dispatch(sendComplete(data))
     } catch (error) {
         dispatch(setFlashMsg('server-error', 'error', error))
         dispatch(setLoading(false))
@@ -151,7 +151,7 @@ export const executeSendRequestUser = (
         if (response.status === 200) {
             data.apisuccessMsg =  'admin-user-updated'
         }
-        dispatch(sendOrgComplete(data))
+        dispatch(sendComplete(data))
     } catch (error) {
         dispatch(setFlashMsg('server-error', 'error', error))
         dispatch(setLoading(false))
@@ -159,7 +159,41 @@ export const executeSendRequestUser = (
     }
 }
 
-export const sendOrgComplete = (data) => (dispatch) => {
+export const updateSidefields = (
+    values,
+    id,
+) => async (dispatch) => {
+
+    if (!values) {
+        return
+    }
+
+    try {
+        const url = `sidefield/${id}`
+        const response = await client.patch(url, values)
+        const {data} = response
+
+        if (response.status === 400) {
+            data.apiErrorMsg = 'validation-error'
+            data.response = response
+        }
+        if (response.status === 401 || response.status === 403) {
+            data.apiErrorMsg = 'authorization-required'
+            data.response = response
+        }
+        if (response.status === 200) {
+            data.apisuccessMsg =  'admin-instructions-updated'
+        }
+        dispatch(sendComplete(data))
+        dispatch(fetchSideFields())
+    } catch (error) {
+        dispatch(setFlashMsg('server-error', 'error', error))
+        dispatch(setLoading(false))
+        new Error(error)
+    }
+}
+
+export const sendComplete = (data) => (dispatch) => {
     const error = data.apiErrorMsg;
     const flashMsg = {
         msg: error || data.apisuccessMsg,

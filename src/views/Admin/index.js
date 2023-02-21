@@ -51,10 +51,8 @@ export class AdminPanel extends React.Component {
     getComponent(tab) {
 
         switch(tab){
-            /*
             case 'instructions':
-                return <Instructions />
-             */
+                return <Instructions intl={this.props.intl} />
             case 'organizations':
                 return <Organizations intl={this.props.intl} />
             case 'users':
@@ -120,7 +118,6 @@ export class AdminPanel extends React.Component {
                                                 />
                                             </NavLink>
                                         </NavItem>
-                                        {/*
                                         <NavItem>
                                             <NavLink
                                                 strict={this.isActivePath('/admin/instructions')}
@@ -130,7 +127,6 @@ export class AdminPanel extends React.Component {
                                                 <FormattedMessage id='admin-sidefields' />
                                             </NavLink>
                                         </NavItem>
-                                        */}
                                     </ul>
                                 </div>
                                 <div id="admin-details">

@@ -174,7 +174,7 @@ class OrganizationEditor extends React.Component {
                 <div className='value-row d-none'>
                     <CustomTextField
                         id='admin-datasource'
-                        label='admin-org-datasource'
+                        label={intl.formatMessage({id: 'admin-org-datasource'})}
                         value={organizationData.data_source}
                         disabled={true}
                     />
@@ -182,7 +182,7 @@ class OrganizationEditor extends React.Component {
                 <div className='value-row d-none'>
                     <CustomTextField
                         id='admin-internal'
-                        label='admin-org-internal'
+                        label={intl.formatMessage({id: 'admin-org-internal'})}
                         value={organizationData.internal_type}
                         disabled={true}
                     />
@@ -218,8 +218,8 @@ class OrganizationEditor extends React.Component {
                     <CustomTextField
                         id='admin-name'
                         required={true}
-                        label='admin-org-name'
-                        onChange={e => this.onChange('name', e)}
+                        label={intl.formatMessage({id: 'admin-org-name'})}
+                        onBlur={e => this.onChange('name', e)}
                         placeholder='admin-org-name'
                         value={organizationData.name}
                         disabled={this.setDisabled()}
@@ -234,8 +234,8 @@ class OrganizationEditor extends React.Component {
                     {mode !== 'edit' &&
                         <CustomTextField
                             required={mode === 'add'}
-                            label='admin-org-originid'
-                            onChange={e => this.onChange('origin_id', e)}
+                            label={intl.formatMessage({id: 'admin-org-originid'})}
+                            onBlur={e => this.onChange('origin_id', e)}
                             placeholder='admin-org-originid'
                             value={organizationData.origin_id}
                             disabled={this.setDisabled(true)}
