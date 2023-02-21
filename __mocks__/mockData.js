@@ -28,6 +28,12 @@ export const mockUser = {
         'ahjo:02100': {
             id: 'ahjoID',
         },
+        'turku:853': {
+            id: 'turku:853',
+        },
+        'turku:04': {
+            id: 'turku:04',
+        }
     },
 };
 

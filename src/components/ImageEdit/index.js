@@ -12,6 +12,9 @@ import {getStringWithLocale} from 'src/utils/locale';
 import validationFn from 'src/validation/validationRules'
 import classNames from 'classnames'
 import {browserVersion, isFirefox, isSafari} from 'react-device-detect';
+import {setData} from '../../actions/editor'
+import {get, isEmpty, isEqual, isNull} from 'lodash'
+import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 
 const {CHARACTER_LIMIT, VALIDATION_RULES, USER_TYPE} = constants;
 
@@ -56,6 +59,9 @@ class ImageEdit extends React.Component {
             fileSizeError: false,
             hideAltText: false,
             shareWithinOrg: false,
+            formType: 'add',
+            selectedPublisher: {},
+            publisherOptions: [],
         };
 
         this.getCloseButton = this.getCloseButton.bind(this);
@@ -66,6 +72,8 @@ class ImageEdit extends React.Component {
         this.clearPictures = this.clearPictures.bind(this);
         this.setAltDecoration = this.setAltDecoration.bind(this);
         this.handleShareWithInOrg = this.handleShareWithInOrg.bind(this);
+        this.handleOrganizationChange = this.handleOrganizationChange.bind(this);
+        this.setPublisherOrg = this.setPublisherOrg.bind(this);
     }
 
     componentDidMount() {
@@ -88,10 +96,19 @@ class ImageEdit extends React.Component {
                         },
                     license: license,
                     shareWithinOrg: isSharedImage,
+                    formType: 'update',
                 });
         }
+        this.setPublisherOrg();
     }
 
+    componentDidUpdate (prevProps, prevState){
+        const {activeOrganization} = this.props;
+        if(prevProps.activeOrganization !== activeOrganization){
+            this.setPublisherOrg();
+        }
+        
+    }
 
     handleUpload(e) {
         const file = e.target.files[0];
@@ -245,6 +262,7 @@ class ImageEdit extends React.Component {
                 license,
                 thumbnailUrl,
                 shareWithinOrg,
+                selectedPublisher,
             } = this.state;
             const {
                 close,
@@ -263,6 +281,7 @@ class ImageEdit extends React.Component {
                 license: license,
                 id: id,
                 is_shared_within_org: shareWithinOrg,
+                publisher: selectedPublisher?.value,
             };
             if (hideAltText) {
                 const decorationAlts = contentLanguages.reduce((acc, curr) => {
@@ -337,6 +356,47 @@ class ImageEdit extends React.Component {
         this.setState({shareWithinOrg: checked})
     }
 
+    handleOrganizationChange(event){
+        const {value} = event.target
+        event.preventDefault()
+        if(value){
+            const selectedPublisher = this.state.publisherOptions.find(option => option.value === value)
+            this.setState({selectedPublisher: selectedPublisher})
+        }
+    }
+
+    setPublisherOrg = () => {
+        const {user, organizations, activeOrganization, updateExisting, publisher} = this.props;
+        const userType = get(user, 'userType')
+        const isSuperAdmin = userType === USER_TYPE.SUPERADMIN
+        let publisherOptions = [];
+        let organizationData = get(user, `${userType}OrganizationData`, {})
+
+        if (isSuperAdmin) {
+            organizationData = organizations;
+        }else{
+            organizationData = Object.values(organizationData);
+        }
+
+        if(!isEmpty(organizationData)){
+            publisherOptions = !!organizationData && organizationData.map(
+                (item) => {
+                    return {label: item.name, value: item.id}
+                }
+            )
+        }
+
+        if(updateExisting){
+            const publisherOrg = publisherOptions.find(option => option.value === publisher)
+            this.setState({publisherOptions: publisherOptions, selectedPublisher: publisherOrg})
+        }else{
+            const defaultPublisher = publisherOptions.find(option => option.value === activeOrganization)
+            const selectedPublisher = defaultPublisher;
+            this.setState({publisherOptions: publisherOptions, selectedPublisher: selectedPublisher})
+        }
+        
+    }
+
     getCloseButton() {
         return (
             <Button
@@ -351,8 +411,12 @@ class ImageEdit extends React.Component {
     }
 
     getFields() {
-        const {hideAltText, image, validation} = this.state;
-        const {editor: {contentLanguages}} = this.props;
+        const {hideAltText, image, validation, selectedPublisher, publisherOptions} = this.state;
+        const {editor: {contentLanguages}, user, organizations, activeOrganization} = this.props;
+        const {formType} = this.state;
+        const userType = get(user, 'userType')
+        const isSuperAdmin = userType === USER_TYPE.SUPERADMIN
+
         return (
             <React.Fragment>
                 {!hideAltText &&
@@ -394,6 +458,16 @@ class ImageEdit extends React.Component {
                     maxLength={validation.photographerMaxLength}
                     onChange={this.handleChange}
                     type='text'
+                />
+                <OrganizationSelector
+                    formType={formType}
+                    options={publisherOptions}
+                    selectedOption={selectedPublisher}
+                    onChange={this.handleOrganizationChange}
+                    labelOrg={`manage-media-image-publisher`}
+                    activeOrganization={activeOrganization}
+                    isSuperAdmin={isSuperAdmin}
+                    organizations={organizations}
                 />
             </React.Fragment>
         )
@@ -664,15 +738,22 @@ ImageEdit.propTypes = {
     uiMode: PropTypes.string,
     localeType: PropTypes.string,
     isSharedImage: PropTypes.bool,
+    activeOrganization: PropTypes.string,
+    organizations: PropTypes.array,
+    selectedPublisher: PropTypes.object,
+    publisher: PropTypes.string,
 };
 ImageEdit.contextTypes = {
     intl: PropTypes.object,
+    dispatch: PropTypes.func,
 }
 
 const mapStateToProps = (state) => ({
     user: state.user.data,
     editor: state.editor,
     images: state.images,
+    activeOrganization: state.user.activeOrganization,
+    organizations: state.organizations.data,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -509,6 +509,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "manage-media": "Median hallinta",
       "manage-media-created": "Luotu:",
       "manage-media-filter-by-organization": "Suodata organisaation mukaan",
+      "manage-media-image-publisher": "Julkaisija",
       "manage-media-last-modified": "Muokattu:",
       "manage-media-publisher": "Julkaisija:",
       "manage-media-publisher-select-label": "Suodata julkaisijan mukaan:",

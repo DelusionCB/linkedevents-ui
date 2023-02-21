@@ -57,7 +57,7 @@ class ImageThumbnail extends React.PureComponent {
         let classname = this.props.selected ? 'image-thumb selected' : 'image-thumb'
         const bgStyle = {backgroundImage: 'url(' + this.props.url + ')'};
         let editModal = null;
-        const {user, isSharedImage} = this.props;
+        const {user, isSharedImage, publisher} = this.props;
         const adminUsers = [USER_TYPE.ADMIN, USER_TYPE.SUPERADMIN].includes(user?.userType);
         const showImageActionButtons = adminUsers ? !this.props.defaultModal : (!this.props.defaultModal && !isSharedImage);
 
@@ -74,6 +74,7 @@ class ImageThumbnail extends React.PureComponent {
                 updateExisting
                 localeType={getEventLanguageType(this.props.editor.values.type_id)}
                 isSharedImage={isSharedImage}
+                publisher={publisher}
             />;
         }
 
@@ -134,6 +135,7 @@ ImageThumbnail.propTypes = {
     editor: PropTypes.object,
     setFlashMsg: PropTypes.func,
     isSharedImage: PropTypes.bool,
+    publisher: PropTypes.string,
 }
 
 ImageThumbnail.contextTypes = {

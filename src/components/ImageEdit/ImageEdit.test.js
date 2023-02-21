@@ -9,7 +9,7 @@ import mapValues from 'lodash/mapValues';
 import {HelTextField, MultiLanguageField} from '../HelFormFields';
 import {Button, Input} from 'reactstrap';
 import constants from 'src/constants';
-import {mockEditorNewEvent, mockUser} from '__mocks__/mockData';
+import {mockEditorNewEvent, mockUser, mockOrganizations} from '__mocks__/mockData';
 
 const testMessages = mapValues(fiMessages, (value, key) => value);
 
@@ -161,6 +161,38 @@ describe('ImageEdit', () => {
                     const instance = wrapper.instance();
                     instance.handleShareWithInOrg(event)
                     expect(wrapper.state('shareWithinOrg')).toEqual(true);
+                })
+            });
+
+            describe('setPublisherOrg', () => {
+                test('set correct state.selectedPublisher', () => {
+                    const wrapper = getWrapper({user: mockUser, organizations: mockOrganizations,
+                        activeOrganization: 'turku:853'});
+                    const defaultPublisher = mockOrganizations.find((org)=> org.id === 'turku:853')
+                    const expectedSelectedOrg = {label: defaultPublisher.name, value: defaultPublisher.id}
+                    const instance = wrapper.instance();
+                    const setPublisherOrg = jest.spyOn(instance, 'setPublisherOrg');
+                    instance.componentDidMount();
+                    expect(setPublisherOrg).toBeCalled();
+                    expect(wrapper.state('selectedPublisher').value).toEqual(expectedSelectedOrg.value);
+                })
+            });
+
+            describe('handleOrganizationChange', () => {
+                test('set correct state.selectedPublisher', () => {
+                    const event = {preventDefault() {},target: {value: 'turku:04'}}
+                    const defaultPublisher = mockOrganizations.find((org)=> org.id === 'turku:853')
+                    const formatedPublisher = {label: defaultPublisher.name, value: defaultPublisher.id}
+                    const selectedPublisher = mockOrganizations.find((org)=> org.id === 'turku:04')
+                    const formatedSelectedPublisher = {label: selectedPublisher.name, value: selectedPublisher.id}
+                    const publisherOptions = mockOrganizations.map((org)=>{
+                        return {label: org.name, value: org.id}})
+                    const wrapper = getWrapper({});
+                    const instance = wrapper.instance();
+                    instance.state.publisherOptions = publisherOptions;
+                    instance.state.selectedPublisher = formatedPublisher;
+                    instance.handleOrganizationChange(event)
+                    expect(instance.state.selectedPublisher.value).toEqual(formatedSelectedPublisher.value);
                 })
             });
 

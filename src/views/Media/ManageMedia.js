@@ -7,24 +7,32 @@ import {isNull} from 'lodash'
 import {push} from 'connected-react-router'
 import {fetchOrganizations as fetchOrganizationsAction} from 'src/actions/organizations'
 import {getOrganizationMembershipIds} from '../../utils/user'
+import ImageGallery from '../../components/ImageGallery/ImageGallery';
+import {fetchUserImages as fetchUserImagesAction} from 'src/actions/userImages'
+import {Collapse} from 'reactstrap';
 
 import ImageGalleryGrid from '../../components/ImageGalleryGrid'
 
 export class ManageMedia extends React.Component {
     constructor(props) {
         super(props);
-    }
-
-    componentDidMount() {
-        const {user} = this.props
-
-        if (!isNull(user) && !isNull(getOrganizationMembershipIds(user))) {
-            this.fetchOrganizationsData();
+        this.state = {
+            availableLocales: [],
         }
     }
 
+    componentDidMount() {
+        const {user, editor} = this.props
+        const availableLanguages = editor?.languages;
+        const availableLocales = availableLanguages?.reduce((total, lang) => [...total, lang.id], []);
+        if (!isNull(user) && !isNull(getOrganizationMembershipIds(user))) {
+            this.fetchOrganizationsData();
+        }
+        this.setState({availableLocales: availableLocales});
+    }
+
     componentDidUpdate(prevProps, prevState) {
-        const {user, routerPush, auth, isFetchingUser} = this.props
+        const {user, routerPush, auth, isFetchingUser, images} = this.props
         const oldUser = prevProps.user
 
         // redirect to home if user logged out or is not in the middle of logging in.
@@ -36,6 +44,7 @@ export class ManageMedia extends React.Component {
         if (isNull(oldUser) && user && !isNull(getOrganizationMembershipIds(user))) {
             this.fetchOrganizationsData();
         }
+
     }
 
     fetchOrganizationsData = () => {
@@ -44,19 +53,30 @@ export class ManageMedia extends React.Component {
     }
 
     render() {
-        const {editor, user, intl, images} = this.props;
+        const {editor, user, images} = this.props;
+        const validationErrors = editor?.validationErrors;
+        const currentLocale = this.state.availableLocales?.includes(this.context.intl.locale) ? this.context.intl.locale : 'fi';
         return(
             <div className="container manageMedia">
                 <h1><FormattedMessage id="manage-media"/></h1>
                 {
                     user && 
-                    <ImageGalleryGrid  
-                        editor={editor}
-                        user={user}
-                        images={images}
-                        showImageDetails={true}
-                        showOrganizationFilter = {true}
-                    />
+                    <React.Fragment>
+                        <ImageGallery
+                            className="btn-secondary"
+                            uiMode={''}
+                            validationErrors={validationErrors && validationErrors['image']}
+                            locale={currentLocale}
+                            isManageMedia={true}
+                        />
+                        <ImageGalleryGrid  
+                            editor={editor}
+                            user={user}
+                            images={images}
+                            showImageDetails={true}
+                            showOrganizationFilter = {true}
+                        />
+                    </React.Fragment>
                 }
             </div>
         )
@@ -75,6 +95,7 @@ ManageMedia.propTypes = {
     showImageDetails: PropTypes.bool,
     showOrganizationFilter: PropTypes.bool,
     fetchOrganizations: PropTypes.func,
+    fetchUserImages: PropTypes.func,
 }
 
 
@@ -93,6 +114,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     routerPush: (url) => dispatch(push(url)),
     fetchOrganizations: () => dispatch(fetchOrganizationsAction()),
+    fetchUserImages: (amount, pageNumber, publicImages, filter, filterString, publisher) => dispatch(fetchUserImagesAction(amount, pageNumber, publicImages, filter, filterString, publisher)),
 })
 
 export {ManageMedia as UnconnectedManageMedia}

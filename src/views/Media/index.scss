@@ -21,4 +21,12 @@
             border-color: var(--main-color);
         }
     }
+    .btn-secondary {
+        background-color: var(--main-color) !important;
+        color: var(--light-color) !important;
+        border-color: var(--darkgray-color) !important;
+        font-weight: bold;
+    }
+    
 }
+

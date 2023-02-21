@@ -124,6 +124,7 @@ class ImageGalleryGrid extends React.Component {
                         close={this.props.close}
                         user={this.props.user}
                         isSharedImage={img.is_shared_within_org}
+                        publisher={img.publisher}
                     />
                     {
                         this.props.showImageDetails && (

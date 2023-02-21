@@ -185,9 +185,6 @@ export function postImage(formData, user, imageId = null) {
             // Use PUT when updating the existing image metadata, use POST when adding a new image.
             if (imageId) {
                 request = await client.put(`image/${imageId}`, formData);
-
-                // Update image listing
-                dispatch(fetchUserImages());
             } else {
                 request = await client.post(`image/`, formData);
 
@@ -196,8 +193,10 @@ export function postImage(formData, user, imageId = null) {
             }
 
             dispatch(imageUploadComplete(request));
-
             dispatch(setFlashMsg(imageId ? 'image-update-success' : 'image-creation-success', 'success', request))
+
+            // Update image listing
+            dispatch(fetchUserImages());
         } catch (error) {
             dispatch(setFlashMsg('image-creation-error', 'error'));
 

@@ -864,7 +864,8 @@
     "manage-media-last-modified": "Last modified:",
     "manage-media-publisher-select-label": "Filter by publisher:",
     "manage-media-filter-by-organization": "Filter media by organization",
-    
+    "manage-media-image-publisher": "Publisher",
+
     "organization-select-label": "Browse content by the organization:",
     "organization-select-placeholder": "Select organization",
 

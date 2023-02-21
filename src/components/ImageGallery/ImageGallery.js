@@ -40,7 +40,7 @@ class ImageGallery extends React.Component {
     }
 
     render() {
-        const {validationErrors, user, uiMode, editor} = this.props;
+        const {validationErrors, user, uiMode, editor, isManageMedia} = this.props;
         const {openDefault, openOrgModal} = this.state;
         const backgroundImage = getIfExists(editor.values,'image.url', '');
         const localeType = getEventLanguageType(editor.values.type_id)
@@ -69,40 +69,48 @@ class ImageGallery extends React.Component {
                         validationErrors={validationErrors}
                         className='validation-notification'
                     />
-                    <Button
-                        className='toggleOrg'
-                        size='lg'
-                        block
-                        onClick={() => this.toggleOrgModal(false)}
-                        disabled={!user}
-                    >
-                        <span aria-hidden className="glyphicon glyphicon-plus"/>
-                        <FormattedMessage id='upload-image-select-bank' />
-                    </Button>
-                    <Button
-                        className='toggleOrg'
-                        size='lg'
-                        block
-                        onClick={() => this.toggleOrgModal(true)}
-                        disabled={!user}
-                    >
-                        <span aria-hidden className="glyphicon glyphicon-plus"/>
-                        <FormattedMessage id='select-from-default'/>
-                    </Button>
+                    {
+                        !isManageMedia && 
+                        <React.Fragment>
+                            <Button
+                                className='toggleOrg'
+                                size='lg'
+                                block
+                                onClick={() => this.toggleOrgModal(false)}
+                                disabled={!user}
+                            >
+                                <span aria-hidden className="glyphicon glyphicon-plus"/>
+                                <FormattedMessage id='upload-image-select-bank' />
+                            </Button>
+                            <Button
+                                className='toggleOrg'
+                                size='lg'
+                                block
+                                onClick={() => this.toggleOrgModal(true)}
+                                disabled={!user}
+                            >
+                                <span aria-hidden className="glyphicon glyphicon-plus"/>
+                                <FormattedMessage id='select-from-default'/>
+                            </Button>
+                        </React.Fragment>
+                    }
                     <ImageEdit localeType={localeType} uiMode={uiMode} open={this.state.openEditModal} close={this.toggleEditModal}/>
                     <ImagePickerForm uiMode={uiMode} label="image-preview" name="image" loading={false} close={() => this.toggleOrgModal(openDefault)} {...pickerProps}/>
                 </div>
-                <div className='col-sm-5 side-field'>
-                    <div className={classNames('image-picker', {'background': backgroundImage})}>
-                        <ImagePreview
-                            image={this.props.editor.values.image}
-                            locale={this.props.locale}
-                            validationErrors={validationErrors}
-                            localeType={localeType}
-                        />
+                {
+                    !isManageMedia && 
+                    <div className='col-sm-5 side-field'>
+                        <div className={classNames('image-picker', {'background': backgroundImage})}>
+                            <ImagePreview
+                                image={this.props.editor.values.image}
+                                locale={this.props.locale}
+                                validationErrors={validationErrors}
+                                localeType={localeType}
+                            />
 
+                        </div>
                     </div>
-                </div>
+                }
             </React.Fragment>
         )
     }
@@ -120,6 +128,7 @@ ImageGallery.propTypes = {
     ]),
     defaultModal: PropTypes.bool,
     uiMode: PropTypes.string,
+    isManageMedia: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

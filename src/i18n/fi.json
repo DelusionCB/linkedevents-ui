@@ -866,6 +866,7 @@
     "manage-media-last-modified": "Muokattu:",
     "manage-media-publisher-select-label": "Suodata julkaisijan mukaan:",
     "manage-media-filter-by-organization": "Suodata organisaation mukaan",
+    "manage-media-image-publisher": "Julkaisija",
 
     "organization-select-label": "Selaa sisältöä organisaation mukaan:",
     "organization-select-placeholder": "Valitse organisaatio",

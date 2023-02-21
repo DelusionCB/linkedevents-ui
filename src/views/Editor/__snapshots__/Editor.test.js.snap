@@ -1985,6 +1985,12 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
               "ahjo:02100": Object {
                 "id": "ahjoID",
               },
+              "turku:04": Object {
+                "id": "turku:04",
+              },
+              "turku:853": Object {
+                "id": "turku:853",
+              },
             },
             "emails": Array [
               Object {
@@ -4090,6 +4096,12 @@ exports[`Editor Snapshot should render view correctly when editing existing even
               "ahjo:02100": Object {
                 "id": "ahjoID",
               },
+              "turku:04": Object {
+                "id": "turku:04",
+              },
+              "turku:853": Object {
+                "id": "turku:853",
+              },
             },
             "emails": Array [
               Object {
@@ -5464,6 +5476,12 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
             "adminOrganizationData": Object {
               "ahjo:02100": Object {
                 "id": "ahjoID",
+              },
+              "turku:04": Object {
+                "id": "turku:04",
+              },
+              "turku:853": Object {
+                "id": "turku:853",
               },
             },
             "emails": Array [

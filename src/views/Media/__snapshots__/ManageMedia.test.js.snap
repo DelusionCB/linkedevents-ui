@@ -10,6 +10,12 @@ exports[`Media Snapshot should render view by default 1`] = `
       values={Object {}}
     />
   </h1>
+  <Connect(ImageGallery)
+    className="btn-secondary"
+    isManageMedia={true}
+    locale="fi"
+    uiMode=""
+  />
   <Connect(InjectIntl(ImageGalleryGrid))
     editor={
       Object {
@@ -103,6 +109,12 @@ exports[`Media Snapshot should render view by default 1`] = `
         "adminOrganizationData": Object {
           "ahjo:02100": Object {
             "id": "ahjoID",
+          },
+          "turku:04": Object {
+            "id": "turku:04",
+          },
+          "turku:853": Object {
+            "id": "turku:853",
           },
         },
         "emails": Array [
