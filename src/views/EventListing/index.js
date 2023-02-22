@@ -383,7 +383,7 @@ export class EventListing extends React.Component {
     }
 
     handleTextQueryChange = async (event) => {
-        const value = (event.target.value).trim();
+        const value = (event.target.value);
         if(this.state.textSearchQuery !== value){
             this.setState(()=>({textSearchQuery: value}))
 
