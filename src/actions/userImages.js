@@ -5,6 +5,7 @@ import {setFlashMsg} from './app'
 import {get as getIfExists} from 'lodash'
 import client from '../api/client'
 import urls from '@city-assets/urls.json';
+import {getParentOrgId} from '../utils/helpers';
 
 const {USER_TYPE} = constants;
 
@@ -16,12 +17,14 @@ const {USER_TYPE} = constants;
  * @param pageNumber
  * @returns Object
  */
-async function makeImageRequest(user = {}, pageSize, pageNumber = null, publisher) {
+async function makeImageRequest(user = {}, pageSize, pageNumber = null, publisher, activeOrganization, parentOrg) {
+    const superAdminUser = user.userTyper === USER_TYPE.SUPERADMIN;
     const params = {
         page_size: pageSize,
         page: pageNumber,
-        publisher: user.organization && [USER_TYPE.REGULAR, USER_TYPE.PUBLIC, USER_TYPE.ADMIN].includes(user.userType) ? user.organization : null,
+        publisher: !superAdminUser ? activeOrganization : null,
         created_by: [USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
+        parent: !superAdminUser ? parentOrg : null,
     }
 
     if(publisher){
@@ -37,13 +40,15 @@ async function makeImageRequest(user = {}, pageSize, pageNumber = null, publishe
 
     return result;
 }
-async function makeFilteredImageRequest(user = {}, pageSize, pageNumber = null, filteredName = null, publisher) {
+async function makeFilteredImageRequest(user = {}, pageSize, pageNumber = null, filteredName = null, publisher, activeOrganization, parentOrg) {
+    const superAdminUser = user.userTyper === USER_TYPE.SUPERADMIN;
     const params = {
         page_size: pageSize,
         page: pageNumber,
         image_text: filteredName,
-        publisher: user.organization && [USER_TYPE.REGULAR, USER_TYPE.PUBLIC, USER_TYPE.ADMIN].includes(user.userType) ? user.organization : null,
+        publisher: !superAdminUser ? activeOrganization : null,
         created_by: [USER_TYPE.PUBLIC].includes(user.userType) ? 'me' : null,
+        parent: !superAdminUser ? parentOrg : null,
     }
     if(publisher){
         params.publisher = publisher;
@@ -95,12 +100,13 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publisher = nu
         };
     } if (filter) {
         return async (dispatch, getState) => {
-            const {user} = getState()
+            const {user, organizations} = getState();
+            const parentOrg = getParentOrgId(organizations.data, user.activeOrganization);
             let response;
 
             try {
                 dispatch({type: constants.REQUEST_IMAGES_AND_META});
-                response = await makeFilteredImageRequest(user.data, pageSize, pageNumber, filterString, publisher);
+                response = await makeFilteredImageRequest(user.data, pageSize, pageNumber, filterString, publisher, user.activeOrganization, parentOrg);
                 dispatch(receiveUserImagesAndMeta(response));
             } catch (error) {
                 dispatch(setFlashMsg(getIfExists(response, 'detail', 'Error fetching images'), 'error', response));
@@ -110,12 +116,13 @@ export function fetchUserImages(pageSize = 50, pageNumber = null, publisher = nu
         };
     } else {
         return async (dispatch, getState) => {
-            const {user} = getState()
+            const {user, organizations} = getState();
+            const parentOrg = getParentOrgId(organizations.data, user.activeOrganization);
             let response;
 
             try {
                 dispatch({type: constants.REQUEST_IMAGES_AND_META});
-                response = await makeImageRequest(user.data, pageSize, pageNumber, publisher);
+                response = await makeImageRequest(user.data, pageSize, pageNumber, publisher, user.activeOrganization, parentOrg);
 
                 dispatch(receiveUserImagesAndMeta(response));
             } catch (error) {

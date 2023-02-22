@@ -4,7 +4,7 @@ import * as helpers from '../helpers'
 import moment from 'moment';
 import constants from '../../constants'
 import Badge from 'react-bootstrap/Badge'
-import {getDate, transformOrganizationData, formatLocalityOptions} from '../helpers';
+import {getDate, transformOrganizationData, formatLocalityOptions, getParentOrgId} from '../helpers';
 import {mockOrganizations, mockLocalities} from '../../../__mocks__/mockData';
 
 const {VALIDATION_RULES, CHARACTER_LIMIT, EVENT_TYPE} = constants
@@ -280,6 +280,22 @@ describe('utils/helpers', () => {
         test('returns empty array of objects when data is empty', () => {
             const formattedOptions = formatLocalityOptions([]);
             expect(formattedOptions).toHaveLength(0)
+        })
+    })
+
+    describe('getParentOrgId', () => {
+        test('returns null if id is not available in organizations', () => {
+            const parentId = getParentOrgId(mockOrganizations, 'turku:000');
+            expect(parentId).toEqual(null)
+        })
+
+        test('returns null if parent_organization is null', () => {
+            const parentId = getParentOrgId(mockOrganizations, 'turku:853');
+            expect(parentId).toEqual(null)
+        })
+        test('returns parent_id if parent_organization is available', () => {
+            const parentId = getParentOrgId(mockOrganizations, 'turku:04');
+            expect(parentId).toEqual('turku:853')
         })
     })
 

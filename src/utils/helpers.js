@@ -416,3 +416,13 @@ export const formatLocalityOptions = (data, locale) => {
     }
     return [];
 }
+
+export const getParentOrgId = (organizations, childId) =>{
+    const parentOrgLink = organizations.find((org)=> org.id === childId)?.parent_organization;
+    if(parentOrgLink){
+        const parentId = parentOrgLink.split('/').filter((item)=> item !== '').slice(-1)[0];
+        return parentId
+    }else{
+        return null;
+    }
+}
