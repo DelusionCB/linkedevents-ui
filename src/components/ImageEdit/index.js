@@ -107,7 +107,6 @@ class ImageEdit extends React.Component {
         if(prevProps.activeOrganization !== activeOrganization){
             this.setPublisherOrg();
         }
-        
     }
 
     handleUpload(e) {
@@ -415,7 +414,25 @@ class ImageEdit extends React.Component {
         const {editor: {contentLanguages}, user, organizations, activeOrganization} = this.props;
         const {formType} = this.state;
         const userType = get(user, 'userType')
-        const isSuperAdmin = userType === USER_TYPE.SUPERADMIN
+        const isSuperAdmin = userType === USER_TYPE.SUPERADMIN;
+
+        let defaultPublisherOptions = [];
+        let organizationData = get(user, `${userType}OrganizationData`, {})
+
+        if (isSuperAdmin) {
+            organizationData = organizations;
+        }else{
+            organizationData = Object.values(organizationData);
+        }
+
+        if(!isEmpty(organizationData)){
+            defaultPublisherOptions = !!organizationData && organizationData.map(
+                (item) => {
+                    return {label: item.name, value: item.id}
+                }
+            )
+        }
+        const defaultPublisher = defaultPublisherOptions.find(org => org.value === activeOrganization);
 
         return (
             <React.Fragment>
@@ -461,8 +478,8 @@ class ImageEdit extends React.Component {
                 />
                 <OrganizationSelector
                     formType={formType}
-                    options={publisherOptions}
-                    selectedOption={selectedPublisher}
+                    options={isEmpty(publisherOptions) ? defaultPublisherOptions : publisherOptions}
+                    selectedOption={isEmpty(selectedPublisher) ? defaultPublisher : selectedPublisher}
                     onChange={this.handleOrganizationChange}
                     labelOrg={`manage-media-image-publisher`}
                     activeOrganization={activeOrganization}
