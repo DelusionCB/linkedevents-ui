@@ -9,7 +9,6 @@ import {fetchOrganizations as fetchOrganizationsAction} from 'src/actions/organi
 import {getOrganizationMembershipIds} from '../../utils/user'
 import ImageGallery from '../../components/ImageGallery/ImageGallery';
 import {fetchUserImages as fetchUserImagesAction} from 'src/actions/userImages'
-import {Collapse} from 'reactstrap';
 
 import ImageGalleryGrid from '../../components/ImageGalleryGrid'
 
@@ -32,7 +31,7 @@ export class ManageMedia extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {user, routerPush, auth, isFetchingUser, images} = this.props
+        const {user, routerPush, auth, isFetchingUser, activeOrganization} = this.props
         const oldUser = prevProps.user
 
         // redirect to home if user logged out or is not in the middle of logging in.
@@ -45,12 +44,24 @@ export class ManageMedia extends React.Component {
             this.fetchOrganizationsData();
         }
 
+        if(prevProps.activeOrganization !== activeOrganization){
+            this.fetchImages();
+        }
     }
 
     fetchOrganizationsData = () => {
         const {fetchOrganizations} = this.props;
         fetchOrganizations();
     }
+
+    fetchImages = (user = this.props.user, pageSize = 50, pageNumber = 1) => {
+        const {fetchUserImages} = this.props;
+        if(!isNull(user)){
+            const parameters = [pageSize, pageNumber]
+            fetchUserImages(...parameters);
+        }
+        
+    };
 
     render() {
         const {editor, user, images} = this.props;
@@ -96,6 +107,7 @@ ManageMedia.propTypes = {
     showOrganizationFilter: PropTypes.bool,
     fetchOrganizations: PropTypes.func,
     fetchUserImages: PropTypes.func,
+    activeOrganization: PropTypes.string,
 }
 
 
@@ -109,6 +121,7 @@ const mapStateToProps = (state) => ({
     editor: state.editor,
     auth: state.auth,
     isFetchingUser: state.user.isFetchingUser,
+    activeOrganization: state.user.activeOrganization,
 })
 
 const mapDispatchToProps = (dispatch) => ({

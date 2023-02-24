@@ -54,6 +54,8 @@ const defaultProps = {
         items: mockImages,
     },
     fetchOrganizations: jest.fn(),
+    activeOrganization: 'turku:04',
+    fetchUserImages: jest.fn(),
 
 };
 
@@ -153,11 +155,23 @@ describe('Media', () => {
             })
 
             describe('componentDidUpdate', () =>{
-                test('fetchOrganizationsData is called on mount', () => {
+                test('fetchOrganizationsData is called on update', () => {
                     const wrapper = getWrapper()
                     const instance = wrapper.instance();
+                    const prevProps = {...instance.props, user: null}
+                    const prevState = {...instance.state}
                     const spy = jest.spyOn(instance, 'fetchOrganizationsData');
-                    instance.componentDidMount({user: mockUserSuperAdmin},_)
+                    instance.componentDidUpdate(prevProps, prevState)
+                    expect(spy).toHaveBeenCalled()
+                })
+
+                test('fetchImages is called on update', () => {
+                    const wrapper = getWrapper()
+                    const instance = wrapper.instance();
+                    const prevProps = {...instance.props, activeOrganization: 'turku:0719'}
+                    const prevState = {...instance.state}
+                    const spy = jest.spyOn(instance, 'fetchImages');
+                    instance.componentDidUpdate(prevProps, prevState)
                     expect(spy).toHaveBeenCalled()
                 })
             })
