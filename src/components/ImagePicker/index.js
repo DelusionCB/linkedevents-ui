@@ -65,15 +65,18 @@ export class ImagePicker extends Component {
                         <FormattedMessage id={formattedHeader}/>
                     </ModalHeader>
                     <ModalBody>
-                        <ImageGalleryGrid
-                            editor={editor}
-                            user={defaultModal ? null : user}
-                            images={defaultModal ? defaultImages : images}
-                            locale={intl.locale}
-                            defaultModal={defaultModal}
-                            action={defaultModal ? null : this.handleDelete}
-                            close={close}
-                        />
+                        {
+                            user && user.organization &&
+                            <ImageGalleryGrid
+                                editor={editor}
+                                user={defaultModal ? null : user}
+                                images={defaultModal ? defaultImages : images}
+                                locale={intl.locale}
+                                defaultModal={defaultModal}
+                                action={defaultModal ? null : this.handleDelete}
+                                close={close}
+                            />
+                        }
                     </ModalBody>
                 </Modal>
             </div>
