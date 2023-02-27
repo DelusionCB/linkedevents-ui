@@ -779,6 +779,7 @@
     "admin-organization": "Organization",
     "admin-sidefields": "Instructions",
     "admin-panel-front-page-title": "Welcome to the admin panel",
+    "admin-panel-search-minimum-length": "Enter at least 4 characters",
 
     "admin-search-user": "Search users & add to organization",
     "admin-search-user-button": "Add",

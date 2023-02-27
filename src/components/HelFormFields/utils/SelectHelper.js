@@ -70,9 +70,9 @@ export const ariaOverrides = (intl, placeholderId, resource) => {
  * @param {Object[]} value
  * @returns {{id: (string)}}
  */
-export const optionsMessageValue = (value = []) => {
+export const optionsMessageValue = (value = [], messageId = 'search-minimum-length', minChar = 2) => {
     return {
-        id: value.length > 2 ? 'search-no-results' : 'search-minimum-length',
+        id: value.length > minChar ? 'search-no-results' : messageId,
     };
 };
 

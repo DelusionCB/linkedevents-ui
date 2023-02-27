@@ -59,6 +59,7 @@ exports[`Search Snapshot should render view correctly 1`] = `
       "admin-panel-front-page-title": "Tervetuloa hallintapaneeliin",
       "admin-panel-instruction-mobile-button": "Mobiililaitteiden ohjetekstien avausnappien nimet",
       "admin-panel-instruction-sidefield": "Ohjetekstit",
+      "admin-panel-search-minimum-length": "Syötä vähintään 4 merkkiä",
       "admin-return": "Takaisin",
       "admin-save-user": "Tallenna muutokset",
       "admin-search-user": "Hae käyttäjä ja lisää organisaatioon",

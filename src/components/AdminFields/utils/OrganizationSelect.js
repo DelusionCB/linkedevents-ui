@@ -125,7 +125,7 @@ class OrganizationSelect extends React.Component {
     )
 
     optionsMessage = (value) => {
-        return this.props.intl.formatMessage(optionsMessageValue(value));
+        return this.props.intl.formatMessage(optionsMessageValue(value, 'admin-panel-search-minimum-length', 3));
     }
 
     render() {

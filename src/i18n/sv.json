@@ -780,6 +780,7 @@
     "admin-organization": "Organisation",
     "admin-sidefields": "Bruksanvisningar",
     "admin-panel-front-page-title": "Välkommen till adminpanelen",
+    "admin-panel-search-minimum-length": "Ange minst fyra tecken",
 
     "admin-search-user": "Sök användare och lägg till organisation",
     "admin-search-user-button": "Lägg till",
