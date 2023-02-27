@@ -127,7 +127,8 @@ class OrganizationEditor extends React.Component {
             const {data} = (await client.get('organization_class'))?.data;
             // make Muu yhteisö class = org:10 last choice
             const otherClass = data.find((org) => org.id === 'org:10'),
-                rest = data.filter((org) => org.id !== 'org:10');
+                rest = data.filter((org) => org.id !== 'org:10')
+                    .sort((prev, next)=> (prev.name).localeCompare(next.name, 'fi'));
             const sortedClasses = otherClass ? [...rest, otherClass] : rest;
             return this.setState({classifications: sortedClasses})
         } catch (e) {

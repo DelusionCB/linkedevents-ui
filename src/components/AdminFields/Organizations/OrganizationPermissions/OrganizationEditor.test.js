@@ -202,7 +202,8 @@ describe('renders', () => {
         })
         describe('fetchAdminOptions sets correct state', () => {
             const otherClass = mockOrgClassifications.find((org) => org.id === 'org:10'),
-                rest = mockOrgClassifications.filter((org) => org.id !== 'org:10');
+                rest = mockOrgClassifications.filter((org) => org.id !== 'org:10')
+                    .sort((prev, next)=> (prev.name).localeCompare(next.name, 'fi'));
             const sortedClasses = otherClass ? [...rest, otherClass] : otherClass;
             const wrapper = getWrapper()
             const instance = wrapper.instance()
